@@ -51,11 +51,10 @@ public class KHTourGUI extends JFrame {
 	private JTextField textField;
 	private JTextField timkiem_tf;
 	private JTable table;
-	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField tongchi_tf;
 	private JTextField textField_6;
 
 	/**
@@ -78,7 +77,6 @@ public class KHTourGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public KHTourGUI() {
-		this.setType(Type.UTILITY);
 		this.setBackground(SystemColor.windowText);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 864);
@@ -419,7 +417,7 @@ public class KHTourGUI extends JFrame {
 		panel_1.add(ctkehoachtour_btn);
 		
 				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(10, 44, 230, 410);
+				scrollPane.setBounds(10, 38, 230, 410);
 				panel_1.add(scrollPane);
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				scrollPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 128), new Color(128, 128, 128),
@@ -436,12 +434,6 @@ public class KHTourGUI extends JFrame {
 				matour_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
 				matour_lb.setBounds(10, 10, 153, 35);
 				panel_2.add(matour_lb);
-				
-				textField_1 = new JTextField();
-				textField_1.setColumns(10);
-				textField_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				textField_1.setBounds(10, 41, 190, 35);
-				panel_2.add(textField_1);
 				
 				JLabel loaitour_lb = new JLabel("Mã Kế hoạch Tour :");
 				loaitour_lb.setForeground(new Color(0, 0, 128));
@@ -540,11 +532,12 @@ public class KHTourGUI extends JFrame {
 				tongchi_lb.setBounds(10, 693, 153, 35);
 				panel_2.add(tongchi_lb);
 				
-				textField_5 = new JTextField();
-				textField_5.setColumns(10);
-				textField_5.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				textField_5.setBounds(10, 721, 190, 35);
-				panel_2.add(textField_5);
+				tongchi_tf = new JTextField();
+				tongchi_tf.setEditable(false);
+				tongchi_tf.setColumns(10);
+				tongchi_tf.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+				tongchi_tf.setBounds(10, 721, 190, 35);
+				panel_2.add(tongchi_tf);
 				
 				JLabel anh1_lb = new JLabel("Ảnh 1:");
 				anh1_lb.setForeground(new Color(0, 0, 128));
@@ -618,10 +611,18 @@ public class KHTourGUI extends JFrame {
 				mota_sp.setBounds(10, 179, 190, 60);
 				panel_2.add(mota_sp);
 				
+				JTextArea textArea = new JTextArea();
+				mota_sp.setViewportView(textArea);
+				
 				textField_6 = new JTextField();
 				textField_6.setColumns(10);
 				textField_6.setBounds(10, 110, 190, 35);
 				panel_2.add(textField_6);
+				
+				JComboBox matour_cb = new JComboBox(new Object[]{});
+				matour_cb.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+				matour_cb.setBounds(10, 39, 190, 35);
+				panel_2.add(matour_cb);
 
 		this.getContentPane().add(panel);
 
