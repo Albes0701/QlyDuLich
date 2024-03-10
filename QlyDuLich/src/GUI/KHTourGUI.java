@@ -51,11 +51,11 @@ public class KHTourGUI extends JFrame {
 	private JTextField textField;
 	private JTextField timkiem_tf;
 	private JTable table;
+	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
-	private JTextField tongchi_tf;
-	private JTextField textField_6;
+	private JTextField textField_5;
 
 	/**
 	 * Launch the application.
@@ -417,17 +417,17 @@ public class KHTourGUI extends JFrame {
 		panel_1.add(ctkehoachtour_btn);
 		
 				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(10, 38, 230, 410);
+				scrollPane.setBounds(10, 50, 230, 410);
 				panel_1.add(scrollPane);
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				scrollPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 128), new Color(128, 128, 128),
 						new Color(128, 128, 128), new Color(128, 128, 128)));
 				
 				JPanel panel_2 = new JPanel();
-				scrollPane.setViewportView(panel_2);
 				panel_2.setLayout(null);
-				panel_2.setPreferredSize(new Dimension(210, 1000));
+				panel_2.setPreferredSize(new Dimension(210, 925));
 				panel_2.setBackground(Color.LIGHT_GRAY);
+				scrollPane.setViewportView(panel_2);
 				
 				JLabel matour_lb = new JLabel("Mã Tour :");
 				matour_lb.setForeground(new Color(0, 0, 128));
@@ -458,119 +458,108 @@ public class KHTourGUI extends JFrame {
 				socho_cb.setBounds(10, 268, 70, 35);
 				panel_2.add(socho_cb);
 				
-				JLabel diemden_lb = new JLabel("Điểm đến :");
-				diemden_lb.setForeground(new Color(0, 0, 128));
-				diemden_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-				diemden_lb.setBounds(10, 302, 153, 35);
-				panel_2.add(diemden_lb);
-				
-				JComboBox diemden_cb = new JComboBox(new Object[]{});
-				diemden_cb.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				diemden_cb.setBounds(10, 330, 190, 35);
-				panel_2.add(diemden_cb);
-				
 				JLabel ngaydi_lb = new JLabel("Ngày đi :");
 				ngaydi_lb.setForeground(new Color(0, 0, 128));
 				ngaydi_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-				ngaydi_lb.setBounds(10, 363, 153, 35);
+				ngaydi_lb.setBounds(10, 304, 153, 35);
 				panel_2.add(ngaydi_lb);
 				
 				JDateChooser ngaydi_date = new JDateChooser();
-				ngaydi_date.setBounds(10, 399, 190, 35);
+				ngaydi_date.setBounds(10, 340, 190, 35);
 				panel_2.add(ngaydi_date);
 				
 				JLabel ngayve_lb = new JLabel("Ngày về :");
 				ngayve_lb.setForeground(new Color(0, 0, 128));
 				ngayve_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-				ngayve_lb.setBounds(10, 434, 153, 35);
+				ngayve_lb.setBounds(10, 375, 153, 35);
 				panel_2.add(ngayve_lb);
 				
 				JDateChooser ngayve_date = new JDateChooser();
-				ngayve_date.setBounds(10, 463, 190, 35);
+				ngayve_date.setBounds(10, 404, 190, 35);
 				panel_2.add(ngayve_date);
 				
 				JLabel songay_lb = new JLabel("Số ngày :");
 				songay_lb.setForeground(new Color(0, 0, 128));
 				songay_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-				songay_lb.setBounds(10, 496, 153, 35);
+				songay_lb.setBounds(10, 437, 153, 35);
 				panel_2.add(songay_lb);
 				
-				textField_2 = new JTextField();
-				textField_2.setEditable(false);
-				textField_2.setColumns(10);
-				textField_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				textField_2.setBounds(10, 528, 70, 35);
-				panel_2.add(textField_2);
+				textField_1 = new JTextField();
+				textField_1.setEditable(false);
+				textField_1.setColumns(10);
+				textField_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+				textField_1.setBounds(10, 469, 70, 35);
+				panel_2.add(textField_1);
 				
 				JLabel huongdanvien_lb = new JLabel("Hướng dẫn viên :");
 				huongdanvien_lb.setForeground(new Color(0, 0, 128));
 				huongdanvien_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-				huongdanvien_lb.setBounds(10, 564, 153, 35);
+				huongdanvien_lb.setBounds(10, 505, 153, 35);
 				panel_2.add(huongdanvien_lb);
 				
-				textField_3 = new JTextField();
-				textField_3.setColumns(10);
-				textField_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				textField_3.setBounds(10, 597, 190, 35);
-				panel_2.add(textField_3);
+				textField_2 = new JTextField();
+				textField_2.setColumns(10);
+				textField_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+				textField_2.setBounds(10, 538, 190, 35);
+				panel_2.add(textField_2);
 				
 				JLabel giave_lb = new JLabel("Giá vé :");
 				giave_lb.setForeground(new Color(0, 0, 128));
 				giave_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-				giave_lb.setBounds(10, 630, 153, 35);
+				giave_lb.setBounds(10, 571, 153, 35);
 				panel_2.add(giave_lb);
 				
-				textField_4 = new JTextField();
-				textField_4.setColumns(10);
-				textField_4.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				textField_4.setBounds(10, 659, 190, 35);
-				panel_2.add(textField_4);
+				textField_3 = new JTextField();
+				textField_3.setColumns(10);
+				textField_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+				textField_3.setBounds(10, 600, 190, 35);
+				panel_2.add(textField_3);
 				
 				JLabel tongchi_lb = new JLabel("Tổng chi :");
 				tongchi_lb.setForeground(new Color(0, 0, 128));
 				tongchi_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-				tongchi_lb.setBounds(10, 693, 153, 35);
+				tongchi_lb.setBounds(10, 638, 153, 35);
 				panel_2.add(tongchi_lb);
 				
-				tongchi_tf = new JTextField();
-				tongchi_tf.setEditable(false);
-				tongchi_tf.setColumns(10);
-				tongchi_tf.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				tongchi_tf.setBounds(10, 721, 190, 35);
-				panel_2.add(tongchi_tf);
+				textField_4 = new JTextField();
+				textField_4.setEditable(false);
+				textField_4.setColumns(10);
+				textField_4.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+				textField_4.setBounds(10, 673, 190, 35);
+				panel_2.add(textField_4);
 				
 				JLabel anh1_lb = new JLabel("Ảnh 1:");
 				anh1_lb.setForeground(new Color(0, 0, 128));
 				anh1_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-				anh1_lb.setBounds(10, 766, 60, 35);
+				anh1_lb.setBounds(10, 718, 60, 35);
 				panel_2.add(anh1_lb);
 				
 				JButton anh1_btn = new JButton("Thêm");
 				anh1_btn.setFont(new Font("Tahoma", Font.BOLD, 15));
 				anh1_btn.setBackground(Color.WHITE);
-				anh1_btn.setBounds(64, 766, 85, 35);
+				anh1_btn.setBounds(64, 718, 85, 35);
 				panel_2.add(anh1_btn);
 				
 				JLabel anh2_lb = new JLabel("Ảnh 2:");
 				anh2_lb.setForeground(new Color(0, 0, 128));
 				anh2_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-				anh2_lb.setBounds(10, 802, 60, 35);
+				anh2_lb.setBounds(10, 754, 60, 35);
 				panel_2.add(anh2_lb);
 				
 				JButton anh2_btn = new JButton("Thêm");
 				anh2_btn.setFont(new Font("Tahoma", Font.BOLD, 15));
-				anh2_btn.setBounds(64, 802, 85, 35);
+				anh2_btn.setBounds(64, 754, 85, 35);
 				panel_2.add(anh2_btn);
 				
 				JLabel anh3_lb = new JLabel("Ảnh 3:");
 				anh3_lb.setForeground(new Color(0, 0, 128));
 				anh3_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-				anh3_lb.setBounds(10, 839, 60, 35);
+				anh3_lb.setBounds(10, 791, 60, 35);
 				panel_2.add(anh3_lb);
 				
 				JButton anh3_btn = new JButton("Thêm");
 				anh3_btn.setFont(new Font("Tahoma", Font.BOLD, 15));
-				anh3_btn.setBounds(64, 839, 85, 35);
+				anh3_btn.setBounds(64, 791, 85, 35);
 				panel_2.add(anh3_btn);
 				
 				JButton btnNewButton_3 = new JButton("Thêm");
@@ -578,7 +567,7 @@ public class KHTourGUI extends JFrame {
 				btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 15));
 				btnNewButton_3.setBorder(null);
 				btnNewButton_3.setBackground(new Color(0, 0, 128));
-				btnNewButton_3.setBounds(10, 888, 85, 35);
+				btnNewButton_3.setBounds(10, 836, 85, 35);
 				panel_2.add(btnNewButton_3);
 				
 				JButton btnNewButton_3_1 = new JButton("Xóa");
@@ -586,7 +575,7 @@ public class KHTourGUI extends JFrame {
 				btnNewButton_3_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 				btnNewButton_3_1.setBorder(null);
 				btnNewButton_3_1.setBackground(new Color(0, 0, 128));
-				btnNewButton_3_1.setBounds(115, 888, 85, 35);
+				btnNewButton_3_1.setBounds(115, 836, 85, 35);
 				panel_2.add(btnNewButton_3_1);
 				
 				JButton btnNewButton_3_2 = new JButton("Sửa");
@@ -594,7 +583,7 @@ public class KHTourGUI extends JFrame {
 				btnNewButton_3_2.setFont(new Font("Tahoma", Font.BOLD, 15));
 				btnNewButton_3_2.setBorder(null);
 				btnNewButton_3_2.setBackground(new Color(0, 0, 128));
-				btnNewButton_3_2.setBounds(10, 925, 85, 35);
+				btnNewButton_3_2.setBounds(10, 873, 85, 35);
 				panel_2.add(btnNewButton_3_2);
 				
 				JButton btnNewButton_3_3 = new JButton("Lưu");
@@ -602,7 +591,7 @@ public class KHTourGUI extends JFrame {
 				btnNewButton_3_3.setFont(new Font("Tahoma", Font.BOLD, 15));
 				btnNewButton_3_3.setBorder(null);
 				btnNewButton_3_3.setBackground(new Color(0, 0, 128));
-				btnNewButton_3_3.setBounds(115, 925, 85, 35);
+				btnNewButton_3_3.setBounds(115, 873, 85, 35);
 				panel_2.add(btnNewButton_3_3);
 				
 				JScrollPane mota_sp = new JScrollPane();
@@ -611,13 +600,10 @@ public class KHTourGUI extends JFrame {
 				mota_sp.setBounds(10, 179, 190, 60);
 				panel_2.add(mota_sp);
 				
-				JTextArea textArea = new JTextArea();
-				mota_sp.setViewportView(textArea);
-				
-				textField_6 = new JTextField();
-				textField_6.setColumns(10);
-				textField_6.setBounds(10, 110, 190, 35);
-				panel_2.add(textField_6);
+				textField_5 = new JTextField();
+				textField_5.setColumns(10);
+				textField_5.setBounds(10, 110, 190, 35);
+				panel_2.add(textField_5);
 				
 				JComboBox matour_cb = new JComboBox(new Object[]{});
 				matour_cb.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
