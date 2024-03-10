@@ -37,16 +37,16 @@ import java.awt.Component;
 
 public class KhachHang extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField_MSKH;
 	private JTextField textField_HoKH;
 	private JTextField textField_TenKH;
-	private JTextField textField_GioiTinh;
 	private JTextField textField_DiaChi;
 	private JTextField textField_SDT;
 	private JTable table_KhachHang;
 	private JTextField textField_TimKiem;
+	private JTextField textField_Email;
 
 	/**
 	 * Launch the application.
@@ -189,6 +189,7 @@ public class KhachHang extends JFrame {
 		panel_2.add(lblNewLabel_2);
 		
 		textField_MSKH = new JTextField();
+		textField_MSKH.setEnabled(false);
 		textField_MSKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_MSKH.setBounds(81, 26, 134, 26);
 		panel_2.add(textField_MSKH);
@@ -217,37 +218,27 @@ public class KhachHang extends JFrame {
 		panel_2.add(lblNewLabel_2_2);
 		
 		String [] item_gender = {"Nam","Nữ"};
-		JComboBox comboBox_GioiTinh = new JComboBox<>(item_gender);
-		comboBox_GioiTinh.setSelectedItem("Nam");
-		comboBox_GioiTinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		comboBox_GioiTinh.setBounds(81, 152, 134, 26);
-		panel_2.add(comboBox_GioiTinh);
-		
-		JLabel lblNewLabel_2_3 = new JLabel("Giới Tính");
-		lblNewLabel_2_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_3.setBounds(10, 157, 73, 13);
-		panel_2.add(lblNewLabel_2_3);
 		
 		textField_DiaChi = new JTextField();
 		textField_DiaChi.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_DiaChi.setColumns(10);
-		textField_DiaChi.setBounds(81, 191, 134, 26);
+		textField_DiaChi.setBounds(81, 153, 134, 26);
 		panel_2.add(textField_DiaChi);
 		
 		JLabel lblNewLabel_2_4 = new JLabel("Địa chỉ");
 		lblNewLabel_2_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4.setBounds(10, 193, 61, 20);
+		lblNewLabel_2_4.setBounds(10, 155, 61, 20);
 		panel_2.add(lblNewLabel_2_4);
 		
 		JLabel lblNewLabel_2_4_1 = new JLabel("SĐT");
 		lblNewLabel_2_4_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4_1.setBounds(10, 234, 61, 20);
+		lblNewLabel_2_4_1.setBounds(10, 197, 61, 20);
 		panel_2.add(lblNewLabel_2_4_1);
 		
 		textField_SDT = new JTextField();
 		textField_SDT.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_SDT.setColumns(10);
-		textField_SDT.setBounds(81, 232, 134, 26);
+		textField_SDT.setBounds(81, 195, 134, 26);
 		panel_2.add(textField_SDT);
 		
 		JButton btnNewButton_Luu = new JButton("Lưu");
@@ -261,6 +252,17 @@ public class KhachHang extends JFrame {
 		});
 		btnNewButton_Luu.setBounds(74, 280, 85, 26);
 		panel_2.add(btnNewButton_Luu);
+		
+		JLabel lblNewLabel_2_4_1_1 = new JLabel("Email");
+		lblNewLabel_2_4_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_2_4_1_1.setBounds(10, 237, 61, 20);
+		panel_2.add(lblNewLabel_2_4_1_1);
+		
+		textField_Email = new JTextField();
+		textField_Email.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_Email.setColumns(10);
+		textField_Email.setBounds(81, 235, 134, 26);
+		panel_2.add(textField_Email);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(269, 50, 681, 435);
@@ -300,39 +302,9 @@ public class KhachHang extends JFrame {
 				{null, null, null, null, null, null},
 				{null, null, null, null, null, null},
 				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
 			},
 			new String[] {
-				"M\u00C3 KH", "H\u1ECD", "T\u00EAn", "Gi\u1EDBi t\u00EDnh", "\u0110\u1ECBa ch\u1EC9", "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i"
+				"M\u00C3 KH", "H\u1ECD \u0111\u1EC7m", "T\u00EAn", "\u0110\u1ECBa ch\u1EC9", "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", "Email"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
@@ -344,8 +316,8 @@ public class KhachHang extends JFrame {
 		});
 		table_KhachHang.getColumnModel().getColumn(1).setPreferredWidth(76);
 		table_KhachHang.getColumnModel().getColumn(2).setPreferredWidth(96);
-		table_KhachHang.getColumnModel().getColumn(3).setPreferredWidth(52);
-		table_KhachHang.getColumnModel().getColumn(4).setPreferredWidth(123);
+		table_KhachHang.getColumnModel().getColumn(3).setPreferredWidth(123);
+		table_KhachHang.getColumnModel().getColumn(4).setPreferredWidth(101);
 		table_KhachHang.getColumnModel().getColumn(5).setPreferredWidth(101);
 		
 		JPanel panel_3 = new JPanel();
@@ -353,34 +325,6 @@ public class KhachHang extends JFrame {
 		panel_3.setBounds(269, 10, 681, 30);
 		KhachHang.add(panel_3);
 		panel_3.setLayout(null);
-		
-		JButton btnNewButton_Xoa = new JButton("Xóa");
-		btnNewButton_Xoa.setFocusable(false);
-		btnNewButton_Xoa.setBackground(new Color(255, 0, 0));
-		btnNewButton_Xoa.setForeground(new Color(255, 255, 255));
-		btnNewButton_Xoa.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Xoa.setBounds(596, 3, 75, 25);
-		panel_3.add(btnNewButton_Xoa);
-		
-		JButton btnNewButton_Sua = new JButton("Sửa");
-		btnNewButton_Sua.setFocusable(false);
-		btnNewButton_Sua.setBackground(new Color(50, 205, 50));
-		btnNewButton_Sua.setForeground(new Color(255, 255, 255));
-		btnNewButton_Sua.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_Sua.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Sua.setBounds(511, 3, 75, 25);
-		panel_3.add(btnNewButton_Sua);
-		
-		JButton btnNewButton_Them = new JButton("Thêm");
-		btnNewButton_Them.setFocusable(false);
-		btnNewButton_Them.setForeground(new Color(255, 255, 255));
-		btnNewButton_Them.setBackground(new Color(65, 105, 225));
-		btnNewButton_Them.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Them.setBounds(427, 3, 75, 25);
-		panel_3.add(btnNewButton_Them);
 		
 		JLabel lblNewLabel_3 = new JLabel("Tìm kiếm");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));

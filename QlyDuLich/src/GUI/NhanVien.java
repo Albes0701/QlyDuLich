@@ -40,19 +40,18 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
-public class NhanVien extends JFrame {
-	private static final long serialVersionUID = 1L;
+public class NhanVien extends JFrame implements ActionListener{
+//	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField_MSKH;
 	private JTextField textField_HoKH;
 	private JTextField textField_TenKH;
 	private JTextField textField_DiaChi;
 	private JTextField textField_SDT;
-	private JTable table_KhachHang;
+	private JTable table_NhanVien;
 	private JTextField textField_TimKiem;
 	private JTextField textField_ChucVu;
-	private JTextField textField_NgayVL;
-
+	private JDateChooser dateChooser_NgayVL;
 	/**
 	 * Launch the application.
 	 */
@@ -67,6 +66,11 @@ public class NhanVien extends JFrame {
 				}
 			}
 		});
+	}
+	//Event transfer
+	public void actionPerformed(ActionEvent e) 
+	{
+		System.out.println("hêlo");
 	}
 
 	/**
@@ -283,7 +287,7 @@ public class NhanVien extends JFrame {
 		lblNewLabel_2_4_1_1_1.setBounds(10, 317, 108, 20);
 		panel_2.add(lblNewLabel_2_4_1_1_1);
 		
-		JDateChooser dateChooser_NgayVL = new JDateChooser();
+		dateChooser_NgayVL = new JDateChooser();
 		dateChooser_NgayVL.setBounds(118, 317, 97, 26);
 		dateChooser_NgayVL.setDate(Calendar.getInstance().getTime());
 		panel_2.add(dateChooser_NgayVL);
@@ -299,9 +303,9 @@ public class NhanVien extends JFrame {
 		scrollPane_2.setBounds(269, 50, 681, 435);
 		KhachHang.add(scrollPane_2);
 		
-		table_KhachHang = new JTable();
-		scrollPane_2.setViewportView(table_KhachHang);
-		table_KhachHang.setModel(new DefaultTableModel(
+		table_NhanVien = new JTable();
+		scrollPane_2.setViewportView(table_NhanVien);
+		table_NhanVien.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null, null},
@@ -345,12 +349,12 @@ public class NhanVien extends JFrame {
 				return columnTypes[columnIndex];
 			}
 		});
-		table_KhachHang.getColumnModel().getColumn(1).setPreferredWidth(80);
-		table_KhachHang.getColumnModel().getColumn(2).setPreferredWidth(62);
-		table_KhachHang.getColumnModel().getColumn(3).setPreferredWidth(52);
-		table_KhachHang.getColumnModel().getColumn(4).setPreferredWidth(123);
-		table_KhachHang.getColumnModel().getColumn(5).setPreferredWidth(71);
-		table_KhachHang.getColumnModel().getColumn(7).setPreferredWidth(91);
+		table_NhanVien.getColumnModel().getColumn(1).setPreferredWidth(80);
+		table_NhanVien.getColumnModel().getColumn(2).setPreferredWidth(62);
+		table_NhanVien.getColumnModel().getColumn(3).setPreferredWidth(52);
+		table_NhanVien.getColumnModel().getColumn(4).setPreferredWidth(123);
+		table_NhanVien.getColumnModel().getColumn(5).setPreferredWidth(71);
+		table_NhanVien.getColumnModel().getColumn(7).setPreferredWidth(91);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
@@ -367,6 +371,12 @@ public class NhanVien extends JFrame {
 		panel_3.add(btnNewButton_Xoa);
 		
 		JButton btnNewButton_Sua = new JButton("Sửa");
+
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			// TODO Auto-generated method stub
+//			
+//		}
 		btnNewButton_Sua.setFocusable(false);
 		btnNewButton_Sua.setBackground(new Color(50, 205, 50));
 		btnNewButton_Sua.setForeground(new Color(255, 255, 255));
