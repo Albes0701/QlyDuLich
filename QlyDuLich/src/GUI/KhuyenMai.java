@@ -46,7 +46,7 @@ public class KhuyenMai extends JFrame {
 	private JTable table_KhuyenMai;
 	private JTextField textField_TimKiem;
 	private JTextField textField_DieuKien;
-
+	private JComboBox comboBox_DoiTuong;
 	/**
 	 * Launch the application.
 	 */
@@ -69,7 +69,7 @@ public class KhuyenMai extends JFrame {
 	public KhuyenMai() {
 		setBackground(SystemColor.windowText);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 650);
+		setBounds(280, 100, 1000, 650);
 		contentPane = new JPanel();
 		contentPane.setVerifyInputWhenFocusTarget(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -93,16 +93,39 @@ public class KhuyenMai extends JFrame {
 		btn_QLTour.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new QuanLyTour();
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
 		panel.add(btn_QLTour);
+		
+		
+		JButton btn_KHTour = new JButton("Kế hoạch Tours");
+		btn_KHTour.setForeground(Color.WHITE);
+		btn_KHTour.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btn_KHTour.setFocusable(false);
+		btn_KHTour.setBorderPainted(false);
+		btn_KHTour.setBorder(null);
+		btn_KHTour.setBackground(new Color(24, 171, 138));
+		btn_KHTour.setBounds(273, 65, 120, 40);
+		btn_KHTour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new KHTourGUI();
+			}
+		});
+		btn_QLTour.setBounds(126, 65, 120, 40);
+		panel.add(btn_KHTour);
+		
 		
 		JButton btn_QLDV = new JButton("Quản lý dịch vụ");
 		btn_QLDV.setFocusable(false);
 		btn_QLDV.setBorder(null);
 		btn_QLDV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new DichVu();
 			}
 		});
 		btn_QLDV.setForeground(new Color(255, 255, 255));
@@ -119,6 +142,12 @@ public class KhuyenMai extends JFrame {
 		btn_KhachHang.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_KhachHang.setBounds(853, 65, 120, 40);
 		panel.add(btn_KhachHang);
+		btn_KhachHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new KhachHang();
+			}
+		});
 		
 		JButton btn_NhanVien = new JButton("Nhân viên");
 		btn_NhanVien.setFocusable(false);
@@ -128,10 +157,18 @@ public class KhuyenMai extends JFrame {
 		btn_NhanVien.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_NhanVien.setBounds(708, 65, 120, 40);
 		panel.add(btn_NhanVien);
+		btn_NhanVien.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new NhanVien();
+			}
+		});
 		
 		JButton btn_KhuyenMai = new JButton("Khuyến mãi");
 		btn_KhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new KhuyenMai();
 			}
 		});
 		btn_KhuyenMai.setFocusable(false);
@@ -269,10 +306,10 @@ public class KhuyenMai extends JFrame {
 		lblNewLabel_2_3.setBounds(10, 213, 120, 20);
 		panel_2.add(lblNewLabel_2_3);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBackground(new Color(255, 255, 255));
-		comboBox.setBounds(127, 212, 110, 26);
-		panel_2.add(comboBox);
+		comboBox_DoiTuong = new JComboBox();
+		comboBox_DoiTuong.setBackground(new Color(255, 255, 255));
+		comboBox_DoiTuong.setBounds(127, 212, 110, 26);
+		panel_2.add(comboBox_DoiTuong);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(269, 50, 681, 435);
@@ -396,16 +433,7 @@ public class KhuyenMai extends JFrame {
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setBounds(29, 68, 190, 300);
 		panel_1.add(scrollPane_1);
-		
-		JButton btn_KHTour = new JButton("Kế hoạch Tours");
-		btn_KHTour.setForeground(Color.WHITE);
-		btn_KHTour.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btn_KHTour.setFocusable(false);
-		btn_KHTour.setBorderPainted(false);
-		btn_KHTour.setBorder(null);
-		btn_KHTour.setBackground(new Color(24, 171, 138));
-		btn_KHTour.setBounds(273, 65, 120, 40);
-		panel.add(btn_KHTour);
+	
 		this.setVisible(true);
 	}
 }

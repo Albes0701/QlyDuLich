@@ -40,18 +40,18 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
-public class QuanLyTour extends JFrame {
+public class DichVu extends JFrame {
 /**
 	 * 
 	 */
 	//	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField_MaTour;
-	private JTextField textField_SoNgay;
+	private JTextField textField_MaDichVu;
+	private JTextField textField_TenDV;
 	private JTable table_KhachHang;
 	private JTextField textField_TimKiem;
-	private JTextField textField_TenTour;
-
+	private JTextField textField_Gia;
+	private JComboBox comboBox_LoaiDV;
 	/**
 	 * Launch the application.
 	 */
@@ -59,7 +59,7 @@ public class QuanLyTour extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					QuanLyTour frame = new QuanLyTour();
+					DichVu frame = new DichVu();
 					frame.setSize(1000, 650);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,7 +71,7 @@ public class QuanLyTour extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public QuanLyTour() {
+	public DichVu() {
 		setBackground(SystemColor.windowText);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(280, 100, 1000, 650);
@@ -210,56 +210,36 @@ public class QuanLyTour extends JFrame {
 		KhachHang.setLayout(null);
 		KhachHang.setBackground(new Color(255, 255, 255));
 		
-		JLabel lb_TTKH = new JLabel("Thông tin Tour");
+		JLabel lb_TTKH = new JLabel("Thông tin Dịch Vụ");
 		lb_TTKH.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lb_TTKH.setBounds(19, 10, 218, 30);
 		KhachHang.add(lb_TTKH);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 50, 227, 435);
+		scrollPane.setBounds(10, 50, 249, 246);
 		KhachHang.add(scrollPane);
 		
 		JPanel panel_2 = new JPanel();
 		scrollPane.setViewportView(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel lblNewLabel_2 = new JLabel("Mã Tour");
+		JLabel lblNewLabel_2 = new JLabel("Mã Dịch Vụ");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2.setBounds(10, 32, 61, 13);
+		lblNewLabel_2.setBounds(10, 28, 92, 20);
 		panel_2.add(lblNewLabel_2);
 		
-		textField_MaTour = new JTextField();
-		textField_MaTour.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_MaTour.setBounds(90, 26, 125, 26);
-		panel_2.add(textField_MaTour);
-		textField_MaTour.setColumns(10);
+		textField_MaDichVu = new JTextField();
+		textField_MaDichVu.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_MaDichVu.setBounds(112, 26, 125, 26);
+		panel_2.add(textField_MaDichVu);
+		textField_MaDichVu.setColumns(10);
 		
-		JLabel lblNewLabel_2_1 = new JLabel("Loại Tour");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_1.setBounds(10, 70, 73, 20);
-		panel_2.add(lblNewLabel_2_1);
-		
-		textField_SoNgay = new JTextField();
-		textField_SoNgay.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_SoNgay.setColumns(10);
-		textField_SoNgay.setBounds(90, 211, 125, 26);
-		panel_2.add(textField_SoNgay);
-		
-		JLabel lblNewLabel_ = new JLabel("Số Ngày");
-		lblNewLabel_.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_.setBounds(10, 213, 61, 20);
-		panel_2.add(lblNewLabel_);
-		
-		JLabel lblNewLabel_2_3 = new JLabel("Khởi hành");
-		lblNewLabel_2_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_3.setBounds(10, 259, 85, 13);
-		panel_2.add(lblNewLabel_2_3);
-		
-		JLabel lblNewLabel_2_4 = new JLabel("Nơi đến");
-		lblNewLabel_2_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4.setBounds(10, 301, 61, 20);
-		panel_2.add(lblNewLabel_2_4);
+		textField_TenDV = new JTextField();
+		textField_TenDV.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_TenDV.setColumns(10);
+		textField_TenDV.setBounds(112, 113, 125, 26);
+		panel_2.add(textField_TenDV);
 		
 		JButton btnNewButton_Luu = new JButton("Lưu");
 		btnNewButton_Luu.setFocusable(false);
@@ -270,42 +250,38 @@ public class QuanLyTour extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_Luu.setBounds(66, 348, 85, 26);
+		btnNewButton_Luu.setBounds(75, 203, 85, 26);
 		panel_2.add(btnNewButton_Luu);
-		JComboBox comboBox_KhoiHanh = new JComboBox<>();
-		comboBox_KhoiHanh.setBackground(new Color(255, 255, 255));
-		comboBox_KhoiHanh.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		comboBox_KhoiHanh.setBounds(91, 254, 124, 26);
-		panel_2.add(comboBox_KhoiHanh);
 		
 		String []item_loai = {"Trong nước", "Ngoài nước"};
-		JComboBox comboBox_LoaiTour = new JComboBox<>(item_loai);
-		comboBox_LoaiTour.setBackground(new Color(255, 255, 255));
-		comboBox_LoaiTour.setBounds(91, 69, 123, 26);
-		panel_2.add(comboBox_LoaiTour);
 		
-		JLabel lblNewLabel_2_1_1 = new JLabel("Tên Tour");
+		JLabel lblNewLabel_2_1_1 = new JLabel("Tên Dịch Vụ");
 		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_1_1.setBounds(10, 110, 73, 20);
+		lblNewLabel_2_1_1.setBounds(10, 115, 92, 20);
 		panel_2.add(lblNewLabel_2_1_1);
 		
-		textField_TenTour = new JTextField();
-		textField_TenTour.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_TenTour.setBounds(10, 140, 205, 61);
-		panel_2.add(textField_TenTour);
-		textField_TenTour.setColumns(10);
+		textField_Gia = new JTextField();
+		textField_Gia.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_Gia.setColumns(10);
+		textField_Gia.setBounds(112, 156, 125, 26);
+		panel_2.add(textField_Gia);
 		
-		JComboBox comboBox_NoiDen = new JComboBox();
-		comboBox_NoiDen.setBackground(new Color(255, 255, 255));
-		comboBox_NoiDen.setBounds(91, 300, 124, 26);
-		panel_2.add(comboBox_NoiDen);
+		JLabel lblNewLabel_2_1_1_1 = new JLabel("Giá");
+		lblNewLabel_2_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_2_1_1_1.setBounds(10, 158, 61, 20);
+		panel_2.add(lblNewLabel_2_1_1_1);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("Loại Dịch Vụ");
+		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_2_1.setBounds(10, 72, 92, 20);
+		panel_2.add(lblNewLabel_2_1);
+		
+		comboBox_LoaiDV = new JComboBox();
+		comboBox_LoaiDV.setBackground(new Color(255, 255, 255));
+		comboBox_LoaiDV.setBounds(112, 70, 125, 26);
+		panel_2.add(comboBox_LoaiDV);
 		
 
-//		textField_NgayVL = new JTextField();
-//		textField_NgayVL.setFont(new Font("Tahoma", Font.PLAIN, 14));
-//		textField_NgayVL.setColumns(10);
-//		textField_NgayVL.setBounds(81, 315, 134, 26);
-//		panel_2.add(textField_NgayVL);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(269, 50, 681, 435);
@@ -315,52 +291,52 @@ public class QuanLyTour extends JFrame {
 		scrollPane_2.setViewportView(table_KhachHang);
 		table_KhachHang.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
 			},
 			new String[] {
-				"M\u00E3 Tour", "Lo\u1EA1i Tour", "T\u00EAn Tour", "S\u1ED1 Ng\u00E0y", "Kh\u1EDFi h\u00E0nh", "N\u01A1i \u0111\u1EBFn"
+				"M\u00E3 D\u1ECBch V\u1EE5", "Lo\u1EA1i D\u1ECBch V\u1EE5", "T\u00EAn D\u1ECBch V\u1EE5", "Gi\u00E1"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, Integer.class, String.class, String.class
+				String.class, String.class, String.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
-		table_KhachHang.getColumnModel().getColumn(1).setPreferredWidth(80);
+		table_KhachHang.getColumnModel().getColumn(0).setPreferredWidth(70);
+		table_KhachHang.getColumnModel().getColumn(1).setPreferredWidth(72);
 		table_KhachHang.getColumnModel().getColumn(2).setPreferredWidth(139);
-		table_KhachHang.getColumnModel().getColumn(3).setPreferredWidth(52);
-		table_KhachHang.getColumnModel().getColumn(5).setPreferredWidth(88);
+		table_KhachHang.getColumnModel().getColumn(3).setPreferredWidth(100);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
