@@ -92,9 +92,10 @@ public class KHTourGUI extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(255, 255, 255));
 		panel.setBackground(new Color(34, 99, 138));
-		panel.setBounds(0, 0, 1000, 650);
+		panel.setBounds(0, -19, 1000, 632);
 		contentPane.add(panel);
 		panel.setLayout(null);
+		
 
 		JButton btn_QLTour = new JButton("Quản lý Tours");
 		btn_QLTour.setBorderPainted(false);
@@ -217,17 +218,17 @@ public class KHTourGUI extends JFrame {
 		logo_lb.setIcon(scaledIcon);
 		panel.add(logo_lb);
 
-		Panel panel_1 = new Panel();
-		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(20, 118, 953, 495);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
+		Panel KHTOUR = new Panel();
+		KHTOUR.setBackground(new Color(255, 255, 255));
+		KHTOUR.setBounds(13, 127, 960, 495);
+		panel.add(KHTOUR);
+		KHTOUR.setLayout(null);
 
 		JLabel thongtintour_lb = new JLabel("Thông tin Kế hoạch Tour");
 		thongtintour_lb.setForeground(new Color(0, 0, 0));
 		thongtintour_lb.setBounds(10, 10, 230, 30);
 		thongtintour_lb.setFont(new Font("Tahoma", Font.BOLD, 17));
-		panel_1.add(thongtintour_lb);
+		KHTOUR.add(thongtintour_lb);
 
 		String[] loaiTour = { "Tour trong nước", "Tour nước ngoài" };
 
@@ -247,7 +248,7 @@ public class KHTourGUI extends JFrame {
 		timkiem_tf = new JTextField();
 		timkiem_tf.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		timkiem_tf.setBounds(250, 9, 338, 40);
-		panel_1.add(timkiem_tf);
+		KHTOUR.add(timkiem_tf);
 		timkiem_tf.setColumns(10);
 
 		JButton timkiem_btn = new JButton("TK");
@@ -259,19 +260,19 @@ public class KHTourGUI extends JFrame {
 			}
 		});
 		timkiem_btn.setBounds(589, 8, 60, 40);
-		panel_1.add(timkiem_btn);
+		KHTOUR.add(timkiem_btn);
 
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane_2.setBounds(250, 50, 703, 445);
-		panel_1.add(scrollPane_2);
+		KHTOUR.add(scrollPane_2);
 
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
 		panel_3.setLayout(null);
 		panel_3.setPreferredSize(new Dimension(590, 600));
-		panel_1.setBackground(new Color(255, 255, 255));
+		KHTOUR.setBackground(new Color(255, 255, 255));
 		scrollPane_2.setViewportView(panel_3);
 
 		JScrollPane table_sp = new JScrollPane();
@@ -453,16 +454,22 @@ public class KHTourGUI extends JFrame {
 		hinh3_lb.setBackground(new Color(255, 255, 255));
 
 		JButton ctkehoachtour_btn = new JButton("Chi tiết Kế hoạch Tour");
+		ctkehoachtour_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new ChiTietKeHoachTourGUI();
+			}
+		});
 		ctkehoachtour_btn.setForeground(new Color(255, 255, 255));
 		ctkehoachtour_btn.setBackground(new Color(0, 128, 64));
 		ctkehoachtour_btn.setBorder(null);
 		ctkehoachtour_btn.setFont(new Font("Tahoma", Font.BOLD, 13));
-		ctkehoachtour_btn.setBounds(762, 8, 191, 38);
-		panel_1.add(ctkehoachtour_btn);
+		ctkehoachtour_btn.setBounds(740, 8, 191, 38);
+		KHTOUR.add(ctkehoachtour_btn);
 		
 				JScrollPane scrollPane = new JScrollPane();
 				scrollPane.setBounds(10, 50, 230, 445);
-				panel_1.add(scrollPane);
+				KHTOUR.add(scrollPane);
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				scrollPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 128), new Color(128, 128, 128),
 						new Color(128, 128, 128), new Color(128, 128, 128)));
@@ -471,7 +478,7 @@ public class KHTourGUI extends JFrame {
 				panel_2.setBackground(new Color(255, 255, 255));
 				panel_2.setLayout(null);
 				panel_2.setPreferredSize(new Dimension(210, 925));
-				panel_1.setBackground(new Color(255, 255, 255));
+				KHTOUR.setBackground(new Color(255, 255, 255));
 				scrollPane.setViewportView(panel_2);
 				
 				JLabel matour_lb = new JLabel("Mã Tour :");

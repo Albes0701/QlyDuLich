@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Label;
 import java.awt.Panel;
 import java.awt.SystemColor;
@@ -29,6 +30,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.CompoundBorder;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -196,29 +198,34 @@ public class QuanLyTour extends JFrame {
 		lblNewLabel.setBounds(768, 25, 90, 30);
 		panel.add(lblNewLabel);
 		
-		Label label = new Label("New label");
+		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
+		JLabel label = new JLabel();
 		label.setBackground(new Color(0, 128, 255));
 		label.setBounds(13, 31, 90, 90);
+		Image img = image.getImage();
+		Image imgScale = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon scaleIcon = new ImageIcon(imgScale);
+		label.setIcon(scaleIcon);
 		panel.add(label);
 		
 		
 		this.getContentPane().add(panel);
 		
-		Panel KhachHang = new Panel();
-		KhachHang.setBounds(13, 127, 960, 495);
-		panel.add(KhachHang);
-		KhachHang.setLayout(null);
-		KhachHang.setBackground(new Color(255, 255, 255));
+		Panel QLTour = new Panel();
+		QLTour.setBounds(13, 127, 960, 495);
+		panel.add(QLTour);
+		QLTour.setLayout(null);
+		QLTour.setBackground(new Color(255, 255, 255));
 		
 		JLabel lb_TTKH = new JLabel("Thông tin Tour");
 		lb_TTKH.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lb_TTKH.setBounds(19, 10, 218, 30);
-		KhachHang.add(lb_TTKH);
+		QLTour.add(lb_TTKH);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(10, 50, 227, 435);
-		KhachHang.add(scrollPane);
+		QLTour.add(scrollPane);
 		
 		JPanel panel_2 = new JPanel();
 		scrollPane.setViewportView(panel_2);
@@ -309,7 +316,7 @@ public class QuanLyTour extends JFrame {
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(269, 50, 681, 435);
-		KhachHang.add(scrollPane_2);
+		QLTour.add(scrollPane_2);
 		
 		table_KhachHang = new JTable();
 		scrollPane_2.setViewportView(table_KhachHang);
@@ -365,7 +372,7 @@ public class QuanLyTour extends JFrame {
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
 		panel_3.setBounds(269, 10, 681, 30);
-		KhachHang.add(panel_3);
+		QLTour.add(panel_3);
 		panel_3.setLayout(null);
 		
 		JButton btnNewButton_Xoa = new JButton("Xóa");

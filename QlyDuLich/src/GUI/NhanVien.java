@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Label;
 import java.awt.Panel;
 import java.awt.SystemColor;
@@ -41,6 +42,7 @@ import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 
 public class NhanVien extends JFrame{
 //	private static final long serialVersionUID = 1L;
@@ -89,7 +91,7 @@ public class NhanVien extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(255, 255, 255));
 		panel.setBackground(new Color(34, 99, 138));
-		panel.setBounds(0, 0, 1000, 632);
+		panel.setBounds(0, -19, 1000, 632);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -200,29 +202,36 @@ public class NhanVien extends JFrame{
 		lblNewLabel.setBounds(768, 25, 90, 30);
 		panel.add(lblNewLabel);
 		
-		Label label = new Label("New label");
+		
+		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
+		JLabel label = new JLabel();
 		label.setBackground(new Color(0, 128, 255));
 		label.setBounds(13, 31, 90, 90);
+		Image img = image.getImage();
+		Image imgScale = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon scaleIcon = new ImageIcon(imgScale);
+		label.setIcon(scaleIcon);
+		
 		panel.add(label);
 		
 		
 		this.getContentPane().add(panel);
 		
-		Panel KhachHang = new Panel();
-		KhachHang.setBounds(13, 127, 960, 495);
-		panel.add(KhachHang);
-		KhachHang.setLayout(null);
-		KhachHang.setBackground(new Color(255, 255, 255));
+		Panel NhanVien = new Panel();
+		NhanVien.setBounds(13, 127, 960, 495);
+		panel.add(NhanVien);
+		NhanVien.setLayout(null);
+		NhanVien.setBackground(new Color(255, 255, 255));
 		
 		JLabel lb_TTKH = new JLabel("Thông tin Nhân Viên");
 		lb_TTKH.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lb_TTKH.setBounds(19, 10, 218, 30);
-		KhachHang.add(lb_TTKH);
+		NhanVien.add(lb_TTKH);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(10, 50, 227, 435);
-		KhachHang.add(scrollPane);
+		NhanVien.add(scrollPane);
 		
 		JPanel panel_2 = new JPanel();
 		scrollPane.setViewportView(panel_2);
@@ -337,7 +346,7 @@ public class NhanVien extends JFrame{
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(269, 50, 681, 435);
-		KhachHang.add(scrollPane_2);
+		NhanVien.add(scrollPane_2);
 		
 		table_NhanVien = new JTable();
 		scrollPane_2.setViewportView(table_NhanVien);
@@ -395,7 +404,7 @@ public class NhanVien extends JFrame{
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
 		panel_3.setBounds(269, 10, 681, 30);
-		KhachHang.add(panel_3);
+		NhanVien.add(panel_3);
 		panel_3.setLayout(null);
 		
 		JButton btnNewButton_Xoa = new JButton("Xóa");

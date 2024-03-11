@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Label;
 import java.awt.Panel;
 import java.awt.SystemColor;
@@ -28,6 +29,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.CompoundBorder;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
+import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -70,7 +72,7 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 	public ChiTietKeHoachTourGUI() {
 		setBackground(SystemColor.windowText);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 650);
+		setBounds(280, 100, 1000, 650);
 		contentPane = new JPanel();
 		contentPane.setVerifyInputWhenFocusTarget(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -94,6 +96,8 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		btn_QLTour.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new QuanLyTour();
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
@@ -104,6 +108,8 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		btn_QLDV.setBorder(null);
 		btn_QLDV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new DichVu();
 			}
 		});
 		btn_QLDV.setForeground(new Color(255, 255, 255));
@@ -120,6 +126,13 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		btn_KhachHang.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_KhachHang.setBounds(853, 65, 120, 40);
 		panel.add(btn_KhachHang);
+		btn_KhachHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new KhachHang();
+			}
+		});
+		
 		
 		JButton btn_NhanVien = new JButton("Nhân viên");
 		btn_NhanVien.setFocusable(false);
@@ -133,6 +146,8 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		JButton btn_KhuyenMai = new JButton("Khuyến mãi");
 		btn_KhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new KhuyenMai();
 			}
 		});
 		btn_KhuyenMai.setFocusable(false);
@@ -155,9 +170,14 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		lblNewLabel.setBounds(768, 25, 90, 30);
 		panel.add(lblNewLabel);
 		
-		Label label = new Label("New label");
+		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
+		JLabel label = new JLabel(image);
 		label.setBackground(new Color(0, 128, 255));
 		label.setBounds(13, 31, 90, 90);
+		Image img = image.getImage();
+		Image imgScale = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon scaleIcon = new ImageIcon(imgScale);
+		label.setIcon(scaleIcon);
 		panel.add(label);
 		
 		
@@ -443,6 +463,12 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		panel_1.add(scrollPane_1);
 		
 		JButton btn_KHTour = new JButton("Kế hoạch Tours");
+		btn_KHTour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new ChiTietKeHoachTourGUI();
+			}
+		});
 		btn_KHTour.setForeground(Color.WHITE);
 		btn_KHTour.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_KHTour.setFocusable(false);
