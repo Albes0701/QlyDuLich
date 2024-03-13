@@ -120,6 +120,7 @@ public class QuanLyTour extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				new KHTourGUI();
+				
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
