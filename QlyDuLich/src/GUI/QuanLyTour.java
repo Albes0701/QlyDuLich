@@ -11,6 +11,10 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JButton;
@@ -29,7 +33,9 @@ import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.border.CompoundBorder;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 import javax.swing.JTable;
@@ -42,6 +48,10 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.QlyToursBUS;
+import DTO.QlyToursDTO;
+
+
 public class QuanLyTour extends JFrame {
 /**
 	 * 
@@ -49,10 +59,23 @@ public class QuanLyTour extends JFrame {
 	//	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField_MaTour;
-	private JTextField textField_SoNgay;
-	private JTable table_KhachHang;
+	private JTextField songay_tf;
+	private JTable table_Tours;
 	private JTextField textField_TimKiem;
-	private JTextField textField_TenTour;
+	private JTextField textField_NgayVL;
+	private JTextField tentour_tf;
+	private JButton luu_btn;
+	private JComboBox comboBox_LoaiTour;
+	private JComboBox khoihanh_cb;
+	private JComboBox noiden_cb;
+	private JButton sua_btn;
+	private JButton them_btn;
+	private JButton xoa_btn;
+	private JButton thoat_btn;
+	private JComboBox timkiem_cb;
+	
+	//QlyToursDTO tourDTO=new QlyToursDTO();
+	QlyToursBUS tourBUS=new QlyToursBUS();
 
 	/**
 	 * Launch the application.
@@ -62,7 +85,7 @@ public class QuanLyTour extends JFrame {
 			public void run() {
 				try {
 					QuanLyTour frame = new QuanLyTour();
-					frame.setSize(1000, 650);
+					//frame.setSize(1000, 650);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -74,6 +97,7 @@ public class QuanLyTour extends JFrame {
 	 * Create the frame.
 	 */
 	public QuanLyTour() {
+		this.setSize(1000, 650);
 		setBackground(SystemColor.windowText);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(280, 100, 1000, 650);
@@ -83,6 +107,7 @@ public class QuanLyTour extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
 		
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(255, 255, 255));
@@ -212,16 +237,20 @@ public class QuanLyTour extends JFrame {
 		
 		this.getContentPane().add(panel);
 		
+
 		Panel QLTour = new Panel();
 		QLTour.setBounds(13, 127, 960, 495);
 		panel.add(QLTour);
 		QLTour.setLayout(null);
 		QLTour.setBackground(new Color(255, 255, 255));
+
 		
+
 		JLabel lb_TTKH = new JLabel("Thông tin Tour");
 		lb_TTKH.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lb_TTKH.setBounds(19, 10, 218, 30);
 		QLTour.add(lb_TTKH);
+
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -248,65 +277,99 @@ public class QuanLyTour extends JFrame {
 		lblNewLabel_2_1.setBounds(10, 70, 73, 20);
 		panel_2.add(lblNewLabel_2_1);
 		
-		textField_SoNgay = new JTextField();
-		textField_SoNgay.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_SoNgay.setColumns(10);
-		textField_SoNgay.setBounds(90, 211, 125, 26);
-		panel_2.add(textField_SoNgay);
+		songay_tf = new JTextField();
+		songay_tf.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		songay_tf.setColumns(10);
+		songay_tf.setBounds(90, 211, 125, 26);
+		panel_2.add(songay_tf);
 		
-		JLabel lblNewLabel_ = new JLabel("Số Ngày");
-		lblNewLabel_.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_.setBounds(10, 213, 61, 20);
-		panel_2.add(lblNewLabel_);
+		JLabel songay_lb = new JLabel("Số Ngày");
+		songay_lb.setFont(new Font("Tahoma", Font.BOLD, 14));
+		songay_lb.setBounds(10, 213, 61, 20);
+		panel_2.add(songay_lb);
 		
-		JLabel lblNewLabel_2_3 = new JLabel("Khởi hành");
-		lblNewLabel_2_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_3.setBounds(10, 259, 85, 13);
-		panel_2.add(lblNewLabel_2_3);
+		JLabel khoihanh_lb = new JLabel("Khởi hành");
+		khoihanh_lb.setFont(new Font("Tahoma", Font.BOLD, 14));
+		khoihanh_lb.setBounds(10, 259, 85, 13);
+		panel_2.add(khoihanh_lb);
 		
-		JLabel lblNewLabel_2_4 = new JLabel("Nơi đến");
-		lblNewLabel_2_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4.setBounds(10, 301, 61, 20);
-		panel_2.add(lblNewLabel_2_4);
+		JLabel noiden_lb = new JLabel("Nơi đến");
+		noiden_lb.setFont(new Font("Tahoma", Font.BOLD, 14));
+		noiden_lb.setBounds(10, 301, 61, 20);
+		panel_2.add(noiden_lb);
 		
-		JButton btnNewButton_Luu = new JButton("Lưu");
-		btnNewButton_Luu.setFocusable(false);
-		btnNewButton_Luu.setForeground(new Color(255, 255, 255));
-		btnNewButton_Luu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Luu.setBackground(new Color(255, 128, 64));
-		btnNewButton_Luu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_Luu.setBounds(66, 348, 85, 26);
-		panel_2.add(btnNewButton_Luu);
-		JComboBox comboBox_KhoiHanh = new JComboBox<>();
-		comboBox_KhoiHanh.setBackground(new Color(255, 255, 255));
-		comboBox_KhoiHanh.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		comboBox_KhoiHanh.setBounds(91, 254, 124, 26);
-		panel_2.add(comboBox_KhoiHanh);
+		String[] arr_tinh = { "An Giang", "Bà Rịa – Vũng Tàu", "Bạc Liêu", "Bắc Giang", "Bắc Kạn", "Bắc Ninh",
+				"Bến Tre", "Bình Dương", "Bình Định", "Bình Phước", "Bình Thuận", "Cà Mau", "Cao Bằng", "Cần Thơ",
+				"Đà Nẵng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", "Gia Lai", "Hà Giang", "Hà Nam",
+				"Hà Nội", "Hà Tĩnh", "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình", "TP Hồ Chí Minh",
+				"Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lạng Sơn", "Lào Cai", "Lâm Đồng",
+				"Long An", "Nam Định", "Nghệ An", "Ninh Bình", "Ninh Thuận", "Phú Thọ", "Phú Yên", "Quảng Bình",
+				"Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng", "Sơn La", "Tây Ninh", "Thái Bình",
+				"Thái Nguyên", "Thanh Hóa", "Thừa Thiên Huế", "Tiền Giang", "Trà Vinh", "Tuyên Quang", "Vĩnh Long",
+				"Vĩnh Phúc", "Yên Bái" };
+		khoihanh_cb = new JComboBox(arr_tinh);
+		khoihanh_cb.setBackground(new Color(255, 255, 255));
+		khoihanh_cb.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		khoihanh_cb.setBounds(91, 254, 124, 26);
+		panel_2.add(khoihanh_cb);
 		
 		String []item_loai = {"Trong nước", "Ngoài nước"};
-		JComboBox comboBox_LoaiTour = new JComboBox<>(item_loai);
+		comboBox_LoaiTour = new JComboBox(item_loai);
 		comboBox_LoaiTour.setBackground(new Color(255, 255, 255));
 		comboBox_LoaiTour.setBounds(91, 69, 123, 26);
+		comboBox_LoaiTour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(comboBox_LoaiTour.getSelectedItem().equals("Trong nước")) {
+					noiden_cb.setModel(new DefaultComboBoxModel(arr_tinh));
+				}
+				else if(comboBox_LoaiTour.getSelectedItem().equals("Ngoài nước")){
+					String[] arr_nuocngoai= {"Trung Quốc", "Hàn Quốc", "Nhật Bản", "Đài Loan", "Hồng Kông", 
+							"Macau", "Triều Tiên", "Hàn Quốc", "Mông Cổ","Brunei", "Campuchia", "Đông Timor", 
+							"Indonesia", "Lào", "Malaysia", "Myanma", "Philippines", "Singapore", "Thái Lan"};
+					noiden_cb.setModel(new DefaultComboBoxModel(arr_nuocngoai));
+				}
+			}
+		});
 		panel_2.add(comboBox_LoaiTour);
 		
-		JLabel lblNewLabel_2_1_1 = new JLabel("Tên Tour");
-		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_1_1.setBounds(10, 110, 73, 20);
-		panel_2.add(lblNewLabel_2_1_1);
+		noiden_cb = new JComboBox(arr_tinh);
+		noiden_cb.setBackground(new Color(255, 255, 255));
+		noiden_cb.setBounds(91, 300, 124, 26);
+		panel_2.add(noiden_cb);
 		
-		textField_TenTour = new JTextField();
-		textField_TenTour.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_TenTour.setBounds(10, 140, 205, 61);
-		panel_2.add(textField_TenTour);
-		textField_TenTour.setColumns(10);
+		JLabel tentour_lb = new JLabel("Tên Tour");
+		tentour_lb.setFont(new Font("Tahoma", Font.BOLD, 14));
+		tentour_lb.setBounds(10, 110, 73, 20);
+		panel_2.add(tentour_lb);
 		
-		JComboBox comboBox_NoiDen = new JComboBox();
-		comboBox_NoiDen.setBackground(new Color(255, 255, 255));
-		comboBox_NoiDen.setBounds(91, 300, 124, 26);
-		panel_2.add(comboBox_NoiDen);
+		tentour_tf = new JTextField();
+		tentour_tf.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tentour_tf.setBounds(10, 140, 205, 61);
+		panel_2.add(tentour_tf);
+		tentour_tf.setColumns(10);
+		
+		thoat_btn = new JButton("Thoát");
+		thoat_btn.setForeground(new Color(255, 255, 255));
+		thoat_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		thoat_btn.setFocusable(false);
+		thoat_btn.setEnabled(false);
+		thoat_btn.setBackground(new Color(255, 128, 64));
+		thoat_btn.setBounds(117, 348, 85, 26);
+		thoat_btn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ResetData();
+				init();
+				them_btn.setEnabled(true);
+				them_btn.setBackground(new Color(65, 105, 225));
+				xoa_btn.setEnabled(true);
+				xoa_btn.setBackground(new Color(255, 0, 0));
+				sua_btn.setEnabled(true);
+				sua_btn.setBackground(new Color(50, 205, 50));
+			}
+		});
+		panel_2.add(thoat_btn);
 		
 
 //		textField_NgayVL = new JTextField();
@@ -317,58 +380,16 @@ public class QuanLyTour extends JFrame {
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(269, 50, 681, 435);
+
 		QLTour.add(scrollPane_2);
 		
-		table_KhachHang = new JTable();
-		scrollPane_2.setViewportView(table_KhachHang);
-		table_KhachHang.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 Tour", "Lo\u1EA1i Tour", "T\u00EAn Tour", "S\u1ED1 Ng\u00E0y", "Kh\u1EDFi h\u00E0nh", "N\u01A1i \u0111\u1EBFn"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, Integer.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		table_KhachHang.getColumnModel().getColumn(1).setPreferredWidth(80);
-		table_KhachHang.getColumnModel().getColumn(2).setPreferredWidth(139);
-		table_KhachHang.getColumnModel().getColumn(3).setPreferredWidth(52);
-		table_KhachHang.getColumnModel().getColumn(5).setPreferredWidth(88);
+		table_Tours = new JTable();
+		scrollPane_2.setViewportView(table_Tours);
+		
+//		table_Tours.getColumnModel().getColumn(1).setPreferredWidth(80);
+//		table_Tours.getColumnModel().getColumn(2).setPreferredWidth(139);
+//		table_Tours.getColumnModel().getColumn(3).setPreferredWidth(52);
+//		table_Tours.getColumnModel().getColumn(5).setPreferredWidth(88);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
@@ -376,44 +397,130 @@ public class QuanLyTour extends JFrame {
 		QLTour.add(panel_3);
 		panel_3.setLayout(null);
 		
-		JButton btnNewButton_Xoa = new JButton("Xóa");
-		btnNewButton_Xoa.setFocusable(false);
-		btnNewButton_Xoa.setBackground(new Color(255, 0, 0));
-		btnNewButton_Xoa.setForeground(new Color(255, 255, 255));
-		btnNewButton_Xoa.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Xoa.setBounds(596, 3, 75, 25);
-		panel_3.add(btnNewButton_Xoa);
-		
-		JButton btnNewButton_Sua = new JButton("Sửa");
-		btnNewButton_Sua.setFocusable(false);
-		btnNewButton_Sua.setBackground(new Color(50, 205, 50));
-		btnNewButton_Sua.setForeground(new Color(255, 255, 255));
-		btnNewButton_Sua.addActionListener(new ActionListener() {
+		xoa_btn = new JButton("Xóa");
+		xoa_btn.setFocusable(false);
+		xoa_btn.setBackground(new Color(255, 0, 0));
+		xoa_btn.setForeground(new Color(255, 255, 255));
+		xoa_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		xoa_btn.setBounds(596, 3, 75, 25);
+		xoa_btn.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
+				QlyToursDTO t=getTourDaChon();
+				tourBUS.xoa(t);
+				if(tourBUS.xoa(t)==-1) {
+					JOptionPane.showMessageDialog(panel, "Lỗi!");
+				}
+				else {
+					XoaDataTable();
+					initData();
+					JOptionPane.showMessageDialog(panel, "Xóa thành công!");
+				}
+				
 			}
 		});
-		btnNewButton_Sua.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Sua.setBounds(511, 3, 75, 25);
-		panel_3.add(btnNewButton_Sua);
+		panel_3.add(xoa_btn);
 		
-		JButton btnNewButton_Them = new JButton("Thêm");
-		btnNewButton_Them.setFocusable(false);
-		btnNewButton_Them.setForeground(new Color(255, 255, 255));
-		btnNewButton_Them.setBackground(new Color(65, 105, 225));
-		btnNewButton_Them.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Them.setBounds(427, 3, 75, 25);
-		panel_3.add(btnNewButton_Them);
+		sua_btn = new JButton("Sửa");
+		sua_btn.setFocusable(false);
+		sua_btn.setBackground(new Color(50, 205, 50));
+		sua_btn.setForeground(new Color(255, 255, 255));
+		sua_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				them_btn.setEnabled(false);
+				them_btn.setBackground(Color.gray);
+				xoa_btn.setEnabled(false);
+				xoa_btn.setBackground(Color.gray);
+				luu_btn.setEnabled(true);
+				luu_btn.setBackground(Color.orange);
+				thoat_btn.setEnabled(true);
+				thoat_btn.setBackground(Color.red);
+				noneInit();
+			}
+		});
+		sua_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		sua_btn.setBounds(511, 3, 75, 25);
+		panel_3.add(sua_btn);
 		
-		JLabel lblNewLabel_3 = new JLabel("Tìm kiếm");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_3.setBounds(10, 9, 70, 13);
-		panel_3.add(lblNewLabel_3);
+		them_btn = new JButton("Thêm");
+		them_btn.setFocusable(false);
+		them_btn.setForeground(new Color(255, 255, 255));
+		them_btn.setBackground(new Color(65, 105, 225));
+		them_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		them_btn.setBounds(427, 3, 75, 25);
+		them_btn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sua_btn.setEnabled(false);
+				sua_btn.setBackground(Color.gray);
+				xoa_btn.setEnabled(false);
+				xoa_btn.setBackground(Color.gray);
+				luu_btn.setEnabled(true);
+				luu_btn.setBackground(Color.orange);
+				thoat_btn.setEnabled(true);
+				thoat_btn.setBackground(Color.red);
+				noneInit();
+				ResetData();
+			}
+		});
+		panel_3.add(them_btn);
+		
+		luu_btn = new JButton("Lưu");
+		luu_btn.setFocusable(false);
+		luu_btn.setForeground(new Color(255, 255, 255));
+		luu_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		luu_btn.setBackground(new Color(255, 128, 64));
+		luu_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(sua_btn.isEnabled()==false&&xoa_btn.isEnabled()==false) {
+					ThemTour();
+					ResetData();
+					XoaDataTable();
+					initData();
+				}
+				else if(them_btn.isEnabled()==false&&xoa_btn.isEnabled()==false) {
+					SuaTour();
+					ResetData();
+					XoaDataTable();
+					initData();
+				}
+			}
+		});
+		luu_btn.setBounds(22, 348, 85, 26);
+		panel_2.add(luu_btn);
+		
+		JLabel timkiem_lb = new JLabel("Tìm kiếm");
+		timkiem_lb.setFont(new Font("Tahoma", Font.BOLD, 14));
+		timkiem_lb.setBounds(10, 9, 70, 13);
+		panel_3.add(timkiem_lb);
 		
 		textField_TimKiem = new JTextField();
 		textField_TimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		textField_TimKiem.setBounds(81, 3, 160, 25);
+		textField_TimKiem.setBounds(81, 3, 198, 25);
+		textField_TimKiem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String condition=textField_TimKiem.getText();
+				String condType=(String) timkiem_cb.getSelectedItem();
+				ArrayList<QlyToursDTO> t=tourBUS.timkiem(condition, condType);
+				if(t==null) {
+					JOptionPane.showMessageDialog(panel, "Lỗi!");
+				}else {
+					XoaDataTable();
+					initData2(t);
+				}
+				
+			}
+		});
 		panel_3.add(textField_TimKiem);
 		textField_TimKiem.setColumns(10);
+		
+		String[] arr_timkiem= {
+			"Mã Tour","Số ngày","Nơi đến"	
+		};
+		timkiem_cb = new JComboBox(arr_timkiem);
+		timkiem_cb.setBounds(280, 3, 84, 25);
+		panel_3.add(timkiem_cb);
 		
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -435,6 +542,190 @@ public class QuanLyTour extends JFrame {
 		scrollPane_1.setBounds(29, 68, 190, 300);
 		panel_1.add(scrollPane_1);
 		
+		init();
+		initData();
+		
+		
+		btn_KHTour = new JButton("Kế hoạch Tours");
+		btn_KHTour.setForeground(Color.WHITE);
+		btn_KHTour.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btn_KHTour.setFocusable(false);
+		btn_KHTour.setBorderPainted(false);
+		btn_KHTour.setBorder(null);
+		btn_KHTour.setBackground(new Color(24, 171, 138));
+		btn_KHTour.setBounds(273, 65, 120, 40);
+		panel.add(btn_KHTour);
 		this.setVisible(true);
+	}
+	
+	public void initData() {
+		String [] colNames= {"Mã Tour","Tên Tour","Số ngày","Nơi đến","Mã loại","Nơi khởi hành"};
+		DefaultTableModel tableModel=new DefaultTableModel();
+		table_Tours.setModel(tableModel);
+		tableModel.setColumnIdentifiers(colNames);
+		table_Tours.addMouseListener((MouseListener) new MouseAdapter() {
+		    public void mouseClicked(MouseEvent e) {
+		      if (e.getClickCount() == 1) {
+		        HienThiTour();
+		      }
+		    }
+		});
+		ArrayList<QlyToursDTO> list=tourBUS.docTour();
+		for(QlyToursDTO tour:list) {
+			tableModel.addRow(new Object[]{
+				tour.getMatour(),tour.getTentour(),tour.getSongay()+"",tour.getNoiden(),tour.getMaloai(),tour.getNoikhoihanh()
+			});
+		}
+	}
+	public void initData2(ArrayList<QlyToursDTO> list) {
+		String [] colNames= {"Mã Tour","Tên Tour","Số ngày","Nơi đến","Mã loại","Nơi khởi hành"};
+		DefaultTableModel tableModel=new DefaultTableModel();
+		table_Tours.setModel(tableModel);
+		tableModel.setColumnIdentifiers(colNames);
+		table_Tours.addMouseListener((MouseListener) new MouseAdapter() {
+		    public void mouseClicked(MouseEvent e) {
+		      if (e.getClickCount() == 1) {
+		        HienThiTour();
+		      }
+		    }
+		});
+		for(QlyToursDTO tour:list) {
+			tableModel.addRow(new Object[]{
+				tour.getMatour(),tour.getTentour(),tour.getSongay()+"",tour.getNoiden(),tour.getMaloai(),tour.getNoikhoihanh()
+			});
+		}
+	}
+	
+	public void init() {
+		luu_btn.setEnabled(false);
+		luu_btn.setBackground(Color.gray);
+		thoat_btn.setEnabled(false);
+		thoat_btn.setBackground(Color.gray);
+		textField_MaTour.setEditable(false);
+		comboBox_LoaiTour.setEditable(false);
+		tentour_tf.setEditable(false);
+		songay_tf.setEditable(false);
+		khoihanh_cb.setEditable(false);
+		noiden_cb.setEditable(false);
+		
+	}
+	public void noneInit() {
+		luu_btn.setEnabled(true);
+		luu_btn.setBackground(Color.ORANGE);
+		textField_MaTour.setEditable(true);
+		tentour_tf.setEditable(true);
+		songay_tf.setEditable(true);
+		comboBox_LoaiTour.setEnabled(true);
+		khoihanh_cb.setEnabled(true);
+		noiden_cb.setEnabled(true);
+	}
+	public QlyToursDTO GetTourDaChon() {
+		int row=table_Tours.getSelectedRow();
+		DefaultTableModel model_table=(DefaultTableModel) table_Tours.getModel();
+		
+		String matour=model_table.getValueAt(row, 0)+"";
+		String tentour=model_table.getValueAt(row, 1)+"";
+		int songay=Integer.valueOf(model_table.getValueAt(row, 2) + "");
+		
+		String noiden=model_table.getValueAt(row, 3).toString();
+		String maloai=model_table.getValueAt(row, 4).toString();
+		String noikhoihanh=model_table.getValueAt(row, 5).toString();
+		QlyToursDTO tour=new QlyToursDTO(matour, tentour, noiden, noikhoihanh, maloai, songay);
+		return tour;	
+	}
+	public void HienThiTour() {
+		QlyToursDTO tour=GetTourDaChon();
+		this.textField_MaTour.setText(tour.getMatour());
+		if(tour.getMaloai().equals("loai1")) {
+			this.comboBox_LoaiTour.setSelectedItem("Trong nước");
+		}else if(tour.getMaloai().equals("loai2")) {
+			this.comboBox_LoaiTour.setSelectedItem("Ngoài nước");
+		}
+		this.tentour_tf.setText(tour.getTentour());
+		this.songay_tf.setText(tour.getSongay()+"");
+		this.khoihanh_cb.setSelectedItem(tour.getNoikhoihanh());
+		this.noiden_cb.setSelectedItem(tour.getNoiden());
+		comboBox_LoaiTour.setEnabled(false);
+		khoihanh_cb.setEnabled(false);
+		noiden_cb.setEnabled(false);
+	}
+	public void ThemTour() {
+//		sua_btn.setEnabled(false);
+//		sua_btn.setBackground(Color.gray);
+//		xoa_btn.setEnabled(false);
+//		xoa_btn.setBackground(Color.gray);
+//		luu_btn.setEnabled(true);
+//		luu_btn.setBackground(Color.orange);
+		if(textField_MaTour.getText().isEmpty()||tentour_tf.getText().isEmpty()||songay_tf.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Chưa điền đầy đủ thông tin, mời bổ sung.");
+		}
+		else {
+			String matour=textField_MaTour.getText();
+			String tentour=tentour_tf.getText();
+			int songay=Integer.parseInt(songay_tf.getText());
+			System.out.println(songay);
+			String noiden=(String) noiden_cb.getSelectedItem();
+			String maloai="";
+			if(comboBox_LoaiTour.getSelectedItem().equals("Trong nước")) {
+				maloai="loai1";
+			}
+			else if(comboBox_LoaiTour.getSelectedItem().equals("Ngoài nước")) {
+				maloai="loai2";
+			}
+			String noikhoihanh=(String) khoihanh_cb.getSelectedItem();
+			QlyToursDTO tour=new QlyToursDTO(matour, tentour, noiden, noikhoihanh, maloai, songay);
+			if(tourBUS.them(tour)==-1) {
+				JOptionPane.showMessageDialog(this, "Lỗi!");
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Thêm thành công!");
+			}
+		}
+	}
+	public void ResetData() {
+		textField_MaTour.setText("");
+		tentour_tf.setText("");
+		songay_tf.setText("");
+		comboBox_LoaiTour.setSelectedIndex(0);
+		khoihanh_cb.setSelectedIndex(0);
+		noiden_cb.setSelectedIndex(0);
+	}
+	public void XoaDataTable() {
+		DefaultTableModel model_table = (DefaultTableModel) table_Tours.getModel();
+		model_table.setRowCount(0);
+	}
+	public QlyToursDTO getTourDaChon() {
+		int row=table_Tours.getSelectedRow();
+		DefaultTableModel model_table=(DefaultTableModel) table_Tours.getModel();
+		
+		String matour=model_table.getValueAt(row, 0)+"";
+		String tentour=model_table.getValueAt(row, 1)+"";
+		int songay = Integer.valueOf(model_table.getValueAt(row, 2) + "");
+		String noiden=model_table.getValueAt(row, 3)+"";
+		String maloai=model_table.getValueAt(row, 4)+"";
+		String noikhoihanh=model_table.getValueAt(row, 5)+"";	
+		QlyToursDTO tour=new QlyToursDTO(matour, tentour, noiden, noikhoihanh, maloai, songay);
+		return tour;	
+	}
+	public void SuaTour() {
+		QlyToursDTO tour=getTourDaChon();
+		tour.setMatour(textField_MaTour.getText());
+		tour.setTentour(tentour_tf.getText());
+		tour.setNoiden((String) noiden_cb.getSelectedItem());
+		if(comboBox_LoaiTour.getSelectedItem().equals("Trong nước")) {
+			tour.setMaloai("loai1");
+		}
+		else if(comboBox_LoaiTour.getSelectedItem().equals("Ngoài nước")) {
+			tour.setMaloai("loai2");
+		}
+		tour.setNoikhoihanh((String) khoihanh_cb.getSelectedItem());
+		tour.setSongay(Integer.parseInt(songay_tf.getText()));
+		
+		if(tourBUS.sua(tour)==-1) {
+			JOptionPane.showMessageDialog(this, "Lỗi!");
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "Sửa thành công!");
+		}
 	}
 }
