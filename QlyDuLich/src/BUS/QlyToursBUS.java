@@ -24,4 +24,30 @@ public class QlyToursBUS {
 		}
 		return -1;
 	}
+	public int xoa(QlyToursDTO t) {
+		try {
+			System.out.println("OK");
+			return tourDAO.getIntance().delete(t);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	public int sua(QlyToursDTO t) {
+		try {
+			System.out.println("OK");
+			return tourDAO.getIntance().updateTour(t);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	public ArrayList<QlyToursDTO> timkiem(String cond,String condType){
+		try {
+			return tourDAO.getIntance().selectByCondition(cond, condType);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

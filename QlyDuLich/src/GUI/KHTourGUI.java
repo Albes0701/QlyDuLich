@@ -65,7 +65,7 @@ public class KHTourGUI extends JFrame {
 			public void run() {
 				try {
 					KHTourGUI frame = new KHTourGUI();
-					frame.setSize(900, 625);
+					frame.setSize(1000, 650);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -79,9 +79,10 @@ public class KHTourGUI extends JFrame {
 	public KHTourGUI() {
 		this.setBackground(SystemColor.windowText);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 864);
+		setBounds(280, 100, 1000, 650);
 
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setVerifyInputWhenFocusTarget(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -90,76 +91,118 @@ public class KHTourGUI extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(255, 255, 255));
-		panel.setBackground(new Color(255, 132, 132));
-		panel.setBounds(0, -19, 883, 610);
+		panel.setBackground(new Color(34, 99, 138));
+		panel.setBounds(0, -19, 1000, 632);
 		contentPane.add(panel);
 		panel.setLayout(null);
+		
 
-		JButton tourbtn = new JButton("Quản lý Tours");
-		tourbtn.setBorderPainted(false);
-		tourbtn.setFocusable(false);
-		tourbtn.setBorder(null);
-		tourbtn.setBackground(new Color(0, 0, 153));
-		tourbtn.setForeground(new Color(255, 255, 255));
-		tourbtn.setFont(new Font("Tahoma", Font.BOLD, 13));
-		tourbtn.addActionListener(new ActionListener() {
+		JButton btn_QLTour = new JButton("Quản lý Tours");
+		btn_QLTour.setBorderPainted(false);
+		btn_QLTour.setFocusable(false);
+		btn_QLTour.setBorder(null);
+		btn_QLTour.setBackground(new Color(24, 171, 138));
+		btn_QLTour.setForeground(new Color(255, 255, 255));
+		btn_QLTour.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new QuanLyTour();
 			}
 		});
-		tourbtn.setBounds(120, 64, 120, 40);
-		panel.add(tourbtn);
-
-		JButton dvbtn = new JButton("Quản lý dịch vụ");
-		dvbtn.setFocusable(false);
-		dvbtn.setBorder(null);
-		dvbtn.addActionListener(new ActionListener() {
+		btn_QLTour.setBounds(126, 65, 120, 40);
+		panel.add(btn_QLTour);
+		
+		
+		JButton btn_KHTour = new JButton("Kế hoạch Tours");
+		btn_KHTour.setForeground(Color.WHITE);
+		btn_KHTour.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btn_KHTour.setFocusable(false);
+		btn_KHTour.setBorderPainted(false);
+		btn_KHTour.setBorder(null);
+		btn_KHTour.setBackground(new Color(24, 171, 138));
+		btn_KHTour.setBounds(273, 65, 120, 40);
+		btn_KHTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new KHTourGUI();
 			}
 		});
-		dvbtn.setForeground(new Color(255, 255, 255));
-		dvbtn.setBackground(new Color(0, 0, 153));
-		dvbtn.setFont(new Font("Tahoma", Font.BOLD, 13));
-		dvbtn.setBounds(250, 64, 120, 40);
-		panel.add(dvbtn);
-
-		JButton khbtn = new JButton("Khách hàng");
-		khbtn.setFocusable(false);
-		khbtn.setBorder(null);
-		khbtn.setForeground(new Color(255, 255, 255));
-		khbtn.setBackground(new Color(0, 0, 153));
-		khbtn.setFont(new Font("Tahoma", Font.BOLD, 13));
-		khbtn.setBounds(642, 64, 110, 40);
-		panel.add(khbtn);
-
-		JButton nvbtn = new JButton("Nhân viên");
-		nvbtn.setFocusable(false);
-		nvbtn.setBorder(null);
-		nvbtn.setForeground(new Color(255, 255, 255));
-		nvbtn.setBackground(new Color(0, 0, 153));
-		nvbtn.setFont(new Font("Tahoma", Font.BOLD, 13));
-		nvbtn.setBounds(510, 64, 120, 40);
-		panel.add(nvbtn);
-
-		JButton kmbtn = new JButton("Khuyến mãi");
-		kmbtn.setFocusable(false);
-		kmbtn.setBorder(null);
-		kmbtn.setForeground(new Color(255, 255, 255));
-		kmbtn.setFont(new Font("Tahoma", Font.BOLD, 13));
-		kmbtn.setBackground(new Color(0, 0, 153));
-		kmbtn.setBounds(380, 64, 120, 40);
-		panel.add(kmbtn);
-
-		JButton mk_btn = new JButton("Đổi mật khẩu");
-		mk_btn.setFocusable(false);
-		mk_btn.setFont(new Font("Tahoma", Font.BOLD, 12));
-		mk_btn.setBounds(752, 25, 124, 30);
-		panel.add(mk_btn);
-
-		JLabel userlb = new JLabel("User");
-		userlb.setFont(new Font("Tahoma", Font.BOLD, 16));
-		userlb.setBounds(685, 25, 90, 30);
-		panel.add(userlb);
-
+		btn_QLTour.setBounds(126, 65, 120, 40);
+		panel.add(btn_KHTour);
+		
+		
+		JButton btn_QLDV = new JButton("Quản lý dịch vụ");
+		btn_QLDV.setFocusable(false);
+		btn_QLDV.setBorder(null);
+		btn_QLDV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new DichVu();
+			}
+		});
+		btn_QLDV.setForeground(new Color(255, 255, 255));
+		btn_QLDV.setBackground(new Color(24, 171, 138));
+		btn_QLDV.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btn_QLDV.setBounds(420, 65, 120, 40);
+		panel.add(btn_QLDV);
+		
+		JButton btn_KhachHang = new JButton("Khách hàng");
+		btn_KhachHang.setFocusable(false);
+		btn_KhachHang.setBorder(null);
+		btn_KhachHang.setForeground(new Color(255, 255, 255));
+		btn_KhachHang.setBackground(new Color(24, 171, 138));
+		btn_KhachHang.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btn_KhachHang.setBounds(853, 65, 120, 40);
+		panel.add(btn_KhachHang);
+		btn_KhachHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new KhachHang();
+			}
+		});
+		
+		JButton btn_NhanVien = new JButton("Nhân viên");
+		btn_NhanVien.setFocusable(false);
+		btn_NhanVien.setBorder(null);
+		btn_NhanVien.setForeground(new Color(255, 255, 255));
+		btn_NhanVien.setBackground(new Color(24, 171, 138));
+		btn_NhanVien.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btn_NhanVien.setBounds(708, 65, 120, 40);
+		panel.add(btn_NhanVien);
+		btn_NhanVien.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new NhanVien();
+			}
+		});
+		
+		JButton btn_KhuyenMai = new JButton("Khuyến mãi");
+		btn_KhuyenMai.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new KhuyenMai();
+			}
+		});
+		btn_KhuyenMai.setFocusable(false);
+		btn_KhuyenMai.setBorder(null);
+		btn_KhuyenMai.setForeground(new Color(255, 255, 255));
+		btn_KhuyenMai.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btn_KhuyenMai.setBackground(new Color(24, 171, 138));
+		btn_KhuyenMai.setBounds(564, 65, 120, 40);
+		panel.add(btn_KhuyenMai);
+		
+		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
+		btnNewButton_2.setFocusable(false);
+		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_2.setBounds(849, 24, 124, 30);
+		panel.add(btnNewButton_2);
+		
+		JLabel lblNewLabel = new JLabel("User");
+		lblNewLabel.setForeground(new Color(255, 255, 255));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(768, 25, 90, 30);
+		panel.add(lblNewLabel);
 		JLabel logo_lb = new JLabel();
 		logo_lb.setBackground(new Color(128, 255, 128));
 		logo_lb.setPreferredSize(new Dimension(90, 90));
@@ -175,17 +218,17 @@ public class KHTourGUI extends JFrame {
 		logo_lb.setIcon(scaledIcon);
 		panel.add(logo_lb);
 
-		Panel panel_1 = new Panel();
-		panel_1.setBackground(Color.LIGHT_GRAY);
-		panel_1.setBounds(13, 127, 860, 469);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
+		Panel KHTOUR = new Panel();
+		KHTOUR.setBackground(new Color(255, 255, 255));
+		KHTOUR.setBounds(13, 127, 960, 495);
+		panel.add(KHTOUR);
+		KHTOUR.setLayout(null);
 
 		JLabel thongtintour_lb = new JLabel("Thông tin Kế hoạch Tour");
-		thongtintour_lb.setForeground(Color.RED);
+		thongtintour_lb.setForeground(new Color(0, 0, 0));
 		thongtintour_lb.setBounds(10, 10, 230, 30);
 		thongtintour_lb.setFont(new Font("Tahoma", Font.BOLD, 17));
-		panel_1.add(thongtintour_lb);
+		KHTOUR.add(thongtintour_lb);
 
 		String[] loaiTour = { "Tour trong nước", "Tour nước ngoài" };
 
@@ -203,8 +246,9 @@ public class KHTourGUI extends JFrame {
 				"Vĩnh Phúc", "Yên Bái" };
 
 		timkiem_tf = new JTextField();
+		timkiem_tf.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		timkiem_tf.setBounds(250, 9, 338, 40);
-		panel_1.add(timkiem_tf);
+		KHTOUR.add(timkiem_tf);
 		timkiem_tf.setColumns(10);
 
 		JButton timkiem_btn = new JButton("TK");
@@ -216,25 +260,26 @@ public class KHTourGUI extends JFrame {
 			}
 		});
 		timkiem_btn.setBounds(589, 8, 60, 40);
-		panel_1.add(timkiem_btn);
+		KHTOUR.add(timkiem_btn);
 
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane_2.setBounds(250, 50, 600, 404);
-		panel_1.add(scrollPane_2);
+		scrollPane_2.setBounds(250, 50, 703, 445);
+		KHTOUR.add(scrollPane_2);
 
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(255, 255, 255));
 		panel_3.setLayout(null);
 		panel_3.setPreferredSize(new Dimension(590, 600));
-		panel_3.setBackground(Color.LIGHT_GRAY);
+		KHTOUR.setBackground(new Color(255, 255, 255));
 		scrollPane_2.setViewportView(panel_3);
 
 		JScrollPane table_sp = new JScrollPane();
 		table_sp.setFont(new Font("Tahoma", Font.BOLD, 10));
 		table_sp.setForeground(new Color(0, 0, 0));
 		table_sp.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		table_sp.setBounds(10, 10, 553, 172);
+		table_sp.setBounds(10, 10, 664, 172);
 		panel_3.add(table_sp);
 
 		table = new JTable();
@@ -280,57 +325,50 @@ public class KHTourGUI extends JFrame {
 		giatour1_lb.setBounds(475, 184, 100, 40);
 		panel_3.add(giatour1_lb);
 
-		JLabel hinh2_lb = new JLabel("Hình 2:");
-		hinh2_lb.setBorder(null);
-		hinh2_lb.setFont(new Font("Dialog", Font.BOLD, 15));
-		hinh2_lb.setBackground(new Color(255, 255, 255));
-		hinh2_lb.setBounds(305, 214, 250, 90);
-		panel_3.add(hinh2_lb);
-
 		JLabel diadiem_lb = new JLabel("Địa điểm");
 		diadiem_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		diadiem_lb.setBounds(365, 404, 85, 30);
+		diadiem_lb.setBounds(456, 402, 85, 30);
 		panel_3.add(diadiem_lb);
 
 		ImageIcon imgdiadiem_icon = new ImageIcon("src/Images/Designcontest-Ecommerce-Business-Maps.48.png");
 		JLabel diadiem_icon = new JLabel();
 		// diadiem_icon.setBackground(new Color(128, 255, 128));
-		diadiem_icon.setBounds(370, 428, 70, 49);
+		diadiem_icon.setBounds(464, 426, 70, 49);
 		diadiem_icon.setIcon(imgdiadiem_icon);
 		panel_3.add(diadiem_icon);
 
 		JLabel diadiem_nd = new JLabel("New label");
 		diadiem_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		diadiem_nd.setBounds(375, 486, 85, 20);
+		diadiem_nd.setBounds(469, 484, 85, 20);
 		panel_3.add(diadiem_nd);
 
 		JLabel phuongtien_icon = new JLabel();
 		phuongtien_icon.setBackground(new Color(128, 255, 128));
-		phuongtien_icon.setBounds(495, 428, 70, 49);
+		phuongtien_icon.setBounds(589, 426, 70, 49);
 		ImageIcon imgphuongtien_icon = new ImageIcon("src\\Images\\Bevel-And-Emboss-Car-Van-bus.48.png");
 		phuongtien_icon.setIcon(imgphuongtien_icon);
 		panel_3.add(phuongtien_icon);
 
 		JLabel nhahang_lb = new JLabel("Nhà hàng");
 		nhahang_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		nhahang_lb.setBounds(365, 504, 85, 30);
+		nhahang_lb.setBounds(457, 514, 85, 30);
 		panel_3.add(nhahang_lb);
 
 		JLabel nhahang_icon = new JLabel();
 		nhahang_icon.setBackground(new Color(128, 255, 128));
-		nhahang_icon.setBounds(375, 528, 70, 49);
+		nhahang_icon.setBounds(471, 538, 70, 49);
 		ImageIcon imgnhahang_icon = new ImageIcon("src\\Images\\Iconarchive-Essential-Buildings-Restaurant.48.png");
 		nhahang_icon.setIcon(imgnhahang_icon);
 		panel_3.add(nhahang_icon);
 
 		JLabel khachsan_lb = new JLabel("Khách sạn");
 		khachsan_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		khachsan_lb.setBounds(475, 504, 85, 30);
+		khachsan_lb.setBounds(570, 514, 85, 30);
 		panel_3.add(khachsan_lb);
 
 		JLabel khachsan_icon = new JLabel();
 		khachsan_icon.setBackground(new Color(128, 255, 128));
-		khachsan_icon.setBounds(490, 528, 70, 49);
+		khachsan_icon.setBounds(585, 538, 70, 49);
 		ImageIcon imgkhachsan_icon = new ImageIcon("src\\Images\\Iconarchive-Essential-Buildings-Hotel.48.png");
 		khachsan_icon.setIcon(imgkhachsan_icon);
 		panel_3.add(khachsan_icon);
@@ -338,7 +376,7 @@ public class KHTourGUI extends JFrame {
 		JScrollPane mota1_sp = new JScrollPane();
 		mota1_sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		mota1_sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		mota1_sp.setBounds(10, 414, 316, 102);
+		mota1_sp.setBounds(10, 414, 404, 102);
 		panel_3.add(mota1_sp);
 
 		JLabel thoigian_lb = new JLabel("Thời gian");
@@ -358,32 +396,32 @@ public class KHTourGUI extends JFrame {
 
 		JLabel nhahang_nd = new JLabel("New label");
 		nhahang_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		nhahang_nd.setBounds(375, 578, 85, 20);
+		nhahang_nd.setBounds(469, 582, 85, 20);
 		panel_3.add(nhahang_nd);
 
 		JLabel khachsan_nd = new JLabel("New label");
 		khachsan_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		khachsan_nd.setBounds(490, 578, 85, 20);
+		khachsan_nd.setBounds(589, 582, 85, 20);
 		panel_3.add(khachsan_nd);
 
 		JLabel phuongtien_lb = new JLabel("Phương tiện");
 		phuongtien_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		phuongtien_lb.setBounds(475, 404, 104, 30);
+		phuongtien_lb.setBounds(569, 402, 104, 30);
 		panel_3.add(phuongtien_lb);
 
 		JLabel phuongtien_nd = new JLabel("New label");
 		phuongtien_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		phuongtien_nd.setBounds(495, 486, 85, 20);
+		phuongtien_nd.setBounds(589, 484, 85, 20);
 		panel_3.add(phuongtien_nd);
 
 		JPanel hinh1_panel = new JPanel();
 		hinh1_panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		hinh1_panel.setBounds(10, 214, 280, 187);
+		hinh1_panel.setBounds(10, 214, 404, 187);
 		panel_3.add(hinh1_panel);
 		hinh1_panel.setLayout(null);
 
 		JLabel hinh1_lb = new JLabel("Hình 1:");
-		hinh1_lb.setBounds(10, 0, 260, 187);
+		hinh1_lb.setBounds(10, 0, 388, 187);
 		hinh1_panel.add(hinh1_lb);
 		hinh1_lb.setBorder(null);
 		hinh1_lb.setFont(new Font("Dialog", Font.BOLD, 15));
@@ -391,13 +429,20 @@ public class KHTourGUI extends JFrame {
 
 		JPanel hinh2_panel = new JPanel();
 		hinh2_panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		hinh2_panel.setBounds(296, 214, 269, 90);
+		hinh2_panel.setBounds(424, 214, 250, 90);
 		panel_3.add(hinh2_panel);
 		hinh2_panel.setLayout(null);
+		
+				JLabel hinh2_lb = new JLabel("Hình 2:");
+				hinh2_lb.setBounds(10, 0, 250, 90);
+				hinh2_panel.add(hinh2_lb);
+				hinh2_lb.setBorder(null);
+				hinh2_lb.setFont(new Font("Dialog", Font.BOLD, 15));
+				hinh2_lb.setBackground(new Color(255, 255, 255));
 
 		JPanel hinh3_panel = new JPanel();
 		hinh3_panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		hinh3_panel.setBounds(296, 310, 269, 90);
+		hinh3_panel.setBounds(424, 310, 250, 90);
 		panel_3.add(hinh3_panel);
 		hinh3_panel.setLayout(null);
 
@@ -409,57 +454,65 @@ public class KHTourGUI extends JFrame {
 		hinh3_lb.setBackground(new Color(255, 255, 255));
 
 		JButton ctkehoachtour_btn = new JButton("Chi tiết Kế hoạch Tour");
+		ctkehoachtour_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new ChiTietKeHoachTourGUI();
+			}
+		});
 		ctkehoachtour_btn.setForeground(new Color(255, 255, 255));
 		ctkehoachtour_btn.setBackground(new Color(0, 128, 64));
 		ctkehoachtour_btn.setBorder(null);
 		ctkehoachtour_btn.setFont(new Font("Tahoma", Font.BOLD, 13));
-		ctkehoachtour_btn.setBounds(659, 9, 191, 38);
-		panel_1.add(ctkehoachtour_btn);
+		ctkehoachtour_btn.setBounds(740, 8, 191, 38);
+		KHTOUR.add(ctkehoachtour_btn);
 		
 				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(10, 50, 230, 410);
-				panel_1.add(scrollPane);
+				scrollPane.setBounds(10, 50, 230, 445);
+				KHTOUR.add(scrollPane);
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				scrollPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(128, 128, 128), new Color(128, 128, 128),
 						new Color(128, 128, 128), new Color(128, 128, 128)));
 				
 				JPanel panel_2 = new JPanel();
+				panel_2.setBackground(new Color(255, 255, 255));
 				panel_2.setLayout(null);
 				panel_2.setPreferredSize(new Dimension(210, 925));
-				panel_2.setBackground(Color.LIGHT_GRAY);
+				KHTOUR.setBackground(new Color(255, 255, 255));
 				scrollPane.setViewportView(panel_2);
 				
 				JLabel matour_lb = new JLabel("Mã Tour :");
-				matour_lb.setForeground(new Color(0, 0, 128));
+				matour_lb.setForeground(new Color(0, 0, 0));
 				matour_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
 				matour_lb.setBounds(10, 10, 153, 35);
 				panel_2.add(matour_lb);
 				
 				JLabel loaitour_lb = new JLabel("Mã Kế hoạch Tour :");
-				loaitour_lb.setForeground(new Color(0, 0, 128));
+				loaitour_lb.setForeground(new Color(0, 0, 0));
 				loaitour_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
 				loaitour_lb.setBounds(10, 77, 153, 35);
 				panel_2.add(loaitour_lb);
 				
 				JLabel mota_lb = new JLabel("Mô tả :");
-				mota_lb.setForeground(new Color(0, 0, 128));
+				mota_lb.setForeground(new Color(0, 0, 0));
 				mota_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
 				mota_lb.setBounds(10, 148, 153, 35);
 				panel_2.add(mota_lb);
 				
 				JLabel socho_lb = new JLabel("Số chỗ :");
-				socho_lb.setForeground(new Color(0, 0, 128));
+				socho_lb.setForeground(new Color(0, 0, 0));
 				socho_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
 				socho_lb.setBounds(10, 237, 153, 35);
 				panel_2.add(socho_lb);
 				
 				JComboBox socho_cb = new JComboBox(new Object[]{});
+				socho_cb.setBackground(new Color(255, 255, 255));
 				socho_cb.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 				socho_cb.setBounds(10, 268, 70, 35);
 				panel_2.add(socho_cb);
 				
 				JLabel ngaydi_lb = new JLabel("Ngày đi :");
-				ngaydi_lb.setForeground(new Color(0, 0, 128));
+				ngaydi_lb.setForeground(new Color(0, 0, 0));
 				ngaydi_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
 				ngaydi_lb.setBounds(10, 304, 153, 35);
 				panel_2.add(ngaydi_lb);
@@ -469,7 +522,7 @@ public class KHTourGUI extends JFrame {
 				panel_2.add(ngaydi_date);
 				
 				JLabel ngayve_lb = new JLabel("Ngày về :");
-				ngayve_lb.setForeground(new Color(0, 0, 128));
+				ngayve_lb.setForeground(new Color(0, 0, 0));
 				ngayve_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
 				ngayve_lb.setBounds(10, 375, 153, 35);
 				panel_2.add(ngayve_lb);
@@ -479,7 +532,7 @@ public class KHTourGUI extends JFrame {
 				panel_2.add(ngayve_date);
 				
 				JLabel songay_lb = new JLabel("Số ngày :");
-				songay_lb.setForeground(new Color(0, 0, 128));
+				songay_lb.setForeground(new Color(0, 0, 0));
 				songay_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
 				songay_lb.setBounds(10, 437, 153, 35);
 				panel_2.add(songay_lb);
@@ -492,7 +545,7 @@ public class KHTourGUI extends JFrame {
 				panel_2.add(textField_1);
 				
 				JLabel huongdanvien_lb = new JLabel("Hướng dẫn viên :");
-				huongdanvien_lb.setForeground(new Color(0, 0, 128));
+				huongdanvien_lb.setForeground(new Color(0, 0, 0));
 				huongdanvien_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
 				huongdanvien_lb.setBounds(10, 505, 153, 35);
 				panel_2.add(huongdanvien_lb);
@@ -504,7 +557,7 @@ public class KHTourGUI extends JFrame {
 				panel_2.add(textField_2);
 				
 				JLabel giave_lb = new JLabel("Giá vé :");
-				giave_lb.setForeground(new Color(0, 0, 128));
+				giave_lb.setForeground(new Color(0, 0, 0));
 				giave_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
 				giave_lb.setBounds(10, 571, 153, 35);
 				panel_2.add(giave_lb);
@@ -595,6 +648,7 @@ public class KHTourGUI extends JFrame {
 				panel_2.add(btnNewButton_3_3);
 				
 				JScrollPane mota_sp = new JScrollPane();
+				mota_sp.setBackground(new Color(255, 255, 255));
 				mota_sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 				mota_sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				mota_sp.setBounds(10, 179, 190, 60);
@@ -611,15 +665,6 @@ public class KHTourGUI extends JFrame {
 				panel_2.add(matour_cb);
 
 		this.getContentPane().add(panel);
-
-		JButton kehoachtour_btn = new JButton("Kế hoạch Tour\r\n");
-		kehoachtour_btn.setFocusable(false);
-		kehoachtour_btn.setForeground(new Color(255, 255, 255));
-		kehoachtour_btn.setFont(new Font("Tahoma", Font.BOLD, 13));
-		kehoachtour_btn.setBackground(new Color(0, 0, 153));
-		kehoachtour_btn.setBorder(null);
-		kehoachtour_btn.setBounds(762, 64, 110, 40);
-		panel.add(kehoachtour_btn);
 		this.setVisible(true);
 	}
 }

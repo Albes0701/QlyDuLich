@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Label;
 import java.awt.Panel;
 import java.awt.SystemColor;
@@ -39,20 +40,22 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
 
-public class NhanVien extends JFrame {
-	private static final long serialVersionUID = 1L;
+public class NhanVien extends JFrame{
+//	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField_MSKH;
 	private JTextField textField_HoKH;
 	private JTextField textField_TenKH;
 	private JTextField textField_DiaChi;
 	private JTextField textField_SDT;
-	private JTable table_KhachHang;
+	private JTable table_NhanVien;
 	private JTextField textField_TimKiem;
 	private JTextField textField_ChucVu;
-	private JTextField textField_NgayVL;
-
+	private JDateChooser dateChooser_NgayVL;
 	/**
 	 * Launch the application.
 	 */
@@ -68,6 +71,8 @@ public class NhanVien extends JFrame {
 			}
 		});
 	}
+	//Event transfer
+	
 
 	/**
 	 * Create the frame.
@@ -75,7 +80,7 @@ public class NhanVien extends JFrame {
 	public NhanVien() {
 		setBackground(SystemColor.windowText);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 650);
+		setBounds(280, 100, 1000, 650);
 		contentPane = new JPanel();
 		contentPane.setVerifyInputWhenFocusTarget(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -99,16 +104,39 @@ public class NhanVien extends JFrame {
 		btn_QLTour.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new QuanLyTour();
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
 		panel.add(btn_QLTour);
+		
+		
+		JButton btn_KHTour = new JButton("Kế hoạch Tours");
+		btn_KHTour.setForeground(Color.WHITE);
+		btn_KHTour.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btn_KHTour.setFocusable(false);
+		btn_KHTour.setBorderPainted(false);
+		btn_KHTour.setBorder(null);
+		btn_KHTour.setBackground(new Color(24, 171, 138));
+		btn_KHTour.setBounds(273, 65, 120, 40);
+		btn_KHTour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new KHTourGUI();
+			}
+		});
+		btn_QLTour.setBounds(126, 65, 120, 40);
+		panel.add(btn_KHTour);
+		
 		
 		JButton btn_QLDV = new JButton("Quản lý dịch vụ");
 		btn_QLDV.setFocusable(false);
 		btn_QLDV.setBorder(null);
 		btn_QLDV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new DichVu();
 			}
 		});
 		btn_QLDV.setForeground(new Color(255, 255, 255));
@@ -125,6 +153,12 @@ public class NhanVien extends JFrame {
 		btn_KhachHang.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_KhachHang.setBounds(853, 65, 120, 40);
 		panel.add(btn_KhachHang);
+		btn_KhachHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new KhachHang();
+			}
+		});
 		
 		JButton btn_NhanVien = new JButton("Nhân viên");
 		btn_NhanVien.setFocusable(false);
@@ -134,10 +168,18 @@ public class NhanVien extends JFrame {
 		btn_NhanVien.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_NhanVien.setBounds(708, 65, 120, 40);
 		panel.add(btn_NhanVien);
+		btn_NhanVien.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new NhanVien();
+			}
+		});
 		
 		JButton btn_KhuyenMai = new JButton("Khuyến mãi");
 		btn_KhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new KhuyenMai();
 			}
 		});
 		btn_KhuyenMai.setFocusable(false);
@@ -160,29 +202,36 @@ public class NhanVien extends JFrame {
 		lblNewLabel.setBounds(768, 25, 90, 30);
 		panel.add(lblNewLabel);
 		
-		Label label = new Label("New label");
+		
+		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
+		JLabel label = new JLabel();
 		label.setBackground(new Color(0, 128, 255));
 		label.setBounds(13, 31, 90, 90);
+		Image img = image.getImage();
+		Image imgScale = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
+		ImageIcon scaleIcon = new ImageIcon(imgScale);
+		label.setIcon(scaleIcon);
+		
 		panel.add(label);
 		
 		
 		this.getContentPane().add(panel);
 		
-		Panel KhachHang = new Panel();
-		KhachHang.setBounds(13, 127, 960, 495);
-		panel.add(KhachHang);
-		KhachHang.setLayout(null);
-		KhachHang.setBackground(new Color(255, 255, 255));
+		Panel NhanVien = new Panel();
+		NhanVien.setBounds(13, 127, 960, 495);
+		panel.add(NhanVien);
+		NhanVien.setLayout(null);
+		NhanVien.setBackground(new Color(255, 255, 255));
 		
 		JLabel lb_TTKH = new JLabel("Thông tin Nhân Viên");
 		lb_TTKH.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lb_TTKH.setBounds(19, 10, 218, 30);
-		KhachHang.add(lb_TTKH);
+		NhanVien.add(lb_TTKH);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(10, 50, 227, 435);
-		KhachHang.add(scrollPane);
+		NhanVien.add(scrollPane);
 		
 		JPanel panel_2 = new JPanel();
 		scrollPane.setViewportView(panel_2);
@@ -283,7 +332,7 @@ public class NhanVien extends JFrame {
 		lblNewLabel_2_4_1_1_1.setBounds(10, 317, 108, 20);
 		panel_2.add(lblNewLabel_2_4_1_1_1);
 		
-		JDateChooser dateChooser_NgayVL = new JDateChooser();
+		dateChooser_NgayVL = new JDateChooser();
 		dateChooser_NgayVL.setBounds(118, 317, 97, 26);
 		dateChooser_NgayVL.setDate(Calendar.getInstance().getTime());
 		panel_2.add(dateChooser_NgayVL);
@@ -297,11 +346,11 @@ public class NhanVien extends JFrame {
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(269, 50, 681, 435);
-		KhachHang.add(scrollPane_2);
+		NhanVien.add(scrollPane_2);
 		
-		table_KhachHang = new JTable();
-		scrollPane_2.setViewportView(table_KhachHang);
-		table_KhachHang.setModel(new DefaultTableModel(
+		table_NhanVien = new JTable();
+		scrollPane_2.setViewportView(table_NhanVien);
+		table_NhanVien.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null, null, null, null, null},
 				{null, null, null, null, null, null, null, null},
@@ -345,17 +394,17 @@ public class NhanVien extends JFrame {
 				return columnTypes[columnIndex];
 			}
 		});
-		table_KhachHang.getColumnModel().getColumn(1).setPreferredWidth(80);
-		table_KhachHang.getColumnModel().getColumn(2).setPreferredWidth(62);
-		table_KhachHang.getColumnModel().getColumn(3).setPreferredWidth(52);
-		table_KhachHang.getColumnModel().getColumn(4).setPreferredWidth(123);
-		table_KhachHang.getColumnModel().getColumn(5).setPreferredWidth(71);
-		table_KhachHang.getColumnModel().getColumn(7).setPreferredWidth(91);
+		table_NhanVien.getColumnModel().getColumn(1).setPreferredWidth(80);
+		table_NhanVien.getColumnModel().getColumn(2).setPreferredWidth(62);
+		table_NhanVien.getColumnModel().getColumn(3).setPreferredWidth(52);
+		table_NhanVien.getColumnModel().getColumn(4).setPreferredWidth(123);
+		table_NhanVien.getColumnModel().getColumn(5).setPreferredWidth(71);
+		table_NhanVien.getColumnModel().getColumn(7).setPreferredWidth(91);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
 		panel_3.setBounds(269, 10, 681, 30);
-		KhachHang.add(panel_3);
+		NhanVien.add(panel_3);
 		panel_3.setLayout(null);
 		
 		JButton btnNewButton_Xoa = new JButton("Xóa");
@@ -367,6 +416,12 @@ public class NhanVien extends JFrame {
 		panel_3.add(btnNewButton_Xoa);
 		
 		JButton btnNewButton_Sua = new JButton("Sửa");
+
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			// TODO Auto-generated method stub
+//			
+//		}
 		btnNewButton_Sua.setFocusable(false);
 		btnNewButton_Sua.setBackground(new Color(50, 205, 50));
 		btnNewButton_Sua.setForeground(new Color(255, 255, 255));
@@ -417,15 +472,8 @@ public class NhanVien extends JFrame {
 		scrollPane_1.setBounds(29, 68, 190, 300);
 		panel_1.add(scrollPane_1);
 		
-		JButton btn_KHTour = new JButton("Kế hoạch Tours");
-		btn_KHTour.setForeground(Color.WHITE);
-		btn_KHTour.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btn_KHTour.setFocusable(false);
-		btn_KHTour.setBorderPainted(false);
-		btn_KHTour.setBorder(null);
-		btn_KHTour.setBackground(new Color(24, 171, 138));
-		btn_KHTour.setBounds(273, 65, 120, 40);
-		panel.add(btn_KHTour);
+		
 		this.setVisible(true);
 	}
+	
 }
