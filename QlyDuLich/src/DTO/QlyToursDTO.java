@@ -3,11 +3,11 @@ package DTO;
 import java.sql.Date;
 
 public class QlyToursDTO {
-	private String matour,tentour,noiden,noikhoihanh,maloai;
+	private String matour, tentour, noiden, noikhoihanh, maloai;
 	private int songay;
-	
+
 	public QlyToursDTO() {
-		
+
 	}
 
 	public QlyToursDTO(String matour, String tentour, String noiden, String noikhoihanh, String maloai, int songay) {
@@ -17,6 +17,24 @@ public class QlyToursDTO {
 		this.noikhoihanh = noikhoihanh;
 		this.maloai = maloai;
 		this.songay = songay;
+	}
+
+	public QlyToursDTO(QlyToursDTO t) {
+		this.matour = t.matour;
+		this.tentour = t.tentour;
+		this.noiden = t.noiden;
+		this.noikhoihanh = t.noikhoihanh;
+		this.maloai = t.maloai;
+		this.songay = t.songay;
+	}
+	
+	public void copyTour(QlyToursDTO t) {
+		this.matour=t.matour;
+		this.tentour=t.tentour;
+		this.noiden=t.noiden;
+		this.noikhoihanh=t.noikhoihanh;
+		this.songay=t.songay;
+		this.maloai=t.maloai;
 	}
 
 	public String getMatour() {
@@ -66,6 +84,5 @@ public class QlyToursDTO {
 	public void setSongay(int songay) {
 		this.songay = songay;
 	}
-	
-	
+
 }
