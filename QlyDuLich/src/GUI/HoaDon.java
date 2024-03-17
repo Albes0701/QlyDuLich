@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -8,47 +7,25 @@ import java.awt.Image;
 import java.awt.Label;
 import java.awt.Panel;
 import java.awt.SystemColor;
-import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
-import javax.swing.JScrollBar;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.ScrollPaneConstants;
-import java.awt.Cursor;
-import javax.swing.UIManager;
-import javax.swing.JTextArea;
-import javax.swing.border.CompoundBorder;
-import javax.swing.JList;
-import javax.swing.AbstractListModel;
-import javax.swing.ImageIcon;
-import javax.swing.border.BevelBorder;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.border.LineBorder;
 
-import com.toedter.calendar.JCalendar;
+public class HoaDon extends JFrame {
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.Component;
-import com.toedter.calendar.JDateChooser;
-
-public class TrangChuGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField_NgayVL;
-	private Label nhanvien_lb;
-	private Label label;
-	private Label Tour_lb;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -57,9 +34,9 @@ public class TrangChuGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TrangChuGUI frame = new TrangChuGUI();
+					HoaDon frame = new HoaDon();
 					frame.setSize(1000, 650);
-				} catch (Exception e) {
+					} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -69,10 +46,10 @@ public class TrangChuGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TrangChuGUI() {
+	public HoaDon() {
 		setBackground(SystemColor.windowText);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 650);
+		setBounds(280, 100, 1000, 650);
 		contentPane = new JPanel();
 		contentPane.setVerifyInputWhenFocusTarget(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -86,6 +63,7 @@ public class TrangChuGUI extends JFrame {
 		panel.setBounds(0, -19, 1000, 632);
 		contentPane.add(panel);
 		panel.setLayout(null);
+		
 		
 		JButton btn_TrangChu = new JButton("Trang Chủ");
 		btn_TrangChu.setBorderPainted(false);
@@ -123,7 +101,6 @@ public class TrangChuGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				new QuanLyTour();
-				
 			}
 		});
 		btn_QlyThongtin.setFocusable(false);
@@ -171,68 +148,9 @@ public class TrangChuGUI extends JFrame {
 		label.setIcon(scaleIcon);
 		panel.add(label);
 		
-
+	
+		
 		this.getContentPane().add(panel);
-		
-		Panel KhachHang = new Panel();
-		KhachHang.setBounds(13, 127, 960, 495);
-		panel.add(KhachHang);
-		KhachHang.setLayout(null);
-		KhachHang.setBackground(new Color(255, 255, 255));
-		
-		Tour_lb = new Label("Tours");
-		Tour_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		Tour_lb.setAlignment(Label.CENTER);
-		Tour_lb.setBackground(new Color(255, 128, 0));
-		Tour_lb.setBounds(100, 116, 200, 120);
-		KhachHang.add(Tour_lb);
-		
-		Label kehoachtour_lb = new Label("Kế hoạch Tour");
-		kehoachtour_lb.setAlignment(Label.CENTER);
-		kehoachtour_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		kehoachtour_lb.setBackground(new Color(255, 128, 0));
-		kehoachtour_lb.setBounds(374, 116, 200, 120);
-		KhachHang.add(kehoachtour_lb);
-		
-		Label hoadon_lb = new Label("Hóa đơn");
-		hoadon_lb.setAlignment(Label.CENTER);
-		hoadon_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		hoadon_lb.setBackground(new Color(255, 128, 0));
-		hoadon_lb.setBounds(639, 116, 200, 120);
-		KhachHang.add(hoadon_lb);
-		
-		nhanvien_lb = new Label("Nhân viên");
-		nhanvien_lb.setAlignment(Label.CENTER);
-		nhanvien_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		nhanvien_lb.setBackground(new Color(255, 128, 0));
-		nhanvien_lb.setBounds(100, 314, 200, 120);
-		KhachHang.add(nhanvien_lb);
-		
-		Label khachhang_lb = new Label("Khách hàng");
-		khachhang_lb.setAlignment(Label.CENTER);
-		khachhang_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		khachhang_lb.setBackground(new Color(255, 128, 0));
-		khachhang_lb.setBounds(374, 314, 200, 120);
-		KhachHang.add(khachhang_lb);
-		
-		Label khuyenmai_lb = new Label("Khuyến mãi");
-		khuyenmai_lb.setAlignment(Label.CENTER);
-		khuyenmai_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		khuyenmai_lb.setBackground(new Color(255, 128, 0));
-		khuyenmai_lb.setBounds(639, 314, 200, 120);
-		KhachHang.add(khuyenmai_lb);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 10, 940, 42);
-		KhachHang.add(panel_1);
-		panel_1.setLayout(null);
-		
-		JLabel trangchu_lb = new JLabel("Trang chủ");
-		trangchu_lb.setBounds(401, 10, 124, 32);
-		panel_1.add(trangchu_lb);
-		trangchu_lb.setFont(new Font("Tahoma", Font.BOLD, 20));
-		
-		String []item_loai = {"Trong nước", "Ngoài nước"};
 		
 		JButton btn_DatTour = new JButton("Đặt Tour");
 		btn_DatTour.addActionListener(new ActionListener() {
@@ -249,6 +167,95 @@ public class TrangChuGUI extends JFrame {
 		btn_DatTour.setBackground(new Color(0, 128, 0));
 		btn_DatTour.setBounds(317, 65, 120, 40);
 		panel.add(btn_DatTour);
+		
+		Panel HoaDon = new Panel();
+		HoaDon.setBounds(13, 127, 960, 495);
+		panel.add(HoaDon);
+		HoaDon.setLayout(null);
+		HoaDon.setBackground(new Color(255, 255, 255));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(new LineBorder(new Color(130, 135, 144), 3, true));
+		scrollPane.setBounds(10, 55, 940, 393);
+		HoaDon.add(scrollPane);
+//		scrollPane.setVisible(false);
+		
+		table = new JTable();
+		table.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"M\u00E3 H\u0110", "Nh\u00E2n Vi\u00EAn", "T\u00EAn KH", "Ng\u00E0y L\u1EADp H\u0110", " Th\u00E0nh ti\u1EC1n", "T\u00EAn Tour", "Gi\u00E1 Tour"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(41);
+		table.getColumnModel().getColumn(1).setPreferredWidth(101);
+		table.getColumnModel().getColumn(2).setPreferredWidth(109);
+		table.getColumnModel().getColumn(3).setPreferredWidth(51);
+		table.getColumnModel().getColumn(4).setPreferredWidth(54);
+		table.getColumnModel().getColumn(5).setPreferredWidth(225);
+		table.getColumnModel().getColumn(6).setPreferredWidth(51);
+		scrollPane.setViewportView(table);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(10, 10, 940, 35);
+		HoaDon.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("Quản Lý Hóa Đơn");
+		lblNewLabel_1.setBounds(373, 10, 162, 22);
+		panel_1.add(lblNewLabel_1);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+		
+		JButton btnNewButton = new JButton("Xem chi tiết");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new ChiTietHoaDon();
+			}
+		});
+		btnNewButton.setBackground(new Color(0, 255, 0));
+		btnNewButton.setBounds(836, 458, 114, 21);
+		HoaDon.add(btnNewButton);
+		
 		this.setVisible(true);
 	}
 }

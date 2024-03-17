@@ -106,6 +106,7 @@ public class Ve extends JFrame {
 		label_iconTour.setBounds(22, 10, 180, 160);
 		panel_Header.add(label_iconTour);
 		
+		
 		JPanel panel_Header_content = new JPanel();
 		panel_Header_content.setBounds(226, 10, 731, 169);
 		panel_Header.add(panel_Header_content);

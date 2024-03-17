@@ -129,7 +129,7 @@ public class QuanLyTour extends JFrame {
 				new QuanLyTour();
 			}
 		});
-		btn_QLTour.setBounds(126, 65, 120, 40);
+		btn_QLTour.setBounds(113, 65, 120, 40);
 		panel.add(btn_QLTour);
 		
 		
