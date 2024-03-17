@@ -11,6 +11,10 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JButton;
@@ -40,6 +44,10 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
+
+import BUS.NhanVienBUS;
+import DTO.NhanVienDTO;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -56,6 +64,8 @@ public class NhanVien extends JFrame{
 	private JTextField textField_TimKiem;
 	private JTextField textField_ChucVu;
 	private JDateChooser dateChooser_NgayVL;
+	DefaultTableModel tableModel;
+	NhanVienBUS nvBUS = new NhanVienBUS();
 	/**
 	 * Launch the application.
 	 */
@@ -349,51 +359,11 @@ public class NhanVien extends JFrame{
 		NhanVien.add(scrollPane_2);
 		
 		table_NhanVien = new JTable();
+		String[] colname =  {"Mã nv","Họ","Tên","Số điện thoại","CMND","Ngày vào làm","ngày sinh","giới tính"};
+		tableModel = new DefaultTableModel();
+		table_NhanVien.setModel(tableModel);
+		tableModel.setColumnIdentifiers(colname);
 		scrollPane_2.setViewportView(table_NhanVien);
-		table_NhanVien.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00C3 NV", "H\u1ECD", "T\u00EAn", "Gi\u1EDBi t\u00EDnh", "\u0110\u1ECBa ch\u1EC9", "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", "Ch\u1EE9c v\u1EE5", "Ng\u00E0y v\u00E0o l\u00E0m"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
 		table_NhanVien.getColumnModel().getColumn(1).setPreferredWidth(80);
 		table_NhanVien.getColumnModel().getColumn(2).setPreferredWidth(62);
 		table_NhanVien.getColumnModel().getColumn(3).setPreferredWidth(52);
@@ -471,9 +441,27 @@ public class NhanVien extends JFrame{
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setBounds(29, 68, 190, 300);
 		panel_1.add(scrollPane_1);
-		
+		initData();
 		
 		this.setVisible(true);
 	}
-	
+	public void initData() {
+		ArrayList<NhanVienDTO> list = nvBUS.docnv();
+		table_NhanVien.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 1) {
+					
+				}
+			}
+		});
+		for(NhanVienDTO nv: list) {
+			String gt="";
+			if(nv.getGioitinh()) {
+				gt = "Nam";
+			}else gt = "Nữ";
+			tableModel.addRow(new Object[]{
+				nv.getManv(),nv.getHonv(),nv.getTennv(),nv.getSdt(),nv.getCmnd(),nv.getNgayvl(),nv.getNgaysinh()+"",gt
+			});
+		}
+	}
 }

@@ -54,6 +54,7 @@ public class DichVu extends JFrame {
 	private JTextField textField_TimKiem;
 	private JTextField textField_Gia;
 	private JComboBox comboBox_LoaiDV;
+	private JButton btn_QLDV;
 	/**
 	 * Launch the application.
 	 */
@@ -126,7 +127,7 @@ public class DichVu extends JFrame {
 		panel.add(btn_KHTour);
 		
 		
-		JButton btn_QLDV = new JButton("Quản lý dịch vụ");
+	    btn_QLDV = new JButton("Quản lý dịch vụ");
 		btn_QLDV.setFocusable(false);
 		btn_QLDV.setBorder(null);
 		btn_QLDV.addActionListener(new ActionListener() {
