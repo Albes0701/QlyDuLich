@@ -11,6 +11,9 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.security.PublicKey;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -33,6 +36,13 @@ import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import BUS.KhachHangBUS;
+import BUS.KiemTra;
+import BUS.NhanVienBUS;
+import DTO.KhachHangDTO;
+
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Component;
@@ -44,12 +54,15 @@ public class KhachHang extends JFrame {
 	private JTextField textField_MSKH;
 	private JTextField textField_HoKH;
 	private JTextField textField_TenKH;
-	private JTextField textField_DiaChi;
 	private JTextField textField_SDT;
 	private JTable table_KhachHang;
 	private JTextField textField_TimKiem;
 	private JTextField textField_Email;
-
+	private DefaultTableModel tableModel;
+	JComboBox comboBox_gioitinh;
+	JComboBox comboBox_dotuoi ;
+	JTextArea textArea;
+    KhachHangBUS khBus = new KhachHangBUS();
 	/**
 	 * Launch the application.
 	 */
@@ -241,47 +254,41 @@ public class KhachHang extends JFrame {
 		textField_HoKH = new JTextField();
 		textField_HoKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_HoKH.setColumns(10);
-		textField_HoKH.setBounds(81, 68, 134, 26);
+		textField_HoKH.setBounds(81, 72, 134, 26);
 		panel_2.add(textField_HoKH);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Họ đệm");
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_1.setBounds(10, 70, 61, 20);
+		lblNewLabel_2_1.setBounds(10, 74, 61, 20);
 		panel_2.add(lblNewLabel_2_1);
 		
 		textField_TenKH = new JTextField();
 		textField_TenKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_TenKH.setColumns(10);
-		textField_TenKH.setBounds(81, 110, 134, 26);
+		textField_TenKH.setBounds(81, 117, 134, 26);
 		panel_2.add(textField_TenKH);
 		
 		JLabel lblNewLabel_2_2 = new JLabel("Tên");
 		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_2.setBounds(10, 116, 45, 13);
+		lblNewLabel_2_2.setBounds(10, 123, 45, 13);
 		panel_2.add(lblNewLabel_2_2);
 		
 		String [] item_gender = {"Nam","Nữ"};
 		
-		textField_DiaChi = new JTextField();
-		textField_DiaChi.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_DiaChi.setColumns(10);
-		textField_DiaChi.setBounds(81, 153, 134, 26);
-		panel_2.add(textField_DiaChi);
-		
 		JLabel lblNewLabel_2_4 = new JLabel("Địa chỉ");
 		lblNewLabel_2_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4.setBounds(10, 155, 61, 20);
+		lblNewLabel_2_4.setBounds(10, 241, 61, 20);
 		panel_2.add(lblNewLabel_2_4);
 		
 		JLabel lblNewLabel_2_4_1 = new JLabel("SĐT");
 		lblNewLabel_2_4_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4_1.setBounds(10, 197, 61, 20);
+		lblNewLabel_2_4_1.setBounds(10, 324, 61, 20);
 		panel_2.add(lblNewLabel_2_4_1);
 		
 		textField_SDT = new JTextField();
 		textField_SDT.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_SDT.setColumns(10);
-		textField_SDT.setBounds(81, 195, 134, 26);
+		textField_SDT.setBounds(81, 318, 134, 26);
 		panel_2.add(textField_SDT);
 		
 		JButton btnNewButton_Luu = new JButton("Lưu");
@@ -293,19 +300,49 @@ public class KhachHang extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_Luu.setBounds(74, 280, 85, 26);
+		btnNewButton_Luu.setBounds(65, 397, 85, 26);
 		panel_2.add(btnNewButton_Luu);
 		
 		JLabel lblNewLabel_2_4_1_1 = new JLabel("Email");
 		lblNewLabel_2_4_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4_1_1.setBounds(10, 237, 61, 20);
+		lblNewLabel_2_4_1_1.setBounds(10, 356, 61, 20);
 		panel_2.add(lblNewLabel_2_4_1_1);
 		
 		textField_Email = new JTextField();
 		textField_Email.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_Email.setColumns(10);
-		textField_Email.setBounds(81, 235, 134, 26);
+		textField_Email.setBounds(81, 354, 134, 26);
 		panel_2.add(textField_Email);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane_3.setBounds(10, 261, 205, 47);
+		panel_2.add(scrollPane_3);
+		
+		textArea = new JTextArea();
+		scrollPane_3.setViewportView(textArea);
+		
+		JLabel lblNewLabel_2_2_1 = new JLabel("Giới Tính");
+		lblNewLabel_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_2_2_1.setBounds(10, 171, 76, 13);
+		panel_2.add(lblNewLabel_2_2_1);
+		
+		String item_gioitinh[] = {"Nam","Nữ"};
+		comboBox_gioitinh = new JComboBox(item_gioitinh);
+		comboBox_gioitinh.setBounds(81, 165, 134, 28);
+		panel_2.add(comboBox_gioitinh);
+		
+		JLabel lblNewLabel_2_2_1_1 = new JLabel("Độ tuổi");
+		lblNewLabel_2_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_2_2_1_1.setBounds(10, 213, 76, 18);
+		panel_2.add(lblNewLabel_2_2_1_1);
+		
+		
+		String item_dotuoi[] = {"Người lớn","Trẻ em"};
+		comboBox_dotuoi = new JComboBox(item_dotuoi);
+		comboBox_dotuoi.setBounds(81, 208, 134, 26);
+		panel_2.add(comboBox_dotuoi);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(269, 50, 681, 435);
@@ -313,55 +350,17 @@ public class KhachHang extends JFrame {
 		
 		table_KhachHang = new JTable();
 		scrollPane_2.setViewportView(table_KhachHang);
-		table_KhachHang.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00C3 KH", "H\u1ECD \u0111\u1EC7m", "T\u00EAn", "\u0110\u1ECBa ch\u1EC9", "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", "Email"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		table_KhachHang.getColumnModel().getColumn(1).setPreferredWidth(76);
-		table_KhachHang.getColumnModel().getColumn(2).setPreferredWidth(96);
-		table_KhachHang.getColumnModel().getColumn(3).setPreferredWidth(123);
-		table_KhachHang.getColumnModel().getColumn(4).setPreferredWidth(101);
-		table_KhachHang.getColumnModel().getColumn(5).setPreferredWidth(101);
+		table_KhachHang.setDefaultEditor(Object.class,null);
+		String[] colname =  {"Mã kh","Họ","Tên","Giới tính","Độ tuổi","Địa chỉ","Số điện thoại","Email"};
+		tableModel = new DefaultTableModel();
+		table_KhachHang.setModel(tableModel);
+		tableModel.setColumnIdentifiers(colname);
+
+//		table_KhachHang.getColumnModel().getColumn(1).setPreferredWidth(76);
+//		table_KhachHang.getColumnModel().getColumn(2).setPreferredWidth(96);
+//		table_KhachHang.getColumnModel().getColumn(5).setPreferredWidth(123);
+//		table_KhachHang.getColumnModel().getColumn(6).setPreferredWidth(101);
+//		table_KhachHang.getColumnModel().getColumn(7).setPreferredWidth(101);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
@@ -379,6 +378,26 @@ public class KhachHang extends JFrame {
 		textField_TimKiem.setBounds(81, 3, 160, 25);
 		panel_3.add(textField_TimKiem);
 		textField_TimKiem.setColumns(10);
+		
+		JButton sua_btn = new JButton("Sửa");
+		sua_btn.setForeground(Color.WHITE);
+		sua_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		sua_btn.setFocusable(false);
+		sua_btn.setBackground(new Color(50, 205, 50));
+		sua_btn.setBounds(439, 3, 75, 25);
+		panel_3.add(sua_btn);
+		
+		JButton xoa_btn = new JButton("Xóa");
+		xoa_btn.setForeground(Color.WHITE);
+		xoa_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		xoa_btn.setFocusable(false);
+		xoa_btn.setBackground(Color.RED);
+		xoa_btn.setBounds(524, 3, 75, 25);
+		panel_3.add(xoa_btn);
+		
+		JComboBox timkiem_cb = new JComboBox(new Object[]{});
+		timkiem_cb.setBounds(251, 3, 100, 25);
+		panel_3.add(timkiem_cb);
 		
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -401,6 +420,65 @@ public class KhachHang extends JFrame {
 		panel_1.add(scrollPane_1);
 		
 		
+		initData();
+		
 		this.setVisible(true);
 	}
+	
+	
+	public void initData() {
+		if(khBus.docKH()) {
+			for(KhachHangDTO kh : KhachHangBUS.khDTO ) {
+				tableModel.addRow(new Object[] {
+						kh.getMakh(), kh.getHokh(), kh.getTenkh(), KiemTra.getInstance().GioiTinh(kh.isGioitinh()), kh.getDotuoi(), kh.getDiachi(), kh.getSdt(), kh.getEmail()
+				});
+			}
+			
+	     table_KhachHang.addMouseListener( new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						if(e.getClickCount() == 1) {
+							hienThiThongTin();
+						}
+					}
+	     });
+	     
+	     
+		}
+	}
+	public KhachHangDTO getSelectedKhachHang() {
+		int row = table_KhachHang.getSelectedRow();
+//		if(row == -1) return null;
+		DefaultTableModel model = (DefaultTableModel) table_KhachHang.getModel();
+		String makh = model.getValueAt(row, 0)+ "";
+		String hokh = model.getValueAt(row, 1)+ "";
+		String tenkh = model.getValueAt(row, 2)+ "";
+		Boolean gioitinh =  KiemTra.getInstance().GioiTinh((String)model.getValueAt(row, 3) );
+		
+		String dotuoi = model.getValueAt(row, 4)+ "";
+		String diachi = model.getValueAt(row, 5)+ "";
+		String sdt = model.getValueAt(row, 6)+ "";
+		String email = model.getValueAt(row, 7)+ "";
+
+
+        KhachHangDTO kh = new KhachHangDTO(makh, hokh, tenkh, dotuoi, diachi, sdt, email, gioitinh,0);
+   
+        return kh;
+
+
+
+		
+	}
+	public void hienThiThongTin() {
+        KhachHangDTO kh =  getSelectedKhachHang();
+        this.textField_MSKH.setText(kh.getMakh());
+        this.textField_HoKH.setText(kh.getHokh());
+        this.textField_TenKH.setText(kh.getTenkh());
+        this.comboBox_gioitinh.setSelectedItem(KiemTra.getInstance().GioiTinh(kh.isGioitinh()));
+        this.comboBox_dotuoi.setSelectedIndex(0);
+
+        this.textArea.setText(kh.getDiachi());
+        this.textField_SDT.setText(kh.getSdt());
+        this.textField_Email.setText(kh.getEmail());
+	}
+	
 }
