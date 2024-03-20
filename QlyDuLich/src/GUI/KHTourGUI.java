@@ -56,7 +56,7 @@ public class KHTourGUI extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
-
+	JButton btn_QLTour,btn_KHTour,btn_QLDV,btn_KhuyenMai,btn_NhanVien,btn_KhachHang;
 	/**
 	 * Launch the application.
 	 */
@@ -97,7 +97,7 @@ public class KHTourGUI extends JFrame {
 		panel.setLayout(null);
 		
 
-		JButton btn_QLTour = new JButton("Quản lý Tours");
+		btn_QLTour = new JButton("Quản lý Tours");
 		btn_QLTour.setBorderPainted(false);
 		btn_QLTour.setFocusable(false);
 		btn_QLTour.setBorder(null);
@@ -107,14 +107,16 @@ public class KHTourGUI extends JFrame {
 		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new QuanLyTour();
+				QuanLyTour qlt = new QuanLyTour();
+				qlt.btn_QLTour.setBackground(Color.ORANGE);
+				qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
 		panel.add(btn_QLTour);
 		
 		
-		JButton btn_KHTour = new JButton("Kế hoạch Tours");
+		btn_KHTour = new JButton("Kế hoạch Tours");
 		btn_KHTour.setForeground(Color.WHITE);
 		btn_KHTour.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_KHTour.setFocusable(false);
@@ -125,20 +127,24 @@ public class KHTourGUI extends JFrame {
 		btn_KHTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new KHTourGUI();
+				KHTourGUI kht = new KHTourGUI();
+				kht.btn_KHTour.setBackground(Color.ORANGE);
+				kht.btn_KHTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
 		panel.add(btn_KHTour);
 		
 		
-		JButton btn_QLDV = new JButton("Quản lý dịch vụ");
+		btn_QLDV = new JButton("Quản lý dịch vụ");
 		btn_QLDV.setFocusable(false);
 		btn_QLDV.setBorder(null);
 		btn_QLDV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new DichVu();
+				DichVu dv = new DichVu();
+				dv.btn_QLDV.setBackground(Color.ORANGE);
+				dv.btn_QLDV.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLDV.setForeground(new Color(255, 255, 255));
@@ -147,7 +153,7 @@ public class KHTourGUI extends JFrame {
 		btn_QLDV.setBounds(420, 65, 120, 40);
 		panel.add(btn_QLDV);
 		
-		JButton btn_KhachHang = new JButton("Khách hàng");
+		btn_KhachHang = new JButton("Khách hàng");
 		btn_KhachHang.setFocusable(false);
 		btn_KhachHang.setBorder(null);
 		btn_KhachHang.setForeground(new Color(255, 255, 255));
@@ -158,11 +164,13 @@ public class KHTourGUI extends JFrame {
 		btn_KhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new KhachHang();
+				KhachHang kh = new KhachHang();
+				kh.btn_KhachHang.setBackground(Color.ORANGE);
+				kh.btn_KhachHang.setForeground(Color.BLACK);
 			}
 		});
 		
-		JButton btn_NhanVien = new JButton("Nhân viên");
+		btn_NhanVien = new JButton("Nhân viên");
 		btn_NhanVien.setFocusable(false);
 		btn_NhanVien.setBorder(null);
 		btn_NhanVien.setForeground(new Color(255, 255, 255));
@@ -173,15 +181,19 @@ public class KHTourGUI extends JFrame {
 		btn_NhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new NhanVien();
+				NhanVien nv = new NhanVien();
+				nv.btn_NhanVien.setBackground(Color.ORANGE);
+				nv.btn_NhanVien.setForeground(Color.BLACK);
 			}
 		});
 		
-		JButton btn_KhuyenMai = new JButton("Khuyến mãi");
+		btn_KhuyenMai = new JButton("Khuyến mãi");
 		btn_KhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new KhuyenMai();
+				KhuyenMai km = new KhuyenMai();
+				km.btn_KhuyenMai.setBackground(Color.ORANGE);
+				km.btn_KhuyenMai.setForeground(Color.BLACK);
 			}
 		});
 		btn_KhuyenMai.setFocusable(false);
@@ -208,7 +220,7 @@ public class KHTourGUI extends JFrame {
 		logo_lb.setPreferredSize(new Dimension(90, 90));
 		logo_lb.setBounds(10, 25, 100, 96);
 //		ImageIcon originalIcon = new ImageIcon("/Images/vtv-logo.png");
-		ImageIcon originalIcon = new ImageIcon("src\\Images\\vtv-logo.png");
+		ImageIcon originalIcon = new ImageIcon("src\\Images\\logo.png");
 		Image originalImage = originalIcon.getImage();
 		Image scaledImage = originalImage.getScaledInstance(logo_lb.getPreferredSize().width,
 				logo_lb.getPreferredSize().height, Image.SCALE_SMOOTH);
@@ -216,6 +228,14 @@ public class KHTourGUI extends JFrame {
 		// logo_lb.setIcon(new
 		// ImageIcon(QlyToursGUI.class.getResource("/Images/vtv-logo.png")));
 		logo_lb.setIcon(scaledIcon);
+		logo_lb.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                setVisible(false);
+                TrangChuGUI tc = new TrangChuGUI();
+                tc.btn_TrangChu.setBackground(Color.ORANGE);
+                tc.btn_TrangChu.setForeground(Color.BLACK);
+            }
+        });
 		panel.add(logo_lb);
 
 		Panel KHTOUR = new Panel();

@@ -49,6 +49,7 @@ public class KhuyenMai extends JFrame {
 	private JTextField textField_TimKiem;
 	private JTextField textField_DieuKien;
 	private JComboBox comboBox_DoiTuong;
+	JButton btn_QLTour,btn_KHTour,btn_QLDV,btn_KhuyenMai,btn_NhanVien,btn_KhachHang;
 	/**
 	 * Launch the application.
 	 */
@@ -86,7 +87,7 @@ public class KhuyenMai extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btn_QLTour = new JButton("Quản lý Tours");
+		btn_QLTour = new JButton("Quản lý Tours");
 		btn_QLTour.setBorderPainted(false);
 		btn_QLTour.setFocusable(false);
 		btn_QLTour.setBorder(null);
@@ -96,14 +97,16 @@ public class KhuyenMai extends JFrame {
 		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new QuanLyTour();
+				QuanLyTour qlt = new QuanLyTour();
+				qlt.btn_QLTour.setBackground(Color.ORANGE);
+				qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
 		panel.add(btn_QLTour);
 		
 		
-		JButton btn_KHTour = new JButton("Kế hoạch Tours");
+		btn_KHTour = new JButton("Kế hoạch Tours");
 		btn_KHTour.setForeground(Color.WHITE);
 		btn_KHTour.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_KHTour.setFocusable(false);
@@ -114,20 +117,24 @@ public class KhuyenMai extends JFrame {
 		btn_KHTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new KHTourGUI();
+				KHTourGUI kht = new KHTourGUI();
+				kht.btn_KHTour.setBackground(Color.ORANGE);
+				kht.btn_KHTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
 		panel.add(btn_KHTour);
 		
 		
-		JButton btn_QLDV = new JButton("Quản lý dịch vụ");
+		btn_QLDV = new JButton("Quản lý dịch vụ");
 		btn_QLDV.setFocusable(false);
 		btn_QLDV.setBorder(null);
 		btn_QLDV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new DichVu();
+				DichVu dv = new DichVu();
+				dv.btn_QLDV.setBackground(Color.ORANGE);
+				dv.btn_QLDV.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLDV.setForeground(new Color(255, 255, 255));
@@ -136,7 +143,7 @@ public class KhuyenMai extends JFrame {
 		btn_QLDV.setBounds(420, 65, 120, 40);
 		panel.add(btn_QLDV);
 		
-		JButton btn_KhachHang = new JButton("Khách hàng");
+		btn_KhachHang = new JButton("Khách hàng");
 		btn_KhachHang.setFocusable(false);
 		btn_KhachHang.setBorder(null);
 		btn_KhachHang.setForeground(new Color(255, 255, 255));
@@ -147,11 +154,13 @@ public class KhuyenMai extends JFrame {
 		btn_KhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new KhachHang();
+				KhachHang kh = new KhachHang();
+				kh.btn_KhachHang.setBackground(Color.ORANGE);
+				kh.btn_KhachHang.setForeground(Color.BLACK);
 			}
 		});
 		
-		JButton btn_NhanVien = new JButton("Nhân viên");
+		btn_NhanVien = new JButton("Nhân viên");
 		btn_NhanVien.setFocusable(false);
 		btn_NhanVien.setBorder(null);
 		btn_NhanVien.setForeground(new Color(255, 255, 255));
@@ -162,15 +171,19 @@ public class KhuyenMai extends JFrame {
 		btn_NhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new NhanVien();
+				NhanVien nv = new NhanVien();
+				nv.btn_NhanVien.setBackground(Color.ORANGE);
+				nv.btn_NhanVien.setForeground(Color.BLACK);
 			}
 		});
 		
-		JButton btn_KhuyenMai = new JButton("Khuyến mãi");
+		btn_KhuyenMai = new JButton("Khuyến mãi");
 		btn_KhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new KhuyenMai();
+				KhuyenMai km = new KhuyenMai();
+				km.btn_KhuyenMai.setBackground(Color.ORANGE);
+				km.btn_KhuyenMai.setForeground(Color.BLACK);
 			}
 		});
 		btn_KhuyenMai.setFocusable(false);
@@ -201,6 +214,14 @@ public class KhuyenMai extends JFrame {
 		Image imgScale = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon scaleIcon = new ImageIcon(imgScale);
 		label.setIcon(scaleIcon);
+		label.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                setVisible(false);
+                TrangChuGUI tc = new TrangChuGUI();
+                tc.btn_TrangChu.setBackground(Color.ORANGE);
+                tc.btn_TrangChu.setForeground(Color.BLACK);
+            }
+        });
 		panel.add(label);
 		
 		

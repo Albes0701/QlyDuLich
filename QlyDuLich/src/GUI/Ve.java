@@ -543,7 +543,7 @@ public class Ve extends JFrame {
 		btnNewButton_ThanhToan.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton_ThanhToan.setFocusable(false);
 		btnNewButton_ThanhToan.setBackground(new Color(255, 128, 64));
-		btnNewButton_ThanhToan.setBounds(150, 173, 119, 26);
+		btnNewButton_ThanhToan.setBounds(63, 173, 119, 26);
 		panel_5.add(btnNewButton_ThanhToan);
 		
 		JLabel lblGimGi = new JLabel("Giảm giá:");
@@ -555,6 +555,22 @@ public class Ve extends JFrame {
 		lbl_GiamGia.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lbl_GiamGia.setBounds(246, 100, 113, 23);
 		panel_5.add(lbl_GiamGia);
+		
+		JButton btnNewButton_Thoat = new JButton("Thoát");
+		btnNewButton_Thoat.setForeground(Color.WHITE);
+		btnNewButton_Thoat.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnNewButton_Thoat.setFocusable(false);
+		btnNewButton_Thoat.setBackground(new Color(255, 0, 0));
+		btnNewButton_Thoat.setBounds(229, 173, 119, 26);
+		btnNewButton_Thoat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				DatTourGUI dt = new DatTourGUI();
+				dt.btn_DatTour.setBackground(Color.ORANGE);
+				dt.btn_DatTour.setForeground(Color.BLACK);
+			}
+		});
+		panel_5.add(btnNewButton_Thoat);
 		
 		String [] item_gender = {"Nam","Nữ"};
 		this.setVisible(true);

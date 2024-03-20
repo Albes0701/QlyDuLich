@@ -40,6 +40,7 @@ public class NhanVienDAO {
 				NhanVienDTO nv= new NhanVienDTO(manv, honv, tennv, sdt, cmnd, ngayvl,ngaysinh, gioitinh);
 				ketQua.add(nv);
 				
+				
 			}
 			//Bước 5:Ngắt kết nối
 			JDBCUtil.closeConnection(con);

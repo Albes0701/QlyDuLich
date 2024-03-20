@@ -49,7 +49,7 @@ public class TrangChuGUI extends JFrame {
 	private Label nhanvien_lb;
 	private Label label;
 	private Label Tour_lb;
-
+	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
 	/**
 	 * Launch the application.
 	 */
@@ -72,7 +72,7 @@ public class TrangChuGUI extends JFrame {
 	public TrangChuGUI() {
 		setBackground(SystemColor.windowText);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 650);
+		setBounds(280, 100, 1000, 650);
 		contentPane = new JPanel();
 		contentPane.setVerifyInputWhenFocusTarget(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -82,85 +82,94 @@ public class TrangChuGUI extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(255, 255, 255));
-		panel.setBackground(new Color(0, 128, 255));
+		panel.setBackground(new Color(34, 99, 138));
 		panel.setBounds(0, -19, 1000, 632);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btn_TrangChu = new JButton("Trang Chủ");
+		btn_TrangChu = new JButton("Trang Chủ");
 		btn_TrangChu.setBorderPainted(false);
 		btn_TrangChu.setFocusable(false);
 		btn_TrangChu.setBorder(null);
-		btn_TrangChu.setBackground(new Color(0, 128, 0));
+		btn_TrangChu.setBackground(new Color(24, 171, 138));
 		btn_TrangChu.setForeground(new Color(255, 255, 255));
 		btn_TrangChu.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_TrangChu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new TrangChuGUI();
+				TrangChuGUI tc = new TrangChuGUI();
+				tc.btn_TrangChu.setBackground(Color.ORANGE);
+				tc.btn_TrangChu.setForeground(Color.BLACK);
 			}
 		});
 		btn_TrangChu.setBounds(154, 65, 120, 40);
 		panel.add(btn_TrangChu);
-		
-		JButton btn_HoaDon = new JButton("Hóa đơn");
+
+		btn_HoaDon = new JButton("Hóa đơn");
 		btn_HoaDon.setFocusable(false);
 		btn_HoaDon.setBorder(null);
 		btn_HoaDon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new HoaDon();
+				HoaDon hd = new HoaDon();
+				hd.btn_HoaDon.setBackground(Color.ORANGE);
+				hd.btn_HoaDon.setForeground(Color.BLACK);
 			}
 		});
 		btn_HoaDon.setForeground(new Color(255, 255, 255));
-		btn_HoaDon.setBackground(new Color(0, 128, 0));
+		btn_HoaDon.setBackground(new Color(24, 171, 138));
 		btn_HoaDon.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_HoaDon.setBounds(478, 65, 120, 40);
 		panel.add(btn_HoaDon);
-		
+
 		JButton btn_QlyThongtin = new JButton("Quản lý thông tin");
 		btn_QlyThongtin.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
 				setVisible(false);
-				new QuanLyTour();
-				
+				QuanLyTour qlt = new QuanLyTour();
+				qlt.btn_QLTour.setBackground(Color.ORANGE);
+				qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QlyThongtin.setFocusable(false);
 		btn_QlyThongtin.setBorder(null);
 		btn_QlyThongtin.setForeground(new Color(255, 255, 255));
-		btn_QlyThongtin.setBackground(new Color(0, 128, 0));
+		btn_QlyThongtin.setBackground(new Color(24, 171, 138));
 		btn_QlyThongtin.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_QlyThongtin.setBounds(799, 65, 120, 40);
 		panel.add(btn_QlyThongtin);
-		
-		JButton btn_ThongKe = new JButton("Thống kê");
+
+		btn_ThongKe = new JButton("Thống kê");
 		btn_ThongKe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new ThongKe();
+				ThongKe tk = new ThongKe();
+				tk.btn_ThongKe.setBackground(Color.ORANGE);
+				tk.btn_ThongKe.setForeground(Color.BLACK);
 			}
 		});
 		btn_ThongKe.setFocusable(false);
 		btn_ThongKe.setBorder(null);
 		btn_ThongKe.setForeground(new Color(255, 255, 255));
 		btn_ThongKe.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btn_ThongKe.setBackground(new Color(0, 128, 0));
+		btn_ThongKe.setBackground(new Color(24, 171, 138));
 		btn_ThongKe.setBounds(643, 65, 120, 40);
 		panel.add(btn_ThongKe);
-		
+
 		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
 		btnNewButton_2.setFocusable(false);
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnNewButton_2.setBounds(849, 24, 124, 30);
 		panel.add(btnNewButton_2);
-		
+
 		JLabel lblNewLabel = new JLabel("User");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel.setBounds(768, 25, 90, 30);
 		panel.add(lblNewLabel);
-		
+
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
 		JLabel label = new JLabel();
 		label.setBackground(new Color(0, 128, 255));
@@ -169,10 +178,20 @@ public class TrangChuGUI extends JFrame {
 		Image imgScale = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon scaleIcon = new ImageIcon(imgScale);
 		label.setIcon(scaleIcon);
+		label.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				setVisible(false);
+				TrangChuGUI tc = new TrangChuGUI();
+				tc.btn_TrangChu.setBackground(Color.ORANGE);
+				tc.btn_TrangChu.setForeground(Color.BLACK);
+			}
+		});
 		panel.add(label);
-		
+	
+
 
 		this.getContentPane().add(panel);
+
 		
 		Panel KhachHang = new Panel();
 		KhachHang.setBounds(13, 127, 960, 495);
@@ -234,11 +253,13 @@ public class TrangChuGUI extends JFrame {
 		
 		String []item_loai = {"Trong nước", "Ngoài nước"};
 		
-		JButton btn_DatTour = new JButton("Đặt Tour");
+		btn_DatTour = new JButton("Đặt Tour");
 		btn_DatTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new DatTourGUI();
+				DatTourGUI dt = new DatTourGUI();
+				dt.btn_DatTour.setBackground(Color.ORANGE);
+				dt.btn_DatTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_DatTour.setForeground(Color.WHITE);
@@ -246,7 +267,7 @@ public class TrangChuGUI extends JFrame {
 		btn_DatTour.setFocusable(false);
 		btn_DatTour.setBorderPainted(false);
 		btn_DatTour.setBorder(null);
-		btn_DatTour.setBackground(new Color(0, 128, 0));
+		btn_DatTour.setBackground(new Color(24, 171, 138));
 		btn_DatTour.setBounds(317, 65, 120, 40);
 		panel.add(btn_DatTour);
 		this.setVisible(true);
