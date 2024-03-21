@@ -609,7 +609,7 @@ public class KHTourGUI extends JFrame {
 				
 				JButton anh1_btn = new JButton("Thêm");
 				anh1_btn.setFont(new Font("Tahoma", Font.BOLD, 15));
-				anh1_btn.setBackground(Color.WHITE);
+				anh1_btn.setBackground(new Color(0, 255, 255));
 				anh1_btn.setBounds(64, 718, 85, 35);
 				panel_2.add(anh1_btn);
 				
@@ -620,6 +620,7 @@ public class KHTourGUI extends JFrame {
 				panel_2.add(anh2_lb);
 				
 				JButton anh2_btn = new JButton("Thêm");
+				anh2_btn.setBackground(new Color(0, 255, 255));
 				anh2_btn.setFont(new Font("Tahoma", Font.BOLD, 15));
 				anh2_btn.setBounds(64, 754, 85, 35);
 				panel_2.add(anh2_btn);
@@ -631,6 +632,7 @@ public class KHTourGUI extends JFrame {
 				panel_2.add(anh3_lb);
 				
 				JButton anh3_btn = new JButton("Thêm");
+				anh3_btn.setBackground(new Color(0, 255, 255));
 				anh3_btn.setFont(new Font("Tahoma", Font.BOLD, 15));
 				anh3_btn.setBounds(64, 791, 85, 35);
 				panel_2.add(anh3_btn);
@@ -638,7 +640,6 @@ public class KHTourGUI extends JFrame {
 				JButton btnNewButton_3 = new JButton("Thêm");
 				btnNewButton_3.setForeground(Color.WHITE);
 				btnNewButton_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-				btnNewButton_3.setBorder(null);
 				btnNewButton_3.setBackground(new Color(0, 0, 128));
 				btnNewButton_3.setBounds(10, 836, 85, 35);
 				panel_2.add(btnNewButton_3);
