@@ -415,7 +415,6 @@ public class NhanVien extends JFrame{
 		thoat_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				lockForm();
-//				initForm();
 				them_btn.setEnabled(true);
 				them_btn.setBackground(Color.blue);
 				xoa_btn.setEnabled(true);
@@ -428,6 +427,7 @@ public class NhanVien extends JFrame{
 				luu_btn.setEnabled(false);
 				luu_btn.setBackground(Color.GRAY);
 				resetTable();
+				reSetForm();
 				initArrayList();
 			}
 		});
