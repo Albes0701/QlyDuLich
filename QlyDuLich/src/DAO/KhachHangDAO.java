@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.mysql.cj.xdevapi.Statement;
 
 import DTO.KhachHangDTO;
+import DTO.NhanVienDTO;
 import Util.JDBCUtil;
 
 public class KhachHangDAO {
@@ -52,19 +53,44 @@ public class KhachHangDAO {
 	public KhachHangDAO() {
 		// TODO Auto-generated constructor stub
 	}
-	public int deleteKhachHang(KhachHangDTO t) {
+	public int deleteKhachHang(KhachHangDTO k) {
 		int kq = 0;
 		
 		try {
 			Connection con = JDBCUtil.getConnection();
 			java.sql.Statement st = con.createStatement();
-			String sql = "DELETE FROM nhanvien WHERE manv = '" + t.getMakh() + "'";
+			String sql = "DELETE FROM khachhang WHERE makh = '" + k.getMakh() + "'";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
 			System.out.println("So dong thay doi: " + kq);
 			JDBCUtil.closeConnection(con);
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
+			return -1;
+		}
+		return kq;
+	}
+	
+	
+	public int upDateKhachHang(KhachHangDTO t) {
+		int kq = 0;
+		try {
+			Connection con = JDBCUtil.getConnection();
+			java.sql.Statement st = con.createStatement();
+			String sql = "UPDATE khachhang SET hokh='" + t.getHokh() + "',tenkh='"
+					+ t.getTenkh() + "',gioitinh=" + t.isGioitinh() + ",dotuoi='" + t.getDotuoi() + "',diachi='"
+					+ t.getDiachi() + "',sdt='" + t.getSdt() +  "',email='" + t.getEmail() +
+					"' WHERE makh='" + t.getMakh() + "';";
+			System.out.println(sql);
+			kq = st.executeUpdate(sql);
+			System.out.println("Ban da thuc thi: " + sql);
+			System.out.println("So dong thay doi: " + kq);
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return -1;
 		}
 		return kq;
 	}

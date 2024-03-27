@@ -26,7 +26,7 @@ public class HoaDon extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-
+	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
 	/**
 	 * Launch the application.
 	 */
@@ -59,39 +59,43 @@ public class HoaDon extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(255, 255, 255));
-		panel.setBackground(new Color(0, 128, 255));
+		panel.setBackground(new Color(34, 99, 138));
 		panel.setBounds(0, -19, 1000, 632);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		
-		JButton btn_TrangChu = new JButton("Trang Chủ");
+		btn_TrangChu = new JButton("Trang Chủ");
 		btn_TrangChu.setBorderPainted(false);
 		btn_TrangChu.setFocusable(false);
 		btn_TrangChu.setBorder(null);
-		btn_TrangChu.setBackground(new Color(0, 128, 0));
+		btn_TrangChu.setBackground(new Color(24, 171, 138));
 		btn_TrangChu.setForeground(new Color(255, 255, 255));
 		btn_TrangChu.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_TrangChu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new TrangChuGUI();
+				TrangChuGUI tc = new TrangChuGUI();
+				tc.btn_TrangChu.setBackground(Color.ORANGE);
+				tc.btn_TrangChu.setForeground(Color.BLACK);
 			}
 		});
 		btn_TrangChu.setBounds(154, 65, 120, 40);
 		panel.add(btn_TrangChu);
 		
-		JButton btn_HoaDon = new JButton("Hóa đơn");
+		btn_HoaDon = new JButton("Hóa đơn");
 		btn_HoaDon.setFocusable(false);
 		btn_HoaDon.setBorder(null);
 		btn_HoaDon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new HoaDon();
+				HoaDon hd = new HoaDon();
+				hd.btn_HoaDon.setBackground(Color.ORANGE);
+				hd.btn_HoaDon.setForeground(Color.BLACK);
 			}
 		});
 		btn_HoaDon.setForeground(new Color(255, 255, 255));
-		btn_HoaDon.setBackground(new Color(0, 128, 0));
+		btn_HoaDon.setBackground(new Color(24, 171, 138));
 		btn_HoaDon.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_HoaDon.setBounds(478, 65, 120, 40);
 		panel.add(btn_HoaDon);
@@ -100,29 +104,33 @@ public class HoaDon extends JFrame {
 		btn_QlyThongtin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new QuanLyTour();
+				QuanLyTour qlt = new QuanLyTour();
+				qlt.btn_QLTour.setBackground(Color.ORANGE);
+				qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QlyThongtin.setFocusable(false);
 		btn_QlyThongtin.setBorder(null);
 		btn_QlyThongtin.setForeground(new Color(255, 255, 255));
-		btn_QlyThongtin.setBackground(new Color(0, 128, 0));
+		btn_QlyThongtin.setBackground(new Color(24, 171, 138));
 		btn_QlyThongtin.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_QlyThongtin.setBounds(799, 65, 120, 40);
 		panel.add(btn_QlyThongtin);
 		
-		JButton btn_ThongKe = new JButton("Thống kê");
+		btn_ThongKe = new JButton("Thống kê");
 		btn_ThongKe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new ThongKe();
+				ThongKe tk = new ThongKe();
+				tk.btn_ThongKe.setBackground(Color.ORANGE);
+				tk.btn_ThongKe.setForeground(Color.BLACK);
 			}
 		});
 		btn_ThongKe.setFocusable(false);
 		btn_ThongKe.setBorder(null);
 		btn_ThongKe.setForeground(new Color(255, 255, 255));
 		btn_ThongKe.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btn_ThongKe.setBackground(new Color(0, 128, 0));
+		btn_ThongKe.setBackground(new Color(24, 171, 138));
 		btn_ThongKe.setBounds(643, 65, 120, 40);
 		panel.add(btn_ThongKe);
 		
@@ -146,17 +154,27 @@ public class HoaDon extends JFrame {
 		Image imgScale = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon scaleIcon = new ImageIcon(imgScale);
 		label.setIcon(scaleIcon);
+		label.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				setVisible(false);
+				TrangChuGUI tc = new TrangChuGUI();
+				tc.btn_TrangChu.setBackground(Color.ORANGE);
+				tc.btn_TrangChu.setForeground(Color.BLACK);
+			}
+		});
 		panel.add(label);
 		
 	
 		
 		this.getContentPane().add(panel);
 		
-		JButton btn_DatTour = new JButton("Đặt Tour");
+		btn_DatTour = new JButton("Đặt Tour");
 		btn_DatTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new DatTourGUI();
+				DatTourGUI dt = new DatTourGUI();
+				dt.btn_DatTour.setBackground(Color.ORANGE);
+				dt.btn_DatTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_DatTour.setForeground(Color.WHITE);
@@ -164,7 +182,7 @@ public class HoaDon extends JFrame {
 		btn_DatTour.setFocusable(false);
 		btn_DatTour.setBorderPainted(false);
 		btn_DatTour.setBorder(null);
-		btn_DatTour.setBackground(new Color(0, 128, 0));
+		btn_DatTour.setBackground(new Color(24, 171, 138));
 		btn_DatTour.setBounds(317, 65, 120, 40);
 		panel.add(btn_DatTour);
 		
@@ -248,11 +266,10 @@ public class HoaDon extends JFrame {
 		JButton btnNewButton = new JButton("Xem chi tiết");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
 				new ChiTietHoaDon();
 			}
 		});
-		btnNewButton.setBackground(new Color(0, 255, 0));
+		btnNewButton.setBackground(new Color(24, 171, 138));
 		btnNewButton.setBounds(836, 458, 114, 21);
 		HoaDon.add(btnNewButton);
 		

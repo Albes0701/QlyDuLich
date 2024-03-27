@@ -5,12 +5,9 @@ public class KhachHangDTO {
     private boolean gioitinh;
     private float tongchi;
 	public KhachHangDTO() {
-		// TODO Auto-generated constructor stub
 	}
 	
-	
-	public KhachHangDTO(String makh, String hokh, String tenkh, String dotuoi, String diachi, String sdt, String email,
-			boolean gioitinh, float tongchi) {
+	public KhachHangDTO(String makh, String hokh, String tenkh, String dotuoi, String diachi, String sdt, String email,boolean gioitinh, float tongchi) {
 		this.makh = makh;
 		this.hokh = hokh;
 		this.tenkh = tenkh;
@@ -22,8 +19,16 @@ public class KhachHangDTO {
 		this.tongchi = tongchi;
 	}
 
-
-
+	public void copyKhachhang(KhachHangDTO kh) {
+		this.makh = kh.makh;
+		this.hokh = kh.hokh;
+		this.tenkh = kh.tenkh;
+		this.gioitinh = kh.gioitinh;
+		this.dotuoi = kh.dotuoi;
+		this.diachi = kh.diachi;
+		this.sdt = kh.sdt;
+		this.email = kh.email;
+	}
 	public String getMakh() {
 		return makh;
 	}

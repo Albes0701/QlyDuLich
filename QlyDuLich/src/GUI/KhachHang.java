@@ -13,7 +13,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.security.PublicKey;
+import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,6 +35,7 @@ import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.border.CompoundBorder;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
@@ -41,7 +46,10 @@ import javax.swing.table.TableModel;
 import BUS.KhachHangBUS;
 import BUS.KiemTra;
 import BUS.NhanVienBUS;
+import BUS.QlyToursBUS;
 import DTO.KhachHangDTO;
+import DTO.NhanVienDTO;
+import DTO.QlyToursDTO;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -58,11 +66,17 @@ public class KhachHang extends JFrame {
 	private JTable table_KhachHang;
 	private JTextField textField_TimKiem;
 	private JTextField textField_Email;
-	private DefaultTableModel tableModel;
-	JComboBox comboBox_gioitinh;
-	JComboBox comboBox_dotuoi ;
+	private JButton xoa_btn , sua_btn, btn_thoat, luu_btn;
+
+
+	DefaultTableModel tableModel;
+	JComboBox comboBox_gioitinh, comboBox_dotuoi, timkiem_cb;
+	
 	JTextArea textArea;
     KhachHangBUS khBus = new KhachHangBUS();
+    
+
+	JButton btn_QLTour,btn_KHTour,btn_QLDV,btn_KhuyenMai,btn_NhanVien,btn_KhachHang;
 	/**
 	 * Launch the application.
 	 */
@@ -100,7 +114,7 @@ public class KhachHang extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btn_QLTour = new JButton("Quản lý Tours");
+		btn_QLTour = new JButton("Quản lý Tours");
 		btn_QLTour.setBorderPainted(false);
 		btn_QLTour.setFocusable(false);
 		btn_QLTour.setBorder(null);
@@ -110,14 +124,16 @@ public class KhachHang extends JFrame {
 		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new QuanLyTour();
+				QuanLyTour qlt = new QuanLyTour();
+				qlt.btn_QLTour.setBackground(Color.ORANGE);
+				qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
 		panel.add(btn_QLTour);
 		
 		
-		JButton btn_KHTour = new JButton("Kế hoạch Tours");
+		btn_KHTour = new JButton("Kế hoạch Tours");
 		btn_KHTour.setForeground(Color.WHITE);
 		btn_KHTour.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_KHTour.setFocusable(false);
@@ -128,20 +144,24 @@ public class KhachHang extends JFrame {
 		btn_KHTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new KHTourGUI();
+				KHTourGUI kht = new KHTourGUI();
+				kht.btn_KHTour.setBackground(Color.ORANGE);
+				kht.btn_KHTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
 		panel.add(btn_KHTour);
 		
 		
-		JButton btn_QLDV = new JButton("Quản lý dịch vụ");
+		btn_QLDV = new JButton("Quản lý dịch vụ");
 		btn_QLDV.setFocusable(false);
 		btn_QLDV.setBorder(null);
 		btn_QLDV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new DichVu();
+				DichVu dv = new DichVu();
+				dv.btn_QLDV.setBackground(Color.ORANGE);
+				dv.btn_QLDV.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLDV.setForeground(new Color(255, 255, 255));
@@ -150,7 +170,7 @@ public class KhachHang extends JFrame {
 		btn_QLDV.setBounds(420, 65, 120, 40);
 		panel.add(btn_QLDV);
 		
-		JButton btn_KhachHang = new JButton("Khách hàng");
+		btn_KhachHang = new JButton("Khách hàng");
 		btn_KhachHang.setFocusable(false);
 		btn_KhachHang.setBorder(null);
 		btn_KhachHang.setForeground(new Color(255, 255, 255));
@@ -161,11 +181,13 @@ public class KhachHang extends JFrame {
 		btn_KhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new KhachHang();
+				KhachHang kh = new KhachHang();
+				kh.btn_KhachHang.setBackground(Color.ORANGE);
+				kh.btn_KhachHang.setForeground(Color.BLACK);
 			}
 		});
 		
-		JButton btn_NhanVien = new JButton("Nhân viên");
+		btn_NhanVien = new JButton("Nhân viên");
 		btn_NhanVien.setFocusable(false);
 		btn_NhanVien.setBorder(null);
 		btn_NhanVien.setForeground(new Color(255, 255, 255));
@@ -176,15 +198,19 @@ public class KhachHang extends JFrame {
 		btn_NhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new NhanVien();
+				NhanVien nv = new NhanVien();
+				nv.btn_NhanVien.setBackground(Color.ORANGE);
+				nv.btn_NhanVien.setForeground(Color.BLACK);
 			}
 		});
 		
-		JButton btn_KhuyenMai = new JButton("Khuyến mãi");
+		btn_KhuyenMai = new JButton("Khuyến mãi");
 		btn_KhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new KhuyenMai();
+				KhuyenMai km = new KhuyenMai();
+				km.btn_KhuyenMai.setBackground(Color.ORANGE);
+				km.btn_KhuyenMai.setForeground(Color.BLACK);
 			}
 		});
 		btn_KhuyenMai.setFocusable(false);
@@ -215,6 +241,14 @@ public class KhachHang extends JFrame {
 		Image imgScale = img.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH);
 		ImageIcon scaleIcon = new ImageIcon(imgScale);
 		label.setIcon(scaleIcon);
+		label.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                setVisible(false);
+                TrangChuGUI tc = new TrangChuGUI();
+                tc.btn_TrangChu.setBackground(Color.ORANGE);
+                tc.btn_TrangChu.setForeground(Color.BLACK);
+            }
+        });
 		panel.add(label);
 		
 		this.getContentPane().add(panel);
@@ -275,10 +309,10 @@ public class KhachHang extends JFrame {
 		
 		String [] item_gender = {"Nam","Nữ"};
 		
-		JLabel lblNewLabel_2_4 = new JLabel("Địa chỉ");
-		lblNewLabel_2_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4.setBounds(10, 241, 61, 20);
-		panel_2.add(lblNewLabel_2_4);
+		JLabel diachi = new JLabel("Địa chỉ");
+		diachi.setFont(new Font("Tahoma", Font.BOLD, 14));
+		diachi.setBounds(10, 241, 61, 20);
+		panel_2.add(diachi);
 		
 		JLabel lblNewLabel_2_4_1 = new JLabel("SĐT");
 		lblNewLabel_2_4_1.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -291,17 +325,25 @@ public class KhachHang extends JFrame {
 		textField_SDT.setBounds(81, 318, 134, 26);
 		panel_2.add(textField_SDT);
 		
-		JButton btnNewButton_Luu = new JButton("Lưu");
-		btnNewButton_Luu.setFocusable(false);
-		btnNewButton_Luu.setForeground(new Color(255, 255, 255));
-		btnNewButton_Luu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Luu.setBackground(new Color(255, 128, 64));
-		btnNewButton_Luu.addActionListener(new ActionListener() {
+		luu_btn = new JButton("Lưu");
+		luu_btn.setFocusable(false);
+		luu_btn.setForeground(new Color(255, 255, 255));
+		luu_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		luu_btn.setBackground(new Color(255, 128, 64));
+		luu_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(getSelectedKhachHang() == null) {
+					JOptionPane.showMessageDialog(null, "Chưa chọn khách hàng");
+					return;
+				}
+				suaKH();
+				resetTable();
+				initArrayList();
+				reSetForm();
 			}
 		});
-		btnNewButton_Luu.setBounds(65, 397, 85, 26);
-		panel_2.add(btnNewButton_Luu);
+		luu_btn.setBounds(10, 397, 85, 26);
+		panel_2.add(luu_btn);
 		
 		JLabel lblNewLabel_2_4_1_1 = new JLabel("Email");
 		lblNewLabel_2_4_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -344,11 +386,36 @@ public class KhachHang extends JFrame {
 		comboBox_dotuoi.setBounds(81, 208, 134, 26);
 		panel_2.add(comboBox_dotuoi);
 		
+		btn_thoat = new JButton("Thoát");
+		btn_thoat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lockForm();
+				xoa_btn.setEnabled(true);
+				xoa_btn.setBackground(Color.red);
+				sua_btn.setEnabled(true);
+				sua_btn.setBackground(new Color(50, 205, 50));
+				sua_btn.setForeground(new Color(255, 255, 255));
+				btn_thoat.setEnabled(false);
+				btn_thoat.setBackground(Color.gray);
+				luu_btn.setEnabled(false);
+				luu_btn.setBackground(Color.GRAY);
+				resetTable();
+				initArrayList();
+			}
+		});
+		btn_thoat.setForeground(Color.WHITE);
+		btn_thoat.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btn_thoat.setFocusable(false);
+		btn_thoat.setBackground(new Color(0, 0, 255));
+		btn_thoat.setBounds(116, 397, 85, 26);
+		panel_2.add(btn_thoat);
+		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(269, 50, 681, 435);
 		KhachHang.add(scrollPane_2);
 		
 		table_KhachHang = new JTable();
+		table_KhachHang.setFillsViewportHeight(true);
 		scrollPane_2.setViewportView(table_KhachHang);
 		table_KhachHang.setDefaultEditor(Object.class,null);
 		String[] colname =  {"Mã kh","Họ","Tên","Giới tính","Độ tuổi","Địa chỉ","Số điện thoại","Email"};
@@ -378,26 +445,91 @@ public class KhachHang extends JFrame {
 		textField_TimKiem.setBounds(81, 3, 160, 25);
 		panel_3.add(textField_TimKiem);
 		textField_TimKiem.setColumns(10);
-		
-		JButton sua_btn = new JButton("Sửa");
+		String []item = {"Mã số","Họ","Tên"};
+		timkiem_cb = new JComboBox(item);
+		timkiem_cb.setBounds(251, 3, 100, 25);
+		textField_TimKiem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String condition = textField_TimKiem.getText();
+				if(condition.isEmpty()) {
+					resetTable();
+					initArrayList();
+					return;
+				}
+				String type = (String) timkiem_cb.getSelectedItem();
+				ArrayList<KhachHangDTO> tmp = khBus.timKiem(condition.toLowerCase(), type);
+				if(tmp != null) {
+					resetTable();
+					initArrayList(tmp);
+				}
+				
+			}
+		});
+		panel_3.add(timkiem_cb);
+
+		sua_btn = new JButton("Sửa");
 		sua_btn.setForeground(Color.WHITE);
 		sua_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
 		sua_btn.setFocusable(false);
 		sua_btn.setBackground(new Color(50, 205, 50));
-		sua_btn.setBounds(439, 3, 75, 25);
+		sua_btn.setBounds(491, 3, 80, 25);
+		sua_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				initForm();
+				textField_MSKH.setEditable(false);
+				xoa_btn.setBackground(Color.gray);
+				xoa_btn.setEnabled(false);
+				luu_btn.setBackground(Color.orange);
+				luu_btn.setEnabled(true);
+				btn_thoat.setBackground(Color.red);
+				btn_thoat.setEnabled(true);
+				textField_MSKH.setEnabled(false);
+			}
+		});
 		panel_3.add(sua_btn);
 		
-		JButton xoa_btn = new JButton("Xóa");
+		xoa_btn = new JButton("Xóa");
 		xoa_btn.setForeground(Color.WHITE);
 		xoa_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
 		xoa_btn.setFocusable(false);
 		xoa_btn.setBackground(Color.RED);
-		xoa_btn.setBounds(524, 3, 75, 25);
+		xoa_btn.setBounds(581, 3, 75, 25);
+		
+		xoa_btn.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        KhachHangDTO kh = getSelectedKhachHang();
+		        if(kh != null) {
+		            int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa khách hàng " + kh.getMakh(),"Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+		            if(result == JOptionPane.YES_OPTION) {
+		            	int deletedRow = xoaKh(kh);
+		            	if(deletedRow != -1) {
+		            		tableModel.removeRow(deletedRow);
+		            		tableModel.fireTableDataChanged();
+		            		table_KhachHang.repaint();
+		            		table_KhachHang.revalidate();
+		            		reSetForm();
+		          
+		            	}
+	
+//		            	resetTable();
+//		            	initArrayList();
+//		            	reSetForm();
+		            }
+		        } else {
+		            JOptionPane.showMessageDialog(null,"Chưa chọn khách hàng");
+		        } 
+		    }
+		});
 		panel_3.add(xoa_btn);
 		
-		JComboBox timkiem_cb = new JComboBox(new Object[]{});
-		timkiem_cb.setBounds(251, 3, 100, 25);
-		panel_3.add(timkiem_cb);
+		
+		
+		
+
 		
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -421,8 +553,25 @@ public class KhachHang extends JFrame {
 		
 		
 		initData();
-		
+		lockForm();
 		this.setVisible(true);
+	}
+	
+public void lockForm() {
+		luu_btn.setEnabled(false);
+		luu_btn.setBackground(Color.GRAY);
+		btn_thoat.setEnabled(false);
+		btn_thoat.setBackground(Color.GRAY);
+		this.textField_MSKH.setEditable(false);
+		this.textField_HoKH.setEditable(false);
+		this.textField_TenKH.setEditable(false);
+		this.comboBox_gioitinh.setEnabled(false);
+		this.comboBox_dotuoi.setEnabled(false);
+
+		this.textArea.setEditable(false);
+		this.textArea.setEnabled(false);
+		this.textField_SDT.setEditable(false);
+		this.textField_Email.setEditable(false);
 	}
 	
 	
@@ -445,15 +594,17 @@ public class KhachHang extends JFrame {
 	     
 		}
 	}
+	
+	
+	
 	public KhachHangDTO getSelectedKhachHang() {
 		int row = table_KhachHang.getSelectedRow();
-//		if(row == -1) return null;
+		if(row == -1) return null;
 		DefaultTableModel model = (DefaultTableModel) table_KhachHang.getModel();
 		String makh = model.getValueAt(row, 0)+ "";
 		String hokh = model.getValueAt(row, 1)+ "";
 		String tenkh = model.getValueAt(row, 2)+ "";
-		Boolean gioitinh =  KiemTra.getInstance().GioiTinh((String)model.getValueAt(row, 3) );
-		
+		Boolean gioitinh =  KiemTra.getInstance().GioiTinh((String)model.getValueAt(row, 3));		
 		String dotuoi = model.getValueAt(row, 4)+ "";
 		String diachi = model.getValueAt(row, 5)+ "";
 		String sdt = model.getValueAt(row, 6)+ "";
@@ -461,24 +612,129 @@ public class KhachHang extends JFrame {
 
 
         KhachHangDTO kh = new KhachHangDTO(makh, hokh, tenkh, dotuoi, diachi, sdt, email, gioitinh,0);
-   
         return kh;
-
-
-
-		
 	}
 	public void hienThiThongTin() {
         KhachHangDTO kh =  getSelectedKhachHang();
-        this.textField_MSKH.setText(kh.getMakh());
-        this.textField_HoKH.setText(kh.getHokh());
-        this.textField_TenKH.setText(kh.getTenkh());
-        this.comboBox_gioitinh.setSelectedItem(KiemTra.getInstance().GioiTinh(kh.isGioitinh()));
-        this.comboBox_dotuoi.setSelectedIndex(0);
-
-        this.textArea.setText(kh.getDiachi());
-        this.textField_SDT.setText(kh.getSdt());
-        this.textField_Email.setText(kh.getEmail());
+        if(kh != null) {
+        	this.textField_MSKH.setText(kh.getMakh());
+        	this.textField_HoKH.setText(kh.getHokh());
+        	this.textField_TenKH.setText(kh.getTenkh());
+        	this.comboBox_gioitinh.setSelectedItem(KiemTra.getInstance().GioiTinh(kh.isGioitinh()));
+        	this.comboBox_dotuoi.setSelectedIndex(0);
+        	this.textArea.setText(kh.getDiachi());
+        	this.textField_SDT.setText(kh.getSdt());
+        	this.textField_Email.setText(kh.getEmail());
+        }
 	}
 	
+	
+	
+	public int xoaKh(KhachHangDTO kh) {
+		
+		int deletedRow = -1;
+		
+		if(khBus.xoaKh(kh)!=-1) {
+			JOptionPane.showMessageDialog(null,"Xoá thành công");
+			
+			for (int i = 0; i < table_KhachHang.getRowCount(); i++) {
+	            if (table_KhachHang.getValueAt(i, 0).equals(kh.getMakh())) {
+	                deletedRow = i;
+	                break;
+	            }
+	        }
+		}else {
+			JOptionPane.showMessageDialog(null,"Không thể xóa khách hàng");
+		}
+		return deletedRow;
+	}
+	
+	
+	public void suaKH() {
+		KhachHangDTO kh = getSelectedKhachHang();
+		
+		if(kh == null) return;
+		
+		kh.setMakh(this.textField_MSKH.getText());
+		kh.setHokh(this.textField_HoKH.getText());
+		kh.setTenkh(this.textField_TenKH.getText());
+		Boolean gioitinh = KiemTra.getInstance().GioiTinh(this.comboBox_gioitinh.getSelectedItem()+"");
+		kh.setGioitinh(gioitinh);
+		kh.setDotuoi(this.comboBox_dotuoi.getSelectedItem()+"");
+		kh.setDiachi(this.textArea.getText());
+		kh.setSdt(this.textField_SDT.getText());
+		kh.setEmail(this.textField_Email.getText());
+		
+		int result = khBus.suaKh(kh);
+		if(result !=-1) {
+			JOptionPane.showMessageDialog(null,"Sửa thông tin thành công khách hàng " + kh.getMakh());
+		}
+		else if(result == -1) {
+			JOptionPane.showMessageDialog(null,"Không thể sửa thông tin khách hàng " + kh.getMakh());
+		}
+
+	}
+	
+	
+	 public void resetTable() {
+		   DefaultTableModel tableModel =(DefaultTableModel) table_KhachHang.getModel();
+			tableModel.setRowCount(0);
+		 
+	}
+	 
+	 public void initArrayList() {
+			for(KhachHangDTO kh: KhachHangBUS.khDTO) {
+				tableModel.addRow(new Object[]{
+					kh.getMakh().toUpperCase(),kh.getHokh(),kh.getTenkh(),KiemTra.getInstance().GioiTinh(kh.isGioitinh()),kh.getDotuoi(),kh.getDiachi(),kh.getSdt(),kh.getEmail()
+				});
+			}
+			
+			table_KhachHang.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(e.getClickCount() == 1) {
+						hienThiThongTin();
+					}
+				}
+			});
+		}
+		public void initArrayList(ArrayList<KhachHangDTO> t) {
+			for(KhachHangDTO kh: t) {
+				tableModel.addRow(new Object[]{
+						kh.getMakh().toUpperCase(),kh.getHokh(),kh.getTenkh(),KiemTra.getInstance().GioiTinh(kh.isGioitinh()),kh.getDotuoi(),kh.getDiachi(),kh.getSdt(),kh.getEmail()
+				});
+			}
+			
+                table_KhachHang.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(e.getClickCount() == 1) {
+						hienThiThongTin();
+					}
+				}
+			});
+		}
+	 public void initForm() {
+			this.textField_MSKH.setEnabled(true);
+			this.textField_HoKH.setEditable(true);
+			this.textField_TenKH.setEditable(true);
+			this.comboBox_gioitinh.setEnabled(true);
+			this.comboBox_dotuoi.setEnabled(true);
+			this.textArea.setEditable(true);
+			this.textArea.setEnabled(true);
+			this.textField_SDT.setEditable(true);
+			this.textField_Email.setEditable(true);
+			
+		}
+	 
+	 public void reSetForm() {
+		    KhachHangDTO kh = new KhachHangDTO(); // Tạo đối tượng mới với giá trị mặc định.
+		    kh.setDiachi(" "); 
+		    this.textField_MSKH.setText("");
+		    this.textField_HoKH.setText("");
+		    this.textField_TenKH.setText("");
+		    this.comboBox_gioitinh.setSelectedIndex(0);
+		    this.comboBox_dotuoi.setSelectedIndex(0);
+		    this.textArea.setText(kh.getDiachi()); 
+		    this.textField_SDT.setText("");
+		    this.textField_Email.setText("");
+		}
 }

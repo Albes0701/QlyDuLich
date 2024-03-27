@@ -43,7 +43,7 @@ public class ChiTietHoaDon extends JFrame {
 	 */
 	public ChiTietHoaDon() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 450);
+		setBounds(480, 200, 700, 450);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
