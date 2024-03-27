@@ -196,7 +196,7 @@ public class Ve extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2.setBounds(10, 82, 547, 132);
+		panel_2.setBounds(10, 70, 547, 168);
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -244,9 +244,21 @@ public class Ve extends JFrame {
 		lblNewLabel_1_1_1_1_1.setBounds(302, 65, 97, 26);
 		panel_2.add(lblNewLabel_1_1_1_1_1);
 		
+		JButton btnNewButton_Luu = new JButton("Lưu");
+		btnNewButton_Luu.setBounds(230, 130, 85, 26);
+		panel_2.add(btnNewButton_Luu);
+		btnNewButton_Luu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_Luu.setForeground(Color.WHITE);
+		btnNewButton_Luu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnNewButton_Luu.setFocusable(false);
+		btnNewButton_Luu.setBackground(new Color(255, 128, 64));
+		
 		JLabel lblNewLabel_1_1_2 = new JLabel("Danh sách khách đi tour");
 		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_2.setBounds(10, 214, 234, 26);
+		lblNewLabel_1_1_2.setBounds(10, 238, 234, 26);
 		panel_1.add(lblNewLabel_1_1_2);
 		
 		JButton btnNewButton_Them = new JButton("Thêm");
@@ -258,7 +270,7 @@ public class Ve extends JFrame {
 		btnNewButton_Them.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton_Them.setFocusable(false);
 		btnNewButton_Them.setBackground(new Color(65, 105, 225));
-		btnNewButton_Them.setBounds(300, 296, 75, 25);
+		btnNewButton_Them.setBounds(299, 332, 75, 25);
 		panel_1.add(btnNewButton_Them);
 		
 		JButton btnNewButton_Sua = new JButton("Sửa");
@@ -266,7 +278,7 @@ public class Ve extends JFrame {
 		btnNewButton_Sua.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton_Sua.setFocusable(false);
 		btnNewButton_Sua.setBackground(new Color(50, 205, 50));
-		btnNewButton_Sua.setBounds(384, 296, 75, 25);
+		btnNewButton_Sua.setBounds(384, 332, 75, 25);
 		panel_1.add(btnNewButton_Sua);
 		
 		JButton btnNewButton_Xoa = new JButton("Xóa");
@@ -274,11 +286,11 @@ public class Ve extends JFrame {
 		btnNewButton_Xoa.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNewButton_Xoa.setFocusable(false);
 		btnNewButton_Xoa.setBackground(Color.RED);
-		btnNewButton_Xoa.setBounds(469, 296, 75, 25);
+		btnNewButton_Xoa.setBounds(469, 332, 75, 25);
 		panel_1.add(btnNewButton_Xoa);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 331, 537, 156);
+		scrollPane.setBounds(20, 367, 537, 156);
 		panel_1.add(scrollPane);
 		
 		table_ThongTin = new JTable();
@@ -313,80 +325,68 @@ public class Ve extends JFrame {
 		table_ThongTin.getColumnModel().getColumn(4).setPreferredWidth(58);
 		table_ThongTin.getColumnModel().getColumn(5).setPreferredWidth(99);
 		
-		JButton btnNewButton_Luu = new JButton("Lưu");
-		btnNewButton_Luu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton_Luu.setForeground(Color.WHITE);
-		btnNewButton_Luu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Luu.setFocusable(false);
-		btnNewButton_Luu.setBackground(new Color(255, 128, 64));
-		btnNewButton_Luu.setBounds(240, 497, 85, 26);
-		panel_1.add(btnNewButton_Luu);
-		
 		JLabel lblNewLabel_1_1_1_3 = new JLabel("Họ và tên");
 		lblNewLabel_1_1_1_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_3.setBounds(20, 235, 97, 26);
+		lblNewLabel_1_1_1_3.setBounds(20, 260, 97, 26);
 		panel_1.add(lblNewLabel_1_1_1_3);
 		
 		textField_HoTenTV = new JTextField();
 		textField_HoTenTV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_HoTenTV.setColumns(10);
-		textField_HoTenTV.setBounds(20, 260, 120, 25);
+		textField_HoTenTV.setBounds(20, 296, 120, 25);
 		panel_1.add(textField_HoTenTV);
 		
 		JLabel lblNewLabel_1_1_1_3_1 = new JLabel("Giới tính");
 		lblNewLabel_1_1_1_3_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_3_1.setBounds(160, 235, 70, 26);
+		lblNewLabel_1_1_1_3_1.setBounds(168, 260, 70, 26);
 		panel_1.add(lblNewLabel_1_1_1_3_1);
 		
 		JComboBox comboBox_GioiTinhTV = new JComboBox();
 		comboBox_GioiTinhTV.setBackground(new Color(255, 255, 255));
 		comboBox_GioiTinhTV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		comboBox_GioiTinhTV.setBounds(160, 260, 70, 25);
+		comboBox_GioiTinhTV.setBounds(168, 296, 70, 25);
 		panel_1.add(comboBox_GioiTinhTV);
 		
 		JLabel lblNewLabel_1_1_1_3_2 = new JLabel("Năm sinh");
 		lblNewLabel_1_1_1_3_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_3_2.setBounds(250, 235, 97, 26);
+		lblNewLabel_1_1_1_3_2.setBounds(257, 260, 97, 26);
 		panel_1.add(lblNewLabel_1_1_1_3_2);
 		
 		JDateChooser dateChooser_NamSinhTV = new JDateChooser();
-		dateChooser_NamSinhTV.setBounds(250, 260, 90, 26);
+		dateChooser_NamSinhTV.setBounds(257, 296, 90, 26);
 		panel_1.add(dateChooser_NamSinhTV);
 		
 		JLabel lblNewLabel_1_1_1_3_3 = new JLabel("Độ tuổi");
 		lblNewLabel_1_1_1_3_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_3_3.setBounds(360, 235, 70, 26);
+		lblNewLabel_1_1_1_3_3.setBounds(360, 260, 70, 26);
 		panel_1.add(lblNewLabel_1_1_1_3_3);
 		
 		JComboBox comboBox_DoTuoiTV = new JComboBox();
 		comboBox_DoTuoiTV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox_DoTuoiTV.setBackground(Color.WHITE);
-		comboBox_DoTuoiTV.setBounds(360, 260, 70, 25);
+		comboBox_DoTuoiTV.setBounds(360, 297, 70, 25);
 		panel_1.add(comboBox_DoTuoiTV);
 		
 		JLabel lblNewLabel_1_1_1_3_4 = new JLabel("Số điện thoại");
 		lblNewLabel_1_1_1_3_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_3_4.setBounds(447, 235, 97, 26);
+		lblNewLabel_1_1_1_3_4.setBounds(447, 260, 97, 26);
 		panel_1.add(lblNewLabel_1_1_1_3_4);
 		
 		textField_SDTTV = new JTextField();
 		textField_SDTTV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_SDTTV.setColumns(10);
-		textField_SDTTV.setBounds(447, 260, 110, 25);
+		textField_SDTTV.setBounds(447, 297, 110, 25);
 		panel_1.add(textField_SDTTV);
 		
 		JLabel lblNewLabel_1_1_1_3_5 = new JLabel("Mã giảm giá:");
 		lblNewLabel_1_1_1_3_5.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_3_5.setBounds(20, 295, 97, 26);
+		lblNewLabel_1_1_1_3_5.setBounds(20, 331, 97, 26);
 		panel_1.add(lblNewLabel_1_1_1_3_5);
 		
 		JComboBox comboBox_MAGG = new JComboBox();
 		comboBox_MAGG.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox_MAGG.setBackground(Color.WHITE);
-		comboBox_MAGG.setBounds(126, 295, 85, 25);
+		comboBox_MAGG.setBounds(111, 332, 85, 25);
 		panel_1.add(comboBox_MAGG);
 		
 		JPanel panel_1_1 = new JPanel();

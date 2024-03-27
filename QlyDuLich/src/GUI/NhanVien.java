@@ -757,6 +757,9 @@ public class NhanVien extends JFrame{
 		
 	}
 	
+	
+	
+	
 	public void initForm() {
 		this.textField_MSNV.setEnabled(true);
 		this.textField_MSNV.setEditable(true);
