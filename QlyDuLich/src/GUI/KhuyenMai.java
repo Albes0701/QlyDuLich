@@ -58,7 +58,6 @@ public class KhuyenMai extends JFrame {
 	private JTable table_KhuyenMai;
 	private JTextField textField_TimKiem;
 	private JTextField textField_DieuKien;
-	private JComboBox comboBox_DoiTuong;
 	JComboBox timkiem_cb;
 	JButton luu_btn,thoat_btn,sua_btn,xoa_btn,them_btn;
 	JTextArea textArea_tenCT;
@@ -301,7 +300,7 @@ public class KhuyenMai extends JFrame {
 		
 		JLabel lblNewLabel_2_4_1 = new JLabel("Ngày bắt đầu");
 		lblNewLabel_2_4_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4_1.setBounds(10, 270, 106, 20);
+		lblNewLabel_2_4_1.setBounds(10, 250, 106, 20);
 		panel_2.add(lblNewLabel_2_4_1);
 		
 		luu_btn = new JButton("Lưu");
@@ -359,12 +358,12 @@ public class KhuyenMai extends JFrame {
         dateChooser_NgayBD.setCalendar(calendar);
 		dateChooser_NgayBD.getCalendarButton().setEnabled(false);
 		dateChooser_NgayBD.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		dateChooser_NgayBD.setBounds(127, 270, 110, 26);
+		dateChooser_NgayBD.setBounds(127, 250, 110, 26);
 		panel_2.add(dateChooser_NgayBD);
 		
 		JLabel lblNewLabel_2_4_1_1 = new JLabel("Ngày kết thúc");
 		lblNewLabel_2_4_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4_1_1.setBounds(10, 306, 106, 20);
+		lblNewLabel_2_4_1_1.setBounds(10, 296, 106, 20);
 		panel_2.add(lblNewLabel_2_4_1_1);
 		
 		dateChooser_NgayKT = new JDateChooser();
@@ -375,13 +374,13 @@ public class KhuyenMai extends JFrame {
         dateChooser_NgayKT.setCalendar(calendar);
 		dateChooser_NgayKT.getCalendarButton().setEnabled(false);
 		dateChooser_NgayKT.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		dateChooser_NgayKT.setBounds(127, 306, 110, 26);
+		dateChooser_NgayKT.setBounds(127, 296, 110, 26);
 		panel_2.add(dateChooser_NgayKT);
 
 		JLabel lblNewLabel_2_2 = new JLabel("<html>Điều</br> kiện (>x)x: số người</html>");
 		
 		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_2.setBounds(10, 209, 110, 52);
+		lblNewLabel_2_2.setBounds(10, 178, 110, 52);
 		panel_2.add(lblNewLabel_2_2);
 		
 		textField_DieuKien = new JTextField();
@@ -389,19 +388,9 @@ public class KhuyenMai extends JFrame {
 		textField_DieuKien.setEditable(false);
 		textField_DieuKien.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_DieuKien.setColumns(10);
-		textField_DieuKien.setBounds(127, 224, 110, 26);
+		textField_DieuKien.setBounds(127, 193, 110, 26);
 		panel_2.add(textField_DieuKien);
-		
-		JLabel lblNewLabel_2_3 = new JLabel("Đối tượng");
-		lblNewLabel_2_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_3.setBounds(10, 179, 120, 20);
-		panel_2.add(lblNewLabel_2_3);
 		String []item_dt = {"Tất cả","Người lớn","Trẻ em"};
-		comboBox_DoiTuong = new JComboBox(item_dt);
-		comboBox_DoiTuong.setEnabled(false);
-		comboBox_DoiTuong.setBackground(new Color(255, 255, 255));
-		comboBox_DoiTuong.setBounds(127, 178, 110, 26);
-		panel_2.add(comboBox_DoiTuong);
 		
 		thoat_btn = new JButton("Thoát");
 		thoat_btn.addActionListener(new ActionListener() {
@@ -452,7 +441,7 @@ public class KhuyenMai extends JFrame {
 		table_KhuyenMai = new JTable();
 		scrollPane_2.setViewportView(table_KhuyenMai);
 		table_KhuyenMai.setDefaultEditor(Object.class,null);
-		String[] colname =  {"Mã khuyến mãi","Tên chương trình","Phần trăm","Đối tượng","Điều kiện","Ngày bắt đầu","Ngày kết thúc","Tình trạng"};
+		String[] colname =  {"Mã khuyến mãi","Tên chương trình","Phần trăm","Điều kiện","Ngày bắt đầu","Ngày kết thúc","Tình trạng"};
 		tableModel = new DefaultTableModel();
 		table_KhuyenMai.setModel(tableModel);
 		tableModel.setColumnIdentifiers(colname);
@@ -460,9 +449,8 @@ public class KhuyenMai extends JFrame {
 		table_KhuyenMai.getColumnModel().getColumn(1).setPreferredWidth(140);
 		table_KhuyenMai.getColumnModel().getColumn(2).setPreferredWidth(70);
 		table_KhuyenMai.getColumnModel().getColumn(3).setPreferredWidth(70);
-		table_KhuyenMai.getColumnModel().getColumn(4).setPreferredWidth(70);
+		table_KhuyenMai.getColumnModel().getColumn(4).setPreferredWidth(100);
 		table_KhuyenMai.getColumnModel().getColumn(5).setPreferredWidth(100);
-		table_KhuyenMai.getColumnModel().getColumn(6).setPreferredWidth(100);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
@@ -553,7 +541,7 @@ public class KhuyenMai extends JFrame {
 		panel_3.add(textField_TimKiem);
 		textField_TimKiem.setColumns(10);
 		
-		String []item_tk = {"Mã khuyến mãi","Tên chương trình","Đối tượng","Tình trạng"};
+		String []item_tk = {"Mã khuyến mãi","Tên chương trình","Tình trạng"};
 		timkiem_cb = new JComboBox(item_tk);
 		timkiem_cb.setBounds(251, 3, 140, 25);
 		textField_TimKiem.addActionListener(new ActionListener() {
@@ -597,8 +585,8 @@ public class KhuyenMai extends JFrame {
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setBounds(29, 68, 190, 300);
 		panel_1.add(scrollPane_1);
-		initData();
 		this.setVisible(true);
+		initData();
 	}
 	
 	
@@ -607,9 +595,14 @@ public class KhuyenMai extends JFrame {
 			
 			for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
 				boolean tinhtrang = KiemTra.getInstance().checkTinhTrang(KiemTra.getInstance().toDateUtil(km.getNgaykt()));
+				if(!tinhtrang && km.getNgaykt().compareTo(calendar.getTime()) == 0){
+					km.setTinhtrang(tinhtrang);
+					JOptionPane.showMessageDialog(null, "Mã khuyến mãi " + km.getMakm() + " đã hết thời hạn");
+					kmBUS.suaKM(km);
+				};
 					tableModel.addRow(new Object[]{
 							
-						km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),km.getDoituong(),
+						km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),
 						km.getDieukien(),km.getNgaybd()+"",km.getNgaykt(),
 						KiemTra.getInstance().tinhTrang(tinhtrang)
 				});
@@ -629,7 +622,7 @@ public class KhuyenMai extends JFrame {
 	public void initArrayList(ArrayList<KhuyenMaiDTO> t) {
 		for(KhuyenMaiDTO km: t) {
 			tableModel.addRow(new Object[]{
-					km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),km.getDoituong(),
+					km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),
 					km.getDieukien(),km.getNgaybd()+"",km.getNgaykt(),KiemTra.getInstance().tinhTrang(km.getTinhtrang())
 			});
 		}
@@ -645,7 +638,7 @@ public class KhuyenMai extends JFrame {
 	public void initArrayList() {
 		for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
 			tableModel.addRow(new Object[]{
-					km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),km.getDoituong(),
+					km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),
 					km.getDieukien(),km.getNgaybd()+"",km.getNgaykt(),KiemTra.getInstance().tinhTrang(km.getTinhtrang())
 			});
 		}
@@ -664,10 +657,9 @@ public class KhuyenMai extends JFrame {
 		this.textField_MSKM.setText(km.getMakm());
 		this.textArea_tenCT.setText(km.getTectkm());
 		this.textField_GiamGia.setText(km.getPhantram()+"");
-		this.comboBox_DoiTuong.setSelectedItem(km.getDoituong());
 		this.dateChooser_NgayBD.setDate(km.getNgaybd());
 		this.dateChooser_NgayKT.setDate(km.getNgaykt());
-		this.textField_DieuKien.setText(km.getDieukien());
+		this.textField_DieuKien.setText(km.getDieukien()+"");
 		this.textField_tinhtrang.setText(KiemTra.getInstance().tinhTrang(km.getTinhtrang()));
 //		this.textField.setText(km.getCmnd());
 //		this.comboBox_GioiTinh.setSelectedItem(KiemTra.getInstance().GioiTinh(nv.getGioitinh()) );
@@ -680,20 +672,19 @@ public class KhuyenMai extends JFrame {
 		String makm = model.getValueAt(row, 0) + "";
 		String tenct = model.getValueAt(row, 1) + "";
 		double phantram = (double)model.getValueAt(row, 2);
-		String doituong = model.getValueAt(row, 3) + "";
-		String dieukien = model.getValueAt(row, 4) + "";
+		int dieukien = (int)model.getValueAt(row, 3);
 		// Giả sử ngayvlString là một chuỗi chứa ngày tháng năm trong định dạng chuẩn
-		String ngaybdString =  model.getValueAt(row, 5) + "";
+		String ngaybdString =  model.getValueAt(row, 4) + "";
 
 		// Chuyển đổi chuỗi thành kiểu java.sql.Date
 		java.sql.Date ngaybd = java.sql.Date.valueOf(ngaybdString);
 		
-		String ngayktString =  model.getValueAt(row, 6) + "";
+		String ngayktString =  model.getValueAt(row, 5) + "";
 
 		// Chuyển đổi chuỗi thành kiểu java.sql.Date
 		java.sql.Date ngaykt = java.sql.Date.valueOf(ngayktString);
-		Boolean tinhtrang = KiemTra.getInstance().tinhTrang(model.getValueAt(row, 7).toString());		
-		KhuyenMaiDTO km = new KhuyenMaiDTO(makm.toLowerCase(), tenct, doituong,dieukien,phantram, ngaybd, ngaykt,tinhtrang);
+		Boolean tinhtrang = KiemTra.getInstance().tinhTrang(model.getValueAt(row, 6).toString());		
+		KhuyenMaiDTO km = new KhuyenMaiDTO(makm.toLowerCase(), tenct,dieukien,phantram, ngaybd, ngaykt,tinhtrang);
 		return km;
 	}
 	public boolean checkNull() {
@@ -709,8 +700,7 @@ public class KhuyenMai extends JFrame {
 		km.setMakm(this.textField_MSKM.getText());
 		km.setTectkm(this.textArea_tenCT.getText());
 		km.setPhantram(Double.parseDouble(this.textField_GiamGia.getText()));
-		km.setDoituong(this.comboBox_DoiTuong.getSelectedItem()+"");
-		km.setDieukien(this.textField_DieuKien.getText());
+		km.setDieukien(Integer.parseInt(this.textField_DieuKien.getText()));
 		java.util.Date utilDate = this.dateChooser_NgayBD.getDate();
 		java.sql.Date sqlDate_ngayBD = new java.sql.Date(utilDate.getTime());
 		km.setNgaybd(sqlDate_ngayBD);
@@ -732,7 +722,6 @@ public class KhuyenMai extends JFrame {
 		this.textField_MSKM.setText("");
 		this.textArea_tenCT.setText("");
 		this.textField_GiamGia.setText("");
-		this.comboBox_DoiTuong.setSelectedIndex(0);
 		this.textField_DieuKien.setText("");
 		calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -747,7 +736,6 @@ public class KhuyenMai extends JFrame {
 		this.textField_MSKM.setEditable(true);
 		this.textArea_tenCT.setEditable(true);
 		this.textField_GiamGia.setEditable(true);
-		this.comboBox_DoiTuong.setEnabled(true);
 		this.textField_DieuKien.setEditable(true);
 		this.dateChooser_NgayBD.getCalendarButton().setEnabled(true);
 		this.dateChooser_NgayKT.getCalendarButton().setEnabled(true);
@@ -760,7 +748,6 @@ public class KhuyenMai extends JFrame {
 		this.textField_MSKM.setEditable(false);
 		this.textArea_tenCT.setEditable(false);
 		this.textField_GiamGia.setEditable(false);
-		this.comboBox_DoiTuong.setEnabled(false);
 		this.textField_DieuKien.setEditable(false);
 //		this.textField_SDT.setEditable(false);
 		this.dateChooser_NgayBD.getCalendarButton().setEnabled(false);
@@ -779,8 +766,7 @@ public class KhuyenMai extends JFrame {
 		if(km == null) return false;
 		km.setMakm(this.textField_MSKM.getText());
 		km.setTectkm(this.textArea_tenCT.getText());
-		km.setDieukien(this.textField_DieuKien.getText());
-		km.setDoituong(this.comboBox_DoiTuong.getSelectedItem()+"");
+		km.setDieukien(Integer.parseInt(this.textField_DieuKien.getText()));
 		km.setPhantram(Double.parseDouble(this.textField_GiamGia.getText()));
 		java.util.Date utilDate = this.dateChooser_NgayBD.getDate();
 		java.sql.Date sqlDate_ngayBD = new java.sql.Date(utilDate.getTime());

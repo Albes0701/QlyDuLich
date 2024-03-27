@@ -34,12 +34,11 @@ public class KhuyenMaiDAO {
 				String makm=rs.getString("makm");
 				String tenctkm=rs.getString("tenctkm");
 				double phantram=rs.getDouble("phantram");
-				String doituong=rs.getString("doituong");
-				String dieukien=rs.getString("dieukien");
+				int dieukien=rs.getInt("dieukien");
 				Date ngaybd=rs.getDate("ngaybatdau");
 				Date ngaykt=rs.getDate("ngayketthuc");
 				Boolean tinhtrang = rs.getBoolean("tinhtrang");
-				KhuyenMaiDTO km = new KhuyenMaiDTO(makm, tenctkm, doituong, dieukien, phantram, ngaybd, ngaykt,tinhtrang);
+				KhuyenMaiDTO km = new KhuyenMaiDTO(makm, tenctkm, dieukien, phantram, ngaybd, ngaykt,tinhtrang);
 				ketQua.add(km);
 			}
 			//Bước 5:Ngắt kết nối
@@ -60,8 +59,8 @@ public class KhuyenMaiDAO {
 			//tao statement
 			java.sql.Statement st = con.createStatement();
 			//truy van
-			String sql = "INSERT INTO khuyenmai (makm, tenctkm, doituong, dieukien, phantram, ngaybatdau, ngayketthuc,tinhtrang) VALUES ('"
-		            + t.getMakm() + "' , '" + t.getTectkm() + "' , '" + t.getDoituong() + "' , '" + t.getDieukien() + "' , "
+			String sql = "INSERT INTO khuyenmai (makm, tenctkm, dieukien, phantram, ngaybatdau, ngayketthuc,tinhtrang) VALUES ('"
+		            + t.getMakm() + "' , '" + t.getTectkm() + "' , '"+ t.getDieukien() + "' , "
 		            + t.getPhantram() + ", '" + t.getNgaybd() + "' , '" + t.getNgaykt() + "' , " + t.getTinhtrang() +")";
 			System.out.println(sql);
 			kq = st.executeUpdate(sql);
@@ -83,7 +82,7 @@ public class KhuyenMaiDAO {
 			Connection con = JDBCUtil.getConnection();
 			Statement st = con.createStatement();
 			String sql = "UPDATE khuyenmai SET makm='" + t.getMakm() + "',tenctkm='"
-					+ t.getTectkm() + "',phantram=" + t.getPhantram() + ",doituong='" + t.getDoituong() + "',dieukien='"
+					+ t.getTectkm() + "',phantram=" + t.getPhantram() +  ",dieukien='"
 					+ t.getDieukien() + "',ngaybatdau='" + t.getNgaybd() +  "',ngayketthuc='" + t.getNgaykt() +
 					"',tinhtrang = " + t.getTinhtrang() + " WHERE makm='" + t.getMakm() + "';";
 //			System.out.println(sql);

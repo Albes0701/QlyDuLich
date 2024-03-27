@@ -48,7 +48,6 @@ public class KhuyenMaiBUS {
 		try {
 			for(KhuyenMaiDTO k : kmDTO) {
 				if(km.getMakm().equalsIgnoreCase(k.getMakm())) {
-					System.out.println(k.getMakm());
 					k.copyKM(km);
 					return KhuyenMaiDAO.getIntance().upDateKhuyenMai(k);
 				}
@@ -88,30 +87,6 @@ public class KhuyenMaiBUS {
 				for(KhuyenMaiDTO km : kmDTO) {
 					if(km.getTectkm().contains(condition)) {
 						tmp.add(km);
-					}
-				}
-			}
-			else if(type.equalsIgnoreCase("Đối tượng")) {
-				condition = KiemTra.getInstance().formatchString(condition);
-				if(condition.equalsIgnoreCase("Người lớn"))
-				{
-					for(KhuyenMaiDTO km : kmDTO) {
-						if(km.getDoituong().equalsIgnoreCase("Người lớn")) {
-							tmp.add(km);
-						}
-					}
-				}else if(condition.equalsIgnoreCase("Trẻ em"))
-				{
-					for(KhuyenMaiDTO km : kmDTO) {
-						if(km.getDoituong().equalsIgnoreCase("Trẻ em")) {
-							tmp.add(km);
-						}
-					}
-				}else if(condition.equalsIgnoreCase("Tất cả")) {
-					for(KhuyenMaiDTO km : kmDTO) {
-						if(km.getDoituong().equalsIgnoreCase("Tất cả")) {
-							tmp.add(km);
-						}
 					}
 				}
 			}

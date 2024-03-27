@@ -164,7 +164,8 @@ public class TrangChuGUI extends JFrame {
 		btnNewButton_2.setBounds(849, 24, 124, 30);
 		panel.add(btnNewButton_2);
 
-		JLabel lblNewLabel = new JLabel("User");
+		JLabel lblNewLabel = new JLabel();
+		
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel.setBounds(768, 25, 90, 30);
