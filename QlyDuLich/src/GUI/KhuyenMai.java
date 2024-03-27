@@ -11,6 +11,9 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JButton;
@@ -29,6 +32,7 @@ import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.border.CompoundBorder;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
@@ -38,6 +42,12 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
+
+import BUS.KhuyenMaiBUS;
+import BUS.KiemTra;
+import BUS.NhanVienBUS;
+import DTO.KhuyenMaiDTO;
+import DTO.NhanVienDTO;
 
 public class KhuyenMai extends JFrame {
 
@@ -49,7 +59,16 @@ public class KhuyenMai extends JFrame {
 	private JTextField textField_TimKiem;
 	private JTextField textField_DieuKien;
 	private JComboBox comboBox_DoiTuong;
+	JComboBox timkiem_cb;
+	JButton luu_btn,thoat_btn,sua_btn,xoa_btn,them_btn;
+	JTextArea textArea_tenCT;
+	JDateChooser dateChooser_NgayBD, dateChooser_NgayKT;
+	DefaultTableModel tableModel;
 	JButton btn_QLTour,btn_KHTour,btn_QLDV,btn_KhuyenMai,btn_NhanVien,btn_KhachHang;
+	Calendar calendar;
+	
+	KhuyenMaiBUS kmBUS  = new KhuyenMaiBUS();
+	JTextField textField_tinhtrang;
 	/**
 	 * Launch the application.
 	 */
@@ -253,6 +272,8 @@ public class KhuyenMai extends JFrame {
 		panel_2.add(lblNewLabel_2);
 		
 		textField_MSKM = new JTextField();
+		textField_MSKM.setBackground(new Color(255, 255, 255));
+		textField_MSKM.setEditable(false);
 		textField_MSKM.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_MSKM.setBounds(127, 25, 110, 26);
 		panel_2.add(textField_MSKM);
@@ -260,84 +281,169 @@ public class KhuyenMai extends JFrame {
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Tên chương trình");
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_1.setBounds(10, 65, 144, 20);
+		lblNewLabel_2_1.setBounds(10, 57, 144, 20);
 		panel_2.add(lblNewLabel_2_1);
 		
 		String [] item_gender = {"Nam","Nữ"};
 		
 		textField_GiamGia = new JTextField();
+		textField_GiamGia.setBackground(new Color(255, 255, 255));
+		textField_GiamGia.setEditable(false);
 		textField_GiamGia.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_GiamGia.setColumns(10);
-		textField_GiamGia.setBounds(127, 170, 110, 26);
+		textField_GiamGia.setBounds(127, 142, 110, 26);
 		panel_2.add(textField_GiamGia);
 		
 		JLabel lblNewLabel_2_4 = new JLabel("Phần trăm (%)");
 		lblNewLabel_2_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4.setBounds(10, 172, 120, 20);
+		lblNewLabel_2_4.setBounds(10, 144, 120, 20);
 		panel_2.add(lblNewLabel_2_4);
 		
 		JLabel lblNewLabel_2_4_1 = new JLabel("Ngày bắt đầu");
 		lblNewLabel_2_4_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4_1.setBounds(10, 305, 106, 20);
+		lblNewLabel_2_4_1.setBounds(10, 270, 106, 20);
 		panel_2.add(lblNewLabel_2_4_1);
 		
-		JButton btnNewButton_Luu = new JButton("Lưu");
-		btnNewButton_Luu.setFocusable(false);
-		btnNewButton_Luu.setForeground(new Color(255, 255, 255));
-		btnNewButton_Luu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Luu.setBackground(new Color(255, 128, 64));
-		btnNewButton_Luu.addActionListener(new ActionListener() {
+		luu_btn = new JButton("Lưu");
+		luu_btn.setBackground(Color.GRAY);
+		luu_btn.setEnabled(false);
+		luu_btn.setFocusable(false);
+		luu_btn.setForeground(new Color(255, 255, 255));
+		luu_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		luu_btn.setBackground(Color.GRAY);
+		luu_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!sua_btn.isEnabled()) {
+					if(checkNull()) {
+						JOptionPane.showMessageDialog(null, "Vui long dien du thong tin","ERROR",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
+					if(themKM()) {
+						resetTable();
+						initArrayList();
+						reSetForm();
+					}
+				}else if(!them_btn.isEnabled()) {
+					if(getSelectedKM() == null) {
+						JOptionPane.showMessageDialog(null, "Chưa chọn khuyến mãi");
+						return;
+					}
+					if(suaKM()) {
+						resetTable();
+						initArrayList();
+						reSetForm();
+					}
+				}
 			}
 		});
-		btnNewButton_Luu.setBounds(84, 397, 85, 26);
-		panel_2.add(btnNewButton_Luu);
+		luu_btn.setBounds(30, 397, 85, 26);
+		panel_2.add(luu_btn);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(10, 100, 227, 52);
+		scrollPane_3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_3.setBounds(10, 80, 227, 52);
 		panel_2.add(scrollPane_3);
 		
-		JTextArea textArea_tenCT = new JTextArea();
+		textArea_tenCT = new JTextArea();
+		textArea_tenCT.setEditable(false);
+		textArea_tenCT.setLineWrap(true);
+		textArea_tenCT.setWrapStyleWord(true);
 		textArea_tenCT.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scrollPane_3.setViewportView(textArea_tenCT);
 		
-		JDateChooser dateChooser_NgayBD = new JDateChooser();
+		dateChooser_NgayBD = new JDateChooser();
+		calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        dateChooser_NgayBD.setCalendar(calendar);
+		dateChooser_NgayBD.getCalendarButton().setEnabled(false);
 		dateChooser_NgayBD.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		dateChooser_NgayBD.setBounds(127, 305, 110, 26);
-		dateChooser_NgayBD.setDate(Calendar.getInstance().getTime());
+		dateChooser_NgayBD.setBounds(127, 270, 110, 26);
 		panel_2.add(dateChooser_NgayBD);
 		
 		JLabel lblNewLabel_2_4_1_1 = new JLabel("Ngày kết thúc");
 		lblNewLabel_2_4_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4_1_1.setBounds(10, 348, 106, 20);
+		lblNewLabel_2_4_1_1.setBounds(10, 306, 106, 20);
 		panel_2.add(lblNewLabel_2_4_1_1);
 		
-		JDateChooser dateChooser_NgayKT = new JDateChooser();
+		dateChooser_NgayKT = new JDateChooser();
+		calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        dateChooser_NgayKT.setCalendar(calendar);
+		dateChooser_NgayKT.getCalendarButton().setEnabled(false);
 		dateChooser_NgayKT.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		dateChooser_NgayKT.setBounds(127, 348, 110, 26);
+		dateChooser_NgayKT.setBounds(127, 306, 110, 26);
 		panel_2.add(dateChooser_NgayKT);
-		
+
 		JLabel lblNewLabel_2_2 = new JLabel("<html>Điều</br> kiện (>x)x: số người</html>");
 		
 		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_2.setBounds(10, 243, 110, 52);
+		lblNewLabel_2_2.setBounds(10, 209, 110, 52);
 		panel_2.add(lblNewLabel_2_2);
 		
 		textField_DieuKien = new JTextField();
+		textField_DieuKien.setBackground(new Color(255, 255, 255));
+		textField_DieuKien.setEditable(false);
 		textField_DieuKien.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_DieuKien.setColumns(10);
-		textField_DieuKien.setBounds(127, 258, 110, 26);
+		textField_DieuKien.setBounds(127, 224, 110, 26);
 		panel_2.add(textField_DieuKien);
 		
 		JLabel lblNewLabel_2_3 = new JLabel("Đối tượng");
 		lblNewLabel_2_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_3.setBounds(10, 213, 120, 20);
+		lblNewLabel_2_3.setBounds(10, 179, 120, 20);
 		panel_2.add(lblNewLabel_2_3);
-		
-		comboBox_DoiTuong = new JComboBox();
+		String []item_dt = {"Tất cả","Người lớn","Trẻ em"};
+		comboBox_DoiTuong = new JComboBox(item_dt);
+		comboBox_DoiTuong.setEnabled(false);
 		comboBox_DoiTuong.setBackground(new Color(255, 255, 255));
-		comboBox_DoiTuong.setBounds(127, 212, 110, 26);
+		comboBox_DoiTuong.setBounds(127, 178, 110, 26);
 		panel_2.add(comboBox_DoiTuong);
+		
+		thoat_btn = new JButton("Thoát");
+		thoat_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lockForm();
+				them_btn.setEnabled(true);
+				them_btn.setBackground(Color.blue);
+				xoa_btn.setEnabled(true);
+				xoa_btn.setBackground(Color.red);
+				sua_btn.setEnabled(true);
+				sua_btn.setBackground(new Color(50, 205, 50));
+				sua_btn.setForeground(new Color(255, 255, 255));
+				thoat_btn.setEnabled(false);
+				thoat_btn.setBackground(Color.gray);
+				luu_btn.setEnabled(false);
+				luu_btn.setBackground(Color.GRAY);
+				resetTable();
+				reSetForm();
+				initArrayList();
+			}
+		});
+		thoat_btn.setForeground(Color.WHITE);
+		thoat_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		thoat_btn.setFocusable(false);
+		thoat_btn.setEnabled(false);
+		thoat_btn.setBackground(Color.GRAY);
+		thoat_btn.setBounds(138, 397, 85, 26);
+		
+		panel_2.add(thoat_btn);
+		
+		JLabel lblNewLabel_2_5 = new JLabel("Tình trạng");
+		lblNewLabel_2_5.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_2_5.setBounds(10, 344, 120, 20);
+		panel_2.add(lblNewLabel_2_5);
+		
+		textField_tinhtrang = new JTextField();
+		textField_tinhtrang.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textField_tinhtrang.setEditable(false);
+		textField_tinhtrang.setColumns(10);
+		textField_tinhtrang.setBackground(Color.WHITE);
+		textField_tinhtrang.setBounds(127, 342, 110, 26);
+		panel_2.add(textField_tinhtrang);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(269, 50, 681, 435);
@@ -345,50 +451,11 @@ public class KhuyenMai extends JFrame {
 		
 		table_KhuyenMai = new JTable();
 		scrollPane_2.setViewportView(table_KhuyenMai);
-		table_KhuyenMai.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, "", null, "", null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 khuy\u1EBFn m\u00E3i", "T\u00EAn ch\u01B0\u01A1ng tr\u00ECnh", "Ph\u1EA7n tr\u0103m", "\u0110\u1ED1i t\u01B0\u1EE3ng", "\u0110i\u1EC1u ki\u1EC7n", "Ng\u00E0y B\u1EAFt \u0110\u1EA7u", "Ng\u00E0y k\u1EBFt th\u00FAc", "T\u00ECnh tr\u1EA1ng"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		table_KhuyenMai.setDefaultEditor(Object.class,null);
+		String[] colname =  {"Mã khuyến mãi","Tên chương trình","Phần trăm","Đối tượng","Điều kiện","Ngày bắt đầu","Ngày kết thúc","Tình trạng"};
+		tableModel = new DefaultTableModel();
+		table_KhuyenMai.setModel(tableModel);
+		tableModel.setColumnIdentifiers(colname);
 		table_KhuyenMai.getColumnModel().getColumn(0).setPreferredWidth(90);
 		table_KhuyenMai.getColumnModel().getColumn(1).setPreferredWidth(140);
 		table_KhuyenMai.getColumnModel().getColumn(2).setPreferredWidth(70);
@@ -403,33 +470,77 @@ public class KhuyenMai extends JFrame {
 		KhachHang.add(panel_3);
 		panel_3.setLayout(null);
 		
-		JButton btnNewButton_Xoa = new JButton("Xóa");
-		btnNewButton_Xoa.setFocusable(false);
-		btnNewButton_Xoa.setBackground(new Color(255, 0, 0));
-		btnNewButton_Xoa.setForeground(new Color(255, 255, 255));
-		btnNewButton_Xoa.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Xoa.setBounds(596, 3, 75, 25);
-		panel_3.add(btnNewButton_Xoa);
-		
-		JButton btnNewButton_Sua = new JButton("Sửa");
-		btnNewButton_Sua.setFocusable(false);
-		btnNewButton_Sua.setBackground(new Color(50, 205, 50));
-		btnNewButton_Sua.setForeground(new Color(255, 255, 255));
-		btnNewButton_Sua.addActionListener(new ActionListener() {
+		xoa_btn = new JButton("Xóa");
+		xoa_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				luu_btn.setEnabled(false);
+				luu_btn.setBackground(Color.gray);
+				thoat_btn.setEnabled(false);
+				thoat_btn.setBackground(Color.gray);
+				lockForm();
+				KhuyenMaiDTO km = getSelectedKM();
+				if(km!= null) {
+					int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa khuyến mãi " + km.getMakm(),"Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+					if(result == JOptionPane.YES_OPTION) {
+						xoaKM();
+						resetTable();
+						initArrayList();
+						reSetForm();
+					}
+				}else JOptionPane.showMessageDialog(null,"Chưa chọn khuyến mãi");
 			}
 		});
-		btnNewButton_Sua.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Sua.setBounds(511, 3, 75, 25);
-		panel_3.add(btnNewButton_Sua);
+		xoa_btn.setFocusable(false);
+		xoa_btn.setBackground(new Color(255, 0, 0));
+		xoa_btn.setForeground(new Color(255, 255, 255));
+		xoa_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		xoa_btn.setBounds(596, 3, 75, 25);
+		panel_3.add(xoa_btn);
 		
-		JButton btnNewButton_Them = new JButton("Thêm");
-		btnNewButton_Them.setFocusable(false);
-		btnNewButton_Them.setForeground(new Color(255, 255, 255));
-		btnNewButton_Them.setBackground(new Color(65, 105, 225));
-		btnNewButton_Them.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Them.setBounds(427, 3, 75, 25);
-		panel_3.add(btnNewButton_Them);
+		sua_btn = new JButton("Sửa");
+		sua_btn.setFocusable(false);
+		sua_btn.setBackground(new Color(50, 205, 50));
+		sua_btn.setForeground(new Color(255, 255, 255));
+		sua_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				initForm();
+				textField_MSKM.setEditable(false);
+				them_btn.setBackground(Color.gray);
+				them_btn.setEnabled(false);
+				xoa_btn.setBackground(Color.gray);
+				xoa_btn.setEnabled(false);
+				luu_btn.setBackground(Color.orange);
+				luu_btn.setEnabled(true);
+				thoat_btn.setBackground(Color.red);
+				thoat_btn.setEnabled(true);
+				textField_MSKM.setEnabled(false);
+			}
+		});
+		sua_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		sua_btn.setBounds(511, 3, 75, 25);
+		panel_3.add(sua_btn);
+		
+		them_btn = new JButton("Thêm");
+		them_btn.setFocusable(false);
+		them_btn.setForeground(new Color(255, 255, 255));
+		them_btn.setBackground(new Color(65, 105, 225));
+		them_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		them_btn.setBounds(427, 3, 75, 25);
+		them_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				luu_btn.setEnabled(true);
+				luu_btn.setBackground(Color.orange);
+				thoat_btn.setEnabled(true);
+				thoat_btn.setBackground(Color.RED);
+				xoa_btn.setBackground(Color.gray);
+				xoa_btn.setEnabled(false);
+				sua_btn.setBackground(Color.gray);
+				sua_btn.setEnabled(false);
+				reSetForm();
+				initForm();
+			}
+		});
+		panel_3.add(them_btn);
 		
 		JLabel lblNewLabel_3 = new JLabel("Tìm kiếm");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -441,6 +552,31 @@ public class KhuyenMai extends JFrame {
 		textField_TimKiem.setBounds(81, 3, 160, 25);
 		panel_3.add(textField_TimKiem);
 		textField_TimKiem.setColumns(10);
+		
+		String []item_tk = {"Mã khuyến mãi","Tên chương trình","Đối tượng","Tình trạng"};
+		timkiem_cb = new JComboBox(item_tk);
+		timkiem_cb.setBounds(251, 3, 140, 25);
+		textField_TimKiem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String condition = textField_TimKiem.getText();
+				if(condition.isEmpty()) {
+					resetTable();
+					initArrayList();
+					return;
+				}
+				String type = (String) timkiem_cb.getSelectedItem();
+				ArrayList<KhuyenMaiDTO> tmp = kmBUS.timKiem(condition.toLowerCase(), type);
+				if(tmp != null) {
+					resetTable();
+					initArrayList(tmp);
+				}
+				
+			}
+		});
+		panel_3.add(timkiem_cb);
 		
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -461,7 +597,203 @@ public class KhuyenMai extends JFrame {
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setBounds(29, 68, 190, 300);
 		panel_1.add(scrollPane_1);
-	
+		initData();
 		this.setVisible(true);
+	}
+	
+	
+	public void initData() {
+		if(kmBUS.docKM()) {
+			
+			for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
+				boolean tinhtrang = KiemTra.getInstance().checkTinhTrang(KiemTra.getInstance().toDateUtil(km.getNgaykt()));
+					tableModel.addRow(new Object[]{
+							
+						km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),km.getDoituong(),
+						km.getDieukien(),km.getNgaybd()+"",km.getNgaykt(),
+						KiemTra.getInstance().tinhTrang(tinhtrang)
+				});
+			
+		}
+			table_KhuyenMai.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(e.getClickCount() == 1) {
+						hienThiThongTin();
+					}
+				}
+			});
+		}
+	}
+	
+	
+	public void initArrayList(ArrayList<KhuyenMaiDTO> t) {
+		for(KhuyenMaiDTO km: t) {
+			tableModel.addRow(new Object[]{
+					km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),km.getDoituong(),
+					km.getDieukien(),km.getNgaybd()+"",km.getNgaykt(),KiemTra.getInstance().tinhTrang(km.getTinhtrang())
+			});
+		}
+		
+		table_KhuyenMai.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 1) {
+					hienThiThongTin();
+				}
+			}
+		});
+	}
+	public void initArrayList() {
+		for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
+			tableModel.addRow(new Object[]{
+					km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),km.getDoituong(),
+					km.getDieukien(),km.getNgaybd()+"",km.getNgaykt(),KiemTra.getInstance().tinhTrang(km.getTinhtrang())
+			});
+		}
+		
+		table_KhuyenMai.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 1) {
+					hienThiThongTin();
+				}
+			}
+		});
+	}
+	
+	public void hienThiThongTin() {
+		KhuyenMaiDTO km = getSelectedKM();
+		this.textField_MSKM.setText(km.getMakm());
+		this.textArea_tenCT.setText(km.getTectkm());
+		this.textField_GiamGia.setText(km.getPhantram()+"");
+		this.comboBox_DoiTuong.setSelectedItem(km.getDoituong());
+		this.dateChooser_NgayBD.setDate(km.getNgaybd());
+		this.dateChooser_NgayKT.setDate(km.getNgaykt());
+		this.textField_DieuKien.setText(km.getDieukien());
+		this.textField_tinhtrang.setText(KiemTra.getInstance().tinhTrang(km.getTinhtrang()));
+//		this.textField.setText(km.getCmnd());
+//		this.comboBox_GioiTinh.setSelectedItem(KiemTra.getInstance().GioiTinh(nv.getGioitinh()) );
+	}
+	
+	public KhuyenMaiDTO getSelectedKM() {
+		int row = table_KhuyenMai.getSelectedRow();
+		if(row == -1) return null;
+		DefaultTableModel model = (DefaultTableModel) table_KhuyenMai.getModel();
+		String makm = model.getValueAt(row, 0) + "";
+		String tenct = model.getValueAt(row, 1) + "";
+		double phantram = (double)model.getValueAt(row, 2);
+		String doituong = model.getValueAt(row, 3) + "";
+		String dieukien = model.getValueAt(row, 4) + "";
+		// Giả sử ngayvlString là một chuỗi chứa ngày tháng năm trong định dạng chuẩn
+		String ngaybdString =  model.getValueAt(row, 5) + "";
+
+		// Chuyển đổi chuỗi thành kiểu java.sql.Date
+		java.sql.Date ngaybd = java.sql.Date.valueOf(ngaybdString);
+		
+		String ngayktString =  model.getValueAt(row, 6) + "";
+
+		// Chuyển đổi chuỗi thành kiểu java.sql.Date
+		java.sql.Date ngaykt = java.sql.Date.valueOf(ngayktString);
+		Boolean tinhtrang = KiemTra.getInstance().tinhTrang(model.getValueAt(row, 7).toString());		
+		KhuyenMaiDTO km = new KhuyenMaiDTO(makm.toLowerCase(), tenct, doituong,dieukien,phantram, ngaybd, ngaykt,tinhtrang);
+		return km;
+	}
+	public boolean checkNull() {
+		if(this.textField_MSKM.getText().isEmpty() || this.textArea_tenCT.getText().isEmpty() || this.textField_GiamGia.getText().isEmpty() 
+				|| this.textField_DieuKien.getText().isEmpty()|| this.dateChooser_NgayKT.getDate()==null) 
+		{
+			return true;
+		}
+		return false;
+	}
+	public Boolean themKM() {
+		KhuyenMaiDTO km = new KhuyenMaiDTO();
+		km.setMakm(this.textField_MSKM.getText());
+		km.setTectkm(this.textArea_tenCT.getText());
+		km.setPhantram(Double.parseDouble(this.textField_GiamGia.getText()));
+		km.setDoituong(this.comboBox_DoiTuong.getSelectedItem()+"");
+		km.setDieukien(this.textField_DieuKien.getText());
+		java.util.Date utilDate = this.dateChooser_NgayBD.getDate();
+		java.sql.Date sqlDate_ngayBD = new java.sql.Date(utilDate.getTime());
+		km.setNgaybd(sqlDate_ngayBD);
+		java.util.Date utilDate1 = this.dateChooser_NgayKT.getDate();
+		java.sql.Date sqlDate_ngayKT = new java.sql.Date(utilDate1.getTime());
+		km.setNgaykt(sqlDate_ngayKT);
+		if(!KiemTra.getInstance().checkTinhTrang(sqlDate_ngayBD,sqlDate_ngayKT)) {
+			JOptionPane.showMessageDialog(null, "Ngày kết thúc phải lớn hơn ngày bắt đầu khuyến mãi");
+			return false;
+		}
+		km.setTinhtrang(KiemTra.getInstance().checkTinhTrang(utilDate1));
+		if(kmBUS.themKM(km)!=-1) {
+			JOptionPane.showMessageDialog(null, "Thêm thành công khuyến mãi");
+		}else JOptionPane.showMessageDialog(null, "Không thể thêm khuyến mãi");
+		return true;
+	}
+	
+	public void reSetForm() {
+		this.textField_MSKM.setText("");
+		this.textArea_tenCT.setText("");
+		this.textField_GiamGia.setText("");
+		this.comboBox_DoiTuong.setSelectedIndex(0);
+		this.textField_DieuKien.setText("");
+		calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+		this.dateChooser_NgayBD.setCalendar(calendar);
+		this.dateChooser_NgayKT.setCalendar(calendar);
+		this.textField_tinhtrang.setText("");
+	}
+	public void initForm() {
+		this.textField_MSKM.setEnabled(true);
+		this.textField_MSKM.setEditable(true);
+		this.textArea_tenCT.setEditable(true);
+		this.textField_GiamGia.setEditable(true);
+		this.comboBox_DoiTuong.setEnabled(true);
+		this.textField_DieuKien.setEditable(true);
+		this.dateChooser_NgayBD.getCalendarButton().setEnabled(true);
+		this.dateChooser_NgayKT.getCalendarButton().setEnabled(true);
+	}
+	public void resetTable() {
+		DefaultTableModel tableModel =(DefaultTableModel) table_KhuyenMai.getModel();
+		tableModel.setRowCount(0);
+	}
+	public void lockForm() {
+		this.textField_MSKM.setEditable(false);
+		this.textArea_tenCT.setEditable(false);
+		this.textField_GiamGia.setEditable(false);
+		this.comboBox_DoiTuong.setEnabled(false);
+		this.textField_DieuKien.setEditable(false);
+//		this.textField_SDT.setEditable(false);
+		this.dateChooser_NgayBD.getCalendarButton().setEnabled(false);
+		this.dateChooser_NgayKT.getCalendarButton().setEnabled(false);
+	}
+	
+	public void xoaKM() {
+		KhuyenMaiDTO km = getSelectedKM();
+		if(kmBUS.xoaKM(km)!=-1) {
+			JOptionPane.showMessageDialog(null,"Xoá thành công");
+		}else JOptionPane.showMessageDialog(null,"Không thể xóa khuyến mãi " + km.getMakm());
+	}
+	
+	public Boolean suaKM() {
+		KhuyenMaiDTO km = getSelectedKM();
+		if(km == null) return false;
+		km.setMakm(this.textField_MSKM.getText());
+		km.setTectkm(this.textArea_tenCT.getText());
+		km.setDieukien(this.textField_DieuKien.getText());
+		km.setDoituong(this.comboBox_DoiTuong.getSelectedItem()+"");
+		km.setPhantram(Double.parseDouble(this.textField_GiamGia.getText()));
+		java.util.Date utilDate = this.dateChooser_NgayBD.getDate();
+		java.sql.Date sqlDate_ngayBD = new java.sql.Date(utilDate.getTime());
+		km.setNgaybd(sqlDate_ngayBD);
+		java.util.Date utilDate1 = this.dateChooser_NgayKT.getDate();
+		java.sql.Date sqlDate_ngayKT = new java.sql.Date(utilDate1.getTime());
+		km.setNgaykt(sqlDate_ngayKT);
+		km.setTinhtrang(KiemTra.getInstance().checkTinhTrang(utilDate1));
+		kmBUS.suaKM(km);
+		if(kmBUS.suaKM(km)!=-1) {
+			JOptionPane.showMessageDialog(null,"Sửa thông tin thành công khuyến mãi " + km.getMakm());
+		}
+		else if(kmBUS.suaKM(km)==-1)JOptionPane.showMessageDialog(null,"Không thể sửa thông tin khuyến mãi " + km.getMakm());
+		return true;
 	}
 }

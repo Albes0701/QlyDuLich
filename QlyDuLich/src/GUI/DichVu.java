@@ -11,6 +11,9 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.JButton;
@@ -22,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JScrollBar;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JCheckBox;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Cursor;
@@ -29,6 +33,7 @@ import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.border.CompoundBorder;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
@@ -42,6 +47,15 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.DichVuBUS;
+import BUS.KiemTra;
+import BUS.NhanVienBUS;
+import DTO.DichVuDTO;
+import DTO.KhachSanDTO;
+import DTO.NhaHangDTO;
+import DTO.NhanVienDTO;
+import DTO.PhuongTienDTO;
+
 public class DichVu extends JFrame {
 /**
 	 * 
@@ -49,12 +63,15 @@ public class DichVu extends JFrame {
 	//	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField_MaDichVu;
-	private JTextField textField_TenDV;
-	private JTable table_KhachHang;
+	private JTable table_DichVu;
 	private JTextField textField_TimKiem;
 	private JTextField textField_Gia;
-	private JComboBox comboBox_LoaiDV;
+	private JComboBox comboBox_LoaiDV, timkiem_cb;
+	private JButton them_btn, sua_btn, xoa_btn, thoat_btn, luu_btn;
+	JTextArea textArea_tendv;
 	JButton btn_QLTour,btn_KHTour,btn_KhuyenMai,btn_NhanVien,btn_KhachHang,btn_QLDV;
+	DefaultTableModel tableModel;
+	DichVuBUS dvBUS = new DichVuBUS();
 	/**
 	 * Launch the application.
 	 */
@@ -245,7 +262,7 @@ public class DichVu extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 50, 249, 246);
+		scrollPane.setBounds(10, 50, 249, 305);
 		KhachHang.add(scrollPane);
 		
 		JPanel panel_2 = new JPanel();
@@ -258,30 +275,46 @@ public class DichVu extends JFrame {
 		panel_2.add(lblNewLabel_2);
 		
 		textField_MaDichVu = new JTextField();
+		textField_MaDichVu.setBackground(Color.WHITE);
+		textField_MaDichVu.setEditable(false);
 		textField_MaDichVu.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_MaDichVu.setBounds(112, 26, 125, 26);
 		panel_2.add(textField_MaDichVu);
 		textField_MaDichVu.setColumns(10);
 		
-		textField_TenDV = new JTextField();
-		textField_TenDV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_TenDV.setColumns(10);
-		textField_TenDV.setBounds(112, 113, 125, 26);
-		panel_2.add(textField_TenDV);
-		
-		JButton btnNewButton_Luu = new JButton("Lưu");
-		btnNewButton_Luu.setFocusable(false);
-		btnNewButton_Luu.setForeground(new Color(255, 255, 255));
-		btnNewButton_Luu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Luu.setBackground(new Color(255, 128, 64));
-		btnNewButton_Luu.addActionListener(new ActionListener() {
+		luu_btn = new JButton("Lưu");
+		luu_btn.setEnabled(false);
+		luu_btn.setFocusable(false);
+		luu_btn.setForeground(new Color(255, 255, 255));
+		luu_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		luu_btn.setBackground(Color.GRAY);
+		luu_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!sua_btn.isEnabled()) {
+					if(checkNull()) {
+						JOptionPane.showMessageDialog(null, "Vui long dien du thong tin","ERROR",JOptionPane.INFORMATION_MESSAGE);
+						return;
+					}
+					themDV();
+					resetTable();
+					initArrayList();
+					reSetForm();
+					
+				}else if(!them_btn.isEnabled()) {
+					if(getSelectedDichVu() == null) {
+						JOptionPane.showMessageDialog(null, "Chưa chọn dịch vụ");
+						return;
+					}
+					suaDV();
+					resetTable();
+					initArrayList();
+					reSetForm();
+				}
 			}
 		});
-		btnNewButton_Luu.setBounds(75, 203, 85, 26);
-		panel_2.add(btnNewButton_Luu);
+		luu_btn.setBounds(28, 267, 85, 26);
+		panel_2.add(luu_btn);
 		
-		String []item_loai = {"Trong nước", "Ngoài nước"};
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("Tên Dịch Vụ");
 		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -289,14 +322,16 @@ public class DichVu extends JFrame {
 		panel_2.add(lblNewLabel_2_1_1);
 		
 		textField_Gia = new JTextField();
+		textField_Gia.setBackground(Color.WHITE);
+		textField_Gia.setEditable(false);
 		textField_Gia.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_Gia.setColumns(10);
-		textField_Gia.setBounds(112, 156, 125, 26);
+		textField_Gia.setBounds(112, 220, 125, 26);
 		panel_2.add(textField_Gia);
 		
 		JLabel lblNewLabel_2_1_1_1 = new JLabel("Giá");
 		lblNewLabel_2_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_1_1_1.setBounds(10, 158, 61, 20);
+		lblNewLabel_2_1_1_1.setBounds(10, 222, 61, 20);
 		panel_2.add(lblNewLabel_2_1_1_1);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Loại Dịch Vụ");
@@ -304,10 +339,52 @@ public class DichVu extends JFrame {
 		lblNewLabel_2_1.setBounds(10, 72, 92, 20);
 		panel_2.add(lblNewLabel_2_1);
 		
-		comboBox_LoaiDV = new JComboBox();
+		String[] item_loaiDV = {"Nhà hàng","Khách sạn","Phương tiện"};
+		comboBox_LoaiDV = new JComboBox(item_loaiDV);
+		comboBox_LoaiDV.setEnabled(false);
 		comboBox_LoaiDV.setBackground(new Color(255, 255, 255));
 		comboBox_LoaiDV.setBounds(112, 70, 125, 26);
 		panel_2.add(comboBox_LoaiDV);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_3.setBounds(10, 145, 227, 52);
+		panel_2.add(scrollPane_3);
+		
+		textArea_tendv = new JTextArea();
+		textArea_tendv.setEditable(false);
+		textArea_tendv.setLineWrap(true);
+		textArea_tendv.setWrapStyleWord(true);
+		textArea_tendv.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		scrollPane_3.setViewportView(textArea_tendv);
+		
+		thoat_btn = new JButton("Thoát");
+		thoat_btn.setEnabled(false);
+		thoat_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lockForm();
+				them_btn.setEnabled(true);
+				them_btn.setBackground(Color.blue);
+				xoa_btn.setEnabled(true);
+				xoa_btn.setBackground(Color.red);
+				sua_btn.setEnabled(true);
+				sua_btn.setBackground(new Color(50, 205, 50));
+				sua_btn.setForeground(new Color(255, 255, 255));
+				thoat_btn.setEnabled(false);
+				thoat_btn.setBackground(Color.gray);
+				luu_btn.setEnabled(false);
+				luu_btn.setBackground(Color.GRAY);
+				resetTable();
+				reSetForm();
+				initArrayList();
+			}
+		});
+		thoat_btn.setForeground(Color.WHITE);
+		thoat_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		thoat_btn.setFocusable(false);
+		thoat_btn.setBackground(Color.GRAY);
+		thoat_btn.setBounds(136, 267, 85, 26);
+		panel_2.add(thoat_btn);
 		
 
 		
@@ -315,90 +392,92 @@ public class DichVu extends JFrame {
 		scrollPane_2.setBounds(269, 50, 681, 435);
 		KhachHang.add(scrollPane_2);
 		
-		table_KhachHang = new JTable();
-		scrollPane_2.setViewportView(table_KhachHang);
-		table_KhachHang.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 D\u1ECBch V\u1EE5", "Lo\u1EA1i D\u1ECBch V\u1EE5", "T\u00EAn D\u1ECBch V\u1EE5", "Gi\u00E1"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		table_KhachHang.getColumnModel().getColumn(0).setPreferredWidth(70);
-		table_KhachHang.getColumnModel().getColumn(1).setPreferredWidth(72);
-		table_KhachHang.getColumnModel().getColumn(2).setPreferredWidth(139);
-		table_KhachHang.getColumnModel().getColumn(3).setPreferredWidth(100);
-		
+		table_DichVu = new JTable();
+		table_DichVu.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane_2.setViewportView(table_DichVu);
+		table_DichVu.setDefaultEditor(Object.class,null);
+		String[] colname =  {"Mã Dịch Vụ","Loại Dịch Vụ","Tên Dịch Vụ","Giá"};
+		tableModel = new DefaultTableModel();
+		table_DichVu.setModel(tableModel);
+		tableModel.setColumnIdentifiers(colname);
+		table_DichVu.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table_DichVu.getColumnModel().getColumn(1).setPreferredWidth(120);
+		table_DichVu.getColumnModel().getColumn(2).setPreferredWidth(360);
+		table_DichVu.getColumnModel().getColumn(3).setPreferredWidth(100);
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
 		panel_3.setBounds(269, 10, 681, 30);
 		KhachHang.add(panel_3);
 		panel_3.setLayout(null);
 		
-		JButton btnNewButton_Xoa = new JButton("Xóa");
-		btnNewButton_Xoa.setFocusable(false);
-		btnNewButton_Xoa.setBackground(new Color(255, 0, 0));
-		btnNewButton_Xoa.setForeground(new Color(255, 255, 255));
-		btnNewButton_Xoa.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Xoa.setBounds(596, 3, 75, 25);
-		panel_3.add(btnNewButton_Xoa);
-		
-		JButton btnNewButton_Sua = new JButton("Sửa");
-		btnNewButton_Sua.setFocusable(false);
-		btnNewButton_Sua.setBackground(new Color(50, 205, 50));
-		btnNewButton_Sua.setForeground(new Color(255, 255, 255));
-		btnNewButton_Sua.addActionListener(new ActionListener() {
+		xoa_btn = new JButton("Xóa");
+		xoa_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lockForm();
+				DichVuDTO dv = getSelectedDichVu();
+				if(dv!= null) {
+					int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa nhân viên " + dv.getMaso(),"Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+					if(result == JOptionPane.YES_OPTION) {
+						xoaDV();
+						resetTable();
+						initArrayList();
+						reSetForm();
+					}
+				}else JOptionPane.showMessageDialog(null,"Chưa chọn nhân viên");
 			}
 		});
-		btnNewButton_Sua.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Sua.setBounds(511, 3, 75, 25);
-		panel_3.add(btnNewButton_Sua);
+		xoa_btn.setFocusable(false);
+		xoa_btn.setBackground(new Color(255, 0, 0));
+		xoa_btn.setForeground(new Color(255, 255, 255));
+		xoa_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		xoa_btn.setBounds(596, 3, 75, 25);
+		panel_3.add(xoa_btn);
 		
-		JButton btnNewButton_Them = new JButton("Thêm");
-		btnNewButton_Them.setFocusable(false);
-		btnNewButton_Them.setForeground(new Color(255, 255, 255));
-		btnNewButton_Them.setBackground(new Color(65, 105, 225));
-		btnNewButton_Them.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Them.setBounds(427, 3, 75, 25);
-		panel_3.add(btnNewButton_Them);
+		sua_btn = new JButton("Sửa");
+		sua_btn.setFocusable(false);
+		sua_btn.setBackground(new Color(50, 205, 50));
+		sua_btn.setForeground(new Color(255, 255, 255));
+		sua_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				initForm();
+				them_btn.setBackground(Color.gray);
+				them_btn.setEnabled(false);
+				xoa_btn.setBackground(Color.gray);
+				xoa_btn.setEnabled(false);
+				luu_btn.setBackground(Color.orange);
+				luu_btn.setEnabled(true);
+				thoat_btn.setBackground(Color.red);
+				thoat_btn.setEnabled(true);
+				textField_MaDichVu.setEditable(false);
+				textField_MaDichVu.setEnabled(false);
+				comboBox_LoaiDV.setEnabled(false);
+			}
+		});
+		sua_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		sua_btn.setBounds(511, 3, 75, 25);
+		panel_3.add(sua_btn);
+		
+		them_btn = new JButton("Thêm");
+		them_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				luu_btn.setEnabled(true);
+				luu_btn.setBackground(Color.orange);
+				thoat_btn.setEnabled(true);
+				thoat_btn.setBackground(Color.RED);
+				xoa_btn.setBackground(Color.gray);
+				xoa_btn.setEnabled(false);
+				sua_btn.setBackground(Color.gray);
+				sua_btn.setEnabled(false);
+				reSetForm();
+				initForm();
+			}
+		});
+		them_btn.setFocusable(false);
+		them_btn.setForeground(new Color(255, 255, 255));
+		them_btn.setBackground(new Color(65, 105, 225));
+		them_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		them_btn.setBounds(427, 3, 75, 25);
+		panel_3.add(them_btn);
 		
 		JLabel lblNewLabel_3 = new JLabel("Tìm kiếm");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -410,6 +489,34 @@ public class DichVu extends JFrame {
 		textField_TimKiem.setBounds(81, 3, 160, 25);
 		panel_3.add(textField_TimKiem);
 		textField_TimKiem.setColumns(10);
+		textField_TimKiem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String condition = textField_TimKiem.getText();
+				if(condition.isEmpty()) {
+					resetTable();
+					initArrayList();
+					return;
+				}
+				String type = (String) timkiem_cb.getSelectedItem();
+				condition = KiemTra.getInstance().formatchString(condition);
+				ArrayList<DichVuDTO> tmp = dvBUS.timKiem(condition.toLowerCase(), type);
+				if(tmp != null) {
+					resetTable();
+					initArrayList(tmp);
+				}
+				
+			}
+		});
+		
+		
+		String[] item_tk = {"Mã Dịch vụ","Loại dịch vụ","Tên dịch vụ"};
+		timkiem_cb = new JComboBox(item_tk);
+		timkiem_cb.setBackground(Color.WHITE);
+		timkiem_cb.setBounds(251, 3, 111, 25);
+		panel_3.add(timkiem_cb);
 		
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -431,6 +538,241 @@ public class DichVu extends JFrame {
 		scrollPane_1.setBounds(29, 68, 190, 300);
 		panel_1.add(scrollPane_1);
 		
+		initData();
 		this.setVisible(true);
+	}
+	
+	public void initData() {
+		
+		if(dvBUS.docNH()) {
+			for(NhaHangDTO ks: DichVuBUS.nhDTO) {
+				tableModel.addRow(new Object[]{
+					ks.getMaso().toUpperCase(),"Nhà Hàng",ks.getTendv(),ks.getGiaca()+""
+					});
+			}
+		}
+		if(dvBUS.docKS()) {
+			for(KhachSanDTO ks: DichVuBUS.ksDTO) {
+				tableModel.addRow(new Object[]{
+					ks.getMaso().toUpperCase(),"Khách Sạn",ks.getTendv(),ks.getGiaca()+""
+					});
+			}
+		}
+
+		
+		if(dvBUS.docPT()) {
+			for(PhuongTienDTO pt: DichVuBUS.ptDTO) {
+				tableModel.addRow(new Object[]{
+					pt.getMaso().toUpperCase(),"Phương Tiện",pt.getTendv(),pt.getGiaca()+""
+					});
+		}
+			table_DichVu.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(e.getClickCount() == 1) {
+						hienThiThongTin();
+					}
+				}
+			});
+		}
+	}
+	public void initArrayList(ArrayList<DichVuDTO> dv) {
+		for(DichVuDTO v: dv) {
+			tableModel.addRow(new Object[]{
+				v.getMaso().toUpperCase(),KiemTra.getInstance().loaiDV(v.getMaso()),v.getTendv(),v.getGiaca()+""
+			});
+		}
+		
+		table_DichVu.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 1) {
+					hienThiThongTin();
+				}
+			}
+		});
+	}
+	
+	public void initArrayList() {
+		
+		for(NhaHangDTO nh: DichVuBUS.nhDTO) {
+			tableModel.addRow(new Object[]{
+				nh.getMaso().toUpperCase(),"Nhà Hàng",nh.getTendv(),nh.getGiaca()+""
+			});
+		}
+		
+		for(KhachSanDTO ks: DichVuBUS.ksDTO) {
+			tableModel.addRow(new Object[]{
+				ks.getMaso().toUpperCase(),"Khách Sạn",ks.getTendv(),ks.getGiaca()+""
+			});
+		}
+		for(PhuongTienDTO pt: DichVuBUS.ptDTO) {
+			tableModel.addRow(new Object[]{
+				pt.getMaso().toUpperCase(),"Phương Tiện",pt.getTendv(),pt.getGiaca()+""
+			});
+		}
+		
+		table_DichVu.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 1) {
+					hienThiThongTin();
+				}
+			}
+		});
+	}
+	public DichVuDTO getSelectedDichVu() {
+		int row = table_DichVu.getSelectedRow();
+		if(row == -1) return null;
+		DefaultTableModel model = (DefaultTableModel) table_DichVu.getModel();
+		String madv = model.getValueAt(row, 0) + "";
+		String loaidv = model.getValueAt(row, 1) + "";
+		String tendv = model.getValueAt(row, 2) + "";
+		double giaca = Double.parseDouble(model.getValueAt(row, 3)+"");
+		if(KiemTra.getInstance().loaiDV(madv).equalsIgnoreCase("Nhà hàng"))
+		{
+			DichVuDTO dv = new NhaHangDTO(madv, tendv, giaca);
+			return dv;
+		}
+		else if(KiemTra.getInstance().loaiDV(madv).equalsIgnoreCase("Khách sạn")) {
+			DichVuDTO dv = new KhachSanDTO(madv, tendv, giaca);
+			return dv;
+		}
+		else {
+			DichVuDTO dv = new PhuongTienDTO(madv, tendv, giaca);
+			return dv;
+		}
+	}
+	
+	public void hienThiThongTin() {
+		DichVuDTO dv = getSelectedDichVu();
+		this.textField_MaDichVu.setText(dv.getMaso());
+		this.comboBox_LoaiDV.setSelectedItem(KiemTra.getInstance().loaiDV(dv.getMaso()));
+		this.textArea_tendv.setText(dv.getTendv());
+		this.textField_Gia.setText(dv.getGiaca()+"");
+	}
+	
+	public void reSetForm() {
+		this.textField_MaDichVu.setText("");
+		this.comboBox_LoaiDV.setSelectedIndex(0);;
+		this.textField_Gia.setText("");
+		this.textArea_tendv.setText("");
+	}
+	
+	public void initForm() {
+		this.textField_MaDichVu.setEnabled(true);
+		this.textField_MaDichVu.setEditable(true);
+		this.textField_Gia.setEditable(true);
+		this.textArea_tendv.setEditable(true);
+		this.comboBox_LoaiDV.setEnabled(true);
+	}
+	
+	public void lockForm() {
+		this.textField_MaDichVu.setEnabled(false);
+		this.textField_MaDichVu.setEditable(false);
+		this.textField_Gia.setEditable(false);
+		this.textArea_tendv.setEditable(false);
+		this.comboBox_LoaiDV.setEnabled(false);
+	}
+	
+	public boolean checkNull() {
+		if(this.textField_MaDichVu.getText().isEmpty() || this.textField_Gia.getText().isEmpty() || this.textArea_tendv.getText().isEmpty()) 
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public void themDV() {
+		String maso = this.textField_MaDichVu.getText();
+		if(KiemTra.getInstance().loaiDV(maso).equalsIgnoreCase("Nhà Hàng"))
+		{
+			DichVuDTO dv = new NhaHangDTO();
+			dv.setMaso(maso);
+			dv.setTendv(this.textArea_tendv.getText());
+			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));
+			if(dvBUS.themDV(dv)!=-1) {
+				JOptionPane.showMessageDialog(null, "Thêm thành công dịch vụ " + dv.getMaso());
+			}else JOptionPane.showMessageDialog(null, "Không thể thêm dịch vụ " + dv.getMaso());
+		}else if(KiemTra.getInstance().loaiDV(maso).equalsIgnoreCase("Phương tiện")) {
+			DichVuDTO dv = new PhuongTienDTO();
+			dv.setMaso(maso);
+			dv.setTendv(this.textArea_tendv.getText());
+			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));
+			if(dvBUS.themDV(dv)!=-1) {
+				JOptionPane.showMessageDialog(null, "Thêm thành công dịch vụ " + dv.getMaso());
+			}else JOptionPane.showMessageDialog(null, "Không thể thêm dịch vụ " + dv.getMaso());
+		}else {
+			DichVuDTO dv = new KhachSanDTO();
+			dv.setMaso(maso);
+			dv.setTendv(this.textArea_tendv.getText());
+			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));
+			if(dvBUS.themDV(dv)!=-1) {
+				JOptionPane.showMessageDialog(null, "Thêm thành công dịch vụ " + dv.getMaso());
+			}else JOptionPane.showMessageDialog(null, "Không thể thêm dịch vụ " + dv.getMaso());
+		}
+	}
+	
+	public void xoaDV() {
+		DichVuDTO dv = getSelectedDichVu();
+		if(KiemTra.getInstance().loaiDV(dv.getMaso()).equalsIgnoreCase("Nhà hàng"))
+		{
+			if(dvBUS.xoaDV((NhaHangDTO)dv)!=-1) {
+				JOptionPane.showMessageDialog(null,"Xoá thành công "+dv.getMaso() );
+			}else JOptionPane.showMessageDialog(null,"Không thể xóa dich vu " + dv.getMaso());
+		}
+		else if(KiemTra.getInstance().loaiDV(dv.getMaso()).equalsIgnoreCase("Phương Tiện")) {
+			if(dvBUS.xoaDV((PhuongTienDTO)dv)!=-1) {
+				JOptionPane.showMessageDialog(null,"Xoá thành công "+dv.getMaso() );
+			}else JOptionPane.showMessageDialog(null,"Không thể xóa dich vu " + dv.getMaso());
+		}
+		else if(KiemTra.getInstance().loaiDV(dv.getMaso()).equalsIgnoreCase("Khách Sạn")) {
+			if(dvBUS.xoaDV((KhachSanDTO)dv)!=-1) {
+				JOptionPane.showMessageDialog(null,"Xoá thành công "+dv.getMaso() );
+			}else JOptionPane.showMessageDialog(null,"Không thể xóa dich vu " + dv.getMaso());
+		}
+	}
+	
+	public void suaDV() {
+		DichVuDTO dv = getSelectedDichVu();
+		if(dv == null) return;
+		String maso = this.textField_MaDichVu.getText();
+		if(KiemTra.getInstance().loaiDV(maso).equalsIgnoreCase("Nhà Hàng"))
+		{
+			dv.setMaso(maso);
+			dv.setTendv(this.textArea_tendv.getText());
+			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));
+	
+			if(dvBUS.suaDV((NhaHangDTO)dv)!=-1) {
+				JOptionPane.showMessageDialog(null,"Sửa thông tin thành công dịch vụ " + dv.getMaso());
+			}
+			else if(dvBUS.suaDV((NhaHangDTO)dv)==-1)JOptionPane.showMessageDialog(null,"Không thể sửa thông tin dịch vụ " + dv.getMaso());
+		}
+		if(KiemTra.getInstance().loaiDV(maso).equalsIgnoreCase("Khách Sạn"))
+		{
+			dv.setMaso(maso);
+			dv.setTendv(this.textArea_tendv.getText());
+			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));
+	
+			if(dvBUS.suaDV((KhachSanDTO)dv)!=-1) {
+				JOptionPane.showMessageDialog(null,"Sửa thông tin thành công dịch vụ " + dv.getMaso());
+			}
+			else if(dvBUS.suaDV((KhachSanDTO)dv)==-1)JOptionPane.showMessageDialog(null,"Không thể sửa thông tin dịch vụ " + dv.getMaso());
+		}
+		if(KiemTra.getInstance().loaiDV(maso).equalsIgnoreCase("Phương Tiện"))
+		{
+			dv.setMaso(maso);
+			dv.setTendv(this.textArea_tendv.getText());
+			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));
+	
+			if(dvBUS.suaDV((PhuongTienDTO)dv)!=-1) {
+				JOptionPane.showMessageDialog(null,"Sửa thông tin thành công dịch vụ " + dv.getMaso());
+			}
+			else if(dvBUS.suaDV((PhuongTienDTO)dv)==-1)JOptionPane.showMessageDialog(null,"Không thể sửa thông tin dịch vụ " + dv.getMaso());
+		}
+		
+	}
+	
+	
+	public void resetTable() {
+		DefaultTableModel tableModel =(DefaultTableModel) table_DichVu.getModel();
+		tableModel.setRowCount(0);
 	}
 }

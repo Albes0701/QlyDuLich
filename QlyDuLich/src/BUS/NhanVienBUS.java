@@ -88,7 +88,6 @@ public class NhanVienBUS {
 			}
 			else if(type.equalsIgnoreCase("Tên")) {
 				condition = KiemTra.getInstance().formatchString(condition);
-				System.out.println(condition);
 				for(NhanVienDTO nv : nvDTO) {
 					String name = nv.getTennv().toLowerCase();
 					if(name.contains(condition)) {
