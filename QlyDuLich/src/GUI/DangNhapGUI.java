@@ -117,6 +117,8 @@ public class DangNhapGUI extends JFrame {
 				if(tk.getUser().equals(user) && tk.getPass().equals(pass)) {
 					JOptionPane.showMessageDialog(null, "Đăng nhập tài công");
 					setVisible(false);
+					TrangChuGUI.tkDTO.setUser(user);
+					TrangChuGUI.tkDTO.setPass(pass);
 					TrangChuGUI tc = new TrangChuGUI();
 					tc.btn_TrangChu.setBackground(Color.ORANGE);
 					tc.btn_TrangChu.setForeground(Color.BLACK);

@@ -24,6 +24,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.JTextPane;
 import com.toedter.calendar.JDateChooser;
+
+import BUS.taikhoanBUS;
+
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -154,16 +157,11 @@ public class ThongKe extends JFrame {
 		btn_ThongKe.setBounds(621, 65, 120, 40);
 		panel.add(btn_ThongKe);
 		
-		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
-		btnNewButton_2.setFocusable(false);
-		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton_2.setBounds(849, 24, 124, 30);
-		panel.add(btnNewButton_2);
-		
-		JLabel lblNewLabel = new JLabel("User");
+		taikhoanBUS tkBUS = new taikhoanBUS();
+		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(768, 25, 90, 30);
+		lblNewLabel.setBounds(743, 24, 230, 30);
 		panel.add(lblNewLabel);
 		
 //		Label label = new Label("New label");

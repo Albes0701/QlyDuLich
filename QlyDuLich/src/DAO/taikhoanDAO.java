@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import DTO.NhanVienDTO;
 import DTO.taikhoanDTO;
 import Util.JDBCUtil;
 
@@ -38,5 +39,28 @@ public class taikhoanDAO {
 		}	
 
 		return ketQua;
+	}
+	
+	public String getInfo(String user_name) {
+		String user="";
+		try {
+			//Bước 1:Tạo kết nối
+			Connection con=JDBCUtil.getConnection();
+			//Bước 2:Tạo đối tượng statement
+			java.sql.Statement st=con.createStatement();
+			//Bước 3:Thực thi statement
+			String sql="SELECT honv,tennv FROM nhanvien nv INNER JOIN taikhoan tk ON nv.manv = '" + user_name + "'";
+//			System.out.println(sql);
+			ResultSet rs=st.executeQuery(sql);
+			//Bước 4:Xử lý kết quả trả về
+			while(rs.next())
+				user=rs.getString("honv")+ " " +rs.getString("tennv");
+			//Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+
+		return user;
 	}
 }

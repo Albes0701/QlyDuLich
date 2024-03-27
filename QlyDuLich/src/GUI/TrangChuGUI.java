@@ -42,6 +42,9 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.taikhoanBUS;
+import DTO.taikhoanDTO;
+
 public class TrangChuGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -50,6 +53,7 @@ public class TrangChuGUI extends JFrame {
 	private Label label;
 	private Label Tour_lb;
 	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
+	public static taikhoanDTO tkDTO = new taikhoanDTO();
 	/**
 	 * Launch the application.
 	 */
@@ -158,17 +162,12 @@ public class TrangChuGUI extends JFrame {
 		btn_ThongKe.setBounds(643, 65, 120, 40);
 		panel.add(btn_ThongKe);
 
-		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
-		btnNewButton_2.setFocusable(false);
-		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton_2.setBounds(849, 24, 124, 30);
-		panel.add(btnNewButton_2);
-
-		JLabel lblNewLabel = new JLabel();
 		
+		taikhoanBUS tkBUS = new taikhoanBUS();
+		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(tkDTO.getUser()));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(768, 25, 90, 30);
+		lblNewLabel.setBounds(743, 24, 230, 30);
 		panel.add(lblNewLabel);
 
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");

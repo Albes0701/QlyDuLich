@@ -50,6 +50,7 @@ import com.toedter.calendar.JDateChooser;
 import BUS.DichVuBUS;
 import BUS.KiemTra;
 import BUS.NhanVienBUS;
+import BUS.taikhoanBUS;
 import DTO.DichVuDTO;
 import DTO.KhachSanDTO;
 import DTO.NhaHangDTO;
@@ -216,16 +217,11 @@ public class DichVu extends JFrame {
 		btn_KhuyenMai.setBounds(564, 65, 120, 40);
 		panel.add(btn_KhuyenMai);
 		
-		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
-		btnNewButton_2.setFocusable(false);
-		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton_2.setBounds(849, 24, 124, 30);
-		panel.add(btnNewButton_2);
-		
-		JLabel lblNewLabel = new JLabel("User");
+		taikhoanBUS tkBUS = new taikhoanBUS();
+		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(768, 25, 90, 30);
+		lblNewLabel.setBounds(743, 24, 230, 30);
 		panel.add(lblNewLabel);
 		
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");

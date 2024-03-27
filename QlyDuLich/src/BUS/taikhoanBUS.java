@@ -23,4 +23,13 @@ public class taikhoanBUS {
 			return false;
 		}
 	}
+	public String getName(String user) {
+		try {
+			return taikhoanDAO.getIntance().getInfo(user);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
