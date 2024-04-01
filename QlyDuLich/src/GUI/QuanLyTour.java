@@ -577,7 +577,6 @@ public class QuanLyTour extends JFrame {
 			tableModel.addRow(new Object[] { tour.getMatour(), tour.getTentour(), tour.getSongay() + "",
 					tour.getNoiden(), tour.getMaloai(), tour.getNoikhoihanh() });
 		}
-
 	}
 
 	public void initData2(ArrayList<QlyToursDTO> list) {
@@ -612,7 +611,6 @@ public class QuanLyTour extends JFrame {
 		if (!tourBUS.docTour()) {
 			JOptionPane.showMessageDialog(this, "Lỗi không đọc được database!");
 		}
-
 	}
 
 	public void noneInit() {
