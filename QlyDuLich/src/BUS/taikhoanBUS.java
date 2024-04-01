@@ -3,6 +3,7 @@ package BUS;
 import java.util.ArrayList;
 
 import DAO.taikhoanDAO;
+import DTO.NhanVienDTO;
 import DTO.taikhoanDTO;
 
 
@@ -26,6 +27,15 @@ public class taikhoanBUS {
 	public String getName(String user) {
 		try {
 			return taikhoanDAO.getIntance().getInfo(user);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public NhanVienDTO getNhanVien(String user) {
+		try {
+			return taikhoanDAO.getIntance().getInfo_NhanVien(user);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

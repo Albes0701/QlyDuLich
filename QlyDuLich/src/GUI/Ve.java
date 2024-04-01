@@ -36,6 +36,11 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
+
+import BUS.taikhoanBUS;
+import DTO.NhanVienDTO;
+import DTO.taikhoanDTO;
+
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import java.awt.FlowLayout;
@@ -170,12 +175,12 @@ public class Ve extends JFrame {
 		
 		JLabel lblHngDnVin = new JLabel("Hướng dẫn viên:");
 		lblHngDnVin.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblHngDnVin.setBounds(514, 146, 119, 23);
+		lblHngDnVin.setBounds(425, 146, 296, 23);
 		panel_Header_content.add(lblHngDnVin);
 		
-		JLabel lbl_HDV = new JLabel("NV01");
+		JLabel lbl_HDV = new JLabel("Nguyễn Khánh Huyền");
 		lbl_HDV.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lbl_HDV.setBounds(655, 146, 76, 23);
+		lbl_HDV.setBounds(566, 146, 155, 23);
 		panel_Header_content.add(lbl_HDV);
 		
 		JPanel panel_1 = new JPanel();
@@ -432,7 +437,8 @@ public class Ve extends JFrame {
 		lblTnNhVin.setBounds(10, 72, 119, 23);
 		panel_3.add(lblTnNhVin);
 		
-		JLabel lbl_NameNV = new JLabel("nameNV");
+		taikhoanBUS tkBUS = new taikhoanBUS();
+		JLabel lbl_NameNV = new JLabel(tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
 		lbl_NameNV.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lbl_NameNV.setBounds(172, 72, 187, 23);
 		panel_3.add(lbl_NameNV);
