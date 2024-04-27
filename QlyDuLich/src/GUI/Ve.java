@@ -12,6 +12,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,6 +34,9 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfReader;
 import com.toedter.calendar.JDateChooser;
 
 import BUS.HoaDonBUS;
@@ -75,10 +80,11 @@ public class Ve extends JFrame {
 	private String [] arr_TTLienLac;
 	private JLabel lbNameKH,lbSlot,lbSLHanhKhach,lbTongCong,lbNguoiLon,lbTreEm,lbGiamGia;
 	private int socho;
-	
+	private HoaDonDTO hd;
 	
 	QlyVeBUS veBUS=new QlyVeBUS();
 	HoaDonBUS hdBUS=new HoaDonBUS();
+	
 
 	/**
 	 * Launch the application.
@@ -639,6 +645,17 @@ public class Ve extends JFrame {
 				ThemHD();
 				veBUS.themVe();
 				veBUS.UpdateSoCho(MaKHT1, socho);
+				XuatPDF pdf=new XuatPDF(hd, veBUS.GetListVe());
+				 try {
+			            // Tạo một PdfReader để đọc tập tin PDF
+			            PdfReader pdfReader = new PdfReader(new File("src/PdfFiles/invoice.pdf"));
+			            // Tạo một đối tượng PdfDocument từ PdfReader
+			            PdfDocument pdfDocument = new PdfDocument(pdfReader);
+			            // Đóng tập tin PDF sau khi sử dụng
+			            pdfDocument.close();
+			        } catch (IOException e1) {
+			            e1.printStackTrace();
+			        }
 			}
 		});
 		panel_5.add(btnThanhToan);
@@ -942,7 +959,7 @@ public class Ve extends JFrame {
 	public void ThemHD() {
 		String manv="nv1";
 		String makh=veBUS.GetListKH().get(0).getMakh();
-		HoaDonDTO hd=new HoaDonDTO(mahd,manv,makh,ngaytaohoadon,tongcong);
+		hd=new HoaDonDTO(mahd,manv,makh,ngaytaohoadon,tongcong);
 		if (hdBUS.them(hd) == -1) {
 			JOptionPane.showMessageDialog(this, "Lỗi!");
 		} else {
