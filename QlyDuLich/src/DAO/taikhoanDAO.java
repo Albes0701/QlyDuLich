@@ -1,6 +1,7 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -49,7 +50,7 @@ public class taikhoanDAO {
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT honv,tennv FROM nhanvien nv INNER JOIN taikhoan tk ON nv.manv = '" + user_name + "'";
+			String sql="SELECT honv,tennv FROM nhanvien nv INNER JOIN taikhoan tk ON nv.manv = tk.user_name where nv.manv = '" + user_name + "'";
 //			System.out.println(sql);
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
@@ -62,5 +63,38 @@ public class taikhoanDAO {
 		}	
 
 		return user;
+	}
+	
+	public NhanVienDTO getInfo_NhanVien(String user_maso) {
+		NhanVienDTO nv = null;
+		try {
+			//Bước 1:Tạo kết nối
+			Connection con=JDBCUtil.getConnection();
+			//Bước 2:Tạo đối tượng statement
+			java.sql.Statement st=con.createStatement();
+			//Bước 3:Thực thi statement
+			String sql="SELECT * FROM nhanvien nv INNER JOIN taikhoan tk ON nv.manv = tk.user_name where nv.manv = '" + user_maso + "'";
+//			System.out.println(sql);
+			ResultSet rs=st.executeQuery(sql);
+			//Bước 4:Xử lý kết quả trả về
+			while(rs.next()) {
+				String manv=rs.getString("manv");
+				String honv=rs.getString("honv");
+				String tennv=rs.getString("tennv");
+				String sdt=rs.getString("sdt");
+				Boolean gioitinh=rs.getBoolean("gioitinh");
+				String cmnd=rs.getString("cmnd");
+				Date ngayvl=rs.getDate("ngayvl");
+				Date ngaysinh=rs.getDate("ngaysinh");
+				nv= new NhanVienDTO(manv, honv, tennv, sdt, cmnd, ngayvl,ngaysinh, gioitinh);
+			}
+				
+			//Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+
+		return nv;
 	}
 }

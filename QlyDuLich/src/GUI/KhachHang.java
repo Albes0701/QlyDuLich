@@ -575,7 +575,7 @@ public void lockForm() {
 		if(khBus.docKH()) {
 			for(KhachHangDTO kh : KhachHangBUS.khDTO ) {
 				tableModel.addRow(new Object[] {
-						kh.getMakh(), kh.getHokh(), kh.getTenkh(), KiemTra.getInstance().GioiTinh(kh.isGioitinh()), kh.getDotuoi(), kh.getDiachi(), kh.getSdt(), kh.getEmail()
+						kh.getMakh(), kh.getHokh(), kh.getTenkh(), KiemTra.getInstance().GioiTinh(kh.isGioitinh()), kh.getDiachi(), kh.getSdt(), kh.getEmail()
 				});
 			}
 			
@@ -607,7 +607,7 @@ public void lockForm() {
 		String email = model.getValueAt(row, 7)+ "";
 
 
-        KhachHangDTO kh = new KhachHangDTO(makh, hokh, tenkh, dotuoi, diachi, sdt, email, gioitinh);
+        KhachHangDTO kh = new KhachHangDTO(makh, hokh, tenkh, diachi, sdt, email, rootPaneCheckingEnabled, null);
         return kh;
 	}
 	public void hienThiThongTin() {
@@ -656,7 +656,7 @@ public void lockForm() {
 		kh.setTenkh(this.textField_TenKH.getText());
 		Boolean gioitinh = KiemTra.getInstance().GioiTinh(this.comboBox_gioitinh.getSelectedItem()+"");
 		kh.setGioitinh(gioitinh);
-		kh.setDotuoi(this.comboBox_dotuoi.getSelectedItem()+"");
+//		kh.setDotuoi(this.comboBox_dotuoi.getSelectedItem()+"");
 		kh.setDiachi(this.textArea.getText());
 		kh.setSdt(this.textField_SDT.getText());
 		kh.setEmail(this.textField_Email.getText());
@@ -681,7 +681,7 @@ public void lockForm() {
 	 public void initArrayList() {
 			for(KhachHangDTO kh: KhachHangBUS.khDTO) {
 				tableModel.addRow(new Object[]{
-					kh.getMakh().toUpperCase(),kh.getHokh(),kh.getTenkh(),KiemTra.getInstance().GioiTinh(kh.isGioitinh()),kh.getDotuoi(),kh.getDiachi(),kh.getSdt(),kh.getEmail()
+					kh.getMakh().toUpperCase(),kh.getHokh(),kh.getTenkh(),KiemTra.getInstance().GioiTinh(kh.isGioitinh()),kh.getDiachi(),kh.getSdt(),kh.getEmail()
 				});
 			}
 			
@@ -696,7 +696,7 @@ public void lockForm() {
 		public void initArrayList(ArrayList<KhachHangDTO> t) {
 			for(KhachHangDTO kh: t) {
 				tableModel.addRow(new Object[]{
-						kh.getMakh().toUpperCase(),kh.getHokh(),kh.getTenkh(),KiemTra.getInstance().GioiTinh(kh.isGioitinh()),kh.getDotuoi(),kh.getDiachi(),kh.getSdt(),kh.getEmail()
+						kh.getMakh().toUpperCase(),kh.getHokh(),kh.getTenkh(),KiemTra.getInstance().GioiTinh(kh.isGioitinh()),kh.getDiachi(),kh.getSdt(),kh.getEmail()
 				});
 			}
 			

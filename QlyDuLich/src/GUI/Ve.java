@@ -48,6 +48,9 @@ import DTO.KhachSanDTO;
 import DTO.KhuyenMaiDTO;
 import DTO.QlyToursDTO;
 import DTO.VeDTO;
+import BUS.taikhoanBUS;
+import DTO.NhanVienDTO;
+import DTO.taikhoanDTO;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -505,7 +508,8 @@ public class Ve extends JFrame {
 		lblTnNhVin.setBounds(10, 72, 119, 23);
 		panel_3.add(lblTnNhVin);
 		
-		JLabel lbl_NameNV = new JLabel("nameNV");
+		taikhoanBUS tkBUS = new taikhoanBUS();
+		JLabel lbl_NameNV = new JLabel(tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
 		lbl_NameNV.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lbl_NameNV.setBounds(172, 72, 187, 23);
 		panel_3.add(lbl_NameNV);

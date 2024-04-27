@@ -43,6 +43,7 @@ import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
 import BUS.taikhoanBUS;
+import DTO.NhanVienDTO;
 import DTO.taikhoanDTO;
 
 public class TrangChuGUI extends JFrame {
@@ -164,6 +165,8 @@ public class TrangChuGUI extends JFrame {
 
 		
 		taikhoanBUS tkBUS = new taikhoanBUS();
+//		NhanVienDTO nv = tkBUS.getNhanVien(tkDTO.getUser());
+//		System.out.println(nv.getTennv());
 		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(tkDTO.getUser()));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
