@@ -60,7 +60,7 @@ public class NhanVienDAO {
 			java.sql.Statement st = con.createStatement();
 			//truy van
 			String sql = "INSERT INTO nhanvien (manv, honv, tennv, sdt, cmnd, ngayvl, ngaysinh, gioitinh) VALUES ('"
-		            + t.getManv() + "' , '" + t.getHonv() + "' , '" + t.getTennv() + "' , '" + t.getSdt() + "' , '"
+		            + t.getManv().toLowerCase() + "' , '" + t.getHonv() + "' , '" + t.getTennv() + "' , '" + t.getSdt() + "' , '"
 		            + t.getCmnd() + "' , '" + t.getNgayvl() + "' , '" + t.getNgaysinh() + "' ," + t.getGioitinh() + ")";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi " + sql);

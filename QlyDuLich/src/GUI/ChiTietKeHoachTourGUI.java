@@ -11,6 +11,14 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,11 +36,29 @@ import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.border.CompoundBorder;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 import javax.swing.ImageIcon;
 import javax.swing.border.BevelBorder;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import BUS.ChiTietKHT_BUS;
+import BUS.DichVuBUS;
+import BUS.KHToursBUS;
+import BUS.QlyToursBUS;
+import BUS.taikhoanBUS;
+import DTO.CTDV_An_DTO;
+import DTO.CTDV_KS_DTO;
+import DTO.CTDV_PT_DTO;
+import DTO.CTKHT_DTO;
+import DTO.KHTourDTO;
+import DTO.KhachSanDTO;
+import DTO.NhaHangDTO;
+import DTO.PhuongTienDTO;
+import DTO.QlyToursDTO;
+import DTO.SdDichVuDTO;
+
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Component;
@@ -41,15 +67,25 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField_GioiTinh;
-	private JTable table_KhachHang;
-	private JTextField textField_TimKiem;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTable table;
+	private JTextField tfTimKiem;
+	private JTextField tfNgay;
+	private JTextField tfThanhTienKS;
+	private JTextField tfThanhTienNhaHang;
+	private JTextField tfThanhTienPhuongTien;
+	private JTextField tfTongTien;
 	JButton btn_QLTour,btn_KHTour,btn_QLDV,btn_KhuyenMai,btn_NhanVien,btn_KhachHang;
+	JButton btnLuu,btnThoat,btnThem,btnSua;
+	JComboBox cbNhaHang,cbKhachSan,cbPhuongTien,cbMaKHT,cbTimKiem;
+	private SdDichVuDTO sddv;
+	private CTDV_An_DTO dvAn;
+	private CTDV_PT_DTO dvPT;
+	private CTDV_KS_DTO dvKS;
+	private int comparison=5;
+	private double thanhtienks=0,thanhtienpt=0,thanhtiennh=0;
+	JPanel panel_2;
+	
+	ChiTietKHT_BUS ctkhtBUS=new ChiTietKHT_BUS();
 	/**
 	 * Launch the application.
 	 */
@@ -175,16 +211,11 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		btn_KhuyenMai.setBounds(564, 65, 120, 40);
 		panel.add(btn_KhuyenMai);
 		
-		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
-		btnNewButton_2.setFocusable(false);
-		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton_2.setBounds(849, 24, 124, 30);
-		panel.add(btnNewButton_2);
-		
-		JLabel lblNewLabel = new JLabel("User");
+		taikhoanBUS tkBUS = new taikhoanBUS();
+		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(768, 25, 90, 30);
+		lblNewLabel.setBounds(743, 24, 230, 30);
 		panel.add(lblNewLabel);
 		
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
@@ -224,87 +255,8 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		scrollPane_2.setBounds(290, 50, 660, 435);
 		KhachHang.add(scrollPane_2);
 		
-		table_KhachHang = new JTable();
-		scrollPane_2.setViewportView(table_KhachHang);
-		table_KhachHang.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00C3 KHT", "Ng\u00E0y", "Kh\u00E1ch s\u1EA1n", "Nh\u00E0 h\u00E0ng", "Ph\u01B0\u01A1ng ti\u1EC7n", "T\u1ED5ng ti\u1EC1n"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		table_KhachHang.getColumnModel().getColumn(1).setPreferredWidth(76);
-		table_KhachHang.getColumnModel().getColumn(2).setPreferredWidth(96);
-		table_KhachHang.getColumnModel().getColumn(3).setPreferredWidth(82);
-		table_KhachHang.getColumnModel().getColumn(4).setPreferredWidth(89);
-		table_KhachHang.getColumnModel().getColumn(5).setPreferredWidth(101);
+		table = new JTable();
+		scrollPane_2.setViewportView(table);
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
@@ -312,46 +264,122 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		KhachHang.add(panel_3);
 		panel_3.setLayout(null);
 		
-		JButton btnNewButton_Xoa = new JButton("Xóa");
-		btnNewButton_Xoa.setFocusable(false);
-		btnNewButton_Xoa.setBackground(new Color(255, 0, 0));
-		btnNewButton_Xoa.setForeground(new Color(255, 255, 255));
-		btnNewButton_Xoa.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Xoa.setBounds(596, 3, 75, 25);
-		panel_3.add(btnNewButton_Xoa);
+//		btnXoa = new JButton("Xóa");
+//		btnXoa.setFocusable(false);
+//		btnXoa.setBackground(new Color(255, 0, 0));
+//		btnXoa.setForeground(new Color(255, 255, 255));
+//		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 14));
+//		btnXoa.setBounds(596, 3, 75, 25);
+//		btnXoa.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				CTKHT_DTO ctkht=getCTKHT_DaChon();
+//				if (ctkhtBUS.xoa(ctkht) == -1) {
+//					JOptionPane.showMessageDialog(panel, "Lỗi!");
+//				} else {
+//					XoaDataTable();
+//					initData();
+//					JOptionPane.showMessageDialog(panel, "Xóa thành công!");
+//				}
+//				
+//			}
+//		});
+//		panel_3.add(btnXoa);
 		
-		JButton btnNewButton_Sua = new JButton("Sửa");
-		btnNewButton_Sua.setFocusable(false);
-		btnNewButton_Sua.setBackground(new Color(50, 205, 50));
-		btnNewButton_Sua.setForeground(new Color(255, 255, 255));
-		btnNewButton_Sua.addActionListener(new ActionListener() {
+		btnSua = new JButton("Sửa");
+		btnSua.setFocusable(false);
+		btnSua.setBackground(new Color(50, 205, 50));
+		btnSua.setForeground(new Color(255, 255, 255));
+		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(table.getSelectedRow()==-1) {
+					JOptionPane.showMessageDialog(panel, "Chưa chọn chi tiết muốn sửa.");
+					return;
+				}
+				btnThem.setEnabled(false);
+				btnThem.setBackground(Color.gray);
+//				btnXoa.setEnabled(false);
+//				btnXoa.setBackground(Color.gray);
+				btnLuu.setEnabled(true);
+				btnLuu.setBackground(Color.orange);
+				btnThoat.setEnabled(true);
+				btnThoat.setBackground(Color.red);
+				noneInit();
+				cbMaKHT.setEnabled(false);
+				CTKHT_DTO ctkht=getCTKHT_DaChon();
+				thanhtienks=ctkht.getThanhtienKS();
+				thanhtiennh=ctkht.getThanhtienNH();
+				thanhtienpt=ctkht.getThanhtienPT();
 			}
 		});
-		btnNewButton_Sua.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Sua.setBounds(511, 3, 75, 25);
-		panel_3.add(btnNewButton_Sua);
+		btnSua.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnSua.setBounds(571, 3, 110, 25);
+		panel_3.add(btnSua);
 		
-		JButton btnNewButton_Them = new JButton("Thêm");
-		btnNewButton_Them.setFocusable(false);
-		btnNewButton_Them.setForeground(new Color(255, 255, 255));
-		btnNewButton_Them.setBackground(new Color(65, 105, 225));
-		btnNewButton_Them.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Them.setBounds(427, 3, 75, 25);
-		panel_3.add(btnNewButton_Them);
+		btnThem = new JButton("Thêm");
+		btnThem.setFocusable(false);
+		btnThem.setForeground(new Color(255, 255, 255));
+		btnThem.setBackground(new Color(65, 105, 225));
+		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnThem.setBounds(451, 3, 110, 25);
+		btnThem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				btnSua.setEnabled(false);
+				btnSua.setBackground(Color.gray);
+//				btnXoa.setEnabled(false);
+//				btnXoa.setBackground(Color.gray);
+				btnLuu.setEnabled(true);
+				btnLuu.setBackground(Color.orange);
+				btnThoat.setEnabled(true);
+				btnThoat.setBackground(Color.red);
+				ResetData();
+				noneInit();
+				thanhtienks=0;
+				thanhtiennh=0;
+				thanhtienpt=0;
+				String makht=KHTourGUI.makht_row;
+				KHTourDTO kht= GetKHT(makht);
+				tfNgay.setText(kht.getNgaydi().toString());	
+				tfTongTien.setText("0");
+			}
+		});
+		panel_3.add(btnThem);
 		
 		JLabel lblNewLabel_3 = new JLabel("Tìm kiếm");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel_3.setBounds(10, 9, 70, 13);
 		panel_3.add(lblNewLabel_3);
 		
-		textField_TimKiem = new JTextField();
-		textField_TimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		textField_TimKiem.setBounds(81, 3, 160, 25);
-		panel_3.add(textField_TimKiem);
-		textField_TimKiem.setColumns(10);
+		tfTimKiem = new JTextField();
+		tfTimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		tfTimKiem.setBounds(81, 3, 160, 25);
+		tfTimKiem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String condition = tfTimKiem.getText();
+				String condType = (String) cbTimKiem.getSelectedItem();
+				ArrayList<CTKHT_DTO> t = ctkhtBUS.timkiem(condition, condType);
+				if (t == null) {
+					JOptionPane.showMessageDialog(panel, "Lỗi!");
+				} else {
+					XoaDataTable();
+					initData2(t);
+				}
+				
+			}
+		});
+		panel_3.add(tfTimKiem);
+		tfTimKiem.setColumns(10);
 		
-		JPanel panel_2 = new JPanel();
+		String []condType= {"Mã Khách sạn","Mã Nhà hàng","Mã phương tiện"};
+		cbTimKiem = new JComboBox(condType);
+		cbTimKiem.setBounds(241, 3, 120, 25);
+		panel_3.add(cbTimKiem);
+		
+		panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBounds(19, 52, 261, 443);
 		KhachHang.add(panel_2);
@@ -361,13 +389,13 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		lblNewLabel_2.setBounds(10, 32, 73, 13);
 		panel_2.add(lblNewLabel_2);
 		
-		textField = new JTextField();
-		textField.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField.setEditable(false);
-		textField.setColumns(10);
-		textField.setBounds(106, 68, 134, 26);
-		panel_2.add(textField);
+		tfNgay = new JTextField();
+		tfNgay.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		tfNgay.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tfNgay.setEditable(false);
+		tfNgay.setColumns(10);
+		tfNgay.setBounds(106, 68, 134, 26);
+		panel_2.add(tfNgay);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Ngày");
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -379,52 +407,99 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		lblNewLabel_2_2.setBounds(10, 112, 86, 20);
 		panel_2.add(lblNewLabel_2_2);
 		
-		JButton btnNewButton_Luu = new JButton("Lưu");
-		btnNewButton_Luu.setForeground(Color.WHITE);
-		btnNewButton_Luu.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNewButton_Luu.setFocusable(false);
-		btnNewButton_Luu.setBackground(new Color(255, 128, 64));
-		btnNewButton_Luu.setBounds(72, 407, 85, 26);
-		panel_2.add(btnNewButton_Luu);
+		btnLuu = new JButton("Lưu");
+		btnLuu.setForeground(Color.WHITE);
+		btnLuu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnLuu.setFocusable(false);
+		btnLuu.setBackground(new Color(255, 128, 64));
+		btnLuu.setBounds(36, 407, 85, 26);
+		btnLuu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (btnSua.isEnabled() == false) {
+					KHTourDTO kht= GetKHT(KHTourGUI.makht_row);
+					
+					System.out.println("makht_row:"+KHTourGUI.makht_row);
+					
+					String ngay_tmp=tfNgay.getText();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					java.util.Date ngay1=null;
+			        try {
+			            ngay1 = sdf.parse(ngay_tmp);
+			        } catch (Exception e1) {
+			            e1.printStackTrace();
+			        }
+			        java.sql.Date KtrNgay=new java.sql.Date(ngay1.getTime());
+			        comparison = KtrNgay.compareTo(kht.getNgayve());			        
+			        if(comparison<0) {	
+						ThemCTKHT();
+						ResetData();
+						XoaDataTable();
+						initData();
+						LocalDate localDate = KtrNgay.toLocalDate();
+						LocalDate increasedLocalDate = localDate.plusDays(1); // Tăng giá trị lên một ngày
+						java.sql.Date increasedDate = java.sql.Date.valueOf(increasedLocalDate);
+						tfNgay.setText(increasedDate.toString());
+						thanhtienks=0;
+						thanhtiennh=0;
+						thanhtienpt=0;
+			        }
+			        else if(comparison == 0) {
+			        	ThemCTKHT();
+						ResetData();
+						XoaDataTable();
+						initData();
+						JOptionPane.showMessageDialog(panel, "Bạn đã hoàn tất thêm chi tiết kế hoạch tour.");
+						btnThem.setEnabled(false);
+						btnThem.setBackground(Color.gray);
+						thanhtienks=0;
+						thanhtiennh=0;
+						thanhtienpt=0;
+			        }
+				} else if (btnThem.isEnabled() == false) {
+					SuaCTKHT();
+					ResetData();
+					XoaDataTable();
+					init();
+					initData();
+					btnSua.setEnabled(true);
+					btnSua.setBackground(new Color(50, 205, 50));
+					thanhtienks=0;
+					thanhtiennh=0;
+					thanhtienpt=0;
+				}
+				
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		comboBox.setBounds(106, 25, 134, 26);
-		panel_2.add(comboBox);
+		}});
+		panel_2.add(btnLuu);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(106, 111, 134, 26);
-		panel_2.add(comboBox_1);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("Thành tiền");
 		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel_2_1_1.setBounds(10, 156, 86, 20);
 		panel_2.add(lblNewLabel_2_1_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		textField_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
-		textField_1.setBounds(106, 154, 134, 26);
-		panel_2.add(textField_1);
+		tfThanhTienKS = new JTextField();
+		tfThanhTienKS.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		tfThanhTienKS.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tfThanhTienKS.setEditable(false);
+		tfThanhTienKS.setColumns(10);
+		tfThanhTienKS.setBounds(106, 154, 134, 26);
+		panel_2.add(tfThanhTienKS);
 		
 		JLabel lblNewLabel_2_2_1 = new JLabel("Nhà hàng");
 		lblNewLabel_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel_2_2_1.setBounds(10, 201, 86, 20);
 		panel_2.add(lblNewLabel_2_2_1);
 		
-		JComboBox comboBox_1_1 = new JComboBox();
-		comboBox_1_1.setBounds(106, 200, 134, 26);
-		panel_2.add(comboBox_1_1);
 		
-		textField_2 = new JTextField();
-		textField_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		textField_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_2.setEditable(false);
-		textField_2.setColumns(10);
-		textField_2.setBounds(106, 243, 134, 26);
-		panel_2.add(textField_2);
+		tfThanhTienNhaHang = new JTextField();
+		tfThanhTienNhaHang.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		tfThanhTienNhaHang.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tfThanhTienNhaHang.setEditable(false);
+		tfThanhTienNhaHang.setColumns(10);
+		tfThanhTienNhaHang.setBounds(106, 243, 134, 26);
+		panel_2.add(tfThanhTienNhaHang);
 		
 		JLabel lblNewLabel_2_1_1_1 = new JLabel("Thành tiền");
 		lblNewLabel_2_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -436,17 +511,14 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		lblNewLabel_2_2_2.setBounds(10, 288, 98, 20);
 		panel_2.add(lblNewLabel_2_2_2);
 		
-		JComboBox comboBox_1_2 = new JComboBox();
-		comboBox_1_2.setBounds(106, 287, 134, 26);
-		panel_2.add(comboBox_1_2);
 		
-		textField_3 = new JTextField();
-		textField_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		textField_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_3.setEditable(false);
-		textField_3.setColumns(10);
-		textField_3.setBounds(106, 330, 134, 26);
-		panel_2.add(textField_3);
+		tfThanhTienPhuongTien = new JTextField();
+		tfThanhTienPhuongTien.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		tfThanhTienPhuongTien.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tfThanhTienPhuongTien.setEditable(false);
+		tfThanhTienPhuongTien.setColumns(10);
+		tfThanhTienPhuongTien.setBounds(106, 330, 134, 26);
+		panel_2.add(tfThanhTienPhuongTien);
 		
 		JLabel lblNewLabel_2_1_1_2 = new JLabel("Thành tiền");
 		lblNewLabel_2_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -458,13 +530,43 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		lblNewLabel_2_1_1_2_1.setBounds(10, 370, 86, 20);
 		panel_2.add(lblNewLabel_2_1_1_2_1);
 		
-		textField_4 = new JTextField();
-		textField_4.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_4.setEditable(false);
-		textField_4.setColumns(10);
-		textField_4.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		textField_4.setBounds(106, 368, 134, 26);
-		panel_2.add(textField_4);
+		tfTongTien = new JTextField();
+		tfTongTien.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tfTongTien.setEditable(false);
+		tfTongTien.setColumns(10);
+		tfTongTien.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		tfTongTien.setBounds(106, 368, 134, 26);
+		panel_2.add(tfTongTien);
+		
+		btnThoat = new JButton("Thoát");
+		btnThoat.setForeground(Color.WHITE);
+		btnThoat.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnThoat.setFocusable(false);
+		btnThoat.setBackground(new Color(255, 0, 0));
+		btnThoat.setBounds(144, 407, 85, 26);
+		btnThoat.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ResetData();
+				init();
+				
+				if(comparison==5) {
+					return;
+				}
+				else if(comparison<0) {
+					btnThem.setEnabled(true);
+					btnThem.setBackground(new Color(65, 105, 225));
+				}
+				else if(comparison==0) {
+					btnThem.setEnabled(false);
+					btnThem.setBackground(Color.gray);
+				}
+				btnSua.setEnabled(true);
+				btnSua.setBackground(new Color(50, 205, 50));
+			}
+		});
+		panel_2.add(btnThoat);
 		
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -495,6 +597,8 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 				kht.btn_KHTour.setForeground(Color.BLACK);
 			}
 		});
+		init();
+		initData();
 		btn_KHTour.setForeground(Color.WHITE);
 		btn_KHTour.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_KHTour.setFocusable(false);
@@ -505,4 +609,274 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		panel.add(btn_KHTour);
 		this.setVisible(true);
 	}
+	
+	public void init() {
+		ArrayList<String> arrMaKHTour=new ArrayList<String>();
+		ArrayList<String> arrMaKS=new ArrayList<String>();
+		ArrayList<String> arrMaNH=new ArrayList<String>();
+		ArrayList<String> arrMaPT=new ArrayList<String>();
+		
+		
+
+		for(KHTourDTO kht:KHToursBUS.khtList) {
+			arrMaKHTour.add(kht.getMakht());
+		}
+		cbMaKHT = new JComboBox(arrMaKHTour.toArray());
+		cbMaKHT.setSelectedItem(KHTourGUI.makht_row);
+		cbMaKHT.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbMaKHT.setBounds(106, 25, 134, 26);
+		
+		cbMaKHT.setSelectedItem(KHTourGUI.makht_row);
+		KHTourDTO kht= GetKHT(KHTourGUI.makht_row);
+		tfNgay.setText(kht.getNgaydi().toString());
+		
+		panel_2.add(cbMaKHT);
+		
+		for(KhachSanDTO ks:DichVuBUS.ksDTO) {
+			arrMaKS.add(ks.getMaso());
+		}
+		cbKhachSan = new JComboBox(arrMaKS.toArray());
+		cbKhachSan.setBounds(106, 111, 134, 26);
+		cbKhachSan.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				KhachSanDTO ks=GetKhachSan(cbKhachSan.getSelectedItem().toString());
+				tfThanhTienKS.setText(ks.getGiaca()+"");
+				thanhtienks=ks.getGiaca();
+				tfTongTien.setText((thanhtienks+thanhtiennh+thanhtienpt)+"");
+				System.out.println("Khach san :"+thanhtienks+" "+thanhtiennh+" "+thanhtienpt);
+				
+			}
+		});
+		panel_2.add(cbKhachSan);
+		
+		for(NhaHangDTO nh:DichVuBUS.nhDTO) {
+			arrMaNH.add(nh.getMaso());
+		}
+		cbNhaHang = new JComboBox(arrMaNH.toArray());
+		cbNhaHang.setBounds(106, 200, 134, 26);
+		cbNhaHang.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				NhaHangDTO nh=GetNhaHang(cbNhaHang.getSelectedItem().toString());
+				tfThanhTienNhaHang.setText(nh.getGiaca()+"");
+				thanhtiennh=nh.getGiaca();
+				tfTongTien.setText((thanhtienks+thanhtiennh+thanhtienpt)+"");
+				System.out.println("Nha hang :"+thanhtienks+" "+thanhtiennh+" "+thanhtienpt);
+			}
+		});
+		panel_2.add(cbNhaHang);
+		
+		for(PhuongTienDTO pt:DichVuBUS.ptDTO) {
+			arrMaPT.add(pt.getMaso());
+		}
+		cbPhuongTien = new JComboBox(arrMaPT.toArray());
+		cbPhuongTien.setBounds(106, 287, 134, 26);
+		cbPhuongTien.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PhuongTienDTO pt=GetPhuongTien(cbPhuongTien.getSelectedItem().toString());
+				tfThanhTienPhuongTien.setText(pt.getGiaca()+"");
+				thanhtienpt=pt.getGiaca();
+				tfTongTien.setText((thanhtienks+thanhtiennh+thanhtienpt)+"");
+				System.out.println("Phuong tien :"+thanhtienks+" "+thanhtiennh+" "+thanhtienpt);
+			}
+		});
+		panel_2.add(cbPhuongTien);
+		
+		cbMaKHT.setEnabled(false);
+		cbKhachSan.setEnabled(false);
+		cbPhuongTien.setEnabled(false);
+		cbNhaHang.setEnabled(false);
+		btnLuu.setEnabled(false);
+		btnLuu.setBackground(Color.gray);
+		
+	}
+	
+	public void initData() {
+		KHTourDTO kht=GetKHT(KHTourGUI.makht_row);
+		String[] colNames = { "Mã KHT", "Ngày", "Mã Khách sạn", "Thành tiền", "Mã Nhà hàng", "Thành tiền","Mã Phương tiện","Thành tiền","Tổng tiền" };
+		DefaultTableModel tableModel = new DefaultTableModel();
+		table.setModel(tableModel);
+		tableModel.setColumnIdentifiers(colNames);
+		table.addMouseListener((MouseListener) new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 1) {
+					HienThiChiTietKHT();
+				}
+			}
+		});
+		for (CTKHT_DTO ctkht : ChiTietKHT_BUS.ctkhtList) {
+			if(ctkht.getMakht().equals(KHTourGUI.makht_row)) {
+				tableModel.addRow(new Object[] { ctkht.getMakht(), ctkht.getNgay(), ctkht.getMaks(),
+						ctkht.getThanhtienKS()+"", ctkht.getManh(), ctkht.getThanhtienNH()+"",ctkht.getMapt(),ctkht.getThanhtienPT()+"",ctkht.getTongtien()+"" });
+				if(ctkht.getNgay().equals(kht.getNgayve())) {
+					btnThem.setEnabled(false);
+					btnThem.setBackground(Color.gray);
+				}
+			}
+		}
+	}
+	
+	public void initData2(ArrayList<CTKHT_DTO> list) {
+		String[] colNames = { "Mã KHT", "Ngày", "Mã Khách sạn", "Thành tiền", "Mã Nhà hàng", "Thành tiền","Mã Phương tiện","Thành tiền","Tổng tiền" };
+		DefaultTableModel tableModel = new DefaultTableModel();
+		table.setModel(tableModel);
+		tableModel.setColumnIdentifiers(colNames);
+		table.addMouseListener((MouseListener) new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 1) {
+					HienThiChiTietKHT();
+				}
+			}
+		});
+		for (CTKHT_DTO ctkht : list) {
+			tableModel.addRow(new Object[] { ctkht.getMakht(), ctkht.getNgay(), ctkht.getMaks(),
+					ctkht.getThanhtienKS()+"", ctkht.getManh(), ctkht.getThanhtienNH()+"",ctkht.getMapt(),ctkht.getThanhtienPT()+"",ctkht.getTongtien()+"" });
+		}
+	}
+	
+	public void HienThiChiTietKHT() {
+		CTKHT_DTO ctkht = getCTKHT_DaChon();
+		cbMaKHT.setSelectedItem(ctkht.getMakht());
+		tfNgay.setText(ctkht.getNgay().toString());
+		cbKhachSan.setSelectedItem(ctkht.getMaks());
+		tfThanhTienKS.setText(ctkht.getThanhtienKS()+"");
+		cbNhaHang.setSelectedItem(ctkht.getManh());
+		tfThanhTienNhaHang.setText(ctkht.getThanhtienNH()+"");
+		cbPhuongTien.setSelectedItem(ctkht.getMapt());
+		tfThanhTienPhuongTien.setText(ctkht.getThanhtienPT()+"");
+		tfTongTien.setText(ctkht.getTongtien()+"");
+	}
+	
+	public void noneInit() {
+		cbKhachSan.setEnabled(true);
+		cbNhaHang.setEnabled(true);
+		cbPhuongTien.setEnabled(true);
+	}
+	
+	public CTKHT_DTO getCTKHT_DaChon() {
+		int row = table.getSelectedRow();
+		DefaultTableModel model_table = (DefaultTableModel) table.getModel();
+		String makht = model_table.getValueAt(row, 0) + "";
+		String ngay_tmp = model_table.getValueAt(row, 1) + "";
+		java.sql.Date ngay=null;
+		java.util.Date ngaytmp;
+		try {
+			ngaytmp = new SimpleDateFormat("yyyy-MM-dd").parse(ngay_tmp);
+			ngay=new java.sql.Date(ngaytmp.getTime());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+     
+
+		for(CTKHT_DTO ctkht:ChiTietKHT_BUS.ctkhtList) {
+			if(ctkht.getMakht().equals(makht)&&ctkht.getNgay().compareTo(ngay)==0) {
+				return ctkht;
+			}
+		}
+		return null;	
+	}
+	
+	public void ResetData() {
+//		cbMaKHT.setSelectedIndex(0);
+		tfNgay.setText("");
+		cbKhachSan.setSelectedIndex(0);
+		tfThanhTienKS.setText("");
+		cbNhaHang.setSelectedIndex(0);
+		tfThanhTienNhaHang.setText("");
+		cbPhuongTien.setSelectedIndex(0);
+		tfThanhTienPhuongTien.setText("");
+		tfTongTien.setText("");
+	}
+	public void ThemCTKHT() {		
+		String makht=cbMaKHT.getSelectedItem().toString();
+		String ngay_tmp=tfNgay.getText();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date ngay1=null;
+        try {
+            ngay1 = sdf.parse(ngay_tmp);
+        } catch (ParseException e) {
+            System.err.println("Error parsing date: " + e.getMessage());
+        }
+        java.sql.Date ngay=new java.sql.Date(ngay1.getTime());
+		String MaKS=cbKhachSan.getSelectedItem().toString();
+		double thanhtienKS=Double.parseDouble(tfThanhTienKS.getText());
+		String MaNH=cbNhaHang.getSelectedItem().toString();
+		double thanhtienNH=Double.parseDouble(tfThanhTienNhaHang.getText());
+		String MaPT=cbPhuongTien.getSelectedItem().toString();
+		double thanhtienPT=Double.parseDouble(tfThanhTienPhuongTien.getText());
+		
+		CTKHT_DTO ctkht=new CTKHT_DTO(makht, ngay, MaKS, thanhtienKS, MaNH, thanhtienNH, MaPT, thanhtienPT);
+			
+		if (ctkhtBUS.them(ctkht) == -1) {
+			JOptionPane.showMessageDialog(this, "Lỗi!");
+		} else {
+			JOptionPane.showMessageDialog(this, "Thêm thành công!");
+		}
+	}
+	
+	public void XoaDataTable() {
+		DefaultTableModel model_table = (DefaultTableModel) table.getModel();
+		model_table.setRowCount(0);
+	}
+	
+	public KHTourDTO GetKHT(String MaKHt) {
+		for(KHTourDTO kht:KHToursBUS.khtList) {
+			if(kht.getMakht().equals(MaKHt)) {
+				return kht;
+			}
+		}
+		return null;
+	}
+	
+	public NhaHangDTO GetNhaHang(String MaNH) {
+		for(NhaHangDTO nh:DichVuBUS.nhDTO) {
+			if(nh.getMaso().equals(MaNH)) {
+				return nh;
+			}
+		}
+		return null;
+	}
+	
+	public KhachSanDTO GetKhachSan(String MaKS) {
+		for(KhachSanDTO ks:DichVuBUS.ksDTO) {
+			if(ks.getMaso().equals(MaKS)) {
+				return ks;
+			}
+		}
+		return null;
+	}
+	
+	public PhuongTienDTO GetPhuongTien(String MaPT) {
+		for(PhuongTienDTO pt:DichVuBUS.ptDTO) {
+			if(pt.getMaso().equals(MaPT)) {
+				return pt;
+			}
+		}
+		return null;
+	}
+	
+	public void SuaCTKHT() {
+		CTKHT_DTO ctkht = getCTKHT_DaChon();
+		ctkht.setMaks(cbKhachSan.getSelectedItem().toString());
+		ctkht.setManh(cbNhaHang.getSelectedItem().toString());
+		ctkht.setMapt(cbPhuongTien.getSelectedItem().toString());
+		ctkht.setThanhtienKS(Double.parseDouble(tfThanhTienKS.getText()));
+		ctkht.setThanhtienNH(Double.parseDouble(tfThanhTienNhaHang.getText()));
+		ctkht.setThanhtienPT(Double.parseDouble(tfThanhTienPhuongTien.getText()));
+		if (ctkhtBUS.sua(ctkht) == -1) {
+			JOptionPane.showMessageDialog(this, "Lỗi!");
+		} else {
+			JOptionPane.showMessageDialog(this, "Sửa thành công!");
+		}
+		
+	}
+	
+	
+	
+	
+	
 }

@@ -7,7 +7,7 @@ import com.mysql.jdbc.Driver;
 
 public class JDBCUtil {
 	public static Connection getConnection() {
-		Connection c=null;
+		Connection c = null;
 		Driver driver;
 		try {
 			driver=new Driver();

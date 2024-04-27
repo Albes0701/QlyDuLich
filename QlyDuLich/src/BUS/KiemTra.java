@@ -1,8 +1,10 @@
 package BUS;
 
-import java.text.SimpleDateFormat;
-import java.util.regex.Pattern;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.regex.Pattern;
+
 
 public class KiemTra {
 	public static KiemTra getInstance() {
@@ -37,6 +39,12 @@ public class KiemTra {
 		return sqldate;
 	}
 	
+	public java.util.Date toDateUtil(java.sql.Date sqlDate) {
+        // Ép kiểu từ java.sql.Date sang java.util.Date
+        java.util.Date utilDate = new java.util.Date(sqlDate.getTime());
+        return utilDate;
+	}
+	
 	public String formatchString(String str) {
 //		\\s đại diện cho bất kỳ ký tự khoảng trắng nào và + biểu thị cho một hoặc nhiều lần lặp lại. 
 		try {
@@ -49,4 +57,50 @@ public class KiemTra {
 		}
 		return str;
 	}
+	
+	public Boolean checkTinhTrang(java.util.Date st1) {
+		java.util.Date current = new java.util.Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        current = calendar.getTime();
+		if(st1.compareTo(current) < 0 || st1.compareTo(current) == 0) return false;
+		return true;
+	}
+	
+	public Boolean checkTinhTrang(java.util.Date st1, java.util.Date st2) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        st2 = calendar.getTime();
+		if(st1.compareTo(st2) > 0 || st1.compareTo(st2) == 0) return false;
+		return true;
+	}
+	
+	public String tinhTrang(Boolean st) {
+		if(st) return "Còn hiệu lực";
+		return  "Hết hiệu lực";
+	}
+	
+	public Boolean tinhTrang(String st) {
+		if(st.equalsIgnoreCase("Còn hiệu lực")) return true;
+		return  false;
+	}
+	public String loaiDV(String madv) {
+		String kitu = madv.substring(0, 2);
+		if(kitu.equalsIgnoreCase("NH")) return "Nhà Hàng";
+		if(kitu.equalsIgnoreCase("KS")) return "Khách Sạn";
+		if(kitu.equalsIgnoreCase("PT")) return "Phương tiện";
+		return null;
+	}
+	
+	public String maDV(String loai) {
+		if(loai.equalsIgnoreCase("Nhà Hàng")) return "NH";
+		if(loai.equalsIgnoreCase("Khách Sạn")) return "KH";
+		if(loai.equalsIgnoreCase("Phương tiện")) return "PT";
+		return null;
+	}
+	
 }

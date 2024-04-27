@@ -9,5 +9,19 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/Library/jar_files/mysql-connector-java-8.0.30.jar"/>
 	<classpathentry kind="lib" path="D:/Library/jar_files/protobuf-java-3.19.4.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/barcodes-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/font-asian-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/forms-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/hyph-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/io-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/kernel-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/layout-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/pdfa-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/pdftest-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/sign-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/styled-xml-parser-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/svg-7.1.9.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/slf4j-api-1.7.2.jar"/>
+	<classpathentry kind="lib" path="D:/Library/itext-7.19/slf4j-simple-1.7.36.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

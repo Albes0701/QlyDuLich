@@ -11,6 +11,8 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -48,7 +50,11 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.KHToursBUS;
+import BUS.KhachHangBUS;
 import BUS.QlyToursBUS;
+import BUS.taikhoanBUS;
+import DTO.KHTourDTO;
 import DTO.QlyToursDTO;
 
 public class QuanLyTour extends JFrame {
@@ -75,6 +81,7 @@ public class QuanLyTour extends JFrame {
 	JButton btn_QLTour,btn_KHTour,btn_QLDV,btn_KhuyenMai,btn_NhanVien,btn_KhachHang;
 	// QlyToursDTO tourDTO=new QlyToursDTO();
 	QlyToursBUS tourBUS = new QlyToursBUS();
+	KhachHangBUS khBUS=new KhachHangBUS();
 
 	/**
 	 * Launch the application.
@@ -219,16 +226,11 @@ public class QuanLyTour extends JFrame {
 		btn_KhuyenMai.setBounds(564, 65, 120, 40);
 		panel.add(btn_KhuyenMai);
 
-		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
-		btnNewButton_2.setFocusable(false);
-		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton_2.setBounds(849, 24, 124, 30);
-		panel.add(btnNewButton_2);
-
-		JLabel lblNewLabel = new JLabel("User");
+		taikhoanBUS tkBUS = new taikhoanBUS();
+		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(768, 25, 90, 30);
+		lblNewLabel.setBounds(743, 24, 230, 30);
 		panel.add(lblNewLabel);
 
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
@@ -279,6 +281,28 @@ public class QuanLyTour extends JFrame {
 		textField_MaTour = new JTextField();
 		textField_MaTour.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_MaTour.setBounds(90, 26, 125, 26);
+		textField_MaTour.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					comboBox_LoaiTour.showPopup();
+		        }
+				
+			}
+		});
 		panel_2.add(textField_MaTour);
 		textField_MaTour.setColumns(10);
 
@@ -291,6 +315,26 @@ public class QuanLyTour extends JFrame {
 		songay_tf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		songay_tf.setColumns(10);
 		songay_tf.setBounds(90, 211, 125, 26);
+		songay_tf.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					khoihanh_cb.showPopup();
+				}
+		}});
 		panel_2.add(songay_tf);
 
 		JLabel songay_lb = new JLabel("Số Ngày");
@@ -354,6 +398,28 @@ public class QuanLyTour extends JFrame {
 		tentour_tf = new JTextField();
 		tentour_tf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		tentour_tf.setBounds(10, 140, 205, 61);
+		tentour_tf.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					songay_tf.requestFocusInWindow();
+		        }
+				
+			}
+		});
 		panel_2.add(tentour_tf);
 		tentour_tf.setColumns(10);
 
@@ -422,7 +488,6 @@ public class QuanLyTour extends JFrame {
 					initData();
 					JOptionPane.showMessageDialog(panel, "Xóa thành công!");
 				}
-
 			}
 		});
 		panel_3.add(xoa_btn);
@@ -442,6 +507,7 @@ public class QuanLyTour extends JFrame {
 				thoat_btn.setEnabled(true);
 				thoat_btn.setBackground(Color.red);
 				noneInit();
+				textField_MaTour.setEnabled(false);
 			}
 		});
 		sua_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -561,7 +627,6 @@ public class QuanLyTour extends JFrame {
 	}
 
 	public void initData() {
-
 		String[] colNames = { "Mã Tour", "Tên Tour", "Số ngày", "Nơi đến", "Mã loại", "Nơi khởi hành" };
 		DefaultTableModel tableModel = new DefaultTableModel();
 		table_Tours.setModel(tableModel);
@@ -611,6 +676,8 @@ public class QuanLyTour extends JFrame {
 		if (!tourBUS.docTour()) {
 			JOptionPane.showMessageDialog(this, "Lỗi không đọc được database!");
 		}
+		khBUS.docKH();
+		
 	}
 
 	public void noneInit() {

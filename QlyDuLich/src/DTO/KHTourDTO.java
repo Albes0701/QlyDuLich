@@ -26,6 +26,20 @@ public class KHTourDTO {
 		this.giave=giave;
 	}
 
+	public void copyKHT(KHTourDTO t) {
+		this.makht = t.makht;
+		this.matour = t.matour;
+		this.mota = t.mota;
+		this.huongdanvien = t.huongdanvien;
+		this.anh1 = t.anh1;
+		this.anh2 = t.anh2;
+		this.anh3 = t.anh3;
+		this.ngaydi = t.ngaydi;
+		this.ngayve = t.ngayve;
+		this.songuoi = t.songuoi;
+		this.tongchi = t.tongchi;
+		this.giave=t.giave;
+	}
 
 	public String getMakht() {
 		return makht;

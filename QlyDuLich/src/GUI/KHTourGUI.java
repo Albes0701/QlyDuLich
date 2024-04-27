@@ -18,9 +18,15 @@ import java.awt.event.MouseListener;
 import java.awt.image.ImageProducer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -44,18 +50,26 @@ import javax.swing.AbstractListModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 
 import com.toedter.calendar.JDateChooser;
 
+import BUS.ChiTietKHT_BUS;
 import BUS.KHToursBUS;
 import BUS.QlyToursBUS;
 import DTO.KHTourDTO;
 import DTO.QlyToursDTO;
+import BUS.taikhoanBUS;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 public class KHTourGUI extends JFrame {
 
@@ -65,6 +79,7 @@ public class KHTourGUI extends JFrame {
 	private JTextField timkiem_tf;
 	JButton btn_QLTour, btn_KHTour, btn_QLDV, btn_KhuyenMai, btn_NhanVien, btn_KhachHang;
 	KHToursBUS khtBUS=new KHToursBUS();
+	ChiTietKHT_BUS ctkhtBUS=new ChiTietKHT_BUS();
 	private JTextField tfSongay;
 	private JTextField tfHuongDanVien;
 	private JTextField tfGiaVe;
@@ -93,7 +108,10 @@ public class KHTourGUI extends JFrame {
 	JLabel sochoconnhan_lb;
 	JLabel lbThoigian,lbNoikhoihanh;
 	JLabel lbSoChoConNhan;
-	String anh1_path,anh2_path,anh3_path;
+	String anh1_path="",anh2_path="",anh3_path="";
+	JButton btnThem,btnXoa,btnSua;
+	JComboBox cbTimkiem;
+	public static String makht_row;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -243,9 +261,13 @@ public class KHTourGUI extends JFrame {
 		panel.add(btnNewButton_2);
 
 		JLabel lblNewLabel = new JLabel("User");
+		
+		
+		taikhoanBUS tkBUS = new taikhoanBUS();
+		lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(768, 25, 90, 30);
+		lblNewLabel.setBounds(743, 24, 230, 30);
 		panel.add(lblNewLabel);
 		JLabel logo_lb = new JLabel();
 		logo_lb.setBackground(new Color(128, 255, 128));
@@ -301,6 +323,21 @@ public class KHTourGUI extends JFrame {
 		timkiem_tf.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0)));
 		timkiem_tf.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		timkiem_tf.setBounds(250, 9, 230, 30);
+		timkiem_tf.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String condition = timkiem_tf.getText();
+				String condType = (String)cbTimkiem.getSelectedItem();
+				ArrayList<KHTourDTO> t = khtBUS.timkiem(condition, condType);
+				if (t == null) {
+					JOptionPane.showMessageDialog(panel, "Lỗi!");
+				} else {
+					XoaDataTable();
+					initData2(t);
+				}
+				
+			}
+		});
 		KHTOUR.add(timkiem_tf);
 		timkiem_tf.setColumns(10);
 		KHTOUR.setBackground(new Color(255, 255, 255));
@@ -311,8 +348,18 @@ public class KHTourGUI extends JFrame {
 		ctkehoachtour_btn.setFocusable(false);
 		ctkehoachtour_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				new ChiTietKeHoachTourGUI();
+				int row = table.getSelectedRow();
+				if(row==-1) {
+					JOptionPane.showMessageDialog(panel, "Bạn chưa chọn KHT muốn xem chi tiết.");
+					return;
+				}
+				else {
+					makht_row="";
+					DefaultTableModel model_table = (DefaultTableModel) table.getModel();
+					makht_row = model_table.getValueAt(row, 1) + "";
+					setVisible(false);
+					new ChiTietKeHoachTourGUI();
+				}
 			}
 		});
 		ctkehoachtour_btn.setForeground(new Color(255, 255, 255));
@@ -323,25 +370,54 @@ public class KHTourGUI extends JFrame {
 		KHTOUR.add(ctkehoachtour_btn);
 		KHTOUR.setBackground(new Color(255, 255, 255));
 		
-		JButton btnSua = new JButton("Sửa");
+		btnSua = new JButton("Sửa");
 		btnSua.setFocusable(false);
 		btnSua.setBackground(new Color(0, 255, 0));
 		btnSua.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSua.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnSua.setForeground(new Color(255, 255, 255));
 		btnSua.setBounds(783, 7, 80, 40);
+		btnSua.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				btnXoa.setEnabled(false);
+				btnXoa.setBackground(Color.GRAY);
+				btnThem.setEnabled(false);
+				btnThem.setBackground(Color.GRAY);
+				btnLuu.setEnabled(true);
+				btnLuu.setBackground(Color.YELLOW);
+				noneInit();
+				tfMaKHT.setEditable(false);
+				cbMatour.setEnabled(false);
+				ngaydi_date.setEnabled(false);
+				ngayve_date.setEnabled(false);
+			}
+		});
 		KHTOUR.add(btnSua);
 		
-		JButton btnXoa = new JButton("Xóa");
+		btnXoa = new JButton("Xóa");
 		btnXoa.setFocusable(false);
 		btnXoa.setBackground(new Color(255, 0, 0));
 		btnXoa.setForeground(new Color(255, 255, 255));
 		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnXoa.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnXoa.setBounds(693, 7, 80, 40);
+		btnXoa.addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				KHTourDTO kht = GetKHTDaChon();
+				if (khtBUS.xoa(kht) == -1) {
+					JOptionPane.showMessageDialog(panel, "Lỗi!");
+				} else {
+					XoaDataTable();
+					initData();
+					JOptionPane.showMessageDialog(panel, "Xóa thành công!");
+				}
+			}
+		});
 		KHTOUR.add(btnXoa);
 		
-		JButton btnThem = new JButton("Thêm");
+		btnThem = new JButton("Thêm");
 		btnThem.setFocusable(false);
 		btnThem.setBackground(new Color(0, 0, 255));
 		btnThem.setForeground(new Color(255, 255, 255));
@@ -359,6 +435,15 @@ public class KHTourGUI extends JFrame {
 				btnLuu.setBackground(Color.YELLOW);
 				Reset();
 				noneInit();
+				tfSongay.setText(getTour((String) cbMatour.getSelectedItem()).getSongay()+"");
+				tfTongChi.setText("Chưa cập nhật");
+				java.util.Date currentDate = (java.util.Date) ngaydi_date.getDate();
+                java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(sqlDate);
+                calendar.add(Calendar.DAY_OF_MONTH, getTour((String) cbMatour.getSelectedItem()).getSongay()-1);
+                ngayve_date.setDate(calendar.getTime());
+				
 			}
 		});
 		KHTOUR.add(btnThem);
@@ -419,6 +504,19 @@ public class KHTourGUI extends JFrame {
 		ngaydi_date = new JDateChooser();
 		ngaydi_date.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		ngaydi_date.setBounds(10, 340, 190, 35);
+		ngaydi_date.addPropertyChangeListener(new PropertyChangeListener() {
+	        @Override
+	        public void propertyChange(PropertyChangeEvent e) {
+	            if ("date".equals(e.getPropertyName())) {
+	            	java.util.Date currentDate = (java.util.Date) e.getNewValue();
+	                java.sql.Date sqlDate = new java.sql.Date(currentDate.getTime());
+	                Calendar calendar = Calendar.getInstance();
+	                calendar.setTime(sqlDate);
+	                calendar.add(Calendar.DAY_OF_MONTH, getTour((String) cbMatour.getSelectedItem()).getSongay()-1);
+	                ngayve_date.setDate(calendar.getTime());
+	            }
+	        }
+		});
 		panel_2.add(ngaydi_date);
 		
 		JLabel ngayve_lb = new JLabel("Ngày về :");
@@ -501,9 +599,31 @@ public class KHTourGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser file =new JFileChooser();
+				File defaultDirectory = new File("C:\\Users\\Hung\\Pictures"); // Đường dẫn thư mục mặc định
+		        file.setCurrentDirectory(defaultDirectory);
 				int returnVal = file.showOpenDialog(panel);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
-                	anh1_path=file.getSelectedFile().getAbsolutePath();
+                	String path_tmp=file.getSelectedFile().getAbsolutePath();
+                	String[] parts = path_tmp.split("\\\\");
+                    Path source = Paths.get(path_tmp);
+                    // Đường dẫn của thư mục đích
+                    String pathString="src/Images/";
+                    Path destination = Paths.get(pathString);
+                    anh1_path=pathString+parts[parts.length - 1];
+                    try {
+                        // Sao chép file từ source đến destination                                       
+                        if (!Files.exists(Paths.get(anh1_path))) {
+                        	Files.copy(source, destination.resolve(source.getFileName()));
+                            System.out.println("File copied successfully.");
+                        } else {
+                            System.out.println("File already exists at the destination.");
+                        }
+    
+                    }catch (FileAlreadyExistsException e1) {
+                        System.out.println("File already exists at the destination."); 
+                    }catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
     				ImageIcon img1=new ImageIcon(anh1_path);
     				Image image1 = img1.getImage().getScaledInstance(388, 187, Image.SCALE_DEFAULT);
     		        ImageIcon scaledIcon1 = new ImageIcon(image1);
@@ -529,9 +649,32 @@ public class KHTourGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser file =new JFileChooser();
+				File defaultDirectory = new File("C:\\Users\\Hung\\Pictures"); // Đường dẫn thư mục mặc định
+		        file.setCurrentDirectory(defaultDirectory);
 				int returnVal = file.showOpenDialog(panel);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
-                	anh2_path=file.getSelectedFile().getAbsolutePath();
+                	String path_tmp=file.getSelectedFile().getAbsolutePath();
+                	String[] parts = path_tmp.split("\\\\");
+                    Path source = Paths.get(path_tmp);
+                    // Đường dẫn của thư mục đích
+                    String pathString="src/Images/";
+                    Path destination = Paths.get(pathString);
+                    anh2_path=pathString+parts[parts.length - 1];
+                    try {
+                        // Sao chép file từ source đến destination                                       
+                        if (!Files.exists(Paths.get(anh2_path))) {
+                        	Files.copy(source, destination.resolve(source.getFileName()));
+                            System.out.println("File copied successfully.");
+                        } else {
+                            System.out.println("File already exists at the destination.");
+                        }
+    
+                    }catch (FileAlreadyExistsException e1) {
+                        System.out.println("File already exists at the destination."); 
+                    }catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                	
                 	ImageIcon img2=new ImageIcon(anh2_path);
             		Image image2 = img2.getImage().getScaledInstance(250, 90, Image.SCALE_DEFAULT);
                     ImageIcon scaledIcon2 = new ImageIcon(image2);
@@ -558,9 +701,32 @@ public class KHTourGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser file =new JFileChooser();
+				File defaultDirectory = new File("C:\\Users\\Hung\\Pictures"); // Đường dẫn thư mục mặc định
+		        file.setCurrentDirectory(defaultDirectory);
 				int returnVal = file.showOpenDialog(panel);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
-                	anh3_path=file.getSelectedFile().getAbsolutePath();
+                	String path_tmp=file.getSelectedFile().getAbsolutePath();
+                	String[] parts = path_tmp.split("\\\\");
+                    Path source = Paths.get(path_tmp);
+                    // Đường dẫn của thư mục đích
+                    String pathString="src/Images/";
+                    Path destination = Paths.get(pathString);
+                    anh3_path=pathString+parts[parts.length - 1];
+                    try {
+                        // Sao chép file từ source đến destination                                       
+                        if (!Files.exists(Paths.get(anh3_path))) {
+                        	Files.copy(source, destination.resolve(source.getFileName()));
+                            System.out.println("File copied successfully.");
+                        } else {
+                            System.out.println("File already exists at the destination.");
+                        }
+    
+                    }catch (FileAlreadyExistsException e1) {
+                        System.out.println("File already exists at the destination."); 
+                    }catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                	
                 	ImageIcon img3=new ImageIcon(anh3_path);
             		Image image3 = img3.getImage().getScaledInstance(250, 90, Image.SCALE_DEFAULT);
                     ImageIcon scaledIcon3 = new ImageIcon(image3);
@@ -577,8 +743,7 @@ public class KHTourGUI extends JFrame {
 		btnThoat.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnThoat.setBackground(Color.RED);
 		btnThoat.setBounds(115, 836, 85, 35);
-		btnThoat.addActionListener(new ActionListener() {
-			
+		btnThoat.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Reset();
@@ -589,6 +754,8 @@ public class KHTourGUI extends JFrame {
 				btnXoa.setBackground(Color.RED);
 				btnSua.setEnabled(true);
 				btnSua.setBackground(Color.GREEN);
+				btnLuu.setEnabled(false);
+				btnLuu.setBackground(Color.gray);
 			}
 		});
 		panel_2.add(btnThoat);
@@ -626,19 +793,21 @@ public class KHTourGUI extends JFrame {
 		btnLuu.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnLuu.setBackground(Color.gray);
 		btnLuu.setBounds(20, 836, 85, 35);
-		btnLuu.addActionListener(new ActionListener() {
-			
+		btnLuu.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(btnXoa.isEnabled()&&btnSua.isEnabled()) {
+				if(btnXoa.isEnabled()==false&&btnSua.isEnabled()==false) {
 					ThemKHT();
 				}
-				
+				else if(btnXoa.isEnabled()==false&&btnThem.isEnabled()==false) {
+					SuaKHT();
+				}
 			}
 		});
 		panel_2.add(btnLuu);
 		
-		JComboBox cbTimkiem = new JComboBox();
+		String [] arr_timkiem= {"Mã Tour","Mã KHT","Giá vé"};
+		cbTimkiem = new JComboBox(arr_timkiem);
 		cbTimkiem.setBounds(480, 10, 80, 29);
 		KHTOUR.add(cbTimkiem);
 		
@@ -672,44 +841,44 @@ public class KHTourGUI extends JFrame {
 		giatour1_lb.setBounds(417, 184, 100, 30);
 		panel_3.add(giatour1_lb);
 		
-		JLabel diadiem_lb = new JLabel("Địa điểm");
-		diadiem_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		diadiem_lb.setBounds(456, 402, 85, 30);
-		panel_3.add(diadiem_lb);
-		
-		JLabel diadiem_icon = new JLabel(new ImageIcon("src/Images/Designcontest-Ecommerce-Business-Maps.48.png"));
-		diadiem_icon.setBounds(460, 426, 70, 49);
-		panel_3.add(diadiem_icon);
-		
-		JLabel diadiem_nd = new JLabel("New label");
-		diadiem_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		diadiem_nd.setBounds(469, 484, 85, 20);
-		panel_3.add(diadiem_nd);
-		
-		JLabel phuongtien_icon = new JLabel(new ImageIcon("src/Images/Bevel-And-Emboss-Car-Van-bus.48.png"));
-		phuongtien_icon.setBackground(new Color(128, 255, 128));
-		phuongtien_icon.setBounds(580, 426, 70, 49);
-		panel_3.add(phuongtien_icon);
-		
-		JLabel nhahang_lb = new JLabel("Nhà hàng");
-		nhahang_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		nhahang_lb.setBounds(457, 514, 85, 30);
-		panel_3.add(nhahang_lb);
-		
-		JLabel nhahang_icon = new JLabel(new ImageIcon("src/Images/Iconarchive-Essential-Buildings-Restaurant.48.png"));
-		nhahang_icon.setBackground(new Color(128, 255, 128));
-		nhahang_icon.setBounds(460, 538, 70, 49);
-		panel_3.add(nhahang_icon);
-		
-		JLabel khachsan_lb = new JLabel("Khách sạn");
-		khachsan_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		khachsan_lb.setBounds(570, 514, 85, 30);
-		panel_3.add(khachsan_lb);
-		
-		JLabel khachsan_icon = new JLabel(new ImageIcon("src/Images/Iconarchive-Essential-Buildings-Hotel.48.png"));
-		khachsan_icon.setBackground(new Color(128, 255, 128));
-		khachsan_icon.setBounds(575, 538, 70, 49);
-		panel_3.add(khachsan_icon);
+//		JLabel diadiem_lb = new JLabel("Địa điểm");
+//		diadiem_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
+//		diadiem_lb.setBounds(456, 402, 85, 30);
+//		panel_3.add(diadiem_lb);
+//		
+//		JLabel diadiem_icon = new JLabel(new ImageIcon("src/Images/Designcontest-Ecommerce-Business-Maps.48.png"));
+//		diadiem_icon.setBounds(460, 426, 70, 49);
+//		panel_3.add(diadiem_icon);
+//		
+//		JLabel diadiem_nd = new JLabel("New label");
+//		diadiem_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
+//		diadiem_nd.setBounds(469, 484, 85, 20);
+//		panel_3.add(diadiem_nd);
+//		
+//		JLabel phuongtien_icon = new JLabel(new ImageIcon("src/Images/Bevel-And-Emboss-Car-Van-bus.48.png"));
+//		phuongtien_icon.setBackground(new Color(128, 255, 128));
+//		phuongtien_icon.setBounds(580, 426, 70, 49);
+//		panel_3.add(phuongtien_icon);
+//		
+//		JLabel nhahang_lb = new JLabel("Nhà hàng");
+//		nhahang_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
+//		nhahang_lb.setBounds(457, 514, 85, 30);
+//		panel_3.add(nhahang_lb);
+//		
+//		JLabel nhahang_icon = new JLabel(new ImageIcon("src/Images/Iconarchive-Essential-Buildings-Restaurant.48.png"));
+//		nhahang_icon.setBackground(new Color(128, 255, 128));
+//		nhahang_icon.setBounds(460, 538, 70, 49);
+//		panel_3.add(nhahang_icon);
+//		
+//		JLabel khachsan_lb = new JLabel("Khách sạn");
+//		khachsan_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
+//		khachsan_lb.setBounds(570, 514, 85, 30);
+//		panel_3.add(khachsan_lb);
+//		
+//		JLabel khachsan_icon = new JLabel(new ImageIcon("src/Images/Iconarchive-Essential-Buildings-Hotel.48.png"));
+//		khachsan_icon.setBackground(new Color(128, 255, 128));
+//		khachsan_icon.setBounds(575, 538, 70, 49);
+//		panel_3.add(khachsan_icon);
 		
 		JScrollPane mota1_sp = new JScrollPane();
 		mota1_sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -737,25 +906,25 @@ public class KHTourGUI extends JFrame {
 		sochoconnhan_lb.setBounds(10, 571, 134, 30);
 		panel_3.add(sochoconnhan_lb);
 		
-		JLabel nhahang_nd = new JLabel("New label");
-		nhahang_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		nhahang_nd.setBounds(469, 582, 85, 20);
-		panel_3.add(nhahang_nd);
-		
-		JLabel khachsan_nd = new JLabel("New label");
-		khachsan_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		khachsan_nd.setBounds(589, 582, 85, 20);
-		panel_3.add(khachsan_nd);
-		
-		JLabel phuongtien_lb = new JLabel("Phương tiện");
-		phuongtien_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		phuongtien_lb.setBounds(569, 402, 104, 30);
-		panel_3.add(phuongtien_lb);
-		
-		JLabel phuongtien_nd = new JLabel("New label");
-		phuongtien_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		phuongtien_nd.setBounds(589, 484, 85, 20);
-		panel_3.add(phuongtien_nd);
+//		JLabel nhahang_nd = new JLabel("New label");
+//		nhahang_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
+//		nhahang_nd.setBounds(469, 582, 85, 20);
+//		panel_3.add(nhahang_nd);
+//		
+//		JLabel khachsan_nd = new JLabel("New label");
+//		khachsan_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
+//		khachsan_nd.setBounds(589, 582, 85, 20);
+//		panel_3.add(khachsan_nd);
+//		
+//		JLabel phuongtien_lb = new JLabel("Phương tiện");
+//		phuongtien_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
+//		phuongtien_lb.setBounds(569, 402, 104, 30);
+//		panel_3.add(phuongtien_lb);
+//		
+//		JLabel phuongtien_nd = new JLabel("New label");
+//		phuongtien_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
+//		phuongtien_nd.setBounds(589, 484, 85, 20);
+//		panel_3.add(phuongtien_nd);
 		
 		JPanel hinh1_panel = new JPanel();
 		hinh1_panel.setLayout(null);
@@ -842,20 +1011,90 @@ public class KHTourGUI extends JFrame {
 				}
 			}
 		});
+		String danhgiaTongChi="";
 		for(KHTourDTO kht:KHToursBUS.khtList) {
+			if(kht.getTongchi()==0) {
+				danhgiaTongChi="Chưa cập nhật";
+			}
+			else {
+				danhgiaTongChi=kht.getTongchi()+"";
+			}
 			tableModel.addRow(new Object[] {
 					kht.getMatour(),kht.getMakht(),kht.getNgaydi()+"",kht.getNgayve()+"",
-					kht.getSonguoi()+"",kht.getTongchi()+"",kht.getGiaVe()+""
+					kht.getSonguoi()+"",danhgiaTongChi,kht.getGiaVe()+""
 			});
-			arrMatour.add(kht.getMatour());
 		}
-		cbMatour = new JComboBox(arrMatour.toArray());
+		
+		for(QlyToursDTO tour:QlyToursBUS.tourDTO) {
+			arrMatour.add(tour.getMatour());
+		}
+		
+		HashSet<String> set = new HashSet<>(arrMatour);
+	    ArrayList<String> arrMaTour2 = new ArrayList<>(set);
+	    Collections.reverse(arrMaTour2);
+		
+		cbMatour = new JComboBox(arrMaTour2.toArray());
 		cbMatour.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbMatour.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		cbMatour.setBounds(10, 39, 190, 35);
 		cbMatour.setEnabled(false);
+		cbMatour.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tfSongay.setText(getTour((String) cbMatour.getSelectedItem()).getSongay()+"");
+			}
+		});
 		panel_2.add(cbMatour);
 		
+	}
+	
+	public void initData2(ArrayList<KHTourDTO> khtour) {
+		String [] colname= {"Mã Tour","Mã kế hoạch Tour","Ngày đi","Ngày về","Số người","Tổng chi","Giá vé"};
+		DefaultTableModel tableModel=new DefaultTableModel() {
+			 public boolean isCellEditable(int row,int col) {
+	                return false;
+	         }
+		};
+		table.setModel(tableModel);
+		ArrayList<String> arrMatour=new ArrayList<String>();
+		tableModel.setColumnIdentifiers(colname);
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 1) {
+					HienThiKHT();
+				}
+			}
+		});
+		for(KHTourDTO kht:khtour) {
+			tableModel.addRow(new Object[] {
+					kht.getMatour(),kht.getMakht(),kht.getNgaydi()+"",kht.getNgayve()+"",
+					kht.getSonguoi()+"",kht.getTongchi()+"",kht.getGiaVe()+""
+			});
+			
+		}
+		
+		for(KHTourDTO kht2:KHToursBUS.khtList) {
+			arrMatour.add(kht2.getMatour());
+		}
+		
+		HashSet<String> set = new HashSet<>(arrMatour);
+	    ArrayList<String> arrMaTour2 = new ArrayList<>(set);
+	    Collections.reverse(arrMaTour2);
+		
+		cbMatour = new JComboBox(arrMaTour2.toArray());
+		cbMatour.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cbMatour.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		cbMatour.setBounds(10, 39, 190, 35);
+		cbMatour.setEnabled(false);
+		cbMatour.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(!btnXoa.isEnabled()&&!btnSua.isEnabled()) {
+					tfSongay.setText(getTour((String) cbMatour.getSelectedItem()).getSongay()+"");
+				}
+			}
+		});
+		panel_2.add(cbMatour);
 	}
 	
 	public void HienThiKHT() {
@@ -870,23 +1109,28 @@ public class KHTourGUI extends JFrame {
 		tfSongay.setText(tour.getSongay()+"");
 		tfHuongDanVien.setText(kht.getHuongdanvien());
 		tfGiaVe.setText(kht.getGiaVe()+"");
-		tfTongChi.setText(kht.getTongchi()+"");
+		if(kht.getTongchi()==0) {
+			tfTongChi.setText("Chưa cập nhật");
+		}
+		else {
+			tfTongChi.setText(kht.getTongchi()+"");
+		}
 		cbMatour.setSelectedItem(kht.getMatour());
 		lbTenTour.setText(tour.getTentour());
 		lbGiaTour.setText(kht.getGiaVe()+" VND");
 		textArea_mota.setText(kht.getMota());
 		
-		ImageIcon img1=new ImageIcon(kht.getAnh1());
+		ImageIcon img1=new ImageIcon(kht.getAnh1().replace('#', '\\'));
 		Image image1 = img1.getImage().getScaledInstance(388, 187, Image.SCALE_DEFAULT);
         ImageIcon scaledIcon1 = new ImageIcon(image1);
 		hinh1_lb.setIcon(scaledIcon1);
 		
-		ImageIcon img2=new ImageIcon(kht.getAnh2());
+		ImageIcon img2=new ImageIcon(kht.getAnh2().replace('#', '\\'));
 		Image image2 = img2.getImage().getScaledInstance(250, 90, Image.SCALE_DEFAULT);
         ImageIcon scaledIcon2 = new ImageIcon(image2);
 		hinh2_lb.setIcon(scaledIcon2);
 		
-		ImageIcon img3=new ImageIcon(kht.getAnh3());
+		ImageIcon img3=new ImageIcon(kht.getAnh3().replace('#', '\\'));
 		Image image3 = img3.getImage().getScaledInstance(250, 90, Image.SCALE_DEFAULT);
         ImageIcon scaledIcon3 = new ImageIcon(image3);
 		hinh3_lb.setIcon(scaledIcon3);
@@ -908,6 +1152,9 @@ public class KHTourGUI extends JFrame {
 	public void init() {
 		if(!khtBUS.docKHT()) {
 			JOptionPane.showMessageDialog(this, "Lỗi không đọc được DataBase");
+		}
+		if (!ctkhtBUS.docCTKHT()) {
+			JOptionPane.showMessageDialog(this, "Lỗi không đọc được database!");
 		}
 		tfMaKHT.setEditable(false);
 		textAreaMoTa.setEditable(false);
@@ -935,6 +1182,7 @@ public class KHTourGUI extends JFrame {
 		cbSoCho.setSelectedIndex(0);;
 		tfHuongDanVien.setText("");
 		tfGiaVe.setText("");
+		tfSongay.setText("");
 		lbTenTour.setText("");
 		lbGiaTour.setText("");
 		textArea_mota.setText("");
@@ -963,28 +1211,102 @@ public class KHTourGUI extends JFrame {
 		return null;
 	}
 	public void ThemKHT() {
-		String matour=(String) cbMatour.getSelectedItem();
+		String matour=cbMatour.getSelectedItem().toString();
 		String makht=tfMaKHT.getText();
 		String mota=textAreaMoTa.getText();
-		int socho=(int) cbSoCho.getSelectedItem();
-		Date ngaydi=(Date) ngaydi_date.getDate();
-		Date ngayve=(Date) ngayve_date.getDate();
-		int songuoi=(int)cbSoCho.getSelectedItem();
+	
+        java.util.Date ngaydi_tmp=(java.util.Date) ngaydi_date.getDate();
+        java.sql.Date ngaydi=new java.sql.Date(ngaydi_tmp.getTime());
+        
+        java.util.Date ngayve_tmp=(java.util.Date) ngayve_date.getDate();
+        java.sql.Date ngayve=new java.sql.Date(ngayve_tmp.getTime());
+				
+		int songuoi=Integer.parseInt(cbSoCho.getSelectedItem().toString().trim());
 		long giave=Long.parseLong(tfGiaVe.getText());
 		String huongdanvien=tfHuongDanVien.getText();
-		long tongchi=Long.parseLong(tfTongChi.getText());
-		KHTourDTO kht=new KHTourDTO(makht, matour, mota, huongdanvien, anh1_path, anh2_path, 
-				anh3_path, ngaydi, ngayve, songuoi, tongchi, giave);
-		if(khtBUS.themKHT(kht)) {
+		//long tongchi=Long.parseLong(tfTongChi.getText());
+		long tongchi=0;
+		
+		String anh1_path_new="";
+		String anh2_path_new="";
+		String anh3_path_new="";
+		if(!anh1_path.isEmpty()) {			
+			anh1_path_new =anh1_path.replace('\\', '#');
+		}
+		else if(!anh2_path.isEmpty()) {			
+			anh2_path_new =anh2_path.replace('\\', '#');
+		}
+		else if(!anh3_path.isEmpty()) {			
+			anh3_path_new =anh3_path.replace('\\', '#');
+		}
+		
+		KHTourDTO kht=new KHTourDTO(makht, matour, mota, huongdanvien, anh1_path_new, anh2_path_new, 
+				anh3_path_new, ngaydi, ngayve, songuoi, tongchi, giave);	
+		if(khtBUS.themKHT(kht)!=-1) {
 			JOptionPane.showMessageDialog(this, "Thêm thành công!");
 		}
 		else {
 			JOptionPane.showMessageDialog(this, "Thêm thất bại!");
 		}
+		XoaDataTable();
+		initData();
+		Reset();
 		
 	}
 	
+	public void XoaDataTable() {
+		DefaultTableModel model_table = (DefaultTableModel) table.getModel();
+		model_table.setRowCount(0);
+	}
 	
+	public void SuaKHT() {
+		KHTourDTO kht=GetKHTDaChon();
+		String MaKHT_Bandau=kht.getMakht();
+		kht.setMatour(cbMatour.getSelectedItem().toString());
+		kht.setMakht(tfMaKHT.getText());
+		kht.setMota(textAreaMoTa.getText());
+		kht.setSonguoi(Integer.parseInt(cbSoCho.getSelectedItem().toString()));
+		
+		java.util.Date ngaydi_tmp=(java.util.Date) ngaydi_date.getDate();
+        java.sql.Date ngaydi=new java.sql.Date(ngaydi_tmp.getTime());
+        kht.setNgaydi(ngaydi);
+        
+        java.util.Date ngayve_tmp=(java.util.Date) ngayve_date.getDate();
+        java.sql.Date ngayve=new java.sql.Date(ngayve_tmp.getTime());
+        kht.setNgayve(ngayve);
+        
+        kht.setHuongdanvien(tfHuongDanVien.getText());
+        kht.setGiave(Long.parseLong(tfGiaVe.getText()));
+        
+//        String anh1_path_new="";
+//		String anh2_path_new="";
+//		String anh3_path_new="";
+//		if(!anh1_path.isEmpty()) {			
+//			anh1_path_new =anh1_path.replace('\\', '#');
+//		}
+//		if(!anh2_path.isEmpty()) {			
+//			anh2_path_new =anh2_path.replace('\\', '#');
+//		}
+//		if(!anh3_path.isEmpty()) {			
+//			anh3_path_new =anh3_path.replace('\\', '#');
+//		}
+        
+		kht.setAnh1(anh1_path);
+		kht.setAnh2(anh2_path);
+		kht.setAnh3(anh3_path);
+		
+		System.out.println(kht.getMakht());
+        
+        if (khtBUS.sua(kht,MaKHT_Bandau) != -1) {
+        	JOptionPane.showMessageDialog(this, "Sửa thành công!");
+			
+		} else {
+			JOptionPane.showMessageDialog(this, "Lỗi!");
+		}
+        XoaDataTable();
+		initData();
+		Reset();
+	}
 	
 	
 	

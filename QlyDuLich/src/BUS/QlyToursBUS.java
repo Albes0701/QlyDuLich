@@ -3,6 +3,8 @@ package BUS;
 import java.util.ArrayList;
 
 import DAO.QlyToursDAO;
+import DTO.CTKHT_DTO;
+import DTO.KHTourDTO;
 import DTO.QlyToursDTO;
 import GUI.QuanLyTour;
 
@@ -38,6 +40,20 @@ public class QlyToursBUS {
 //					break;
 //				}
 //			}
+			ArrayList<String> makht=new ArrayList<String>();
+			for(KHTourDTO kht:KHToursBUS.khtList) {
+				if(kht.getMatour().equals(t.getMatour())) {
+					makht.add(kht.getMakht());
+					KHToursBUS.khtList.remove(kht);
+				}
+			}
+			for(int i=0;i<makht.size();i++) {
+				for(CTKHT_DTO ctkht:ChiTietKHT_BUS.ctkhtList) {
+					if(ctkht.getMakht().equals(makht.toArray()[i])) {
+						KHToursBUS.khtList.remove(ctkht);
+					}
+				}
+			}			
 			tourDTO.removeIf(tour -> tour.getMatour().equals(t.getMatour()));
 			return tourDAO.getIntance().delete(t);
 		} catch (Exception e) {
