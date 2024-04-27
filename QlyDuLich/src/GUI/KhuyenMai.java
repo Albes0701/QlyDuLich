@@ -96,8 +96,8 @@ public class KhuyenMai extends JFrame {
 		contentPane.setVerifyInputWhenFocusTarget(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(255, 255, 255));
@@ -214,11 +214,6 @@ public class KhuyenMai extends JFrame {
 		panel.add(btn_KhuyenMai);
 		
 		taikhoanBUS tkBUS = new taikhoanBUS();
-		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(743, 24, 230, 30);
-		panel.add(lblNewLabel);
 		
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
 		JLabel label = new JLabel();
@@ -300,8 +295,8 @@ public class KhuyenMai extends JFrame {
 		panel_2.add(lblNewLabel_2_4_1);
 		
 		luu_btn = new JButton("Lưu");
-		luu_btn.setBackground(Color.GRAY);
 		luu_btn.setEnabled(false);
+		luu_btn.setBackground(Color.GRAY);
 		luu_btn.setFocusable(false);
 		luu_btn.setForeground(new Color(255, 255, 255));
 		luu_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -431,7 +426,7 @@ public class KhuyenMai extends JFrame {
 		panel_2.add(textField_tinhtrang);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(269, 50, 681, 435);
+		scrollPane_2.setBounds(269, 83, 681, 402);
 		KhachHang.add(scrollPane_2);
 		
 		table_KhuyenMai = new JTable();
@@ -454,7 +449,90 @@ public class KhuyenMai extends JFrame {
 		KhachHang.add(panel_3);
 		panel_3.setLayout(null);
 		
+		JLabel lblNewLabel_3 = new JLabel("Tìm kiếm");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_3.setBounds(10, 9, 70, 13);
+		panel_3.add(lblNewLabel_3);
+		
+		textField_TimKiem = new JTextField();
+		textField_TimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		textField_TimKiem.setBounds(81, 3, 450, 25);
+		panel_3.add(textField_TimKiem);
+		textField_TimKiem.setColumns(10);
+		
+		String []item_tk = {"Mã khuyến mãi","Tên chương trình"};
+		timkiem_cb = new JComboBox(item_tk);
+		timkiem_cb.setBounds(541, 3, 140, 25);
+		textField_TimKiem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String condition = textField_TimKiem.getText();
+				if(condition.isEmpty()) {
+					resetTable();
+					initArrayList();
+					return;
+				}
+				String type = (String) timkiem_cb.getSelectedItem();
+				ArrayList<KhuyenMaiDTO> tmp = kmBUS.timKiem(condition.toLowerCase(), type);
+				if(tmp != null) {
+					resetTable();
+					initArrayList(tmp);
+				}
+				
+			}
+		});
+		panel_3.add(timkiem_cb);
+		
+		JButton ctkm_btn = new JButton("Xem chi tiết");
+		ctkm_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				CTKhuyenMaiGUI ctkm = new CTKhuyenMaiGUI();
+			}
+		});
+		ctkm_btn.setForeground(new Color(255, 255, 255));
+		ctkm_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		ctkm_btn.setFocusable(false);
+		ctkm_btn.setBackground(new Color(255, 128, 64));
+		ctkm_btn.setBounds(279, 48, 135, 25);
+		KhachHang.add(ctkm_btn);
+		
+		them_btn = new JButton("Thêm");
+		them_btn.setBounds(706, 48, 75, 25);
+		KhachHang.add(them_btn);
+		them_btn.setFocusable(false);
+		them_btn.setForeground(new Color(255, 255, 255));
+		them_btn.setBackground(new Color(65, 105, 225));
+		them_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
+		sua_btn = new JButton("Sửa");
+		sua_btn.setBounds(790, 48, 75, 25);
+		KhachHang.add(sua_btn);
+		sua_btn.setFocusable(false);
+		sua_btn.setBackground(new Color(50, 205, 50));
+		sua_btn.setForeground(new Color(255, 255, 255));
+		sua_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				initForm();
+				textField_MSKM.setEditable(false);
+				them_btn.setBackground(Color.gray);
+				them_btn.setEnabled(false);
+				xoa_btn.setBackground(Color.gray);
+				xoa_btn.setEnabled(false);
+				luu_btn.setBackground(Color.orange);
+				luu_btn.setEnabled(true);
+				thoat_btn.setBackground(Color.red);
+				thoat_btn.setEnabled(true);
+				textField_MSKM.setEnabled(false);
+			}
+		});
+		sua_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		
 		xoa_btn = new JButton("Xóa");
+		xoa_btn.setBounds(875, 48, 75, 25);
+		KhachHang.add(xoa_btn);
 		xoa_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				luu_btn.setEnabled(false);
@@ -478,38 +556,6 @@ public class KhuyenMai extends JFrame {
 		xoa_btn.setBackground(new Color(255, 0, 0));
 		xoa_btn.setForeground(new Color(255, 255, 255));
 		xoa_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		xoa_btn.setBounds(596, 3, 75, 25);
-		panel_3.add(xoa_btn);
-		
-		sua_btn = new JButton("Sửa");
-		sua_btn.setFocusable(false);
-		sua_btn.setBackground(new Color(50, 205, 50));
-		sua_btn.setForeground(new Color(255, 255, 255));
-		sua_btn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				initForm();
-				textField_MSKM.setEditable(false);
-				them_btn.setBackground(Color.gray);
-				them_btn.setEnabled(false);
-				xoa_btn.setBackground(Color.gray);
-				xoa_btn.setEnabled(false);
-				luu_btn.setBackground(Color.orange);
-				luu_btn.setEnabled(true);
-				thoat_btn.setBackground(Color.red);
-				thoat_btn.setEnabled(true);
-				textField_MSKM.setEnabled(false);
-			}
-		});
-		sua_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		sua_btn.setBounds(511, 3, 75, 25);
-		panel_3.add(sua_btn);
-		
-		them_btn = new JButton("Thêm");
-		them_btn.setFocusable(false);
-		them_btn.setForeground(new Color(255, 255, 255));
-		them_btn.setBackground(new Color(65, 105, 225));
-		them_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		them_btn.setBounds(427, 3, 75, 25);
 		them_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				luu_btn.setEnabled(true);
@@ -524,43 +570,6 @@ public class KhuyenMai extends JFrame {
 				initForm();
 			}
 		});
-		panel_3.add(them_btn);
-		
-		JLabel lblNewLabel_3 = new JLabel("Tìm kiếm");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_3.setBounds(10, 9, 70, 13);
-		panel_3.add(lblNewLabel_3);
-		
-		textField_TimKiem = new JTextField();
-		textField_TimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		textField_TimKiem.setBounds(81, 3, 160, 25);
-		panel_3.add(textField_TimKiem);
-		textField_TimKiem.setColumns(10);
-		
-		String []item_tk = {"Mã khuyến mãi","Tên chương trình","Tình trạng"};
-		timkiem_cb = new JComboBox(item_tk);
-		timkiem_cb.setBounds(251, 3, 140, 25);
-		textField_TimKiem.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				String condition = textField_TimKiem.getText();
-				if(condition.isEmpty()) {
-					resetTable();
-					initArrayList();
-					return;
-				}
-				String type = (String) timkiem_cb.getSelectedItem();
-				ArrayList<KhuyenMaiDTO> tmp = kmBUS.timKiem(condition.toLowerCase(), type);
-				if(tmp != null) {
-					resetTable();
-					initArrayList(tmp);
-				}
-				
-			}
-		});
-		panel_3.add(timkiem_cb);
 		
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -581,28 +590,43 @@ public class KhuyenMai extends JFrame {
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setBounds(29, 68, 190, 300);
 		panel_1.add(scrollPane_1);
+		
+		JLabel lblNewLabel_4 = new JLabel("Xin chào " + TrangChuGUI.tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
+		lblNewLabel_4.setForeground(Color.WHITE);
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_4.setBounds(609, 24, 230, 30);
+		panel.add(lblNewLabel_4);
+		
+		JButton btnNewButton = new JButton("Đổi mật khẩu");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MatKhauGUI mk = new MatKhauGUI();
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton.setFocusable(false);
+		btnNewButton.setBounds(849, 25, 124, 30);
+		panel.add(btnNewButton);
 		this.setVisible(true);
 		initData();
 	}
 	
 	
 	public void initData() {
-		if(kmBUS.docKM()) {
+//		if(kmBUS.docKM()) {
 			
 			for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
 				boolean tinhtrang = KiemTra.getInstance().checkTinhTrang(KiemTra.getInstance().toDateUtil(km.getNgaykt()));
-				if(!tinhtrang && km.getNgaykt().compareTo(calendar.getTime()) == 0){
+				if(!tinhtrang && km.getTinhtrang()){
 					km.setTinhtrang(tinhtrang);
 					JOptionPane.showMessageDialog(null, "Mã khuyến mãi " + km.getMakm() + " đã hết thời hạn");
 					kmBUS.suaKM(km);
 				};
-					tableModel.addRow(new Object[]{
-							
+				tableModel.addRow(new Object[]{
 						km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),
 						km.getDieukien(),km.getNgaybd()+"",km.getNgaykt(),
 						KiemTra.getInstance().tinhTrang(tinhtrang)
 				});
-			
 		}
 			table_KhuyenMai.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
@@ -611,7 +635,7 @@ public class KhuyenMai extends JFrame {
 					}
 				}
 			});
-		}
+//		}
 	}
 	
 	

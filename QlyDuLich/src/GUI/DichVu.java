@@ -73,6 +73,8 @@ public class DichVu extends JFrame {
 	JButton btn_QLTour,btn_KHTour,btn_KhuyenMai,btn_NhanVien,btn_KhachHang,btn_QLDV;
 	DefaultTableModel tableModel;
 	DichVuBUS dvBUS = new DichVuBUS();
+	private JLabel lblNewLabel;
+	private JButton btnNewButton;
 	/**
 	 * Launch the application.
 	 */
@@ -218,11 +220,6 @@ public class DichVu extends JFrame {
 		panel.add(btn_KhuyenMai);
 		
 		taikhoanBUS tkBUS = new taikhoanBUS();
-		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(743, 24, 230, 30);
-		panel.add(lblNewLabel);
 		
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
 		JLabel label = new JLabel();
@@ -534,29 +531,46 @@ public class DichVu extends JFrame {
 		scrollPane_1.setBounds(29, 68, 190, 300);
 		panel_1.add(scrollPane_1);
 		
+		lblNewLabel = new JLabel("Xin chào " + TrangChuGUI.tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(609, 24, 230, 30);
+		panel.add(lblNewLabel);
+		
+		btnNewButton = new JButton("Đổi mật khẩu");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MatKhauGUI mk = new MatKhauGUI();
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton.setFocusable(false);
+		btnNewButton.setBounds(849, 25, 124, 30);
+		panel.add(btnNewButton);
+		
 		initData();
 		this.setVisible(true);
 	}
 	
 	public void initData() {
 		
-		if(dvBUS.docNH()) {
+//		if(dvBUS.docNH()) {
 			for(NhaHangDTO ks: DichVuBUS.nhDTO) {
 				tableModel.addRow(new Object[]{
 					ks.getMaso().toUpperCase(),"Nhà Hàng",ks.getTendv(),ks.getGiaca()+""
 					});
 			}
-		}
-		if(dvBUS.docKS()) {
+//		}
+//		if(dvBUS.docKS()) {
 			for(KhachSanDTO ks: DichVuBUS.ksDTO) {
 				tableModel.addRow(new Object[]{
 					ks.getMaso().toUpperCase(),"Khách Sạn",ks.getTendv(),ks.getGiaca()+""
 					});
 			}
-		}
+//		}
 
 		
-		if(dvBUS.docPT()) {
+//		if(dvBUS.docPT()) {
 			for(PhuongTienDTO pt: DichVuBUS.ptDTO) {
 				tableModel.addRow(new Object[]{
 					pt.getMaso().toUpperCase(),"Phương Tiện",pt.getTendv(),pt.getGiaca()+""
@@ -569,7 +583,7 @@ public class DichVu extends JFrame {
 					}
 				}
 			});
-		}
+//		}
 	}
 	public void initArrayList(ArrayList<DichVuDTO> dv) {
 		for(DichVuDTO v: dv) {

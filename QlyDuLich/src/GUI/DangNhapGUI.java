@@ -7,6 +7,15 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
+import BUS.CTKhuyenMaiBUS;
+import BUS.ChiTietKHT_BUS;
+import BUS.DatTourBUS;
+import BUS.DichVuBUS;
+import BUS.KHToursBUS;
+import BUS.KhachHangBUS;
+import BUS.KhuyenMaiBUS;
+import BUS.NhanVienBUS;
+import BUS.QlyToursBUS;
 import BUS.taikhoanBUS;
 import DTO.taikhoanDTO;
 
@@ -36,7 +45,6 @@ public class DangNhapGUI extends JFrame {
 			public void run() {
 				try {
 					DangNhapGUI frame = new DangNhapGUI();
-					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -108,14 +116,36 @@ public class DangNhapGUI extends JFrame {
 			}
 		});
 		panel.add(dangnhap_btn);
+		tkBUS.docTK();
+		setVisible(true);
 	}
 	
 	public void checktk(String user, String pass) {
-		if(tkBUS.docTK()) {
 			boolean fl = false;
 			for(taikhoanDTO tk: taikhoanBUS.tkDTO) {
 				if(tk.getUser().equals(user) && tk.getPass().equals(pass)) {
-					JOptionPane.showMessageDialog(null, "Đăng nhập tài công");
+					JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
+					DichVuBUS dv = new DichVuBUS();
+					dv.docKS();
+					dv.docNH();
+					dv.docPT();
+					NhanVienBUS nvBUS = new NhanVienBUS();
+					nvBUS.docNV();
+					KhachHangBUS khBUS = new KhachHangBUS();
+					khBUS.docKH();
+					KhuyenMaiBUS kmBUS = new KhuyenMaiBUS();
+					kmBUS.docKM();
+					QlyToursBUS tourBUS = new QlyToursBUS();
+					tourBUS.docTour();
+					KHToursBUS khtour = new KHToursBUS();
+					khtour.docKHT();
+					ChiTietKHT_BUS ctkh_tour = new ChiTietKHT_BUS();
+					ctkh_tour.docCTKHT();
+					CTKhuyenMaiBUS ctkm = new CTKhuyenMaiBUS();
+					ctkm.docCTKM();
+					DatTourBUS dat_tour = new DatTourBUS();
+					dat_tour.docDSTour();
+					
 					setVisible(false);
 					TrangChuGUI.tkDTO.setUser(user);
 					TrangChuGUI.tkDTO.setPass(pass);
@@ -131,5 +161,4 @@ public class DangNhapGUI extends JFrame {
 				return;
 			}
 		}
-	}
 }

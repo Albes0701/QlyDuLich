@@ -42,4 +42,14 @@ public class taikhoanBUS {
 			return null;
 		}
 	}
+	public int change_info(taikhoanDTO tk) {
+		try {
+			return taikhoanDAO.getIntance().change_Info(tk);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
 }

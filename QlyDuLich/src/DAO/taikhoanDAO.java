@@ -51,7 +51,6 @@ public class taikhoanDAO {
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
 			String sql="SELECT honv,tennv FROM nhanvien nv INNER JOIN taikhoan tk ON nv.manv = tk.user_name where nv.manv = '" + user_name + "'";
-//			System.out.println(sql);
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
 			while(rs.next())
@@ -64,7 +63,27 @@ public class taikhoanDAO {
 
 		return user;
 	}
-	
+	public int change_Info(taikhoanDTO tk) {
+		int kq = 0;
+		try {
+			//Bước 1:Tạo kết nối
+			Connection con=JDBCUtil.getConnection();
+			//Bước 2:Tạo đối tượng statement
+			java.sql.Statement st=con.createStatement();
+			//Bước 3:Thực thi statement
+			String sql="UPDATE taikhoan SET PassWord = '" + tk.getPass() + "' WHERE user_name = '" + tk.getUser()+"'" ;
+			//Bước 4:Xử lý kết quả trả về
+			kq = st.executeUpdate(sql);
+			System.out.println("Ban da thuc thi: " + sql);
+			System.out.println("So dong thay doi: " + kq);
+			//Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}	
+		return kq;
+	}
 	public NhanVienDTO getInfo_NhanVien(String user_maso) {
 		NhanVienDTO nv = null;
 		try {

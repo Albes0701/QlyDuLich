@@ -255,6 +255,12 @@ public class KHTourGUI extends JFrame {
 		panel.add(btn_KhuyenMai);
 
 		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MatKhauGUI mk = new MatKhauGUI();
+				
+			}
+		});
 		btnNewButton_2.setFocusable(false);
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnNewButton_2.setBounds(849, 24, 124, 30);
@@ -263,11 +269,11 @@ public class KHTourGUI extends JFrame {
 		JLabel lblNewLabel = new JLabel("User");
 		
 		
-		taikhoanBUS tkBUS = new taikhoanBUS();
-		lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
+
+		lblNewLabel = new JLabel("Xin chào " + TrangChuGUI.tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(743, 24, 230, 30);
+		lblNewLabel.setBounds(609, 23, 230, 30);
 		panel.add(lblNewLabel);
 		JLabel logo_lb = new JLabel();
 		logo_lb.setBackground(new Color(128, 255, 128));
@@ -1150,12 +1156,12 @@ public class KHTourGUI extends JFrame {
 		return null;
 	}
 	public void init() {
-		if(!khtBUS.docKHT()) {
-			JOptionPane.showMessageDialog(this, "Lỗi không đọc được DataBase");
-		}
-		if (!ctkhtBUS.docCTKHT()) {
-			JOptionPane.showMessageDialog(this, "Lỗi không đọc được database!");
-		}
+//		if(!khtBUS.docKHT()) {
+//			JOptionPane.showMessageDialog(this, "Lỗi không đọc được DataBase");
+//		}
+//		if (!ctkhtBUS.docCTKHT()) {
+//			JOptionPane.showMessageDialog(this, "Lỗi không đọc được database!");
+//		}
 		tfMaKHT.setEditable(false);
 		textAreaMoTa.setEditable(false);
 		cbSoCho.setEnabled(false);

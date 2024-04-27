@@ -223,11 +223,6 @@ public class KhachHang extends JFrame {
 		panel.add(btn_KhuyenMai);
 		
 		taikhoanBUS tkBUS = new taikhoanBUS();
-		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(743, 24, 230, 30);
-		panel.add(lblNewLabel);
 		
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
 		JLabel label = new JLabel();
@@ -547,6 +542,23 @@ public class KhachHang extends JFrame {
 		scrollPane_1.setBounds(29, 68, 190, 300);
 		panel_1.add(scrollPane_1);
 		
+		JLabel lblNewLabel = new JLabel("Xin chào " + TrangChuGUI.tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(609, 24, 230, 30);
+		panel.add(lblNewLabel);
+		
+		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MatKhauGUI mk = new MatKhauGUI();
+			}
+		});
+		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_2.setFocusable(false);
+		btnNewButton_2.setBounds(849, 25, 124, 30);
+		panel.add(btnNewButton_2);
+		
 		
 		initData();
 		lockForm();
@@ -572,7 +584,7 @@ public void lockForm() {
 	
 	
 	public void initData() {
-		if(khBus.docKH()) {
+//		if(khBus.docKH()) {
 			for(KhachHangDTO kh : KhachHangBUS.khDTO ) {
 				tableModel.addRow(new Object[] {
 						kh.getMakh(), kh.getHokh(), kh.getTenkh(), KiemTra.getInstance().GioiTinh(kh.isGioitinh()), kh.getDiachi(), kh.getSdt(), kh.getEmail()
@@ -588,7 +600,7 @@ public void lockForm() {
 	     });
 	     
 	     
-		}
+//		}
 	}
 	
 	

@@ -54,6 +54,7 @@ public class TrangChuGUI extends JFrame {
 	private Label label;
 	private Label Tour_lb;
 	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
+	static taikhoanBUS tkBUS = new taikhoanBUS();
 	public static taikhoanDTO tkDTO = new taikhoanDTO();
 	/**
 	 * Launch the application.
@@ -165,13 +166,6 @@ public class TrangChuGUI extends JFrame {
 
 		
 		taikhoanBUS tkBUS = new taikhoanBUS();
-//		NhanVienDTO nv = tkBUS.getNhanVien(tkDTO.getUser());
-//		System.out.println(nv.getTennv());
-		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(tkDTO.getUser()));
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(743, 24, 230, 30);
-		panel.add(lblNewLabel);
 
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
 		JLabel label = new JLabel();
@@ -273,6 +267,24 @@ public class TrangChuGUI extends JFrame {
 		btn_DatTour.setBackground(new Color(24, 171, 138));
 		btn_DatTour.setBounds(317, 65, 120, 40);
 		panel.add(btn_DatTour);
+		
+		
+		JLabel lblNewLabel = new JLabel("Xin chào " + TrangChuGUI.tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(609, 24, 230, 30);
+		panel.add(lblNewLabel);
+		
+		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MatKhauGUI mk = new MatKhauGUI();
+			}
+		});
+		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_2.setFocusable(false);
+		btnNewButton_2.setBounds(849, 25, 124, 30);
+		panel.add(btnNewButton_2);
 		this.setVisible(true);
 	}
 }

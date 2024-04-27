@@ -139,11 +139,6 @@ public class HoaDon extends JFrame {
 		
 		
 		taikhoanBUS tkBUS = new taikhoanBUS();
-		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(743, 24, 230, 30);
-		panel.add(lblNewLabel);
 		
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
 		JLabel label = new JLabel();
@@ -271,6 +266,23 @@ public class HoaDon extends JFrame {
 		btnNewButton.setBackground(new Color(24, 171, 138));
 		btnNewButton.setBounds(836, 458, 114, 21);
 		HoaDon.add(btnNewButton);
+		
+		JLabel lblNewLabel = new JLabel("Xin chào " + TrangChuGUI.tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(609, 24, 230, 30);
+		panel.add(lblNewLabel);
+		
+		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MatKhauGUI mk = new MatKhauGUI();
+			}
+		});
+		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton_2.setFocusable(false);
+		btnNewButton_2.setBounds(849, 25, 124, 30);
+		panel.add(btnNewButton_2);
 		
 		this.setVisible(true);
 	}

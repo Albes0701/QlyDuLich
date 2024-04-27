@@ -82,6 +82,8 @@ public class QuanLyTour extends JFrame {
 	// QlyToursDTO tourDTO=new QlyToursDTO();
 	QlyToursBUS tourBUS = new QlyToursBUS();
 	KhachHangBUS khBUS=new KhachHangBUS();
+	private JLabel lblNewLabel;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -227,11 +229,6 @@ public class QuanLyTour extends JFrame {
 		panel.add(btn_KhuyenMai);
 
 		taikhoanBUS tkBUS = new taikhoanBUS();
-		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(743, 24, 230, 30);
-		panel.add(lblNewLabel);
 
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
 		JLabel label = new JLabel();
@@ -623,6 +620,23 @@ public class QuanLyTour extends JFrame {
 		btn_KHTour.setBackground(new Color(24, 171, 138));
 		btn_KHTour.setBounds(273, 65, 120, 40);
 		panel.add(btn_KHTour);
+		
+		lblNewLabel = new JLabel("Xin chào " + TrangChuGUI.tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(609, 24, 230, 30);
+		panel.add(lblNewLabel);
+		
+		btnNewButton = new JButton("Đổi mật khẩu");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MatKhauGUI mk = new MatKhauGUI();
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton.setFocusable(false);
+		btnNewButton.setBounds(849, 25, 124, 30);
+		panel.add(btnNewButton);
 		this.setVisible(true);
 	}
 
@@ -673,10 +687,10 @@ public class QuanLyTour extends JFrame {
 		songay_tf.setEditable(false);
 		khoihanh_cb.setEditable(false);
 		noiden_cb.setEditable(false);
-		if (!tourBUS.docTour()) {
-			JOptionPane.showMessageDialog(this, "Lỗi không đọc được database!");
-		}
-		khBUS.docKH();
+//		if (!tourBUS.docTour()) {
+//			JOptionPane.showMessageDialog(this, "Lỗi không đọc được database!");
+//		}
+//		khBUS.docKH();
 		
 	}
 

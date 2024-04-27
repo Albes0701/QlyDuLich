@@ -75,6 +75,8 @@ public class NhanVien extends JFrame{
 	JButton btn_QLTour,btn_KHTour,btn_QLDV,btn_KhuyenMai,btn_NhanVien,btn_KhachHang;
 	DefaultTableModel tableModel;
 	NhanVienBUS nvBUS = new NhanVienBUS();
+	private JLabel lblNewLabel;
+	private JButton btnNewButton;
 	/**
 	 * Launch the application.
 	 */
@@ -223,11 +225,6 @@ public class NhanVien extends JFrame{
 		panel.add(btn_KhuyenMai);
 		
 		taikhoanBUS tkBUS = new taikhoanBUS();
-		JLabel lblNewLabel = new JLabel("Xin chào " + tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(743, 24, 230, 30);
-		panel.add(lblNewLabel);
 		
 		
 		ImageIcon image = new ImageIcon("src\\Images\\logo.png");
@@ -605,6 +602,23 @@ public class NhanVien extends JFrame{
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane_1.setBounds(29, 68, 190, 300);
 		panel_1.add(scrollPane_1);
+		
+		lblNewLabel = new JLabel("Xin chào " + TrangChuGUI.tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(609, 24, 230, 30);
+		panel.add(lblNewLabel);
+		
+		btnNewButton = new JButton("Đổi mật khẩu");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MatKhauGUI mk = new MatKhauGUI();
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnNewButton.setFocusable(false);
+		btnNewButton.setBounds(849, 25, 124, 30);
+		panel.add(btnNewButton);
 		initData();
 		
 		this.setVisible(true);
@@ -677,7 +691,7 @@ public class NhanVien extends JFrame{
 		});
 	}
 	public void initData() {
-		if(nvBUS.docNV()) {
+//		if(nvBUS.docNV()) {
 			for(NhanVienDTO nv: NhanVienBUS.nvDTO) {
 				tableModel.addRow(new Object[]{
 					nv.getManv().toUpperCase(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
@@ -691,7 +705,7 @@ public class NhanVien extends JFrame{
 					}
 				}
 			});
-		}
+//		}
 	}
 	public boolean checkNull() {
 		if(this.textField_MSNV.getText().isEmpty() || this.textField_HoNV.getText().isEmpty() || this.textField_TenNV.getText().isEmpty() 
