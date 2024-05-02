@@ -12,6 +12,10 @@ import java.awt.TextField;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -274,6 +278,28 @@ public class NhanVien extends JFrame{
 		panel_2.add(lblNewLabel_2);
 		
 		textField_MSNV = new JTextField();
+		textField_MSNV.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+					textField_HoNV.requestFocusInWindow();
+					
+			}
+		});
 		textField_MSNV.setEditable(false);
 		textField_MSNV.setBackground(Color.WHITE);
 		textField_MSNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -282,6 +308,28 @@ public class NhanVien extends JFrame{
 		textField_MSNV.setColumns(10);
 		
 		textField_HoNV = new JTextField();
+		textField_HoNV.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+					textField_TenNV.requestFocusInWindow();
+				
+			}
+		});
 		textField_HoNV.setBackground(Color.WHITE);
 		textField_HoNV.setEditable(false);
 		textField_HoNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -295,6 +343,27 @@ public class NhanVien extends JFrame{
 		panel_2.add(lblNewLabel_2_1);
 		
 		textField_TenNV = new JTextField();
+		textField_TenNV.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+					comboBox_GioiTinh.showPopup();
+			}
+		});
 		textField_TenNV.setBackground(Color.WHITE);
 		textField_TenNV.setEditable(false);
 		textField_TenNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -323,6 +392,28 @@ public class NhanVien extends JFrame{
 		panel_2.add(lblNewLabel_2_4_1);
 		
 		textField_SDT = new JTextField();
+		textField_SDT.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textField_CMND.requestFocusInWindow();
+				}
+			}
+		});
 		textField_SDT.setEditable(false);
 		textField_SDT.setBackground(Color.WHITE);
 		textField_SDT.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -370,6 +461,14 @@ public class NhanVien extends JFrame{
 		comboBox_GioiTinh.setSelectedItem("Nam");
 		comboBox_GioiTinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		comboBox_GioiTinh.setBounds(81, 152, 134, 26);
+		comboBox_GioiTinh.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                	textField_SDT.requestFocusInWindow();
+                }
+            }
+        });
 		panel_2.add(comboBox_GioiTinh);
 		
 		JLabel lblNewLabel_2_4_1_1 = new JLabel("CMND");
@@ -526,6 +625,7 @@ public class NhanVien extends JFrame{
 		them_btn = new JButton("Thêm");
 		them_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField_MSNV.requestFocusInWindow();
 				luu_btn.setEnabled(true);
 				luu_btn.setBackground(Color.orange);
 				thoat_btn.setEnabled(true);

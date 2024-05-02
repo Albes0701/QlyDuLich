@@ -9,7 +9,21 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import BUS.chitiethoadonBUS;
+import BUS.HoaDonBUS;
+import BUS.KhachHangBUS;
+import BUS.NhanVienBUS;
+import DAO.chitiethoadonDAO;
+import DTO.KhachHangDTO;
+import DTO.NhanVienDTO;
+import DTO.chitiethoadonDTO;
+
 import java.awt.Font;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -18,9 +32,11 @@ public class ChiTietHoaDon extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField tongtien;
 	private JTable table;
-
+	private JLabel mahd, tennv, tentour, tenkh, ngaytao;
+	private JScrollPane scrollPane;
+	static String mahd_selected;
 	/**
 	 * Launch the application.
 	 */
@@ -37,12 +53,86 @@ public class ChiTietHoaDon extends JFrame {
 			}
 		});
 	}
+	
+//	public ChiTietHoaDon(String maHoaDon, String tenNhanVien, String tenKhachHang, String ngayLapHoaDon) {
+//	    this();  // Gọi đến hàm khởi tạo không tham số để thiết lập giao diện chung
+//
+//	    // Đặt văn bản cho các nhãn với dữ liệu cung cấp
+//	    mahd.setText(maHoaDon);
+//	    tennv.setText(tenNhanVien);
+//	    tenkh.setText(tenKhachHang);
+//	    ngaytao.setText(ngayLapHoaDon);
+//
+//	    // Lấy danh sách chi tiết hóa đơn từ cơ sở dữ liệu
+//	    chitiethoadonBUS bus = new chitiethoadonBUS();
+//	    ArrayList<chitiethoadonDTO> list = bus.getListByMaHD(maHoaDon);
+//
+//	    // Cập nhật dữ liệu lên bảng
+//	    DefaultTableModel model = (DefaultTableModel) table.getModel();
+//	    model.setRowCount(0);
+//	    for (chitiethoadonDTO ct : list) {
+//	        model.addRow(new Object[] {
+//	            ct.getMave(),
+//	            ct.getMakht(),
+//	            ct.getMakh(),
+//	            ct.getGiave(),
+//	            ct.getMakm(),
+//	            ct.getMahd()
+//	        });
+//	    }
+//	}
+	public ChiTietHoaDon(String maHoaDon, String tenNhanVien, String tenKhachHang, String ngayLapHoaDon) {
+	    this();  // Gọi đến hàm khởi tạo không tham số để thiết lập giao diện chung
+
+	    // Đặt văn bản cho các nhãn với dữ liệu cung cấp
+	    for(NhanVienDTO nv: NhanVienBUS.nvDTO) {
+	    	if(nv.getManv().equalsIgnoreCase(tenNhanVien)) {
+	    		tenNhanVien = nv.getHonv() + " " + nv.getTennv();
+	    		break;
+	    	}
+	    }
+	    for(KhachHangDTO kh: KhachHangBUS.khDTO) {
+	    	if(kh.getMakh().equalsIgnoreCase(tenKhachHang)) {
+	    		tenKhachHang = kh.getHokh() + " " + kh.getTenkh();
+	    		break;
+	    	}
+	    }
+	    mahd.setText(maHoaDon);
+	    tennv.setText(tenNhanVien);
+	    tenkh.setText(tenKhachHang);
+	    ngaytao.setText(ngayLapHoaDon);
+	    // Lấy tên tour từ HoaDonBUS
+	    HoaDonBUS hdBUS = new HoaDonBUS();
+	    String tenTour = hdBUS.getTenTourByMaHD(maHoaDon);
+	    tentour.setText(tenTour);
+
+	    // Lấy danh sách chi tiết hóa đơn từ cơ sở dữ liệu
+	    chitiethoadonBUS bus = new chitiethoadonBUS();
+	    ArrayList<chitiethoadonDTO> list = bus.getListByMaHD(maHoaDon);
+
+	    // Cập nhật dữ liệu lên bảng
+	    DefaultTableModel model = (DefaultTableModel) table.getModel();
+	    model.setRowCount(0);
+	    DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+	    for (chitiethoadonDTO ct : list) {
+	    	String formattedNumber = decimalFormat.format(ct.getGiave()) + " VNĐ";
+	        model.addRow(new Object[] {
+	            ct.getMave(),
+	            ct.getMakht(),
+	            ct.getMakh(),
+	            formattedNumber,
+	            ct.getMakm(),
+	            ct.getMahd()
+	        });
+	    }
+	}
+
 
 	/**
 	 * Create the frame.
 	 */
 	public ChiTietHoaDon() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(480, 200, 700, 450);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -80,27 +170,27 @@ public class ChiTietHoaDon extends JFrame {
 		lblNewLabel_4.setBounds(356, 33, 114, 13);
 		panel.add(lblNewLabel_4);
 		
-		JLabel lblNewLabel_6 = new JLabel(".......................");
-		lblNewLabel_6.setBounds(125, 10, 99, 13);
-		panel.add(lblNewLabel_6);
+		mahd = new JLabel(".......................");
+		mahd.setBounds(125, 10, 184, 13);
+		panel.add(mahd);
 		
-		JLabel lblNewLabel_7 = new JLabel(".......................");
-		lblNewLabel_7.setBounds(125, 33, 99, 13);
-		panel.add(lblNewLabel_7);
+		tennv = new JLabel(".......................");
+		tennv.setBounds(125, 33, 184, 13);
+		panel.add(tennv);
 		
-		JLabel lblNewLabel_8 = new JLabel(".......................");
-		lblNewLabel_8.setBounds(125, 56, 99, 13);
-		panel.add(lblNewLabel_8);
+		tentour = new JLabel(".......................");
+		tentour.setBounds(125, 56, 184, 13);
+		panel.add(tentour);
 		
-		JLabel lblNewLabel_9 = new JLabel(".......................");
-		lblNewLabel_9.setBounds(472, 10, 99, 13);
-		panel.add(lblNewLabel_9);
+		tenkh = new JLabel(".......................");
+		tenkh.setBounds(472, 10, 184, 13);
+		panel.add(tenkh);
 		
-		JLabel lblNewLabel_9_1 = new JLabel(".....................");
-		lblNewLabel_9_1.setBounds(472, 33, 99, 13);
-		panel.add(lblNewLabel_9_1);
+		ngaytao = new JLabel(".....................");
+		ngaytao.setBounds(472, 33, 184, 13);
+		panel.add(ngaytao);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setFont(new Font("Tahoma", Font.BOLD, 16));
 		scrollPane.setBounds(10, 98, 666, 270);
 		contentPane.add(scrollPane);
@@ -108,29 +198,29 @@ public class ChiTietHoaDon extends JFrame {
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
 			},
 			new String[] {
-				"M\u00E3 TV", "T\u00EAn TV", "Gi\u1EDBi T\u00EDnh", "Ng\u00E0y Sinh", "Lo\u1EA1i LT", "Gi\u00E1 V\u00E9"
+				"Mã Vé", "Mã KHT", "Mã Khách Hàng", "Giá Vé", "Mã Khuyến Mãi"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
@@ -143,23 +233,59 @@ public class ChiTietHoaDon extends JFrame {
 		table.getColumnModel().getColumn(0).setPreferredWidth(50);
 		table.getColumnModel().getColumn(1).setPreferredWidth(96);
 		table.getColumnModel().getColumn(2).setPreferredWidth(67);
-		table.getColumnModel().getColumn(3).setPreferredWidth(94);
-		table.getColumnModel().getColumn(4).setPreferredWidth(44);
-		table.getColumnModel().getColumn(5).setPreferredWidth(100);
+		table.getColumnModel().getColumn(3).setPreferredWidth(80);
+		table.getColumnModel().getColumn(4).setPreferredWidth(70);
+		
 		scrollPane.setViewportView(table);
 		
+		
+		
 		JLabel lblNewLabel_5 = new JLabel("Thành Tiền :");
+
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblNewLabel_5.setBounds(13, 378, 118, 20);
 		contentPane.add(lblNewLabel_5);
-		
-		textField = new JTextField();
-		textField.setBorder(new LineBorder(new Color(171, 173, 179), 2));
-		textField.setFont(new Font("Tahoma", Font.BOLD, 14));
-		textField.setBounds(141, 376, 144, 27);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		chitiethoadonBUS bus = new chitiethoadonBUS();
+		ArrayList<chitiethoadonDTO> list = bus.getList();
+		double tongGiaVe = bus.getTotal(mahd_selected);
+		// Tạo một đối tượng NumberFormat
+		NumberFormat nf = NumberFormat.getInstance();
+
+		// Định dạng tongGiaVe với đối tượng NumberFormat
+		String tongGiaVeFormatted = nf.format(tongGiaVe);
+
+		tongtien = new JTextField();
+		tongtien.setEditable(false);
+		tongtien.setBorder(new LineBorder(new Color(171, 173, 179), 2));
+		tongtien.setFont(new Font("Tahoma", Font.BOLD, 14));
+		tongtien.setBounds(141, 376, 144, 27);
+
+		// Đặt tongGiaVeFormatted + " VND" làm văn bản cho JTextField
+		tongtien.setText(tongGiaVeFormatted + " VNĐ");
+
+		contentPane.add(tongtien);
+		tongtien.setColumns(10);
 		
 		this.setVisible(true);
+		
+		
+		
+		
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+		for(chitiethoadonDTO ct : list) {
+			String formattedNumber = decimalFormat.format(ct.getGiave()) + " VNĐ";
+			model.addRow(new Object[] {
+					ct.getMave(),
+					ct.getMakht(),
+					ct.getMakh(),
+					formattedNumber,
+					ct.getMakm(),
+					ct.getMahd()
+			});
+		}
+		
+		
 	}
 }

@@ -38,6 +38,16 @@ public class KiemTra {
 		}
 		return sqldate;
 	}
+	public Boolean checkngaydi(java.util.Date st1) {
+		java.util.Date current = new java.util.Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+		calendar.set(Calendar.MINUTE, 59);
+		calendar.set(Calendar.SECOND, 59);
+        current = calendar.getTime();
+		if(st1.compareTo(current) < 0) return false;
+		return true;
+	}
 	
 	public java.util.Date toDateUtil(java.sql.Date sqlDate) {
         // Ép kiểu từ java.sql.Date sang java.util.Date
@@ -90,8 +100,8 @@ public class KiemTra {
 	}
 	public String loaiDV(String madv) {
 		String kitu = madv.substring(0, 2);
-		if(kitu.equalsIgnoreCase("NH")) return "Nhà Hàng";
-		if(kitu.equalsIgnoreCase("KS")) return "Khách Sạn";
+		if(kitu.equalsIgnoreCase("NH")) return "Nhà hàng";
+		if(kitu.equalsIgnoreCase("KS")) return "Khách sạn";
 		if(kitu.equalsIgnoreCase("PT")) return "Phương tiện";
 		return null;
 	}

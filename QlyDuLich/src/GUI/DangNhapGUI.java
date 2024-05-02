@@ -6,17 +6,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import BUS.CTKhuyenMaiBUS;
 import BUS.ChiTietKHT_BUS;
 import BUS.DatTourBUS;
 import BUS.DichVuBUS;
+import BUS.HoaDonBUS;
 import BUS.KHToursBUS;
 import BUS.KhachHangBUS;
 import BUS.KhuyenMaiBUS;
 import BUS.NhanVienBUS;
 import BUS.QlyToursBUS;
+import BUS.chitiethoadonBUS;
 import BUS.taikhoanBUS;
+import DTO.chitiethoadonDTO;
 import DTO.taikhoanDTO;
 
 import java.awt.Color;
@@ -26,6 +31,9 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -84,6 +92,14 @@ public class DangNhapGUI extends JFrame {
 		panel.add(lblNewLabel_2);
 		
 		textField_User = new JTextField();
+		textField_User.addKeyListener(new KeyAdapter() {
+			@Override
+		    public void keyPressed(KeyEvent e) {
+		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		            textField_Password.requestFocusInWindow();
+		        }
+		    }
+		});
 		textField_User.setBounds(45, 97, 236, 27);
 		panel.add(textField_User);
 		textField_User.setColumns(10);
@@ -91,6 +107,16 @@ public class DangNhapGUI extends JFrame {
 		textField_Password = new JPasswordField();
 		textField_Password.setColumns(10);
 		textField_Password.setBounds(45, 167, 236, 27);
+		textField_Password.addKeyListener(new KeyAdapter() {
+			@Override
+		    public void keyPressed(KeyEvent e) {
+		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		        	String user = textField_User.getText();
+					String pass = textField_Password.getText();
+					checktk(user,pass);
+		        }
+		    }
+		});
 		panel.add(textField_Password);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Password");
@@ -100,6 +126,7 @@ public class DangNhapGUI extends JFrame {
 		panel.add(lblNewLabel_1_1);
 		
 		JButton dangnhap_btn = new JButton("SIGN IN");
+		dangnhap_btn.setFocusPainted(false);
 		dangnhap_btn.setBackground(new Color(255, 0, 128));
 		dangnhap_btn.setForeground(new Color(255, 255, 255));
 		dangnhap_btn.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -120,6 +147,7 @@ public class DangNhapGUI extends JFrame {
 		setVisible(true);
 	}
 	
+
 	public void checktk(String user, String pass) {
 			boolean fl = false;
 			for(taikhoanDTO tk: taikhoanBUS.tkDTO) {
@@ -145,7 +173,8 @@ public class DangNhapGUI extends JFrame {
 					ctkm.docCTKM();
 					DatTourBUS dat_tour = new DatTourBUS();
 					dat_tour.docDSTour();
-					
+					HoaDonBUS hdBUS = new HoaDonBUS();
+					hdBUS.docHoaDon();
 					setVisible(false);
 					TrangChuGUI.tkDTO.setUser(user);
 					TrangChuGUI.tkDTO.setPass(pass);

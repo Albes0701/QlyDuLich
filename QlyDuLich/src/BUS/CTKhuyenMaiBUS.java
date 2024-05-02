@@ -24,7 +24,7 @@ public static ArrayList<CTKhuyenMaiDTO> ctkmDTO;
 		try {
 			for(CTKhuyenMaiDTO ctkm: ctkmDTO) {
 				if(km.getMakm().equalsIgnoreCase(ctkm.getMakm()) && km.getMatour().equalsIgnoreCase(ctkm.getMatour())) {
-					JOptionPane.showMessageDialog(null, "Mã tour " + km.getMatour() +" đã tồn tại ở " + km.getMakm());
+					JOptionPane.showMessageDialog(null, "Mã " + km.getMatour() +" đã tồn tại ở " + km.getMakm());
 					return -1;
 				}
 			}

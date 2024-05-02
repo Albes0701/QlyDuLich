@@ -11,6 +11,10 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -55,6 +59,7 @@ import DTO.QlyToursDTO;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Component;
+import com.toedter.calendar.JDateChooser;
 
 public class KhachHang extends JFrame {
 
@@ -68,10 +73,10 @@ public class KhachHang extends JFrame {
 	private JTextField textField_TimKiem;
 	private JTextField textField_Email;
 	private JButton xoa_btn , sua_btn, btn_thoat, luu_btn;
-
+	private JDateChooser dateChooser_NgaySinh;
 
 	DefaultTableModel tableModel;
-	JComboBox comboBox_gioitinh, comboBox_dotuoi, timkiem_cb;
+	JComboBox comboBox_gioitinh, timkiem_cb;
 	
 	JTextArea textArea;
     KhachHangBUS khBus = new KhachHangBUS();
@@ -270,6 +275,28 @@ public class KhachHang extends JFrame {
 		panel_2.add(lblNewLabel_2);
 		
 		textField_MSKH = new JTextField();
+		textField_MSKH.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textField_HoKH.requestFocusInWindow();
+				}
+			}
+		});
 		textField_MSKH.setEnabled(false);
 		textField_MSKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_MSKH.setBounds(81, 26, 134, 26);
@@ -280,6 +307,28 @@ public class KhachHang extends JFrame {
 		textField_HoKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_HoKH.setColumns(10);
 		textField_HoKH.setBounds(81, 72, 134, 26);
+		textField_HoKH.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textField_TenKH.requestFocusInWindow();
+				}
+			}
+		});
 		panel_2.add(textField_HoKH);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Họ đệm");
@@ -288,6 +337,28 @@ public class KhachHang extends JFrame {
 		panel_2.add(lblNewLabel_2_1);
 		
 		textField_TenKH = new JTextField();
+		textField_TenKH.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					comboBox_gioitinh.showPopup();
+				}
+			}
+		});
 		textField_TenKH.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_TenKH.setColumns(10);
 		textField_TenKH.setBounds(81, 117, 134, 26);
@@ -302,7 +373,7 @@ public class KhachHang extends JFrame {
 		
 		JLabel diachi = new JLabel("Địa chỉ");
 		diachi.setFont(new Font("Tahoma", Font.BOLD, 14));
-		diachi.setBounds(10, 241, 61, 20);
+		diachi.setBounds(10, 234, 61, 20);
 		panel_2.add(diachi);
 		
 		JLabel lblNewLabel_2_4_1 = new JLabel("SĐT");
@@ -311,6 +382,28 @@ public class KhachHang extends JFrame {
 		panel_2.add(lblNewLabel_2_4_1);
 		
 		textField_SDT = new JTextField();
+		textField_SDT.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textField_Email.requestFocusInWindow();
+				}
+			}
+		});
 		textField_SDT.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_SDT.setColumns(10);
 		textField_SDT.setBounds(81, 318, 134, 26);
@@ -349,11 +442,33 @@ public class KhachHang extends JFrame {
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane_3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane_3.setBounds(10, 261, 205, 47);
+		scrollPane_3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane_3.setBounds(10, 262, 205, 46);
 		panel_2.add(scrollPane_3);
 		
 		textArea = new JTextArea();
+		textArea.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textField_SDT.requestFocusInWindow();
+				}
+			}
+		});
 		scrollPane_3.setViewportView(textArea);
 		
 		JLabel lblNewLabel_2_2_1 = new JLabel("Giới Tính");
@@ -363,19 +478,20 @@ public class KhachHang extends JFrame {
 		
 		String item_gioitinh[] = {"Nam","Nữ"};
 		comboBox_gioitinh = new JComboBox(item_gioitinh);
+		comboBox_gioitinh.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                   textArea.requestFocusInWindow();
+                    // Perform actions based on the selected item
+                }
+            }
+        });
 		comboBox_gioitinh.setBounds(81, 165, 134, 28);
 		panel_2.add(comboBox_gioitinh);
 		
-		JLabel lblNewLabel_2_2_1_1 = new JLabel("Độ tuổi");
-		lblNewLabel_2_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_2_1_1.setBounds(10, 213, 76, 18);
-		panel_2.add(lblNewLabel_2_2_1_1);
-		
 		
 		String item_dotuoi[] = {"Người lớn","Trẻ em"};
-		comboBox_dotuoi = new JComboBox(item_dotuoi);
-		comboBox_dotuoi.setBounds(81, 208, 134, 26);
-		panel_2.add(comboBox_dotuoi);
 		
 		btn_thoat = new JButton("Thoát");
 		btn_thoat.addActionListener(new ActionListener() {
@@ -401,6 +517,17 @@ public class KhachHang extends JFrame {
 		btn_thoat.setBounds(116, 397, 85, 26);
 		panel_2.add(btn_thoat);
 		
+		dateChooser_NgaySinh = new JDateChooser();
+		dateChooser_NgaySinh.getCalendarButton().setEnabled(false);
+		dateChooser_NgaySinh.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		dateChooser_NgaySinh.setBounds(81, 203, 134, 26);
+		panel_2.add(dateChooser_NgaySinh);
+		
+		JLabel lblNewLabel_2_4_1_2 = new JLabel("Ngày sinh");
+		lblNewLabel_2_4_1_2.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_2_4_1_2.setBounds(10, 206, 76, 20);
+		panel_2.add(lblNewLabel_2_4_1_2);
+		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(269, 50, 681, 435);
 		KhachHang.add(scrollPane_2);
@@ -409,7 +536,7 @@ public class KhachHang extends JFrame {
 		table_KhachHang.setFillsViewportHeight(true);
 		scrollPane_2.setViewportView(table_KhachHang);
 		table_KhachHang.setDefaultEditor(Object.class,null);
-		String[] colname =  {"Mã kh","Họ","Tên","Giới tính","Độ tuổi","Địa chỉ","Số điện thoại","Email"};
+		String[] colname =  {"Mã kh","Họ","Tên","Giới tính","Địa chỉ","Số điện thoại","Email","Ngày sinh"};
 		tableModel = new DefaultTableModel();
 		table_KhachHang.setModel(tableModel);
 		tableModel.setColumnIdentifiers(colname);
@@ -574,8 +701,7 @@ public void lockForm() {
 		this.textField_HoKH.setEditable(false);
 		this.textField_TenKH.setEditable(false);
 		this.comboBox_gioitinh.setEnabled(false);
-		this.comboBox_dotuoi.setEnabled(false);
-
+		this.dateChooser_NgaySinh.setEnabled(false);
 		this.textArea.setEditable(false);
 		this.textArea.setEnabled(false);
 		this.textField_SDT.setEditable(false);
@@ -587,7 +713,7 @@ public void lockForm() {
 //		if(khBus.docKH()) {
 			for(KhachHangDTO kh : KhachHangBUS.khDTO ) {
 				tableModel.addRow(new Object[] {
-						kh.getMakh(), kh.getHokh(), kh.getTenkh(), KiemTra.getInstance().GioiTinh(kh.isGioitinh()), kh.getDiachi(), kh.getSdt(), kh.getEmail()
+						kh.getMakh(), kh.getHokh(), kh.getTenkh(), KiemTra.getInstance().GioiTinh(kh.isGioitinh()), kh.getDiachi(), kh.getSdt(), kh.getEmail(), kh.getNgaysinh()
 				});
 			}
 			
@@ -613,13 +739,13 @@ public void lockForm() {
 		String hokh = model.getValueAt(row, 1)+ "";
 		String tenkh = model.getValueAt(row, 2)+ "";
 		Boolean gioitinh =  KiemTra.getInstance().GioiTinh((String)model.getValueAt(row, 3));		
-		String dotuoi = model.getValueAt(row, 4)+ "";
-		String diachi = model.getValueAt(row, 5)+ "";
-		String sdt = model.getValueAt(row, 6)+ "";
-		String email = model.getValueAt(row, 7)+ "";
+		String diachi = model.getValueAt(row, 4)+ "";
+		String sdt = model.getValueAt(row, 5)+ "";
+		String email = model.getValueAt(row, 6)+ "";
+		String ngaysinh = model.getValueAt(row, 7)+ "";
+		java.sql.Date ngaysinhdate = java.sql.Date.valueOf(ngaysinh);
 
-
-        KhachHangDTO kh = new KhachHangDTO(makh, hokh, tenkh, diachi, sdt, email, rootPaneCheckingEnabled, null);
+        KhachHangDTO kh = new KhachHangDTO(makh, hokh, tenkh, diachi, sdt, email, rootPaneCheckingEnabled, ngaysinhdate);
         return kh;
 	}
 	public void hienThiThongTin() {
@@ -629,7 +755,7 @@ public void lockForm() {
         	this.textField_HoKH.setText(kh.getHokh());
         	this.textField_TenKH.setText(kh.getTenkh());
         	this.comboBox_gioitinh.setSelectedItem(KiemTra.getInstance().GioiTinh(kh.isGioitinh()));
-        	this.comboBox_dotuoi.setSelectedIndex(0);
+        	this.dateChooser_NgaySinh.setDate(kh.getNgaysinh());
         	this.textArea.setText(kh.getDiachi());
         	this.textField_SDT.setText(kh.getSdt());
         	this.textField_Email.setText(kh.getEmail());
@@ -668,11 +794,12 @@ public void lockForm() {
 		kh.setTenkh(this.textField_TenKH.getText());
 		Boolean gioitinh = KiemTra.getInstance().GioiTinh(this.comboBox_gioitinh.getSelectedItem()+"");
 		kh.setGioitinh(gioitinh);
-//		kh.setDotuoi(this.comboBox_dotuoi.getSelectedItem()+"");
 		kh.setDiachi(this.textArea.getText());
 		kh.setSdt(this.textField_SDT.getText());
 		kh.setEmail(this.textField_Email.getText());
-		
+		java.util.Date utilDate1 = this.dateChooser_NgaySinh.getDate();
+		java.sql.Date sqlDate_ngaySinh = new java.sql.Date(utilDate1.getTime());
+		kh.setNgaysinh(sqlDate_ngaySinh);
 		int result = khBus.suaKh(kh);
 		if(result !=-1) {
 			JOptionPane.showMessageDialog(null,"Sửa thông tin thành công khách hàng " + kh.getMakh());
@@ -693,7 +820,7 @@ public void lockForm() {
 	 public void initArrayList() {
 			for(KhachHangDTO kh: KhachHangBUS.khDTO) {
 				tableModel.addRow(new Object[]{
-					kh.getMakh().toUpperCase(),kh.getHokh(),kh.getTenkh(),KiemTra.getInstance().GioiTinh(kh.isGioitinh()),kh.getDiachi(),kh.getSdt(),kh.getEmail()
+					kh.getMakh().toUpperCase(),kh.getHokh(),kh.getTenkh(),KiemTra.getInstance().GioiTinh(kh.isGioitinh()),kh.getDiachi(),kh.getSdt(),kh.getEmail(),kh.getNgaysinh()
 				});
 			}
 			
@@ -708,7 +835,7 @@ public void lockForm() {
 		public void initArrayList(ArrayList<KhachHangDTO> t) {
 			for(KhachHangDTO kh: t) {
 				tableModel.addRow(new Object[]{
-						kh.getMakh().toUpperCase(),kh.getHokh(),kh.getTenkh(),KiemTra.getInstance().GioiTinh(kh.isGioitinh()),kh.getDiachi(),kh.getSdt(),kh.getEmail()
+						kh.getMakh().toUpperCase(),kh.getHokh(),kh.getTenkh(),KiemTra.getInstance().GioiTinh(kh.isGioitinh()),kh.getDiachi(),kh.getSdt(),kh.getEmail(),kh.getNgaysinh()
 				});
 			}
 			
@@ -725,9 +852,9 @@ public void lockForm() {
 			this.textField_HoKH.setEditable(true);
 			this.textField_TenKH.setEditable(true);
 			this.comboBox_gioitinh.setEnabled(true);
-			this.comboBox_dotuoi.setEnabled(true);
 			this.textArea.setEditable(true);
 			this.textArea.setEnabled(true);
+			this.dateChooser_NgaySinh.setEnabled(true);
 			this.textField_SDT.setEditable(true);
 			this.textField_Email.setEditable(true);
 			
@@ -740,8 +867,8 @@ public void lockForm() {
 		    this.textField_HoKH.setText("");
 		    this.textField_TenKH.setText("");
 		    this.comboBox_gioitinh.setSelectedIndex(0);
-		    this.comboBox_dotuoi.setSelectedIndex(0);
-		    this.textArea.setText(kh.getDiachi()); 
+		    this.textArea.setText(kh.getDiachi());
+		    this.dateChooser_NgaySinh.setDate(null);
 		    this.textField_SDT.setText("");
 		    this.textField_Email.setText("");
 		}

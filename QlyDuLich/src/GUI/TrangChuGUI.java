@@ -42,17 +42,25 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.HoaDonBUS;
+import BUS.KHToursBUS;
+import BUS.KhachHangBUS;
+import BUS.KhuyenMaiBUS;
+import BUS.NhanVienBUS;
+import BUS.QlyToursBUS;
 import BUS.taikhoanBUS;
 import DTO.NhanVienDTO;
 import DTO.taikhoanDTO;
+import javax.swing.JPasswordField;
+import javax.swing.JEditorPane;
+import javax.swing.SwingConstants;
 
 public class TrangChuGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField_NgayVL;
-	private Label nhanvien_lb;
 	private Label label;
-	private Label Tour_lb;
+	private JLabel Tour_lb;
 	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
 	static taikhoanBUS tkBUS = new taikhoanBUS();
 	public static taikhoanDTO tkDTO = new taikhoanDTO();
@@ -196,57 +204,117 @@ public class TrangChuGUI extends JFrame {
 		KhachHang.setLayout(null);
 		KhachHang.setBackground(new Color(255, 255, 255));
 		
-		Tour_lb = new Label("Tours");
-		Tour_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		Tour_lb.setAlignment(Label.CENTER);
-		Tour_lb.setBackground(new Color(255, 128, 0));
-		Tour_lb.setBounds(100, 116, 200, 120);
-		KhachHang.add(Tour_lb);
-		
-		Label kehoachtour_lb = new Label("Kế hoạch Tour");
-		kehoachtour_lb.setAlignment(Label.CENTER);
-		kehoachtour_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		kehoachtour_lb.setBackground(new Color(255, 128, 0));
-		kehoachtour_lb.setBounds(374, 116, 200, 120);
-		KhachHang.add(kehoachtour_lb);
-		
-		Label hoadon_lb = new Label("Hóa đơn");
-		hoadon_lb.setAlignment(Label.CENTER);
-		hoadon_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		hoadon_lb.setBackground(new Color(255, 128, 0));
-		hoadon_lb.setBounds(639, 116, 200, 120);
-		KhachHang.add(hoadon_lb);
-		
-		nhanvien_lb = new Label("Nhân viên");
-		nhanvien_lb.setAlignment(Label.CENTER);
-		nhanvien_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		nhanvien_lb.setBackground(new Color(255, 128, 0));
-		nhanvien_lb.setBounds(100, 314, 200, 120);
-		KhachHang.add(nhanvien_lb);
-		
-		Label khachhang_lb = new Label("Khách hàng");
-		khachhang_lb.setAlignment(Label.CENTER);
-		khachhang_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		khachhang_lb.setBackground(new Color(255, 128, 0));
-		khachhang_lb.setBounds(374, 314, 200, 120);
-		KhachHang.add(khachhang_lb);
-		
-		Label khuyenmai_lb = new Label("Khuyến mãi");
-		khuyenmai_lb.setAlignment(Label.CENTER);
-		khuyenmai_lb.setFont(new Font("Arial", Font.BOLD, 15));
-		khuyenmai_lb.setBackground(new Color(255, 128, 0));
-		khuyenmai_lb.setBounds(639, 314, 200, 120);
-		KhachHang.add(khuyenmai_lb);
-		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(10, 10, 940, 42);
 		KhachHang.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel trangchu_lb = new JLabel("Trang chủ");
-		trangchu_lb.setBounds(401, 10, 124, 32);
+		trangchu_lb.setBounds(415, 0, 110, 42);
 		panel_1.add(trangchu_lb);
 		trangchu_lb.setFont(new Font("Tahoma", Font.BOLD, 20));
+		
+		JPanel panel_Tour = new JPanel();
+		panel_Tour.setBackground(new Color(102, 204, 204));
+		panel_Tour.setBounds(96, 116, 200, 120);
+		KhachHang.add(panel_Tour);
+		panel_Tour.setLayout(null);
+		
+		JLabel tour_lbl = new JLabel("Tour");
+		tour_lbl.setFont(new Font("Tahoma", Font.BOLD, 24));
+		tour_lbl.setBounds(71, 21, 63, 26);
+		panel_Tour.add(tour_lbl);
+		
+		JLabel tour_num = new JLabel("");
+		tour_num.setText("" + QlyToursBUS.tourDTO.size());
+		tour_num.setFont(new Font("Tahoma", Font.BOLD, 26));
+		tour_num.setBounds(91, 57, 53, 33);
+		panel_Tour.add(tour_num);
+		
+		JPanel panel_NhanVien = new JPanel();
+		panel_NhanVien.setBackground(new Color(255, 204, 153));
+		panel_NhanVien.setLayout(null);
+		panel_NhanVien.setBounds(96, 314, 200, 120);
+		KhachHang.add(panel_NhanVien);
+		
+		JLabel NhanVien_lbl = new JLabel("Nhân Viên");
+		NhanVien_lbl.setFont(new Font("Tahoma", Font.BOLD, 24));
+		NhanVien_lbl.setBounds(42, 21, 131, 26);
+		panel_NhanVien.add(NhanVien_lbl);
+		
+		JLabel NhanVien_num = new JLabel("0");
+		NhanVien_num.setText("" + NhanVienBUS.nvDTO.size());
+		NhanVien_num.setFont(new Font("Tahoma", Font.BOLD, 26));
+		NhanVien_num.setBounds(91, 57, 48, 33);
+		panel_NhanVien.add(NhanVien_num);
+		
+		JPanel panel_KhachHang = new JPanel();
+		panel_KhachHang.setBackground(new Color(204, 204, 255));
+		panel_KhachHang.setLayout(null);
+		panel_KhachHang.setBounds(374, 314, 200, 120);
+		KhachHang.add(panel_KhachHang);
+		
+		JLabel KhachHang_lbl = new JLabel("Khách Hàng");
+		KhachHang_lbl.setFont(new Font("Tahoma", Font.BOLD, 24));
+		KhachHang_lbl.setBounds(28, 18, 145, 30);
+		panel_KhachHang.add(KhachHang_lbl);
+		
+		JLabel KhachHang_num = new JLabel("0");
+		KhachHang_num.setText("" + KhachHangBUS.khDTO.size());
+		KhachHang_num.setFont(new Font("Tahoma", Font.BOLD, 26));
+		KhachHang_num.setBounds(91, 57, 65, 33);
+		panel_KhachHang.add(KhachHang_num);
+		
+		JPanel KhuyenMai_panel = new JPanel();
+		KhuyenMai_panel.setBackground(new Color(255, 204, 255));
+		KhuyenMai_panel.setLayout(null);
+		KhuyenMai_panel.setBounds(639, 314, 200, 120);
+		KhachHang.add(KhuyenMai_panel);
+		
+		JLabel KhuyenMai_lbl = new JLabel("Khuyến mãi");
+		KhuyenMai_lbl.setFont(new Font("Tahoma", Font.BOLD, 24));
+		KhuyenMai_lbl.setBounds(28, 18, 145, 30);
+		KhuyenMai_panel.add(KhuyenMai_lbl);
+		
+		JLabel KhuyenMai_num = new JLabel("0");
+		KhuyenMai_num.setText("" + KhuyenMaiBUS.kmDTO.size());
+		KhuyenMai_num.setFont(new Font("Tahoma", Font.BOLD, 26));
+		KhuyenMai_num.setBounds(91, 57, 51, 33);
+		KhuyenMai_panel.add(KhuyenMai_num);
+		
+		JPanel panel_KHT = new JPanel();
+		panel_KHT.setBackground(new Color(153, 204, 255));
+		panel_KHT.setLayout(null);
+		panel_KHT.setBounds(374, 116, 200, 120);
+		KhachHang.add(panel_KHT);
+		
+		JLabel KHT_lbl = new JLabel("Kế hoạch tour");
+		KHT_lbl.setFont(new Font("Tahoma", Font.BOLD, 24));
+		KHT_lbl.setBounds(18, 17, 169, 30);
+		panel_KHT.add(KHT_lbl);
+		
+		JLabel KHT_num = new JLabel("0");
+		KHT_num.setText("" + KHToursBUS.khtList.size());
+		KHT_num.setFont(new Font("Tahoma", Font.BOLD, 26));
+		KHT_num.setBounds(85, 57, 62, 33);
+		panel_KHT.add(KHT_num);
+		
+		JPanel panel_HD = new JPanel();
+		panel_HD.setBackground(new Color(255, 102, 102));
+		panel_HD.setLayout(null);
+		panel_HD.setBounds(639, 116, 200, 120);
+		KhachHang.add(panel_HD);
+		
+		JLabel HoaDon_lbl = new JLabel("Hóa đơn");
+		HoaDon_lbl.setFont(new Font("Tahoma", Font.BOLD, 24));
+		HoaDon_lbl.setBounds(50, 17, 107, 30);
+		panel_HD.add(HoaDon_lbl);
+		
+		JLabel hoaDon_num = new JLabel("0");
+		hoaDon_num.setText("" + HoaDonBUS.listHD.size());
+		hoaDon_num.setFont(new Font("Tahoma", Font.BOLD, 26));
+		hoaDon_num.setBounds(91, 57, 66, 33);
+		panel_HD.add(hoaDon_num);
 		
 		String []item_loai = {"Trong nước", "Ngoài nước"};
 		

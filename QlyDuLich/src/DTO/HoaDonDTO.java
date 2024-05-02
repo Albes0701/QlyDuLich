@@ -3,66 +3,66 @@ package DTO;
 import java.sql.Date;
 
 public class HoaDonDTO {
-	private String mahd,manv,makh;
-	private Date ngaytao;
-	private double tongtien;
-	
-	public HoaDonDTO() {
-		
-	}
+    private String mahd, manv, makh;
+    private Date ngaytao;
+    private double tongtien;
 
-	public HoaDonDTO(String mahd, String manv, String makh, Date ngaytao, double tongtien) {
-		this.mahd = mahd;
-		this.manv = manv;
-		this.makh = makh;
-		this.ngaytao = ngaytao;
-		this.tongtien = tongtien;
-	}
+    public HoaDonDTO() {
+    }
 
-	public String getMahd() {
-		return mahd;
-	}
+    public HoaDonDTO(String mahd, String manv, String makh, Date ngaytao, double tongtien) {
+        this.mahd = mahd;
+        this.manv = manv;
+        this.makh = makh;
+        this.ngaytao = ngaytao;
+        this.tongtien = tongtien;
+        
+    }
 
-	public void setMahd(String mahd) {
-		this.mahd = mahd;
-	}
 
-	public String getManv() {
-		return manv;
-	}
+    public String getMahd() {
+        return mahd;
+    }
 
-	public void setManv(String manv) {
-		this.manv = manv;
-	}
+    public void setMahd(String mahd) {
+        this.mahd = mahd;
+    }
 
-	public String getMakh() {
-		return makh;
-	}
+    public String getManv() {
+        return manv;
+    }
 
-	public void setMakh(String makh) {
-		this.makh = makh;
-	}
+    public void setManv(String manv) {
+        this.manv = manv;
+    }
 
-	public Date getNgaytao() {
-		return ngaytao;
-	}
+    public String getMakh() {
+        return makh;
+    }
 
-	public void setNgaytao(Date ngaytao) {
-		this.ngaytao = ngaytao;
-	}
+    public void setMakh(String makh) {
+        this.makh = makh;
+    }
 
-	public double getTongtien() {
-		return tongtien;
-	}
+    public Date getNgaytao() {
+        return ngaytao;
+    }
 
-	public void setTongtien(double tongtien) {
-		this.tongtien = tongtien;
-	}
-	
-	
-	
-	
-	
-	
-	
+    public void setNgaytao(Date ngaytao) {
+        this.ngaytao = ngaytao;
+    }
+
+    public double getTongtien() {
+        return tongtien;
+    }
+
+    public void setTongtien(double tongtien) {
+        this.tongtien = tongtien;
+    }
+
+    
+
+    
+
+    
 }

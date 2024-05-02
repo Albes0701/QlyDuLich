@@ -11,8 +11,11 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -56,7 +59,8 @@ import DTO.KhachSanDTO;
 import DTO.NhaHangDTO;
 import DTO.NhanVienDTO;
 import DTO.PhuongTienDTO;
-
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 public class DichVu extends JFrame {
 /**
 	 * 
@@ -268,6 +272,27 @@ public class DichVu extends JFrame {
 		panel_2.add(lblNewLabel_2);
 		
 		textField_MaDichVu = new JTextField();
+		textField_MaDichVu.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode() == KeyEvent.VK_ENTER)
+					comboBox_LoaiDV.showPopup();
+			}
+		});;
 		textField_MaDichVu.setBackground(Color.WHITE);
 		textField_MaDichVu.setEditable(false);
 		textField_MaDichVu.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -334,6 +359,15 @@ public class DichVu extends JFrame {
 		
 		String[] item_loaiDV = {"Nhà hàng","Khách sạn","Phương tiện"};
 		comboBox_LoaiDV = new JComboBox(item_loaiDV);
+		comboBox_LoaiDV.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    textArea_tendv.requestFocusInWindow();
+                    // Perform actions based on the selected item
+                }
+            }
+        });
 		comboBox_LoaiDV.setEnabled(false);
 		comboBox_LoaiDV.setBackground(new Color(255, 255, 255));
 		comboBox_LoaiDV.setBounds(112, 70, 125, 26);
@@ -345,6 +379,28 @@ public class DichVu extends JFrame {
 		panel_2.add(scrollPane_3);
 		
 		textArea_tendv = new JTextArea();
+		textArea_tendv.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER)
+					textField_Gia.requestFocusInWindow();
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		textArea_tendv.setEditable(false);
 		textArea_tendv.setLineWrap(true);
 		textArea_tendv.setWrapStyleWord(true);
@@ -453,6 +509,7 @@ public class DichVu extends JFrame {
 		them_btn = new JButton("Thêm");
 		them_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField_MaDichVu.requestFocusInWindow();
 				luu_btn.setEnabled(true);
 				luu_btn.setBackground(Color.orange);
 				thoat_btn.setEnabled(true);
@@ -656,7 +713,9 @@ public class DichVu extends JFrame {
 		this.textField_MaDichVu.setText(dv.getMaso());
 		this.comboBox_LoaiDV.setSelectedItem(KiemTra.getInstance().loaiDV(dv.getMaso()));
 		this.textArea_tendv.setText(dv.getTendv());
-		this.textField_Gia.setText(dv.getGiaca()+"");
+		DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+		String formattedNumber = decimalFormat.format(dv.getGiaca()) + " VNĐ";
+		this.textField_Gia.setText(formattedNumber);
 	}
 	
 	public void reSetForm() {
@@ -726,17 +785,17 @@ public class DichVu extends JFrame {
 		{
 			if(dvBUS.xoaDV((NhaHangDTO)dv)!=-1) {
 				JOptionPane.showMessageDialog(null,"Xoá thành công "+dv.getMaso() );
-			}else JOptionPane.showMessageDialog(null,"Không thể xóa dich vu " + dv.getMaso());
+			}else JOptionPane.showMessageDialog(null,"Không thể xóa dịch vụ " + dv.getMaso());
 		}
 		else if(KiemTra.getInstance().loaiDV(dv.getMaso()).equalsIgnoreCase("Phương Tiện")) {
 			if(dvBUS.xoaDV((PhuongTienDTO)dv)!=-1) {
 				JOptionPane.showMessageDialog(null,"Xoá thành công "+dv.getMaso() );
-			}else JOptionPane.showMessageDialog(null,"Không thể xóa dich vu " + dv.getMaso());
+			}else JOptionPane.showMessageDialog(null,"Không thể xóa dịch vụ " + dv.getMaso());
 		}
 		else if(KiemTra.getInstance().loaiDV(dv.getMaso()).equalsIgnoreCase("Khách Sạn")) {
 			if(dvBUS.xoaDV((KhachSanDTO)dv)!=-1) {
 				JOptionPane.showMessageDialog(null,"Xoá thành công "+dv.getMaso() );
-			}else JOptionPane.showMessageDialog(null,"Không thể xóa dich vu " + dv.getMaso());
+			}else JOptionPane.showMessageDialog(null,"Không thể xóa dịch vụ " + dv.getMaso());
 		}
 	}
 	

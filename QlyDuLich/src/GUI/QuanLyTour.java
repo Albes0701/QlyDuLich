@@ -11,6 +11,7 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -56,7 +57,8 @@ import BUS.QlyToursBUS;
 import BUS.taikhoanBUS;
 import DTO.KHTourDTO;
 import DTO.QlyToursDTO;
-
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 public class QuanLyTour extends JFrame {
 	/**
 		 * 
@@ -362,6 +364,14 @@ public class QuanLyTour extends JFrame {
 		khoihanh_cb.setBackground(new Color(255, 255, 255));
 		khoihanh_cb.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		khoihanh_cb.setBounds(91, 254, 124, 26);
+//		khoihanh_cb.addItemListener(new ItemListener() {
+//            @Override
+//            public void itemStateChanged(ItemEvent e) {
+//                if (e.getStateChange() == ItemEvent.SELECTED) {
+//                	noiden_cb.showPopup();
+//                }
+//            }
+//        });
 		panel_2.add(khoihanh_cb);
 
 		String[] item_loai = { "Trong nước", "Ngoài nước" };
@@ -380,7 +390,16 @@ public class QuanLyTour extends JFrame {
 				}
 			}
 		});
+		comboBox_LoaiTour.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                	tentour_tf.requestFocusInWindow();
+                }
+            }
+        });
 		panel_2.add(comboBox_LoaiTour);
+		
 
 		noiden_cb = new JComboBox(arr_tinh);
 		noiden_cb.setBackground(new Color(255, 255, 255));
@@ -393,6 +412,14 @@ public class QuanLyTour extends JFrame {
 		panel_2.add(tentour_lb);
 
 		tentour_tf = new JTextField();
+		tentour_tf.addKeyListener(new KeyAdapter() {
+			@Override
+		    public void keyPressed(KeyEvent e) {
+		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		            songay_tf.requestFocusInWindow();
+		        }
+		    }
+		});
 		tentour_tf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		tentour_tf.setBounds(10, 140, 205, 61);
 		tentour_tf.addKeyListener(new KeyListener() {
@@ -520,6 +547,7 @@ public class QuanLyTour extends JFrame {
 		them_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				textField_MaTour.requestFocusInWindow();
 				sua_btn.setEnabled(false);
 				sua_btn.setBackground(Color.gray);
 				xoa_btn.setEnabled(false);
@@ -645,6 +673,7 @@ public class QuanLyTour extends JFrame {
 		DefaultTableModel tableModel = new DefaultTableModel();
 		table_Tours.setModel(tableModel);
 		tableModel.setColumnIdentifiers(colNames);
+		table_Tours.getColumnModel().getColumn(1).setPreferredWidth(200);
 		table_Tours.addMouseListener((MouseListener) new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1) {
@@ -663,6 +692,7 @@ public class QuanLyTour extends JFrame {
 		DefaultTableModel tableModel = new DefaultTableModel();
 		table_Tours.setModel(tableModel);
 		tableModel.setColumnIdentifiers(colNames);
+		table_Tours.getColumnModel().getColumn(1).setPreferredWidth(200);
 		table_Tours.addMouseListener((MouseListener) new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1) {

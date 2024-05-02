@@ -11,6 +11,8 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -58,7 +60,7 @@ public class KhuyenMai extends JFrame {
 	private JTextField textField_GiamGia;
 	private JTable table_KhuyenMai;
 	private JTextField textField_TimKiem;
-	private JTextField textField_DieuKien;
+//	private JTextField textField_DieuKien;
 	JComboBox timkiem_cb;
 	JButton luu_btn,thoat_btn,sua_btn,xoa_btn,them_btn;
 	JTextArea textArea_tenCT;
@@ -262,6 +264,27 @@ public class KhuyenMai extends JFrame {
 		panel_2.add(lblNewLabel_2);
 		
 		textField_MSKM = new JTextField();
+		textField_MSKM.addKeyListener( new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+				textArea_tenCT.requestFocusInWindow();
+			}
+		});
 		textField_MSKM.setBackground(new Color(255, 255, 255));
 		textField_MSKM.setEditable(false);
 		textField_MSKM.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -271,22 +294,43 @@ public class KhuyenMai extends JFrame {
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Tên chương trình");
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_1.setBounds(10, 57, 144, 20);
+		lblNewLabel_2_1.setBounds(10, 74, 144, 20);
 		panel_2.add(lblNewLabel_2_1);
 		
 		String [] item_gender = {"Nam","Nữ"};
 		
 		textField_GiamGia = new JTextField();
+		textField_GiamGia.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+//				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+//				textField_DieuKien.requestFocusInWindow();
+			}
+		});
 		textField_GiamGia.setBackground(new Color(255, 255, 255));
 		textField_GiamGia.setEditable(false);
 		textField_GiamGia.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_GiamGia.setColumns(10);
-		textField_GiamGia.setBounds(127, 142, 110, 26);
+		textField_GiamGia.setBounds(127, 203, 110, 26);
 		panel_2.add(textField_GiamGia);
 		
 		JLabel lblNewLabel_2_4 = new JLabel("Phần trăm (%)");
 		lblNewLabel_2_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_4.setBounds(10, 144, 120, 20);
+		lblNewLabel_2_4.setBounds(10, 205, 120, 20);
 		panel_2.add(lblNewLabel_2_4);
 		
 		JLabel lblNewLabel_2_4_1 = new JLabel("Ngày bắt đầu");
@@ -331,10 +375,31 @@ public class KhuyenMai extends JFrame {
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane_3.setBounds(10, 80, 227, 52);
+		scrollPane_3.setBounds(10, 110, 227, 83);
 		panel_2.add(scrollPane_3);
 		
 		textArea_tenCT = new JTextArea();
+		textArea_tenCT.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+						// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+						textField_GiamGia.requestFocusInWindow();
+			}
+		});
 		textArea_tenCT.setEditable(false);
 		textArea_tenCT.setLineWrap(true);
 		textArea_tenCT.setWrapStyleWord(true);
@@ -342,6 +407,27 @@ public class KhuyenMai extends JFrame {
 		scrollPane_3.setViewportView(textArea_tenCT);
 		
 		dateChooser_NgayBD = new JDateChooser();
+		dateChooser_NgayBD.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+					dateChooser_NgayKT.requestFocusInWindow();
+			}
+		});
 		calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -358,6 +444,27 @@ public class KhuyenMai extends JFrame {
 		panel_2.add(lblNewLabel_2_4_1_1);
 		
 		dateChooser_NgayKT = new JDateChooser();
+		dateChooser_NgayKT.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+					textField_tinhtrang.requestFocusInWindow();
+			}
+		});
 		calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -367,20 +474,35 @@ public class KhuyenMai extends JFrame {
 		dateChooser_NgayKT.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		dateChooser_NgayKT.setBounds(127, 296, 110, 26);
 		panel_2.add(dateChooser_NgayKT);
-
-		JLabel lblNewLabel_2_2 = new JLabel("<html>Điều</br> kiện (>x)x: số người</html>");
 		
-		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_2.setBounds(10, 178, 110, 52);
-		panel_2.add(lblNewLabel_2_2);
-		
-		textField_DieuKien = new JTextField();
-		textField_DieuKien.setBackground(new Color(255, 255, 255));
-		textField_DieuKien.setEditable(false);
-		textField_DieuKien.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		textField_DieuKien.setColumns(10);
-		textField_DieuKien.setBounds(127, 193, 110, 26);
-		panel_2.add(textField_DieuKien);
+//		textField_DieuKien = new JTextField();
+//		textField_DieuKien.addKeyListener(new KeyListener() {
+//			
+//			@Override
+//			public void keyTyped(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void keyPressed(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+//				dateChooser_NgayBD.requestFocusInWindow();
+//			}
+//		});
+//		textField_DieuKien.setBackground(new Color(255, 255, 255));
+//		textField_DieuKien.setEditable(false);
+//		textField_DieuKien.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//		textField_DieuKien.setColumns(10);
+//		textField_DieuKien.setBounds(127, 193, 110, 26);
+//		panel_2.add(textField_DieuKien);
 		String []item_dt = {"Tất cả","Người lớn","Trẻ em"};
 		
 		thoat_btn = new JButton("Thoát");
@@ -432,14 +554,14 @@ public class KhuyenMai extends JFrame {
 		table_KhuyenMai = new JTable();
 		scrollPane_2.setViewportView(table_KhuyenMai);
 		table_KhuyenMai.setDefaultEditor(Object.class,null);
-		String[] colname =  {"Mã khuyến mãi","Tên chương trình","Phần trăm","Điều kiện","Ngày bắt đầu","Ngày kết thúc","Tình trạng"};
+		String[] colname =  {"Mã khuyến mãi","Tên chương trình","Phần trăm","Ngày bắt đầu","Ngày kết thúc","Tình trạng"};
 		tableModel = new DefaultTableModel();
 		table_KhuyenMai.setModel(tableModel);
 		tableModel.setColumnIdentifiers(colname);
 		table_KhuyenMai.getColumnModel().getColumn(0).setPreferredWidth(90);
-		table_KhuyenMai.getColumnModel().getColumn(1).setPreferredWidth(140);
+		table_KhuyenMai.getColumnModel().getColumn(1).setPreferredWidth(210);
 		table_KhuyenMai.getColumnModel().getColumn(2).setPreferredWidth(70);
-		table_KhuyenMai.getColumnModel().getColumn(3).setPreferredWidth(70);
+//		table_KhuyenMai.getColumnModel().getColumn(3).setPreferredWidth(70);
 		table_KhuyenMai.getColumnModel().getColumn(4).setPreferredWidth(100);
 		table_KhuyenMai.getColumnModel().getColumn(5).setPreferredWidth(100);
 		
@@ -488,7 +610,6 @@ public class KhuyenMai extends JFrame {
 		JButton ctkm_btn = new JButton("Xem chi tiết");
 		ctkm_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
 				CTKhuyenMaiGUI ctkm = new CTKhuyenMaiGUI();
 			}
 		});
@@ -558,6 +679,7 @@ public class KhuyenMai extends JFrame {
 		xoa_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
 		them_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textField_MSKM.requestFocusInWindow();
 				luu_btn.setEnabled(true);
 				luu_btn.setBackground(Color.orange);
 				thoat_btn.setEnabled(true);
@@ -624,7 +746,7 @@ public class KhuyenMai extends JFrame {
 				};
 				tableModel.addRow(new Object[]{
 						km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),
-						km.getDieukien(),km.getNgaybd()+"",km.getNgaykt(),
+						km.getNgaybd()+"",km.getNgaykt(),
 						KiemTra.getInstance().tinhTrang(tinhtrang)
 				});
 		}
@@ -643,7 +765,7 @@ public class KhuyenMai extends JFrame {
 		for(KhuyenMaiDTO km: t) {
 			tableModel.addRow(new Object[]{
 					km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),
-					km.getDieukien(),km.getNgaybd()+"",km.getNgaykt(),KiemTra.getInstance().tinhTrang(km.getTinhtrang())
+					km.getNgaybd()+"",km.getNgaykt(),KiemTra.getInstance().tinhTrang(km.getTinhtrang())
 			});
 		}
 		
@@ -659,7 +781,7 @@ public class KhuyenMai extends JFrame {
 		for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
 			tableModel.addRow(new Object[]{
 					km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),
-					km.getDieukien(),km.getNgaybd()+"",km.getNgaykt(),KiemTra.getInstance().tinhTrang(km.getTinhtrang())
+					km.getNgaybd()+"",km.getNgaykt(),KiemTra.getInstance().tinhTrang(km.getTinhtrang())
 			});
 		}
 		
@@ -679,8 +801,8 @@ public class KhuyenMai extends JFrame {
 		this.textField_GiamGia.setText(km.getPhantram()+"");
 		this.dateChooser_NgayBD.setDate(km.getNgaybd());
 		this.dateChooser_NgayKT.setDate(km.getNgaykt());
-		this.textField_DieuKien.setText(km.getDieukien()+"");
 		this.textField_tinhtrang.setText(KiemTra.getInstance().tinhTrang(km.getTinhtrang()));
+//		this.textField_DieuKien.setText(km.getDieukien()+"");
 //		this.textField.setText(km.getCmnd());
 //		this.comboBox_GioiTinh.setSelectedItem(KiemTra.getInstance().GioiTinh(nv.getGioitinh()) );
 	}
@@ -692,24 +814,24 @@ public class KhuyenMai extends JFrame {
 		String makm = model.getValueAt(row, 0) + "";
 		String tenct = model.getValueAt(row, 1) + "";
 		double phantram = (double)model.getValueAt(row, 2);
-		int dieukien = (int)model.getValueAt(row, 3);
+//		int dieukien = (int)model.getValueAt(row, 3);
 		// Giả sử ngayvlString là một chuỗi chứa ngày tháng năm trong định dạng chuẩn
-		String ngaybdString =  model.getValueAt(row, 4) + "";
+		String ngaybdString =  model.getValueAt(row, 3) + "";
 
 		// Chuyển đổi chuỗi thành kiểu java.sql.Date
 		java.sql.Date ngaybd = java.sql.Date.valueOf(ngaybdString);
 		
-		String ngayktString =  model.getValueAt(row, 5) + "";
+		String ngayktString =  model.getValueAt(row, 4) + "";
 
 		// Chuyển đổi chuỗi thành kiểu java.sql.Date
 		java.sql.Date ngaykt = java.sql.Date.valueOf(ngayktString);
-		Boolean tinhtrang = KiemTra.getInstance().tinhTrang(model.getValueAt(row, 6).toString());		
-		KhuyenMaiDTO km = new KhuyenMaiDTO(makm.toLowerCase(), tenct,dieukien,phantram, ngaybd, ngaykt,tinhtrang);
+		Boolean tinhtrang = KiemTra.getInstance().tinhTrang(model.getValueAt(row, 5).toString());		
+		KhuyenMaiDTO km = new KhuyenMaiDTO(makm.toLowerCase(), tenct,0,phantram, ngaybd, ngaykt,tinhtrang);
 		return km;
 	}
 	public boolean checkNull() {
 		if(this.textField_MSKM.getText().isEmpty() || this.textArea_tenCT.getText().isEmpty() || this.textField_GiamGia.getText().isEmpty() 
-				|| this.textField_DieuKien.getText().isEmpty()|| this.dateChooser_NgayKT.getDate()==null) 
+				|| this.dateChooser_NgayKT.getDate()==null) 
 		{
 			return true;
 		}
@@ -720,7 +842,7 @@ public class KhuyenMai extends JFrame {
 		km.setMakm(this.textField_MSKM.getText());
 		km.setTectkm(this.textArea_tenCT.getText());
 		km.setPhantram(Double.parseDouble(this.textField_GiamGia.getText()));
-		km.setDieukien(Integer.parseInt(this.textField_DieuKien.getText()));
+//		km.setDieukien(Integer.parseInt(this.textField_DieuKien.getText()));
 		java.util.Date utilDate = this.dateChooser_NgayBD.getDate();
 		java.sql.Date sqlDate_ngayBD = new java.sql.Date(utilDate.getTime());
 		km.setNgaybd(sqlDate_ngayBD);
@@ -742,7 +864,7 @@ public class KhuyenMai extends JFrame {
 		this.textField_MSKM.setText("");
 		this.textArea_tenCT.setText("");
 		this.textField_GiamGia.setText("");
-		this.textField_DieuKien.setText("");
+//		this.textField_DieuKien.setText("");
 		calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -756,7 +878,7 @@ public class KhuyenMai extends JFrame {
 		this.textField_MSKM.setEditable(true);
 		this.textArea_tenCT.setEditable(true);
 		this.textField_GiamGia.setEditable(true);
-		this.textField_DieuKien.setEditable(true);
+//		this.textField_DieuKien.setEditable(true);
 		this.dateChooser_NgayBD.getCalendarButton().setEnabled(true);
 		this.dateChooser_NgayKT.getCalendarButton().setEnabled(true);
 	}
@@ -768,7 +890,7 @@ public class KhuyenMai extends JFrame {
 		this.textField_MSKM.setEditable(false);
 		this.textArea_tenCT.setEditable(false);
 		this.textField_GiamGia.setEditable(false);
-		this.textField_DieuKien.setEditable(false);
+//		this.textField_DieuKien.setEditable(false);
 //		this.textField_SDT.setEditable(false);
 		this.dateChooser_NgayBD.getCalendarButton().setEnabled(false);
 		this.dateChooser_NgayKT.getCalendarButton().setEnabled(false);
@@ -786,7 +908,7 @@ public class KhuyenMai extends JFrame {
 		if(km == null) return false;
 		km.setMakm(this.textField_MSKM.getText());
 		km.setTectkm(this.textArea_tenCT.getText());
-		km.setDieukien(Integer.parseInt(this.textField_DieuKien.getText()));
+//		km.setDieukien(Integer.parseInt(this.textField_DieuKien.getText()));
 		km.setPhantram(Double.parseDouble(this.textField_GiamGia.getText()));
 		java.util.Date utilDate = this.dateChooser_NgayBD.getDate();
 		java.sql.Date sqlDate_ngayBD = new java.sql.Date(utilDate.getTime());

@@ -1,9 +1,11 @@
 package GUI;
 
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.counter.SystemOutEventCounterFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -14,7 +16,7 @@ import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
 
 import DTO.HoaDonDTO;
 import DTO.VeDTO;
@@ -22,7 +24,8 @@ import DTO.VeDTO;
 public class XuatPDF {
 	
 	public XuatPDF(HoaDonDTO hd,ArrayList<VeDTO> veList) {
-		String path="src/PdfFiles/invoice.pdf";
+		String path="src/PdfFiles/"+hd.getMahd()+".pdf";
+		System.out.println(path);
 		try {
 			
 			PdfWriter pdfWriter=new PdfWriter(path);
@@ -83,26 +86,29 @@ public class XuatPDF {
 
 			
 	        Table fourColtable2=new Table(fourColumnWidth);
-	        float totalSum=0;
+//	        float totalSum=0;
+	        DecimalFormat decimalFormat = new DecimalFormat("#,##0");
 	        for (VeDTO ve:veList)
 	        {
+	        	String formattedNumber = decimalFormat.format(ve.getGiave()) + " VND";
 	            fourColtable2.addCell(new Cell().add(new Paragraph(ve.getMave())).setBorder(Border.NO_BORDER)).setMarginLeft(10f);
 	            fourColtable2.addCell(new Cell().add(new Paragraph(String.valueOf(ve.getMakht()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
 	            fourColtable2.addCell(new Cell().add(new Paragraph(String.valueOf(ve.getMakm()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
-	            fourColtable2.addCell(new Cell().add(new Paragraph(String.valueOf(ve.getGiave()))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+	            fourColtable2.addCell(new Cell().add(new Paragraph(String.valueOf(formattedNumber))).setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
 	        }
 	        document.add(fourColtable2.setMarginBottom(20f));
 	        
+	        String formattedNumber = decimalFormat.format(hd.getTongtien()) + " VND";
 	        Table fourColTable3=new Table(fourColumnWidth);
 	        fourColTable3.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER)).setMarginLeft(0f);
 	        fourColTable3.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER)).setMarginLeft(0f);
 	        fourColTable3.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER)).setMarginLeft(0f);
-	        fourColTable3.addCell(new Cell().add(new Paragraph("Total: "+String.valueOf(hd.getTongtien()))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+	        fourColTable3.addCell(new Cell().add(new Paragraph("Total: "+String.valueOf(formattedNumber))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
 	        document.add(fourColTable3);
 	        document.add(new Paragraph("\n"));
 	        document.add(divider.setBorder(new SolidBorder(1)).setMarginBottom(35f));
 			document.close();
-			System.out.println("OK");
+//			System.out.println("OK");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

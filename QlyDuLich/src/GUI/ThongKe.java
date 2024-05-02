@@ -9,6 +9,8 @@ import java.awt.Panel;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -25,30 +27,50 @@ import javax.swing.border.LineBorder;
 import javax.swing.JTextPane;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.HoaDonBUS;
+import BUS.KHToursBUS;
+import BUS.KiemTra;
 import BUS.taikhoanBUS;
+import BUS.thongkeBUS;
+import DTO.HoaDonDTO;
+import DTO.NhanVienDTO;
+import DTO.thongkeDTO;
 
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JComboBox;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JDesktopPane;
+import javax.swing.JTabbedPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.BevelBorder;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.text.DecimalFormat;
 
 public class ThongKe extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField luotkhach_textField;
+	private JTextField tongchi_textField;
+	private JTextField doanhthu_textField;
 	private JTable table;
-	private JTable table_1;
+	private JTable tour_table;
 	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
+	private JTextField total_txt;
+	private JTable quy_table;
+	private JComboBox year_cbo;
+	private DefaultTableModel tableModel_emp,tableModel_cus,tableModel_quy,tableModel_tk;
+	private JTable employeeTable, customertable;
 	/**
 	 * Launch the application.
 	 */
@@ -120,7 +142,7 @@ public class ThongKe extends JFrame {
 		btn_HoaDon.setForeground(new Color(255, 255, 255));
 		btn_HoaDon.setBackground(new Color(24, 171, 138));
 		btn_HoaDon.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btn_HoaDon.setBounds(463, 65, 120, 40);
+		btn_HoaDon.setBounds(478, 65, 120, 40);
 		panel.add(btn_HoaDon);
 		
 		JButton btn_QlyThongtin = new JButton("Quản lý thông tin");
@@ -137,7 +159,7 @@ public class ThongKe extends JFrame {
 		btn_QlyThongtin.setForeground(new Color(255, 255, 255));
 		btn_QlyThongtin.setBackground(new Color(24, 171, 138));
 		btn_QlyThongtin.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btn_QlyThongtin.setBounds(789, 65, 120, 40);
+		btn_QlyThongtin.setBounds(799, 65, 120, 40);
 		panel.add(btn_QlyThongtin);
 		
 		btn_ThongKe = new JButton("Thống kê");
@@ -154,7 +176,7 @@ public class ThongKe extends JFrame {
 		btn_ThongKe.setForeground(new Color(255, 255, 255));
 		btn_ThongKe.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btn_ThongKe.setBackground(new Color(24, 171, 138));
-		btn_ThongKe.setBounds(621, 65, 120, 40);
+		btn_ThongKe.setBounds(643, 65, 120, 40);
 		panel.add(btn_ThongKe);
 		
 		taikhoanBUS tkBUS = new taikhoanBUS();
@@ -206,7 +228,7 @@ public class ThongKe extends JFrame {
 		btn_DatTour.setBorderPainted(false);
 		btn_DatTour.setBorder(null);
 		btn_DatTour.setBackground(new Color(24, 171, 138));
-		btn_DatTour.setBounds(303, 65, 120, 40);
+		btn_DatTour.setBounds(317, 65, 120, 40);
 		panel.add(btn_DatTour);
 		
 		Panel ThongKe = new Panel();
@@ -214,26 +236,6 @@ public class ThongKe extends JFrame {
 		panel.add(ThongKe);
 		ThongKe.setLayout(null);
 		ThongKe.setBackground(new Color(255, 255, 255));
-		
-		JLabel lblNewLabel_2 = new JLabel("Từ Ngày:");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2.setBounds(205, 48, 81, 26);
-		ThongKe.add(lblNewLabel_2);
-		
-		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		dateChooser.setBounds(275, 48, 128, 26);
-		ThongKe.add(dateChooser);
-		
-		JLabel lblNewLabel_2_1 = new JLabel("Đến Ngày:");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_1.setBounds(448, 48, 81, 26);
-		ThongKe.add(lblNewLabel_2_1);
-		
-		JDateChooser dateChooser_1 = new JDateChooser();
-		dateChooser_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		dateChooser_1.setBounds(520, 48, 128, 26);
-		ThongKe.add(dateChooser_1);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(10, 10, 940, 28);
@@ -246,89 +248,38 @@ public class ThongKe extends JFrame {
 		panel_1.add(lblNewLabel_1);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
-		ButtonGroup group1 = new ButtonGroup();
-		
-		JRadioButton RadioButton_Quy1 = new JRadioButton("QUÝ 1");
-		RadioButton_Quy1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		RadioButton_Quy1.setBounds(104, 93, 81, 21);
-		ThongKe.add(RadioButton_Quy1);
-		
-		JRadioButton RadioButton_Quy2 = new JRadioButton("QUÝ 2");
-		RadioButton_Quy2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		RadioButton_Quy2.setBounds(322, 93, 81, 21);
-		ThongKe.add(RadioButton_Quy2);
-		
-		JRadioButton RadioButton_Quy3 = new JRadioButton("QUÝ 3");
-		RadioButton_Quy3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		RadioButton_Quy3.setBounds(533, 93, 82, 21);
-		ThongKe.add(RadioButton_Quy3);
-		
-		JRadioButton RadioButton_Quy4 = new JRadioButton("QUÝ 4");
-		RadioButton_Quy4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		RadioButton_Quy4.setBounds(750, 93, 81, 21);
-		ThongKe.add(RadioButton_Quy4);
-		
-		group1.add(RadioButton_Quy1);
-		group1.add(RadioButton_Quy2);
-		group1.add(RadioButton_Quy3);
-		group1.add(RadioButton_Quy4);
-		
-		
-		
-		//Xử lý RadioButton
-		ActionListener radioListener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JRadioButton selectedRadioButton = (JRadioButton) e.getSource();
-//				System.out.println("Selected: " + selectedRadioButton.getText());
-				
-			}
-		};
-		
-		
-		
-		
-		
 		JLabel lblNewLabel_2_2 = new JLabel("Lượt khách:");
 		lblNewLabel_2_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_2_2.setBounds(336, 116, 81, 26);
 		ThongKe.add(lblNewLabel_2_2);
 		
-		textField = new JTextField();
-		textField.setBounds(415, 120, 68, 21);
-		ThongKe.add(textField);
-		textField.setColumns(10);
+		luotkhach_textField = new JTextField();
+		luotkhach_textField.setEditable(false);
+		luotkhach_textField.setBounds(415, 120, 68, 21);
+		ThongKe.add(luotkhach_textField);
+		luotkhach_textField.setColumns(10);
 		
 		JLabel lblNewLabel_2_2_1 = new JLabel("Tổng chi:");
 		lblNewLabel_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_2_2_1.setBounds(489, 116, 68, 26);
+		lblNewLabel_2_2_1.setBounds(515, 116, 68, 26);
 		ThongKe.add(lblNewLabel_2_2_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(547, 120, 68, 21);
-		ThongKe.add(textField_1);
+		tongchi_textField = new JTextField();
+		tongchi_textField.setEditable(false);
+		tongchi_textField.setColumns(10);
+		tongchi_textField.setBounds(573, 120, 130, 21);
+		ThongKe.add(tongchi_textField);
 		
 		JLabel lblNewLabel_2_2_1_1 = new JLabel("Doanh Thu:");
 		lblNewLabel_2_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_2_2_1_1.setBounds(625, 116, 81, 26);
+		lblNewLabel_2_2_1_1.setBounds(734, 116, 81, 26);
 		ThongKe.add(lblNewLabel_2_2_1_1);
 		
-		JLabel lblNewLabel_2_2_1_2 = new JLabel("Lợi Nhuận:");
-		lblNewLabel_2_2_1_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_2_2_1_2.setBounds(774, 116, 81, 26);
-		ThongKe.add(lblNewLabel_2_2_1_2);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(699, 121, 68, 19);
-		ThongKe.add(textField_2);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(854, 121, 68, 19);
-		ThongKe.add(textField_3);
+		doanhthu_textField = new JTextField();
+		doanhthu_textField.setEditable(false);
+		doanhthu_textField.setColumns(10);
+		doanhthu_textField.setBounds(808, 121, 130, 21);
+		ThongKe.add(doanhthu_textField);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(0, 255, 255));
@@ -336,7 +287,7 @@ public class ThongKe extends JFrame {
 		ThongKe.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel lblNewLabel_3 = new JLabel("Thống Kê Nhân Viên");
+		JLabel lblNewLabel_3 = new JLabel("Thống kê nhân viên");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_3.setBounds(85, 0, 138, 41);
 		panel_2.add(lblNewLabel_3);
@@ -346,92 +297,36 @@ public class ThongKe extends JFrame {
 		
 		// Tạo JScrollPane cho Nhân viên
         JScrollPane employeeScrollPane = new JScrollPane();
+        employeeScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         employeeScrollPane.setBorder(BorderFactory.createLineBorder(new Color(130, 135, 144), 2, true));
         employeeScrollPane.setBounds(13, 204, 309, 235);
         ThongKe.add(employeeScrollPane);
         
-        JTable employeeTable = new JTable();
-        employeeTable.setModel(new DefaultTableModel(
-                new Object[][]{
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                },
-                new String[]{
-                        "Mã Nhân Viên", "Tổng Thu"
-                }
-        ));
-        employeeScrollPane.setViewportView(employeeTable);
-		
-		
-		
+        employeeTable = new JTable();
+        employeeTable.setDefaultEditor(Object.class,null);
+		String[] colname_nv =  {"Mã nhân viên","Tổng thu",};
+		tableModel_emp = new DefaultTableModel();
+		employeeTable.setModel(tableModel_emp);
+		tableModel_emp.setColumnIdentifiers(colname_nv);
+		employeeScrollPane.setViewportView(employeeTable);
 		
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(new LineBorder(new Color(130, 135, 144), 2, true));
 		scrollPane.setBounds(13, 204, 309, 235);
 		ThongKe.add(scrollPane);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-			},
-			new String[] {
-				"Mã Khách Hàng", "Tổng Chi"
-			}
-		) 
-				
-		{
-			Class[] columnTypes = new Class[] {
-				String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		customertable = new JTable();
+		customertable.setBounds(13, 204, 309, 235);
+
+        customertable.setDefaultEditor(Object.class,null);
+		String[] colname_kh =  {"Mã khách hàng","Tổng chi",};
+		tableModel_cus = new DefaultTableModel();
+		customertable.setModel(tableModel_cus);
+		tableModel_cus.setColumnIdentifiers(colname_kh);
+		scrollPane.setViewportView(customertable);
 		scrollPane.setVisible(false);
-		
-		 
-		
-		
-		scrollPane.setViewportView(table);
 		
 		JPanel panel_2_1 = new JPanel();
 		panel_2_1.setLayout(null);
@@ -439,84 +334,26 @@ public class ThongKe extends JFrame {
 		panel_2_1.setBounds(332, 152, 622, 43);
 		ThongKe.add(panel_2_1);
 		
-		JLabel lblNewLabel_3_1 = new JLabel("Thống Kê Chi Phí");
-		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		JLabel lblNewLabel_3_1 = new JLabel("Thống kê chi tiết");
+		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel_3_1.setBackground(Color.WHITE);
 		lblNewLabel_3_1.setBounds(266, 0, 125, 41);
 		panel_2_1.add(lblNewLabel_3_1);
 		
-		JButton btnXutFile = new JButton("Xuất File");
-		btnXutFile.setForeground(new Color(255, 255, 255));
-		btnXutFile.setBackground(new Color(0, 255, 64));
-		btnXutFile.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnXutFile.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnXutFile.setBounds(738, 450, 85, 26);
-		ThongKe.add(btnXutFile);
-		
-		JButton btnReset = new JButton("Reset");
-		btnReset.setForeground(new Color(255, 255, 255));
-		btnReset.setBackground(new Color(255, 0, 0));
-		btnReset.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnReset.setBounds(833, 450, 85, 26);
-		ThongKe.add(btnReset);
-		
 		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane_1.setBounds(332, 205, 622, 235);
 		ThongKe.add(scrollPane_1);
 		
-		table_1 = new JTable();
-		table_1.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 Tour", "T\u1ED5ng Chi", "Doanh Thu", "L\u1EE3i Nhu\u1EADn"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		scrollPane_1.setViewportView(table_1);
+		tour_table = new JTable();
+		
+		tour_table.setDefaultEditor(Object.class,null);
+		String[] colname_tk =  {"Mã kế hoạch","Mã tour","Tổng chi","Doanh thu","Lợi nhuận",};
+		tableModel_tk = new DefaultTableModel();
+		tour_table.setModel(tableModel_tk);
+		tableModel_tk.setColumnIdentifiers(colname_tk);
+		
+		scrollPane_1.setViewportView(tour_table);
 		
 		String[] options = {"Nhân viên", "Khách hàng"};
         JComboBox<String> comboBox = new JComboBox<>(options);
@@ -530,11 +367,11 @@ public class ThongKe extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String selectedOption = (String) comboBox.getSelectedItem();
 				if(selectedOption.equals("Nhân viên")){
-					lblNewLabel_3.setText("Thống Kê Nhân viên");
+					lblNewLabel_3.setText("Thống kê nhân viên");
 					employeeScrollPane.setVisible(true);
 					scrollPane.setVisible(false);
 				} else if(selectedOption.equals("Khách hàng")) {
-					lblNewLabel_3.setText("Thống Kê Khách hàng");
+					lblNewLabel_3.setText("Thống kê khách hàng");
 					employeeScrollPane.setVisible(false);
 					scrollPane.setVisible(true);
 				}
@@ -542,20 +379,54 @@ public class ThongKe extends JFrame {
 			}
         	
         });
-        
-        
-        
 		
-		JButton btnNewButton = new JButton("Thống Kê");
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setBackground(new Color(255, 128, 64));
-		btnNewButton.setBounds(636, 450, 92, 26);
-		ThongKe.add(btnNewButton);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		year_cbo = new JComboBox();
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		for (int year = 2024; year != currentYear+1; year++) {
+			year_cbo.addItem(String.valueOf(year));
+        }
+//		year_cbo.addItem(String.valueOf("2024"));
+		year_cbo.setBounds(10, 48, 92, 26);
+		year_cbo.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					initData();
+				}
 			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 10));
+		year_cbo.setFocusable(false);
+		ThongKe.add(year_cbo);
+		
+		JLabel lblNewLabel_2 = new JLabel("Tổng lợi nhuận");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_2.setBounds(13, 457, 126, 28);
+		ThongKe.add(lblNewLabel_2);
+		
+		total_txt = new JTextField();
+		total_txt.setFocusable(false);
+		total_txt.setEditable(false);
+		total_txt.setFont(new Font("Tahoma", Font.BOLD, 12));
+		total_txt.setBounds(149, 455, 187, 28);
+		ThongKe.add(total_txt);
+		total_txt.setColumns(10);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane_2.setBounds(206, 48, 597, 58);
+		ThongKe.add(scrollPane_2);
+		
+		quy_table = new JTable();
+		quy_table.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		scrollPane_2.setViewportView(quy_table);
+		quy_table.setDefaultEditor(Object.class,null);
+		String[] colname =  {"Quý","Quý 1","Quý 2","Quý 3","Quý 4",};
+		tableModel_quy = new DefaultTableModel();
+		quy_table.setModel(tableModel_quy);
+		tableModel_quy.setColumnIdentifiers(colname);
 		
 		JLabel lblNewLabel = new JLabel("Xin chào " + TrangChuGUI.tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
 		lblNewLabel.setForeground(Color.WHITE);
@@ -573,8 +444,71 @@ public class ThongKe extends JFrame {
 		btnNewButton_2.setFocusable(false);
 		btnNewButton_2.setBounds(849, 25, 124, 30);
 		panel.add(btnNewButton_2);
-		
+		initData();
 		this.setVisible(true);
 		
+	}
+	public void initData() {
+		String year_Selected = (String) year_cbo.getSelectedItem();
+		thongkeBUS tkBUS = new thongkeBUS();
+		//doanhthu
+		double total_doanhthu = tkBUS.getDoanhThu(year_Selected);
+		DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+		String formattedNumber = decimalFormat.format(total_doanhthu);
+		formattedNumber += " VNĐ";
+		this.doanhthu_textField.setText(formattedNumber);
+		//tong chi
+		double total_tongchi = tkBUS.getTongChi(year_Selected);
+		formattedNumber = decimalFormat.format(total_tongchi);
+		formattedNumber += " VNĐ";
+		tongchi_textField.setText(formattedNumber);
+		//loinhuan
+		double loinhuan = total_doanhthu - total_tongchi;
+		formattedNumber = decimalFormat.format(loinhuan);
+		formattedNumber += " VNĐ";
+		total_txt.setText(formattedNumber);
+		//soluong kh
+		int quatity = tkBUS.getQuanTity_Cus(year_Selected);
+		luotkhach_textField.setText(quatity+"");
+		//bang nv
+		ArrayList<HoaDonDTO> listHD_NV = tkBUS.getTK_NV(year_Selected);
+		for(HoaDonDTO hd: listHD_NV) {
+			formattedNumber = decimalFormat.format(hd.getTongtien());
+			formattedNumber += " VNĐ";
+			tableModel_emp.addRow(new Object[]{
+				hd.getManv().toUpperCase(),formattedNumber,
+			});
+		}
+		//bang kh
+		ArrayList<HoaDonDTO> listHD_KH = tkBUS.getTK_KH(year_Selected);
+		for(HoaDonDTO hd: listHD_KH) {
+			formattedNumber = decimalFormat.format(hd.getTongtien());
+			formattedNumber += " VNĐ";
+			tableModel_cus.addRow(new Object[]{
+				hd.getMakh().toUpperCase(),formattedNumber,
+			});
+		}
+		//bang quy
+		double quy1 = tkBUS.getQuy(1, 3);
+		double quy2 = tkBUS.getQuy(4, 6);
+		double quy3 = tkBUS.getQuy(7, 9);
+		double quy4 = tkBUS.getQuy(10, 12);
+		
+		tableModel_quy.addRow(new Object[]{
+			"Lợi Nhuận",decimalFormat.format(quy1) + " VNĐ",decimalFormat.format(quy2) + " VNĐ",decimalFormat.format(quy3) + " VNĐ",decimalFormat.format(quy4) + " VNĐ",
+		});
+		quy_table.setRowHeight(0, 36);
+		//thong ke chi tiet tour
+		ArrayList<thongkeDTO> listTk_tours = new ArrayList<>();
+		listTk_tours = tkBUS.getTk_tours_thu(year_Selected);
+		for(thongkeDTO tk: listTk_tours) {
+			tableModel_tk.addRow(new Object[] {
+					tk.getMakht(),tk.getMatour(),decimalFormat.format(tk.getChi()) + " VNĐ",decimalFormat.format(tk.getThu()) + " VNĐ",0,
+			});
+		}
+		for (int row = 0; row < tableModel_tk.getRowCount(); row++) {
+			tableModel_tk.setValueAt(decimalFormat.format(KHToursBUS.khtList.get(row).getTongchi()) + " VNĐ", row, 2);
+			tableModel_tk.setValueAt(decimalFormat.format(listTk_tours.get(row).getThu() - KHToursBUS.khtList.get(row).getTongchi()) + " VNĐ",row,4);
+        }
 	}
 }

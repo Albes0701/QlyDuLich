@@ -11,10 +11,13 @@ import java.awt.SystemColor;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -53,6 +56,7 @@ import com.toedter.calendar.JDateChooser;
 
 import BUS.DatTourBUS;
 import BUS.KHToursBUS;
+import BUS.KiemTra;
 import BUS.QlyToursBUS;
 import BUS.taikhoanBUS;
 import DTO.DatTourDTO;
@@ -293,7 +297,11 @@ public class DatTourGUI extends JFrame {
 		panel_1.add(songuoi_lb);
 
 		JButton loc_btn = new JButton("Lọc");
-		loc_btn.setFont(new Font("Tahoma", Font.BOLD, 15));
+		loc_btn.setFocusPainted(false);
+		loc_btn.setBorder(null);
+		loc_btn.setBackground(new Color(51, 204, 255));
+		loc_btn.setForeground(Color.WHITE);
+		loc_btn.setFont(new Font("Tahoma", Font.BOLD, 18));
 		loc_btn.setBounds(37, 361, 90, 40);
 		loc_btn.addActionListener(new ActionListener() {
 			
@@ -307,12 +315,16 @@ public class DatTourGUI extends JFrame {
 		panel_1.add(loc_btn);
 
 		JButton reset_btn = new JButton("Reset");
+		reset_btn.setFocusPainted(false);
+		reset_btn.setBackground(new Color(102, 153, 204));
+		reset_btn.setBorder(null);
+		reset_btn.setForeground(new Color(255, 255, 255));
 		reset_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Reset();
 			}
 		});
-		reset_btn.setFont(new Font("Tahoma", Font.BOLD, 15));
+		reset_btn.setFont(new Font("Tahoma", Font.BOLD, 18));
 		reset_btn.setBounds(137, 361, 90, 40);
 		panel_1.add(reset_btn);
 		
@@ -327,6 +339,14 @@ public class DatTourGUI extends JFrame {
 		tfGiaVe.setColumns(10);
 		
 		tfSonguoi = new JTextField();
+		tfSonguoi.addKeyListener(new KeyAdapter() {
+			@Override
+		    public void keyPressed(KeyEvent e) {
+		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		        	tfGiaVe.requestFocusInWindow();
+		        }
+		    }
+		});
 		tfSonguoi.setColumns(10);
 		tfSonguoi.setBounds(110, 265, 145, 30);
 		panel_1.add(tfSonguoi);
@@ -334,6 +354,14 @@ public class DatTourGUI extends JFrame {
 		tfSongay = new JTextField();
 		tfSongay.setColumns(10);
 		tfSongay.setBounds(110, 218, 145, 30);
+		tfSongay.addKeyListener(new KeyAdapter() {
+			@Override
+		    public void keyPressed(KeyEvent e) {
+		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		        	tfSonguoi.requestFocusInWindow();
+		        }
+		    }
+		});
 		panel_1.add(tfSongay);
 
 		JLabel lblNewLabel_1 = new JLabel("Lọc kết quả");
@@ -496,8 +524,12 @@ public class DatTourGUI extends JFrame {
 		hinh3_panel.add(lbHinh3);
 		
 		JButton btnNewButton = new JButton("Đặt Tour");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnNewButton.setBounds(546, 184, 85, 30);
+		btnNewButton.setBorder(null);
+		btnNewButton.setFocusPainted(false);
+		btnNewButton.setBackground(new Color(255, 127, 80));
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton.setBounds(546, 184, 85, 28);
 		btnNewButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -533,12 +565,12 @@ public class DatTourGUI extends JFrame {
 		lbSoCho.setBounds(140, 574, 104, 24);
 		panel_3.add(lbSoCho);
 		
-		lbTenTour = new JLabel("Tên tour");
+		lbTenTour = new JLabel("");
 		lbTenTour.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbTenTour.setBounds(100, 184, 255, 29);
 		panel_3.add(lbTenTour);
 		
-		lbGiave = new JLabel("Giá vé");
+		lbGiave = new JLabel("");
 		lbGiave.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbGiave.setBounds(424, 185, 112, 25);
 		panel_3.add(lbGiave);
@@ -585,7 +617,7 @@ public class DatTourGUI extends JFrame {
 	}
 	
 	public void initData() {
-//		dattourBUS.docDSTour();
+		dattourBUS.docDSTour();
 		String [] colname= {"Mã Tour","Tên Tour","Mã KHT","Ngày đi","Ngày về","Số người","Giá vé"};
 		DefaultTableModel tableModel=new DefaultTableModel() {
 			 public boolean isCellEditable(int row,int col) {
@@ -594,6 +626,7 @@ public class DatTourGUI extends JFrame {
 		};
 		tableModel.setColumnIdentifiers(colname);
 		table.setModel(tableModel);
+		table.getColumnModel().getColumn(1).setPreferredWidth(200);
 		table.getColumnModel().getColumn(5).setPreferredWidth(65);
 		table.getColumnModel().getColumn(6).setPreferredWidth(115);
 		
@@ -605,6 +638,9 @@ public class DatTourGUI extends JFrame {
 			}
 		});
 		for (DatTourDTO dattour : DatTourBUS.dsTour) {
+			if(!KiemTra.getInstance().checkngaydi(KiemTra.getInstance().toDateUtil(dattour.getNgaydi()))) {
+				continue;
+			}
 			tableModel.addRow(new Object[] { dattour.getMatour(), dattour.getTentour(), dattour.getMakht(),
 					dattour.getNgaydi().toString(), dattour.getNgayve().toString(), dattour.getSonguoi()+"",dattour.getGiatour()+"" 
 					
@@ -622,6 +658,7 @@ public class DatTourGUI extends JFrame {
 		};
 		tableModel.setColumnIdentifiers(colname);
 		table.setModel(tableModel);
+		table.getColumnModel().getColumn(1).setPreferredWidth(200);
 		table.getColumnModel().getColumn(5).setPreferredWidth(65);
 		table.getColumnModel().getColumn(6).setPreferredWidth(115);
 		
@@ -644,7 +681,9 @@ public class DatTourGUI extends JFrame {
 		DatTourDTO dattour=GetTourDaChon();
 		
 		lbTenTour.setText(dattour.getTentour());
-		lbGiave.setText(dattour.getGiatour()+" VND");
+		DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+		String formattedNumber = decimalFormat.format(dattour.getGiatour()) +" VND";
+		lbGiave.setText(formattedNumber);
 		
 		ImageIcon img1=new ImageIcon(dattour.getHinh1().replace('#', '\\'));
 		Image image1 = img1.getImage().getScaledInstance(388, 187, Image.SCALE_DEFAULT);

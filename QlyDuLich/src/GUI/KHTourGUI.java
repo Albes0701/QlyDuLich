@@ -12,6 +12,10 @@ import java.awt.Toolkit;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -23,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -350,7 +355,7 @@ public class KHTourGUI extends JFrame {
 
 //	JOptionPane.showMessageDialog(this, "Thêm thành công!");
 
-		JButton ctkehoachtour_btn = new JButton("CHI TIẾT");
+		JButton ctkehoachtour_btn = new JButton("Chi tiết");
 		ctkehoachtour_btn.setFocusable(false);
 		ctkehoachtour_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -369,20 +374,20 @@ public class KHTourGUI extends JFrame {
 			}
 		});
 		ctkehoachtour_btn.setForeground(new Color(255, 255, 255));
-		ctkehoachtour_btn.setBackground(new Color(0, 128, 64));
-		ctkehoachtour_btn.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		ctkehoachtour_btn.setBackground(new Color(255, 102, 0));
+		ctkehoachtour_btn.setBorder(null);
 		ctkehoachtour_btn.setFont(new Font("Tahoma", Font.BOLD, 13));
-		ctkehoachtour_btn.setBounds(873, 7, 80, 40);
+		ctkehoachtour_btn.setBounds(875, 10, 75, 25);
 		KHTOUR.add(ctkehoachtour_btn);
 		KHTOUR.setBackground(new Color(255, 255, 255));
 		
 		btnSua = new JButton("Sửa");
 		btnSua.setFocusable(false);
-		btnSua.setBackground(new Color(0, 255, 0));
-		btnSua.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		btnSua.setBackground(new Color(50, 205, 50));
+		btnSua.setBorder(null);
 		btnSua.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnSua.setForeground(new Color(255, 255, 255));
-		btnSua.setBounds(783, 7, 80, 40);
+		btnSua.setBounds(700, 10, 80, 25);
 		btnSua.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -391,7 +396,7 @@ public class KHTourGUI extends JFrame {
 				btnThem.setEnabled(false);
 				btnThem.setBackground(Color.GRAY);
 				btnLuu.setEnabled(true);
-				btnLuu.setBackground(Color.YELLOW);
+				btnLuu.setBackground(Color.orange);
 				noneInit();
 				tfMaKHT.setEditable(false);
 				cbMatour.setEnabled(false);
@@ -406,8 +411,8 @@ public class KHTourGUI extends JFrame {
 		btnXoa.setBackground(new Color(255, 0, 0));
 		btnXoa.setForeground(new Color(255, 255, 255));
 		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnXoa.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnXoa.setBounds(693, 7, 80, 40);
+		btnXoa.setBorder(null);
+		btnXoa.setBounds(790, 10, 75, 25);
 		btnXoa.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -425,11 +430,11 @@ public class KHTourGUI extends JFrame {
 		
 		btnThem = new JButton("Thêm");
 		btnThem.setFocusable(false);
-		btnThem.setBackground(new Color(0, 0, 255));
+		btnThem.setBackground(new Color(65, 105, 255));
 		btnThem.setForeground(new Color(255, 255, 255));
 		btnThem.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnThem.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnThem.setBounds(603, 7, 80, 40);
+		btnThem.setBorder(null);
+		btnThem.setBounds(615, 10, 75, 25);
 		btnThem.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -438,7 +443,7 @@ public class KHTourGUI extends JFrame {
 				btnSua.setEnabled(false);
 				btnSua.setBackground(Color.GRAY);
 				btnLuu.setEnabled(true);
-				btnLuu.setBackground(Color.YELLOW);
+				btnLuu.setBackground(Color.orange);
 				Reset();
 				noneInit();
 				tfSongay.setText(getTour((String) cbMatour.getSelectedItem()).getSongay()+"");
@@ -459,7 +464,7 @@ public class KHTourGUI extends JFrame {
 		KHTOUR.add(scrollPane);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 50, 230, 435);
+		scrollPane_1.setBounds(20, 50, 230, 435);
 		KHTOUR.add(scrollPane_1);
 		
 		panel_2 = new JPanel();
@@ -495,6 +500,15 @@ public class KHTourGUI extends JFrame {
 		String [] arrSocho= {"1","2","3","4","5","6","7","8","9","10",
 				"11","12","13","14","15","16","17","18","19","20"};
 		cbSoCho = new JComboBox(arrSocho);
+		cbSoCho.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                   ngaydi_date.requestFocusInWindow();
+                    // Perform actions based on the selected item
+                }
+            }
+        });
 		cbSoCho.setFont(new Font("Tahoma", Font.BOLD, 12));
 		cbSoCho.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		cbSoCho.setBackground(Color.WHITE);
@@ -543,6 +557,28 @@ public class KHTourGUI extends JFrame {
 		panel_2.add(songay_lb);
 		
 		tfSongay = new JTextField();
+		tfSongay.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					tfHuongDanVien.requestFocusInWindow();
+				}
+			}
+		});
 		tfSongay.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		tfSongay.setEditable(false);
 		tfSongay.setColumns(10);
@@ -557,6 +593,28 @@ public class KHTourGUI extends JFrame {
 		panel_2.add(huongdanvien_lb);
 		
 		tfHuongDanVien = new JTextField();
+		tfHuongDanVien.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					tfGiaVe.requestFocusInWindow();
+				}
+			}
+		});
 		tfHuongDanVien.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		tfHuongDanVien.setColumns(10);
 		tfHuongDanVien.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -569,7 +627,8 @@ public class KHTourGUI extends JFrame {
 		giave_lb.setBounds(10, 571, 153, 35);
 		panel_2.add(giave_lb);
 		
-		tfGiaVe = new JTextField();
+		tfGiaVe = new JTextField("");
+		tfGiaVe.setText("0");
 		tfGiaVe.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		tfGiaVe.setColumns(10);
 		tfGiaVe.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -744,7 +803,7 @@ public class KHTourGUI extends JFrame {
 		
 		btnThoat = new JButton("Thoát");
 		btnThoat.setFocusable(false);
-		btnThoat.setForeground(Color.BLACK);
+		btnThoat.setForeground(new Color(255, 255, 255));
 		btnThoat.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnThoat.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnThoat.setBackground(Color.RED);
@@ -777,10 +836,53 @@ public class KHTourGUI extends JFrame {
 		textAreaMoTa.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		textAreaMoTa.setLineWrap(true);
 		textAreaMoTa.setWrapStyleWord(true);
+		textAreaMoTa.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+				cbSoCho.showPopup();
+			}
+		});
 		
 		mota_sp.setViewportView(textAreaMoTa);
 		
 		tfMaKHT = new JTextField();
+		tfMaKHT.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textAreaMoTa.requestFocusInWindow();
+				}
+			}
+		});
 		tfMaKHT.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		tfMaKHT.setColumns(10);
 		tfMaKHT.setBounds(10, 110, 190, 35);
@@ -792,7 +894,7 @@ public class KHTourGUI extends JFrame {
 //		panel_2.add(cbMatour);
 		
 		btnLuu = new JButton("Lưu");
-		btnLuu.setForeground(Color.BLACK);
+		btnLuu.setForeground(new Color(255, 255, 255));
 		btnLuu.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnLuu.setEnabled(false);
 		btnLuu.setFocusable(false);
@@ -814,7 +916,7 @@ public class KHTourGUI extends JFrame {
 		
 		String [] arr_timkiem= {"Mã Tour","Mã KHT","Giá vé"};
 		cbTimkiem = new JComboBox(arr_timkiem);
-		cbTimkiem.setBounds(480, 10, 80, 29);
+		cbTimkiem.setBounds(490, 10, 80, 29);
 		KHTOUR.add(cbTimkiem);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -887,7 +989,6 @@ public class KHTourGUI extends JFrame {
 //		panel_3.add(khachsan_icon);
 		
 		JScrollPane mota1_sp = new JScrollPane();
-		mota1_sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		mota1_sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		mota1_sp.setBounds(10, 414, 404, 102);
 		panel_3.add(mota1_sp);
@@ -971,11 +1072,11 @@ public class KHTourGUI extends JFrame {
 		hinh3_lb.setBounds(10, 0, 250, 90);
 		hinh3_panel.add(hinh3_lb);
 		
-		lbTenTour = new JLabel("Tên tour");
+		lbTenTour = new JLabel("");
 		lbTenTour.setBounds(100, 184, 300, 29);
 		panel_3.add(lbTenTour);
 		
-		lbGiaTour = new JLabel("Giá tour");
+		lbGiaTour = new JLabel("");
 		lbGiaTour.setBounds(484, 184, 190, 29);
 		panel_3.add(lbGiaTour);
 		
@@ -1040,6 +1141,15 @@ public class KHTourGUI extends JFrame {
 	    Collections.reverse(arrMaTour2);
 		
 		cbMatour = new JComboBox(arrMaTour2.toArray());
+		cbMatour.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                   tfMaKHT.requestFocusInWindow();
+                    // Perform actions based on the selected item
+                }
+            }
+        });
 		cbMatour.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbMatour.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		cbMatour.setBounds(10, 39, 190, 35);
@@ -1114,16 +1224,20 @@ public class KHTourGUI extends JFrame {
 		ngayve_date.setDate(kht.getNgayve());
 		tfSongay.setText(tour.getSongay()+"");
 		tfHuongDanVien.setText(kht.getHuongdanvien());
+		DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+		String formattedNumber;
 		tfGiaVe.setText(kht.getGiaVe()+"");
 		if(kht.getTongchi()==0) {
 			tfTongChi.setText("Chưa cập nhật");
 		}
 		else {
-			tfTongChi.setText(kht.getTongchi()+"");
+			formattedNumber = decimalFormat.format(kht.getTongchi()) + " VNĐ";
+			tfTongChi.setText(formattedNumber);
 		}
 		cbMatour.setSelectedItem(kht.getMatour());
 		lbTenTour.setText(tour.getTentour());
-		lbGiaTour.setText(kht.getGiaVe()+" VND");
+		formattedNumber = decimalFormat.format(kht.getGiaVe()) +  " VNĐ";
+		lbGiaTour.setText(formattedNumber);
 		textArea_mota.setText(kht.getMota());
 		
 		ImageIcon img1=new ImageIcon(kht.getAnh1().replace('#', '\\'));
@@ -1187,7 +1301,7 @@ public class KHTourGUI extends JFrame {
 		textAreaMoTa.setText("");
 		cbSoCho.setSelectedIndex(0);;
 		tfHuongDanVien.setText("");
-		tfGiaVe.setText("");
+		tfGiaVe.setText("0");
 		tfSongay.setText("");
 		lbTenTour.setText("");
 		lbGiaTour.setText("");

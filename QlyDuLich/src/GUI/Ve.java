@@ -1,12 +1,15 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Label;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -84,6 +87,7 @@ public class Ve extends JFrame {
 	
 	QlyVeBUS veBUS=new QlyVeBUS();
 	HoaDonBUS hdBUS=new HoaDonBUS();
+	private JTextField tfPhanTram;
 	
 
 	/**
@@ -395,7 +399,7 @@ public class Ve extends JFrame {
 		panel_1.add(lblNewLabel_1_1_2);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 331, 537, 192);
+		scrollPane.setBounds(20, 363, 537, 160);
 		panel_1.add(scrollPane);
 		
 		table_ThongTin = new JTable();
@@ -435,7 +439,7 @@ public class Ve extends JFrame {
 		datechooserNgaysinh.setBounds(257, 296, 107, 26);
 		panel_1.add(datechooserNgaysinh);
 		
-		JLabel lblNewLabel_1_1_1_3_5 = new JLabel("Mã giảm giá:");
+		JLabel lblNewLabel_1_1_1_3_5 = new JLabel("Mã giảm giá");
 		lblNewLabel_1_1_1_3_5.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel_1_1_1_3_5.setBounds(376, 260, 97, 26);
 		panel_1.add(lblNewLabel_1_1_1_3_5);
@@ -443,9 +447,23 @@ public class Ve extends JFrame {
 		cbMaKM = new JComboBox(GetMaKM(tourduocchon.getMatour()).toArray());
 //		String arr_makm[]= {"km01","km02","km03"};
 //		cbMaKM = new JComboBox(arr_makm);
+		
 		cbMaKM.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbMaKM.setBackground(Color.WHITE);
 		cbMaKM.setBounds(380, 297, 85, 25);
+		cbMaKM.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
+					if(km.getMakm().equals(e.getItem().toString())) {
+						tfPhanTram.setText(km.getPhantram()+"");
+						break;
+					}
+				}
+			}
+		});
 		panel_1.add(cbMaKM);
 		
 		btnLuu2 = new JButton("Lưu");
@@ -453,7 +471,7 @@ public class Ve extends JFrame {
 		btnLuu2.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLuu2.setFocusable(false);
 		btnLuu2.setBackground(new Color(255, 128, 0));
-		btnLuu2.setBounds(475, 296, 85, 25);
+		btnLuu2.setBounds(230, 332, 85, 25);
 		btnLuu2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -470,6 +488,30 @@ public class Ve extends JFrame {
 			}
 		});
 		panel_1.add(btnLuu2);
+		
+		JLabel lblNewLabel_1_1_1_3_5_1 = new JLabel("Phần trăm");
+		lblNewLabel_1_1_1_3_5_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_1_1_1_3_5_1.setBounds(483, 260, 84, 26);
+		panel_1.add(lblNewLabel_1_1_1_3_5_1);
+		
+		tfPhanTram = new JTextField();
+		try {
+			String kmSelected = cbMaKM.getItemAt(0).toString();
+			for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
+				if(km.getMakm().equals(kmSelected)){
+					tfPhanTram.setText(km.getPhantram()+"");
+					break;
+				}
+			}			
+		} catch (Exception e) {
+			// TODO: handle exception
+			tfPhanTram.setText("");
+		}
+		tfPhanTram.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tfPhanTram.setEditable(false);
+		tfPhanTram.setColumns(10);
+		tfPhanTram.setBounds(487, 296, 70, 25);
+		panel_1.add(tfPhanTram);
 		
 		JPanel panel_1_1 = new JPanel();
 		panel_1_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -520,7 +562,7 @@ public class Ve extends JFrame {
 		lbl_NameNV.setBounds(172, 72, 187, 23);
 		panel_3.add(lbl_NameNV);
 		
-		lbNameKH = new JLabel("nameKH");
+		lbNameKH = new JLabel("....................");
 		lbNameKH.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lbNameKH.setBounds(172, 94, 187, 23);
 		panel_3.add(lbNameKH);
@@ -646,16 +688,20 @@ public class Ve extends JFrame {
 				veBUS.themVe();
 				veBUS.UpdateSoCho(MaKHT1, socho);
 				XuatPDF pdf=new XuatPDF(hd, veBUS.GetListVe());
-				 try {
-			            // Tạo một PdfReader để đọc tập tin PDF
-			            PdfReader pdfReader = new PdfReader(new File("src/PdfFiles/invoice.pdf"));
-			            // Tạo một đối tượng PdfDocument từ PdfReader
-			            PdfDocument pdfDocument = new PdfDocument(pdfReader);
-			            // Đóng tập tin PDF sau khi sử dụng
-			            pdfDocument.close();
-			        } catch (IOException e1) {
-			            e1.printStackTrace();
-			        }
+				try {
+		            // Specify the path to your PDF file
+		            File pdfFile = new File("src/PdfFiles/"+hd.getMahd()+".pdf");
+
+		            // Check if the PDF file exists
+		            if (pdfFile.exists()) {
+		                // Open the PDF file using the default PDF viewer
+		                Desktop.getDesktop().open(pdfFile);
+		            } else {
+		                System.out.println("PDF file not found.");
+		            }
+		        } catch (IOException e1) {
+		            System.out.println("Error opening PDF file: " + e1.getMessage());
+		        }
 			}
 		});
 		panel_5.add(btnThanhToan);
@@ -957,7 +1003,7 @@ public class Ve extends JFrame {
 	}
 	
 	public void ThemHD() {
-		String manv="nv1";
+		String manv=TrangChuGUI.tkDTO.getUser();
 		String makh=veBUS.GetListKH().get(0).getMakh();
 		hd=new HoaDonDTO(mahd,manv,makh,ngaytaohoadon,tongcong);
 		if (hdBUS.them(hd) == -1) {
@@ -966,15 +1012,4 @@ public class Ve extends JFrame {
 			JOptionPane.showMessageDialog(this, "Thêm thành công!");
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

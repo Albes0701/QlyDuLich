@@ -9,18 +9,23 @@ import java.awt.Panel;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import BUS.HoaDonBUS;
 import BUS.taikhoanBUS;
+import DTO.HoaDonDTO;
 
 import javax.swing.border.LineBorder;
 
@@ -39,6 +44,7 @@ public class HoaDon extends JFrame {
 				try {
 					HoaDon frame = new HoaDon();
 					frame.setSize(1000, 650);
+					frame.setVisible(true);
 					} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -50,8 +56,8 @@ public class HoaDon extends JFrame {
 	 * Create the frame.
 	 */
 	public HoaDon() {
-		setBackground(SystemColor.windowText);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBackground(SystemColor.windowText);
 		setBounds(280, 100, 1000, 650);
 		contentPane = new JPanel();
 		contentPane.setVerifyInputWhenFocusTarget(false);
@@ -188,51 +194,22 @@ public class HoaDon extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(new LineBorder(new Color(130, 135, 144), 3, true));
-		scrollPane.setBounds(10, 55, 940, 393);
+		scrollPane.setBounds(10, 92, 940, 393);
 		HoaDon.add(scrollPane);
 //		scrollPane.setVisible(false);
 		
 		table = new JTable();
-		table.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
+		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
+				{null, null, null, null, null},
 			},
 			new String[] {
-				"M\u00E3 H\u0110", "Nh\u00E2n Vi\u00EAn", "T\u00EAn KH", "Ng\u00E0y L\u1EADp H\u0110", " Th\u00E0nh ti\u1EC1n", "T\u00EAn Tour", "Gi\u00E1 Tour"
+				"M\u00E3 h\u00F3a \u0111\u01A1n", "M\u00E3 nh\u00E2n vi\u00EAn", "M\u00E3 kh\u00E1ch h\u00E0ng", "Ng\u00E0y L\u1EADp H\u0110", " Th\u00E0nh ti\u1EC1n"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, String.class, String.class, String.class, String.class
+				String.class, String.class, String.class, String.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -243,8 +220,6 @@ public class HoaDon extends JFrame {
 		table.getColumnModel().getColumn(2).setPreferredWidth(109);
 		table.getColumnModel().getColumn(3).setPreferredWidth(51);
 		table.getColumnModel().getColumn(4).setPreferredWidth(54);
-		table.getColumnModel().getColumn(5).setPreferredWidth(225);
-		table.getColumnModel().getColumn(6).setPreferredWidth(51);
 		scrollPane.setViewportView(table);
 		
 		JPanel panel_1 = new JPanel();
@@ -258,20 +233,28 @@ public class HoaDon extends JFrame {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
 		JButton btnNewButton = new JButton("Xem chi tiết");
+		btnNewButton.setBorder(null);
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setFocusPainted(false);
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnNewButton.setBounds(824, 52, 126, 30);
+		HoaDon.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ChiTietHoaDon();
+				int selectedRow = table.getSelectedRow();
+				if (selectedRow != -1) {
+					String maHoaDon = table.getValueAt(selectedRow, 0).toString();
+                    String tenNhanVien = table.getValueAt(selectedRow, 1).toString();
+                    String tenKhachHang = table.getValueAt(selectedRow, 2).toString();
+                    String ngayLapHoaDon = table.getValueAt(selectedRow, 3).toString();
+                    ChiTietHoaDon.mahd_selected = maHoaDon;
+                    ChiTietHoaDon frame = new ChiTietHoaDon(maHoaDon, tenNhanVien, tenKhachHang, ngayLapHoaDon);
+                    frame.setVisible(true);
+
+				}
 			}
 		});
-		btnNewButton.setBackground(new Color(24, 171, 138));
-		btnNewButton.setBounds(836, 458, 114, 21);
-		HoaDon.add(btnNewButton);
-		
-		JLabel lblNewLabel = new JLabel("Xin chào " + TrangChuGUI.tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(609, 24, 230, 30);
-		panel.add(lblNewLabel);
+		btnNewButton.setBackground(new Color(255, 102, 0));
 		
 		JButton btnNewButton_2 = new JButton("Đổi mật khẩu");
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -284,6 +267,40 @@ public class HoaDon extends JFrame {
 		btnNewButton_2.setBounds(849, 25, 124, 30);
 		panel.add(btnNewButton_2);
 		
+		JLabel lblNewLabel = new JLabel("Xin chào "+ TrangChuGUI.tkBUS.getName(TrangChuGUI.tkDTO.getUser()));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(609, 24, 230, 30);
+		panel.add(lblNewLabel);
+		
 		this.setVisible(true);
+		
+//		HoaDonBUS hdBUS = new HoaDonBUS();
+//		boolean success = hdBUS.docHoaDon();
+//		if (success) {
+            // Lấy danh sách các hóa đơn từ HoaDonBUS
+//            ArrayList<HoaDonDTO> listHoaDon = HoaDonBUS.getListHD();
+
+            // Tạo một DefaultTableModel mới để cập nhật dữ liệu cho bảng
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            model.setRowCount(0); // Xóa tất cả các dòng cũ
+            DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+            // Đổ dữ liệu từ danh sách hóa đơn vào bảng
+            for (HoaDonDTO hoaDon : HoaDonBUS.listHD) {
+            	String formattedNumber = decimalFormat.format(hoaDon.getTongtien()) + " VNĐ";
+                model.addRow(new Object[]{
+                        hoaDon.getMahd(),
+                        hoaDon.getManv(),
+                        hoaDon.getMakh(),
+                        hoaDon.getNgaytao(),
+                        formattedNumber
+                        
+                });
+            }
+//        } else {
+//             Hiển thị thông báo khi không thể lấy dữ liệu từ CSDL
+//            JOptionPane.showMessageDialog(this, "Không thể lấy dữ liệu từ CSDL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//        }
+		setVisible(true);
 	}
 }
