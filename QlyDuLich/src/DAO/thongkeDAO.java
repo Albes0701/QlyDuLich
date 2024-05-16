@@ -71,7 +71,7 @@ public class thongkeDAO {
 			while(rs.next()){
 				total = rs.getDouble("total");
 				String manv = rs.getString("manv");
-				HoaDonDTO hd = new HoaDonDTO(null,manv , null, null, total);
+				HoaDonDTO hd = new HoaDonDTO(null,manv , null, null, total,0);
 				list.add(hd);
 			}
 			//Bước 5:Ngắt kết nối
@@ -128,7 +128,7 @@ public class thongkeDAO {
 			while(rs.next()){
 				total = rs.getDouble("total");
 				String makh = rs.getString("makh");
-				HoaDonDTO hd = new HoaDonDTO(null,null , makh, null, total);
+				HoaDonDTO hd = new HoaDonDTO(null,null , makh, null, total,0);
 				list.add(hd);
 			}
 			//Bước 5:Ngắt kết nối

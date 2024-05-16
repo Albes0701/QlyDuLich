@@ -29,7 +29,8 @@ public class QlyVeDAO {
 				double giave = rs.getDouble("giave");
 				String makm = rs.getString("makm");
 				String mahd = rs.getString("mahd");
-				VeDTO ve=new VeDTO(mave, makht, mahd, makm, makh, giave);
+				double giavegg = rs.getDouble("giavegg");
+				VeDTO ve=new VeDTO(mave, makht, mahd, makm, makh, giave,giavegg);
 				ketqua.add(ve);
 			}
 			JDBCUtil.closeConnection(con);
@@ -67,9 +68,9 @@ public class QlyVeDAO {
 			// Bước 2:Tạo đối tượng statement
 			java.sql.Statement st = con.createStatement();
 			// Bước 3:Thực thi statement
-			String sql = "INSERT INTO ve (mave,makht,makh,giave,makm,mahd)" + " VALUES('"
+			String sql = "INSERT INTO ve (mave,makht,makh,giave,makm,mahd,giavegg)" + " VALUES('"
 					+ t.getMave() + "','" + t.getMakht() + "','" + t.getMakh() + "'," + t.getGiave() + ",'"
-					+ t.getMakm() + "','" + t.getMahd() + "')";
+					+ t.getMakm() + "','" + t.getMahd() + "','"+t.getGiavegg()+"')";
 			ketQua = st.executeUpdate(sql);
 			// Bước 4:Xử lý kết quả trả về
 			System.out.println("Ban da thuc thi: " + sql);

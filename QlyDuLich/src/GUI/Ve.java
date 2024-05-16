@@ -72,15 +72,14 @@ public class Ve extends JFrame {
 	private JTextField tfSdt;
 	private JTextField tfDiachi;
 	private JTextField tfEmail;
-	private JTextField tfHoTenTV;
 	private JTable table_ThongTin;
 	private String mahd,MaKHT1;
-	private double giave=0,tongcong=0;;
+	private double giave=0,tongcong=0,tongcong_truocgg=0;
 	private Date ngaytaohoadon;
 	private JComboBox<String> cbGioitinh,cbMaKM;
 	private JDateChooser datechooserNgaysinh;
-	private JButton btnLuu2,btnLuu1;
-	private String [] arr_TTLienLac;
+	private JButton btnLuu1;
+//	private String [] arr_TTLienLac;
 	private JLabel lbNameKH,lbSlot,lbSLHanhKhach,lbTongCong,lbNguoiLon,lbTreEm,lbGiamGia;
 	private int socho;
 	private HoaDonDTO hd;
@@ -251,7 +250,7 @@ public class Ve extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2.setBounds(10, 70, 547, 168);
+		panel_2.setBounds(10, 70, 547, 211);
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -375,82 +374,81 @@ public class Ve extends JFrame {
 		lblNewLabel_1_1_1_1_1.setBounds(302, 65, 97, 26);
 		panel_2.add(lblNewLabel_1_1_1_1_1);
 		
-		btnLuu1 = new JButton("Lưu");
-		btnLuu1.setBounds(230, 130, 85, 26);
-		btnLuu1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				arr_TTLienLac=GetThongTinLienLac();
-				init2();
-				tfHoTenTV.setText(arr_TTLienLac[0]);
-				lbNameKH.setText(arr_TTLienLac[0]);
-				noneInit();
-				btnLuu1.setBackground(Color.gray);
-			}
-		});
-		btnLuu1.setForeground(Color.WHITE);
-		btnLuu1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnLuu1.setFocusable(false);
-		btnLuu1.setBackground(new Color(255, 128, 64));
-		panel_2.add(btnLuu1);
-		
-		JLabel lblNewLabel_1_1_2 = new JLabel("Danh sách khách đi tour");
-		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_2.setBounds(10, 238, 234, 26);
-		panel_1.add(lblNewLabel_1_1_2);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 363, 537, 160);
-		panel_1.add(scrollPane);
-		
-		table_ThongTin = new JTable();
-		scrollPane.setViewportView(table_ThongTin);
-
-
-		
-		JLabel lblNewLabel_1_1_1_3 = new JLabel("Họ và tên");
-		lblNewLabel_1_1_1_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_3.setBounds(20, 260, 97, 26);
-		panel_1.add(lblNewLabel_1_1_1_3);
-		
-		tfHoTenTV = new JTextField();
-		tfHoTenTV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		tfHoTenTV.setColumns(10);
-		tfHoTenTV.setBounds(20, 296, 138, 25);
-		panel_1.add(tfHoTenTV);
-		
 		JLabel lblNewLabel_1_1_1_3_1 = new JLabel("Giới tính");
+		lblNewLabel_1_1_1_3_1.setBounds(10, 130, 70, 26);
+		panel_2.add(lblNewLabel_1_1_1_3_1);
 		lblNewLabel_1_1_1_3_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_3_1.setBounds(168, 260, 70, 26);
-		panel_1.add(lblNewLabel_1_1_1_3_1);
-		
-		String [] arr_gioitinh= {"Nam","Nữ"};
+		String[] arr_gioitinh= {"Nam","Nữ"};
 		cbGioitinh = new JComboBox(arr_gioitinh);
+		cbGioitinh.setBounds(10, 166, 70, 25);
+		panel_2.add(cbGioitinh);
 		cbGioitinh.setBackground(new Color(255, 255, 255));
 		cbGioitinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbGioitinh.setBounds(168, 296, 70, 25);
-		panel_1.add(cbGioitinh);
 		
 		JLabel lblNewLabel_1_1_1_3_2 = new JLabel("Năm sinh");
+		lblNewLabel_1_1_1_3_2.setBounds(103, 129, 97, 26);
+		panel_2.add(lblNewLabel_1_1_1_3_2);
 		lblNewLabel_1_1_1_3_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_3_2.setBounds(257, 260, 97, 26);
-		panel_1.add(lblNewLabel_1_1_1_3_2);
 		
 		datechooserNgaysinh = new JDateChooser();
-		datechooserNgaysinh.setBounds(257, 296, 107, 26);
-		panel_1.add(datechooserNgaysinh);
-		
-		JLabel lblNewLabel_1_1_1_3_5 = new JLabel("Mã giảm giá");
-		lblNewLabel_1_1_1_3_5.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_3_5.setBounds(376, 260, 97, 26);
-		panel_1.add(lblNewLabel_1_1_1_3_5);
+		datechooserNgaysinh.setBounds(103, 165, 107, 26);
+		panel_2.add(datechooserNgaysinh);
 		
 		cbMaKM = new JComboBox(GetMaKM(tourduocchon.getMatour()).toArray());
-//		String arr_makm[]= {"km01","km02","km03"};
-//		cbMaKM = new JComboBox(arr_makm);
-		
-		cbMaKM.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbMaKM.setBackground(Color.WHITE);
-		cbMaKM.setBounds(380, 297, 85, 25);
+		cbMaKM.setBounds(243, 166, 85, 25);
+		cbMaKM.setSelectedItem(GetMaKMLonNhat(GetMaKM(tourduocchon.getMatour())));
+		panel_2.add(cbMaKM);
+		//		String arr_makm[]= {"km01","km02","km03"};
+		//		cbMaKM = new JComboBox(arr_makm);
+				
+				cbMaKM.setFont(new Font("Tahoma", Font.PLAIN, 14));
+				cbMaKM.setBackground(Color.WHITE);
+				
+				JLabel lblNewLabel_1_1_1_3_5 = new JLabel("Mã giảm giá");
+				lblNewLabel_1_1_1_3_5.setBounds(243, 130, 97, 26);
+				panel_2.add(lblNewLabel_1_1_1_3_5);
+				lblNewLabel_1_1_1_3_5.setFont(new Font("Tahoma", Font.BOLD, 14));
+				
+				JLabel lblNewLabel_1_1_1_3_5_1 = new JLabel("Phần trăm");
+				lblNewLabel_1_1_1_3_5_1.setBounds(363, 130, 84, 26);
+				panel_2.add(lblNewLabel_1_1_1_3_5_1);
+				lblNewLabel_1_1_1_3_5_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+				
+				tfPhanTram = new JTextField();
+				tfPhanTram.setBounds(367, 166, 70, 25);
+				panel_2.add(tfPhanTram);
+				tfPhanTram.setFont(new Font("Tahoma", Font.PLAIN, 14));
+				tfPhanTram.setEditable(false);
+				tfPhanTram.setColumns(10);
+				
+				btnLuu1 = new JButton("Lưu");
+				btnLuu1.setBounds(457, 165, 85, 26);
+				
+				btnLuu1.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+//						arr_TTLienLac=GetThongTinLienLac();
+//						init2();
+//						tfHoTenTV.setText(arr_TTLienLac[0]);
+						if(lbNameKH.getText().equals("....................")) {
+							lbNameKH.setText(tfHoTen.getText());
+						}
+						if(socho>0) {	
+							Them();
+							XoaDataTable();
+							initDataTable();
+							Reset();
+						}
+						else {
+							JOptionPane.showMessageDialog(panel, "Tour đã hết chỗ.");
+						}
+						
+					}
+				});
+				btnLuu1.setForeground(Color.WHITE);
+				btnLuu1.setFont(new Font("Tahoma", Font.BOLD, 14));
+				btnLuu1.setFocusable(false);
+				btnLuu1.setBackground(new Color(255, 128, 64));
+				panel_2.add(btnLuu1);
 		cbMaKM.addItemListener(new ItemListener() {
 			
 			@Override
@@ -464,39 +462,22 @@ public class Ve extends JFrame {
 				}
 			}
 		});
-		panel_1.add(cbMaKM);
+		String kmSelected = cbMaKM.getItemAt(0).toString();
 		
-		btnLuu2 = new JButton("Lưu");
-		btnLuu2.setForeground(Color.WHITE);
-		btnLuu2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnLuu2.setFocusable(false);
-		btnLuu2.setBackground(new Color(255, 128, 0));
-		btnLuu2.setBounds(230, 332, 85, 25);
-		btnLuu2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(socho>0) {	
-					Them();
-					XoaDataTable();
-					initDataTable();
-					Reset();
-				}
-				else {
-					JOptionPane.showMessageDialog(panel, "Tour đã hết chỗ.");
-				}
-				
-			}
-		});
-		panel_1.add(btnLuu2);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 312, 547, 211);
+		panel_1.add(scrollPane);
 		
-		JLabel lblNewLabel_1_1_1_3_5_1 = new JLabel("Phần trăm");
-		lblNewLabel_1_1_1_3_5_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_3_5_1.setBounds(483, 260, 84, 26);
-		panel_1.add(lblNewLabel_1_1_1_3_5_1);
+		table_ThongTin = new JTable();
+		scrollPane.setViewportView(table_ThongTin);
 		
-		tfPhanTram = new JTextField();
+		JLabel lblNewLabel_1_1_2 = new JLabel("Danh sách khách hàng");
+		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1_1_2.setBounds(10, 285, 234, 26);
+		panel_1.add(lblNewLabel_1_1_2);
+		
+//		String [] arr_gioitinh= {"Nam","Nữ"};
 		try {
-			String kmSelected = cbMaKM.getItemAt(0).toString();
 			for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
 				if(km.getMakm().equals(kmSelected)){
 					tfPhanTram.setText(km.getPhantram()+"");
@@ -507,11 +488,6 @@ public class Ve extends JFrame {
 			// TODO: handle exception
 			tfPhanTram.setText("");
 		}
-		tfPhanTram.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		tfPhanTram.setEditable(false);
-		tfPhanTram.setColumns(10);
-		tfPhanTram.setBounds(487, 296, 70, 25);
-		panel_1.add(tfPhanTram);
 		
 		JPanel panel_1_1 = new JPanel();
 		panel_1_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -702,6 +678,8 @@ public class Ve extends JFrame {
 		        } catch (IOException e1) {
 		            System.out.println("Error opening PDF file: " + e1.getMessage());
 		        }
+				veBUS.GetListKH().clear();
+				veBUS.GetListVe().clear();
 			}
 		});
 		panel_5.add(btnThanhToan);
@@ -806,41 +784,51 @@ public class Ve extends JFrame {
 		return dsMaKM;
 	}
 	
-	
-	
-	public String[] GetThongTinLienLac() {
-		String hoten=tfHoTen.getText();
-		String email=tfEmail.getText();
-		String sdt=tfSdt.getText();
-		String diachi=tfDiachi.getText();
-		String [] arr_TTLienLac1= {hoten,email,sdt,diachi};
-		return arr_TTLienLac1;
+	public String GetMaKMLonNhat(ArrayList<String> listMaKM) {
+		int max=0;
+		String makmMax="";
+		for(String e:listMaKM) {
+			if(GetPTGiamGia(e)>max) {
+				max=(int) GetPTGiamGia(e);
+				makmMax=e;
+			}
+		}
+		return makmMax;
 	}
 	
+	
+	
+//	public String[] GetThongTinLienLac() {
+//		String hoten=tfHoTen.getText();
+//		String email=tfEmail.getText();
+//		String sdt=tfSdt.getText();
+//		String diachi=tfDiachi.getText();
+//		String [] arr_TTLienLac1= {hoten,email,sdt,diachi};
+//		return arr_TTLienLac1;
+//	}
+	
 	public void init() {
-		tfHoTenTV.setEditable(false);
-		cbGioitinh.setEnabled(false);
-		datechooserNgaysinh.setEnabled(false);
-		cbMaKM.setEnabled(false);
-		btnLuu2.setEnabled(false);
-		btnLuu2.setBackground(Color.gray);
+		tfPhanTram.setText(GetPTGiamGia(cbMaKM.getSelectedItem().toString())+"");
+//		cbGioitinh.setEnabled(false);
+//		datechooserNgaysinh.setEnabled(false);
+//		cbMaKM.setEnabled(false);
 	}
 	
 	public void init2() {
-		tfHoTen.setEnabled(false);
-		tfEmail.setEnabled(false);
-		tfSdt.setEnabled(false);
-		tfDiachi.setEnabled(false);
-		btnLuu1.setEnabled(false);
+//		tfHoTen.setEnabled(false);
+//		tfEmail.setEnabled(false);
+//		tfSdt.setEnabled(false);
+//		tfDiachi.setEnabled(false);
+//		btnLuu1.setEnabled(false);
 	}
 	
 	public void noneInit() {
-		tfHoTenTV.setEditable(true);
-		cbGioitinh.setEnabled(true);
-		datechooserNgaysinh.setEnabled(true);
-		cbMaKM.setEnabled(true);
-		btnLuu2.setEnabled(true);
-		btnLuu2.setBackground(Color.orange);
+//		tfHoTenTV.setEditable(true);
+//		cbGioitinh.setEnabled(true);
+//		datechooserNgaysinh.setEnabled(true);
+//		cbMaKM.setEnabled(true);
+//		btnLuu2.setEnabled(true);
+//		btnLuu2.setBackground(Color.orange);
 	}
 	
 	public void initDataTable() {
@@ -884,9 +872,9 @@ public class Ve extends JFrame {
 	
 	public void Them() {
 		//==================Them Khách hàng=================
-		String [] ttLienLac=arr_TTLienLac;
+//		String [] ttLienLac=arr_TTLienLac;
 		String makh=TaoMaKH();
-		String tenkh_tmp=tfHoTenTV.getText();
+		String tenkh_tmp=tfHoTen.getText();
 		String[] parts = tenkh_tmp.split(" ");
 		String tenkh=parts[parts.length-1];
 		String hokh="";
@@ -895,17 +883,17 @@ public class Ve extends JFrame {
 		}
 		hokh=hokh.trim();
 		
-		String sdt=ttLienLac[2];
-		String email=ttLienLac[1];
+		String sdt=tfSdt.getText();
+		String email=tfEmail.getText();
 		boolean gioitinh=true;
 		if(cbGioitinh.getSelectedItem().toString().equals("Nữ")) {
 			gioitinh=false;
 		}
-		String diachi=ttLienLac[3];
+		String diachi=tfDiachi.getText();
 		java.util.Date ngaysinh_tmp=(java.util.Date) datechooserNgaysinh.getDate();
         java.sql.Date ngaysinh=new java.sql.Date(ngaysinh_tmp.getTime());
         
-        if(calculateAge(ngaysinh)<18) {
+        if(calculateAge(ngaysinh)<18 && veBUS.GetListKH().contains(null)) {
         	JOptionPane.showMessageDialog(this, "Người đại diện chưa đủ tuổi.");
         	return;
         }else {	
@@ -917,12 +905,13 @@ public class Ve extends JFrame {
         //==================Thêm Vé==================
         String mave=TaoMaVe();
         String makm=cbMaKM.getSelectedItem().toString();
+        int ptgg=(int) GetPTGiamGia(makm);
         if(checkTreEm(makh)) {
-        	VeDTO ve=new VeDTO(mave, MaKHT1, mahd, makm, makh, giave*70/100);
+        	VeDTO ve=new VeDTO(mave, MaKHT1, mahd, makm, makh, giave*70/100,(100-ptgg)*(giave*70/100)/100);
             veBUS.ThemTTVe(ve); 
         }
         else {
-        	VeDTO ve=new VeDTO(mave, MaKHT1, mahd, makm, makh, giave);
+        	VeDTO ve=new VeDTO(mave, MaKHT1, mahd, makm, makh, giave,giave*(100-ptgg)/100);
         	veBUS.ThemTTVe(ve);    
         }
         
@@ -937,10 +926,12 @@ public class Ve extends JFrame {
 	}
 	
 	public void Reset() {
-		tfHoTenTV.setText("");
+		tfHoTen.setText("");
+		tfEmail.setText("");
+		tfSdt.setText("");
+		tfDiachi.setText("");
 		cbGioitinh.setSelectedIndex(0);
 		datechooserNgaysinh.setDate(null);
-		cbMaKM.setSelectedIndex(0);
 	}
 	
 	public void UpdateTTVe() {
@@ -958,6 +949,7 @@ public class Ve extends JFrame {
 			}
 		}
 		tongcong=soluongnguoilon*giave+soluongtreem*(giave*70/100)-giamgia;
+		tongcong_truocgg=soluongnguoilon*giave+soluongtreem*(giave*70/100);
 		lbSLHanhKhach.setText((soluongnguoilon+soluongtreem)+"");
 		lbNguoiLon.setText(soluongnguoilon+"x"+giave+"đ");
 		lbTreEm.setText(soluongtreem+"x"+giave*70/100+"đ");
@@ -1005,7 +997,7 @@ public class Ve extends JFrame {
 	public void ThemHD() {
 		String manv=TrangChuGUI.tkDTO.getUser();
 		String makh=veBUS.GetListKH().get(0).getMakh();
-		hd=new HoaDonDTO(mahd,manv,makh,ngaytaohoadon,tongcong);
+		hd=new HoaDonDTO(mahd,manv,makh,ngaytaohoadon,tongcong,tongcong_truocgg);
 		if (hdBUS.them(hd) == -1) {
 			JOptionPane.showMessageDialog(this, "Lỗi!");
 		} else {

@@ -2,19 +2,28 @@ package DTO;
 
 public class VeDTO {
 	private String mave,makht,mahd,makm,makh;
-	private double giave;
+	private double giave,giavegg;
 	
 	public VeDTO() {
 		
 	}
 
-	public VeDTO(String mave, String makht, String mahd, String makm, String makh, double giave) {
+	public VeDTO(String mave, String makht, String mahd, String makm, String makh, double giave,double giavegg) {
 		this.mave = mave;
 		this.makht = makht;
 		this.mahd = mahd;
 		this.makm = makm;
 		this.makh = makh;
 		this.giave = giave;
+		this.giavegg=giavegg;
+	}
+
+	public double getGiavegg() {
+		return giavegg;
+	}
+
+	public void setGiavegg(double giavegg) {
+		this.giavegg = giavegg;
 	}
 
 	public String getMave() {

@@ -54,13 +54,19 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.ChiTietKHT_BUS;
 import BUS.DatTourBUS;
+import BUS.DichVuBUS;
 import BUS.KHToursBUS;
 import BUS.KiemTra;
 import BUS.QlyToursBUS;
 import BUS.taikhoanBUS;
+import DTO.CTKHT_DTO;
 import DTO.DatTourDTO;
 import DTO.KHTourDTO;
+import DTO.KhachSanDTO;
+import DTO.NhaHangDTO;
+import DTO.PhuongTienDTO;
 import DTO.QlyToursDTO;
 
 public class DatTourGUI extends JFrame {
@@ -704,7 +710,18 @@ public class DatTourGUI extends JFrame {
 		lbNoiKhoiHanh.setText(dattour.getNoikhoihanh());
 		lbSoCho.setText(dattour.getSonguoi()+"");
 		
-		textArea_mota.setText(dattour.getMota());
+		//Hiển thị Chi tiết kế hoạch Tour
+		String chitiet="";
+		for(CTKHT_DTO ctkht:ChiTietKHT_BUS.ctkhtList) {
+			if(ctkht.getMakht().equals(dattour.getMakht())) {
+				String ngay="Ngày :"+ctkht.getNgay().toString()+"\n";
+				String khachsan="Khách sạn :"+GetTenKS(ctkht.getMaks())+"\n";
+				String nhahang="Nhà hàng :"+GetTenNH(ctkht.getManh())+"\n";
+				String phuongtien="Phương tiện :"+GetTenPT(ctkht.getMapt())+"\n";
+				chitiet=chitiet+ngay+khachsan+nhahang+phuongtien;
+			}	
+		}
+		textArea_mota.setText(chitiet);
 		
 		nhahang_nd.setText(dattour.getNhahang());
 		khachsan_nd.setText(dattour.getKhachsan());
@@ -890,6 +907,31 @@ public class DatTourGUI extends JFrame {
 	public void XoaDataTable() {
 		DefaultTableModel model_table = (DefaultTableModel) table.getModel();
 		model_table.setRowCount(0);
+	}
+	
+	public String GetTenKS(String maks) {
+		for(KhachSanDTO ks: DichVuBUS.ksDTO) {
+			if(ks.getMaso().equals(maks)) {
+				return ks.getTendv();
+			}
+		}
+		return null;
+	}
+	public String GetTenNH(String manh) {
+		for(NhaHangDTO nh: DichVuBUS.nhDTO) {
+			if(nh.getMaso().equals(manh)) {
+				return nh.getTendv();
+			}
+		}
+		return null;
+	}
+	public String GetTenPT(String mapt) {
+		for(PhuongTienDTO pt: DichVuBUS.ptDTO) {
+			if(pt.getMaso().equals(mapt)) {
+				return pt.getTendv();
+			}
+		}
+		return null;
 	}
 	
 	

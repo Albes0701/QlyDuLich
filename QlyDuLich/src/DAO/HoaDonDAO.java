@@ -19,7 +19,7 @@ public class HoaDonDAO {
         String sql = "SELECT * FROM hoadon ORDER BY ngaytao DESC";
         ResultSet rs = con.createStatement().executeQuery(sql);
         while (rs.next()) {
-            ketqua.add(new HoaDonDTO(rs.getString("mahd"), rs.getString("manv"), rs.getString("makh"), rs.getDate("ngaytao"), rs.getDouble("tongtien")));
+            ketqua.add(new HoaDonDTO(rs.getString("mahd"), rs.getString("manv"), rs.getString("makh"), rs.getDate("ngaytao"), rs.getDouble("tongtien"),rs.getDouble("tongtien_truocgg")));
         }
         JDBCUtil.closeConnection(con);
         return ketqua;
@@ -27,7 +27,7 @@ public class HoaDonDAO {
 
     public int InsertHoaDon(HoaDonDTO t) throws SQLException {
         Connection con = JDBCUtil.getConnection();
-        String sql = "INSERT INTO hoadon (mahd,manv,makh,ngaytao,tongtien) VALUES('" + t.getMahd() + "','" + t.getManv() + "','" + t.getMakh() + "','" + t.getNgaytao() + "'," + t.getTongtien() + ")";
+        String sql = "INSERT INTO hoadon (mahd,manv,makh,ngaytao,tongtien,tongtien_truocgg) VALUES('" + t.getMahd() + "','" + t.getManv() + "','" + t.getMakh() + "','" + t.getNgaytao() + "'," + t.getTongtien() + ","+t.getTongcong_truocgg()+")";
         int ketQua = con.createStatement().executeUpdate(sql);
 //        con.commit();
         JDBCUtil.closeConnection(con);

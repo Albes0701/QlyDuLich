@@ -63,9 +63,14 @@ import java.io.IOException;
 import com.toedter.calendar.JDateChooser;
 
 import BUS.ChiTietKHT_BUS;
+import BUS.DichVuBUS;
 import BUS.KHToursBUS;
 import BUS.QlyToursBUS;
+import DTO.CTKHT_DTO;
 import DTO.KHTourDTO;
+import DTO.KhachSanDTO;
+import DTO.NhaHangDTO;
+import DTO.PhuongTienDTO;
 import DTO.QlyToursDTO;
 import BUS.taikhoanBUS;
 
@@ -422,6 +427,7 @@ public class KHTourGUI extends JFrame {
 				} else {
 					XoaDataTable();
 					initData();
+					Reset();
 					JOptionPane.showMessageDialog(panel, "Xóa thành công!");
 				}
 			}
@@ -1097,12 +1103,13 @@ public class KHTourGUI extends JFrame {
 		
 		init();
 		initData();
+		HienThiKHT2();
 
 		this.getContentPane().add(panel);
 		this.setVisible(true);
 	}
 	public void initData() {
-		String [] colname= {"Mã Tour","Mã kế hoạch Tour","Ngày đi","Ngày về","Số người","Tổng chi","Giá vé"};
+		String [] colname= {"Mã Tour","Mã kế hoạch Tour","Ngày đi","Ngày về","Số người","Tiền chi/người","Giá vé"};
 		DefaultTableModel tableModel=new DefaultTableModel() {
 			 public boolean isCellEditable(int row,int col) {
 	                return false;
@@ -1158,6 +1165,10 @@ public class KHTourGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				tfSongay.setText(getTour((String) cbMatour.getSelectedItem()).getSongay()+"");
+                Calendar calendar = Calendar.getInstance();
+                ngaydi_date.setDate(calendar.getTime());
+                calendar.add(Calendar.DAY_OF_MONTH, getTour((String) cbMatour.getSelectedItem()).getSongay()-1);
+                ngayve_date.setDate(calendar.getTime());
 			}
 		});
 		panel_2.add(cbMatour);
@@ -1165,7 +1176,7 @@ public class KHTourGUI extends JFrame {
 	}
 	
 	public void initData2(ArrayList<KHTourDTO> khtour) {
-		String [] colname= {"Mã Tour","Mã kế hoạch Tour","Ngày đi","Ngày về","Số người","Tổng chi","Giá vé"};
+		String [] colname= {"Mã Tour","Mã kế hoạch Tour","Ngày đi","Ngày về","Số người","Tiền chi/người","Giá vé"};
 		DefaultTableModel tableModel=new DefaultTableModel() {
 			 public boolean isCellEditable(int row,int col) {
 	                return false;
@@ -1181,13 +1192,7 @@ public class KHTourGUI extends JFrame {
 				}
 			}
 		});
-		for(KHTourDTO kht:khtour) {
-			tableModel.addRow(new Object[] {
-					kht.getMatour(),kht.getMakht(),kht.getNgaydi()+"",kht.getNgayve()+"",
-					kht.getSonguoi()+"",kht.getTongchi()+"",kht.getGiaVe()+""
-			});
-			
-		}
+
 		
 		for(KHTourDTO kht2:KHToursBUS.khtList) {
 			arrMatour.add(kht2.getMatour());
@@ -1238,7 +1243,21 @@ public class KHTourGUI extends JFrame {
 		lbTenTour.setText(tour.getTentour());
 		formattedNumber = decimalFormat.format(kht.getGiaVe()) +  " VNĐ";
 		lbGiaTour.setText(formattedNumber);
-		textArea_mota.setText(kht.getMota());
+		
+		//Hiển thị Chi tiết kế hoạch Tour
+		String chitiet="";
+		for(CTKHT_DTO ctkht:ChiTietKHT_BUS.ctkhtList) {
+			if(ctkht.getMakht().equals(kht.getMakht())) {
+				String ngay="Ngày :"+ctkht.getNgay().toString()+"\n";
+				String khachsan="Khách sạn :"+GetTenKS(ctkht.getMaks())+"\n";
+				String nhahang="Nhà hàng :"+GetTenNH(ctkht.getManh())+"\n";
+				String phuongtien="Phương tiện :"+GetTenPT(ctkht.getMapt())+"\n";
+				chitiet=chitiet+ngay+khachsan+nhahang+phuongtien;
+			}
+			
+		}
+		
+		textArea_mota.setText(chitiet);
 		
 		ImageIcon img1=new ImageIcon(kht.getAnh1().replace('#', '\\'));
 		Image image1 = img1.getImage().getScaledInstance(388, 187, Image.SCALE_DEFAULT);
@@ -1259,8 +1278,89 @@ public class KHTourGUI extends JFrame {
 		lbNoikhoihanh.setText(tour.getNoikhoihanh());
 		lbSoChoConNhan.setText(kht.getSonguoi()+"");
 		
-		
 	}
+	
+	public void HienThiKHT2() {
+		if(!ChiTietKeHoachTourGUI.makht_ctkht.equals("")) {
+			KHTourDTO kht = null;
+			for(KHTourDTO t:KHToursBUS.khtList) {
+				if(t.getMakht().equals(ChiTietKeHoachTourGUI.makht_ctkht)) {
+					kht=t;
+				}
+			}
+			QlyToursDTO tour=getTour(kht.getMatour());
+			cbMatour.setSelectedItem(kht.getMatour());
+			tfMaKHT.setText(kht.getMakht());
+			textAreaMoTa.setText(kht.getMota());
+			cbSoCho.setSelectedItem(kht.getSonguoi()+"");
+			ngaydi_date.setDate(kht.getNgaydi());
+			ngayve_date.setDate(kht.getNgayve());
+			tfSongay.setText(tour.getSongay()+"");
+			tfHuongDanVien.setText(kht.getHuongdanvien());
+			DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+			String formattedNumber;
+			tfGiaVe.setText(kht.getGiaVe()+"");
+			if(kht.getTongchi()==0) {
+				tfTongChi.setText("Chưa cập nhật");
+			}
+			else {
+				formattedNumber = decimalFormat.format(kht.getTongchi()) + " VNĐ";
+				tfTongChi.setText(formattedNumber);
+			}
+			cbMatour.setSelectedItem(kht.getMatour());
+			lbTenTour.setText(tour.getTentour());
+			formattedNumber = decimalFormat.format(kht.getGiaVe()) +  " VNĐ";
+			lbGiaTour.setText(formattedNumber);
+			
+			//Hiển thị kế hoạch Tour
+			String chitiet="";
+			for(CTKHT_DTO ctkht:ChiTietKHT_BUS.ctkhtList) {
+				if(ctkht.getMakht().equals(kht.getMakht())) {
+					String ngay="Ngày :"+ctkht.getNgay().toString()+"\n";
+					String khachsan="Khách sạn :"+GetTenKS(ctkht.getMaks())+"\n";
+					String nhahang="Nhà hàng :"+GetTenNH(ctkht.getManh())+"\n";
+					String phuongtien="Phương tiện :"+GetTenPT(ctkht.getMapt())+"\n";
+					chitiet=chitiet+ngay+khachsan+nhahang+phuongtien;
+				}
+				
+			}
+			
+			textArea_mota.setText(chitiet);
+			
+			ImageIcon img1=new ImageIcon(kht.getAnh1().replace('#', '\\'));
+			Image image1 = img1.getImage().getScaledInstance(388, 187, Image.SCALE_DEFAULT);
+			ImageIcon scaledIcon1 = new ImageIcon(image1);
+			hinh1_lb.setIcon(scaledIcon1);
+			
+			ImageIcon img2=new ImageIcon(kht.getAnh2().replace('#', '\\'));
+			Image image2 = img2.getImage().getScaledInstance(250, 90, Image.SCALE_DEFAULT);
+			ImageIcon scaledIcon2 = new ImageIcon(image2);
+			hinh2_lb.setIcon(scaledIcon2);
+			
+			ImageIcon img3=new ImageIcon(kht.getAnh3().replace('#', '\\'));
+			Image image3 = img3.getImage().getScaledInstance(250, 90, Image.SCALE_DEFAULT);
+			ImageIcon scaledIcon3 = new ImageIcon(image3);
+			hinh3_lb.setIcon(scaledIcon3);
+			
+			lbThoigian.setText(tour.getSongay()+"");
+			lbNoikhoihanh.setText(tour.getNoikhoihanh());
+			lbSoChoConNhan.setText(kht.getSonguoi()+"");
+			
+			btn_KHTour.setBackground(Color.ORANGE);
+			btn_KHTour.setForeground(Color.BLACK);
+			 for (int row = 0; row < table.getRowCount(); row++) {
+	            String valueInRow = table.getValueAt(row, 1).toString();
+	            if (valueInRow.equals(ChiTietKeHoachTourGUI.makht_ctkht)) {
+	                table.setRowSelectionInterval(row, row);
+	                break;
+	            }
+		      }
+			
+		}else {
+			return;
+		}
+	}
+	
 	public QlyToursDTO getTour(String matour) {
 		for(QlyToursDTO tour:QlyToursBUS.tourDTO) {
 			if(tour.getMatour().equals(matour)) {
@@ -1347,21 +1447,21 @@ public class KHTourGUI extends JFrame {
 		//long tongchi=Long.parseLong(tfTongChi.getText());
 		long tongchi=0;
 		
-		String anh1_path_new="";
-		String anh2_path_new="";
-		String anh3_path_new="";
-		if(!anh1_path.isEmpty()) {			
-			anh1_path_new =anh1_path.replace('\\', '#');
-		}
-		else if(!anh2_path.isEmpty()) {			
-			anh2_path_new =anh2_path.replace('\\', '#');
-		}
-		else if(!anh3_path.isEmpty()) {			
-			anh3_path_new =anh3_path.replace('\\', '#');
-		}
+//		String anh1_path_new="";
+//		String anh2_path_new="";
+//		String anh3_path_new="";
+//		if(!anh1_path.isEmpty()) {			
+//			anh1_path_new =anh1_path.replace('\\', '#');
+//		}
+//		else if(!anh2_path.isEmpty()) {			
+//			anh2_path_new =anh2_path.replace('\\', '#');
+//		}
+//		else if(!anh3_path.isEmpty()) {			
+//			anh3_path_new =anh3_path.replace('\\', '#');
+//		}
 		
-		KHTourDTO kht=new KHTourDTO(makht, matour, mota, huongdanvien, anh1_path_new, anh2_path_new, 
-				anh3_path_new, ngaydi, ngayve, songuoi, tongchi, giave);	
+		KHTourDTO kht=new KHTourDTO(makht, matour, mota, huongdanvien, anh1_path, anh2_path, 
+				anh3_path, ngaydi, ngayve, songuoi, tongchi, giave);	
 		if(khtBUS.themKHT(kht)!=-1) {
 			JOptionPane.showMessageDialog(this, "Thêm thành công!");
 		}
@@ -1410,11 +1510,21 @@ public class KHTourGUI extends JFrame {
 //		if(!anh3_path.isEmpty()) {			
 //			anh3_path_new =anh3_path.replace('\\', '#');
 //		}
-        
-		kht.setAnh1(anh1_path);
-		kht.setAnh2(anh2_path);
-		kht.setAnh3(anh3_path);
-		
+        if(anh1_path.equals("")) {
+        	kht.setAnh1(kht.getAnh1());
+        }else {
+        	kht.setAnh1(anh1_path);
+        }
+        if(anh2_path.equals("")) {
+        	kht.setAnh2(kht.getAnh2());
+        }else {
+        	kht.setAnh2(anh2_path);
+        }
+        if(anh3_path.equals("")) {
+        	kht.setAnh3(kht.getAnh3());
+        }else {
+        	kht.setAnh3(anh3_path);
+        }	
 		System.out.println(kht.getMakht());
         
         if (khtBUS.sua(kht,MaKHT_Bandau) != -1) {
@@ -1426,6 +1536,30 @@ public class KHTourGUI extends JFrame {
         XoaDataTable();
 		initData();
 		Reset();
+	}
+	public String GetTenKS(String maks) {
+		for(KhachSanDTO ks: DichVuBUS.ksDTO) {
+			if(ks.getMaso().equals(maks)) {
+				return ks.getTendv();
+			}
+		}
+		return null;
+	}
+	public String GetTenNH(String manh) {
+		for(NhaHangDTO nh: DichVuBUS.nhDTO) {
+			if(nh.getMaso().equals(manh)) {
+				return nh.getTendv();
+			}
+		}
+		return null;
+	}
+	public String GetTenPT(String mapt) {
+		for(PhuongTienDTO pt: DichVuBUS.ptDTO) {
+			if(pt.getMaso().equals(mapt)) {
+				return pt.getTendv();
+			}
+		}
+		return null;
 	}
 	
 	

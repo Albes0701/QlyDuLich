@@ -16,7 +16,8 @@ import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.properties.TextAlignment;
+//import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.property.TextAlignment;
 
 import DTO.HoaDonDTO;
 import DTO.VeDTO;
@@ -99,11 +100,15 @@ public class XuatPDF {
 	        document.add(fourColtable2.setMarginBottom(20f));
 	        
 	        String formattedNumber = decimalFormat.format(hd.getTongtien()) + " VND";
+	        String formattedNumber2 = decimalFormat.format(hd.getTongcong_truocgg()) + " VND";
+	        
 	        Table fourColTable3=new Table(fourColumnWidth);
 	        fourColTable3.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER)).setMarginLeft(0f);
 	        fourColTable3.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER)).setMarginLeft(0f);
 	        fourColTable3.addCell(new Cell().add(new Paragraph("")).setBorder(Border.NO_BORDER)).setMarginLeft(0f);
-	        fourColTable3.addCell(new Cell().add(new Paragraph("Total: "+String.valueOf(formattedNumber))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+	        fourColTable3.addCell(new Cell().add(new Paragraph("Total: "+String.valueOf(formattedNumber2))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+	        fourColTable3.addCell(new Cell().add(new Paragraph("Thành tiền: "+String.valueOf(formattedNumber))).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER));
+	        
 	        document.add(fourColTable3);
 	        document.add(new Paragraph("\n"));
 	        document.add(divider.setBorder(new SolidBorder(1)).setMarginBottom(35f));

@@ -84,6 +84,7 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 	private int comparison=5;
 	private double thanhtienks=0,thanhtienpt=0,thanhtiennh=0;
 	JPanel panel_2;
+	public static String makht_ctkht="";
 	
 	ChiTietKHT_BUS ctkhtBUS=new ChiTietKHT_BUS();
 	/**
@@ -313,7 +314,7 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 			}
 		});
 		btnSua.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnSua.setBounds(571, 3, 110, 25);
+		btnSua.setBounds(493, 3, 70, 25);
 		panel_3.add(btnSua);
 		
 		btnThem = new JButton("Thêm");
@@ -321,7 +322,7 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		btnThem.setForeground(new Color(255, 255, 255));
 		btnThem.setBackground(new Color(65, 105, 225));
 		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnThem.setBounds(451, 3, 110, 25);
+		btnThem.setBounds(383, 3, 100, 25);
 		btnThem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -378,6 +379,27 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		cbTimKiem = new JComboBox(condType);
 		cbTimKiem.setBounds(241, 3, 120, 25);
 		panel_3.add(cbTimKiem);
+		
+		JButton btnQuayLai = new JButton("Quay lại");
+		btnQuayLai.setForeground(Color.WHITE);
+		btnQuayLai.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnQuayLai.setFocusable(false);
+		btnQuayLai.setBackground(new Color(255, 0, 0));
+		btnQuayLai.setBounds(573, 3, 108, 25);
+		btnQuayLai.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				makht_ctkht=KHTourGUI.makht_row;
+//				DefaultTableModel model_table = (DefaultTableModel) table.getModel();
+//				makht_row = model_table.getValueAt(row, 1) + "";
+				setVisible(false);
+				new KHTourGUI();
+				
+			}
+			
+		});
+		panel_3.add(btnQuayLai);
 		
 		panel_2 = new JPanel();
 		panel_2.setLayout(null);
@@ -874,9 +896,4 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		}
 		
 	}
-	
-	
-	
-	
-	
 }
