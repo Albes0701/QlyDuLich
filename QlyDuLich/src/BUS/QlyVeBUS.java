@@ -82,8 +82,10 @@ public class QlyVeBUS {
 	public void themKH() {
 		try {
 			for(KhachHangDTO kh:khachhang) {
-				khDAO.getIntance().InsertKhachHang(kh);
-				KhachHangBUS.khDTO.add(kh);
+				if(checkMakh(kh.getMakh())==false) {
+					khDAO.getIntance().InsertKhachHang(kh);
+					KhachHangBUS.khDTO.add(kh);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -108,6 +110,14 @@ public class QlyVeBUS {
 				khtDAO.updateKHT(kht, makht);
 			}
 		}	
+	}
+	public boolean checkMakh(String Makh) {
+		for(KhachHangDTO kh:KhachHangBUS.khDTO) {
+			if(kh.getMakh().equals(Makh)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -80,6 +81,10 @@ public class DatTourGUI extends JFrame {
 	JTextArea textArea_mota;
 	JComboBox noiden_cb,loaitour_cb,noibatdau_cb;
 	JDateChooser ngaydi_cb;	
+	ArrayList<String> arr_noibatdau=new ArrayList<String>();
+	ArrayList<String> arr_denTrongNuoc=new ArrayList<String>();
+	ArrayList<String> arr_denNgoaiNuoc=new ArrayList<String>();
+	
 	
 	
 	DatTourBUS dattourBUS=new DatTourBUS();
@@ -243,24 +248,7 @@ public class DatTourGUI extends JFrame {
 				"Thanh Hóa", "Thừa Thiên Huế", "Tiền Giang", "Trà Vinh", "Tuyên Quang", "Vĩnh Long", "Vĩnh Phúc",
 				"Yên Bái" };
 
-		String[] arr_loaiTour= {"Trong nước","Ngoài nước"};
-		loaitour_cb = new JComboBox(arr_loaiTour);
-		loaitour_cb.setBounds(110, 10, 145, 30);
-		loaitour_cb.addActionListener(new ActionListener() {			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (loaitour_cb.getSelectedItem().equals("Trong nước")) {
-					noiden_cb.setModel(new DefaultComboBoxModel(arr_tinh));
-				} else if (loaitour_cb.getSelectedItem().equals("Ngoài nước")) {
-					String[] arr_nuocngoai = { "Địa điểm","Trung Quốc", "Hàn Quốc", "Nhật Bản", "Đài Loan", "Hồng Kông", "Macau",
-							"Triều Tiên", "Hàn Quốc", "Mông Cổ", "Brunei", "Campuchia", "Đông Timor", "Indonesia",
-							"Lào", "Malaysia", "Myanma", "Philippines", "Singapore", "Thái Lan" };
-					noiden_cb.setModel(new DefaultComboBoxModel(arr_nuocngoai));
-				}
-				
-			}
-		});
-		panel_1.add(loaitour_cb);
+		
 		
 		
 
@@ -269,18 +257,14 @@ public class DatTourGUI extends JFrame {
 		noibatdau_lb.setBounds(10, 63, 90, 30);
 		panel_1.add(noibatdau_lb);
 
-		noibatdau_cb = new JComboBox(arr_tinh);
-		noibatdau_cb.setBounds(110, 63, 145, 30);
-		panel_1.add(noibatdau_cb);
+		
 
 		JLabel noiden_lb = new JLabel("Nơi đến");
 		noiden_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
 		noiden_lb.setBounds(10, 115, 90, 30);
 		panel_1.add(noiden_lb);
 
-		noiden_cb = new JComboBox(arr_tinh);
-		noiden_cb.setBounds(110, 115, 145, 30);
-		panel_1.add(noiden_cb);
+		
 
 		JLabel ngaydi_lb = new JLabel("Ngày đi");
 		ngaydi_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -582,6 +566,41 @@ public class DatTourGUI extends JFrame {
 		panel_3.add(lbGiave);
 		
 		initData();
+		Set<String> set = new HashSet<>(arr_noibatdau);
+	    ArrayList<String> arr_noibatdau = new ArrayList<>(set);
+	    
+	    Set<String> set1 = new HashSet<>(arr_denTrongNuoc);
+	    ArrayList<String> arr_denTrongNuoc = new ArrayList<>(set1);
+	    
+	    Set<String> set2 = new HashSet<>(arr_denNgoaiNuoc);
+	    ArrayList<String> arr_denNgoaiNuoc = new ArrayList<>(set2);
+	    
+	    String[] arr_loaiTour= {"Trong nước","Ngoài nước"};
+		loaitour_cb = new JComboBox(arr_loaiTour);
+		loaitour_cb.setBounds(110, 10, 145, 30);
+		loaitour_cb.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (loaitour_cb.getSelectedItem().equals("Trong nước")) {
+					noiden_cb.setModel(new DefaultComboBoxModel(arr_denTrongNuoc.toArray()));
+				} else if (loaitour_cb.getSelectedItem().equals("Ngoài nước")) {
+//					String[] arr_nuocngoai = { "Địa điểm","Trung Quốc", "Hàn Quốc", "Nhật Bản", "Đài Loan", "Hồng Kông", "Macau",
+//							"Triều Tiên", "Hàn Quốc", "Mông Cổ", "Brunei", "Campuchia", "Đông Timor", "Indonesia",
+//							"Lào", "Malaysia", "Myanma", "Philippines", "Singapore", "Thái Lan" };
+					noiden_cb.setModel(new DefaultComboBoxModel(arr_denNgoaiNuoc.toArray()));
+				}
+				
+			}
+		});
+		panel_1.add(loaitour_cb);
+		
+		noibatdau_cb = new JComboBox(arr_noibatdau.toArray());
+		noibatdau_cb.setBounds(110, 63, 145, 30);
+		panel_1.add(noibatdau_cb);
+		
+		noiden_cb = new JComboBox(arr_denTrongNuoc.toArray());
+		noiden_cb.setBounds(110, 115, 145, 30);
+		panel_1.add(noiden_cb);
 
 		String []item_loai = {"Trong nước", "Ngoài nước"};
 
@@ -643,15 +662,24 @@ public class DatTourGUI extends JFrame {
 				}
 			}
 		});
+		
+		
 		for (DatTourDTO dattour : DatTourBUS.dsTour) {
 			if(!KiemTra.getInstance().checkngaydi(KiemTra.getInstance().toDateUtil(dattour.getNgaydi()))) {
 				continue;
+			}
+			arr_noibatdau.add(dattour.getNoikhoihanh());
+			if(GetLoaiTour(dattour.getMatour()).equals("loai1")) {
+				arr_denTrongNuoc.add(dattour.getDiadiem());
+			}else {
+				arr_denNgoaiNuoc.add(dattour.getDiadiem());
 			}
 			tableModel.addRow(new Object[] { dattour.getMatour(), dattour.getTentour(), dattour.getMakht(),
 					dattour.getNgaydi().toString(), dattour.getNgayve().toString(), dattour.getSonguoi()+"",dattour.getGiatour()+"" 
 					
 			});
 		}
+		
 	}
 	
 	public void initData2(ArrayList<DatTourDTO> tours) {
@@ -740,6 +768,15 @@ public class DatTourGUI extends JFrame {
 			}
 		}
 		return null;
+	}
+	public String GetLoaiTour(String matour) {
+		String maloai="";
+		for(QlyToursDTO t:QlyToursBUS.tourDTO) {
+			if(t.getMatour().equals(matour)) {
+				maloai=t.getMaloai();
+			}
+		}
+		return maloai;
 	}
 	
 	public ArrayList<DatTourDTO> Loc(){
