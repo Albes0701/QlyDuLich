@@ -87,7 +87,7 @@ try {
 			}
 		}
 	}
-	else if(type.equalsIgnoreCase("Họ")) {
+	else if(type.equalsIgnoreCase("Họ Tên")) {
 		condition = KiemTra.getInstance().formatchString(condition);
 		for(KhachHangDTO kh : khDTO) {
 			String name = (kh.getHokh().concat(" ").concat(kh.getTenkh())).toLowerCase();
@@ -98,9 +98,8 @@ try {
 	}
 	else if(type.equalsIgnoreCase("Tên")) {
 		condition = KiemTra.getInstance().formatchString(condition);
-		System.out.println(condition);
 		for(KhachHangDTO kh : khDTO) {
-			String name = removeAccents(kh.getTenkh().toLowerCase());
+			String name = kh.getTenkh().toLowerCase();
 			if(name.contains(condition)) {
 				tmp.add(kh);
 			}
@@ -115,10 +114,5 @@ try {
 return tmp;
 }
 //Hàm loại bỏ dấu trong chuỗi
-	public String removeAccents(String str) {
-	    str = Normalizer.normalize(str, Normalizer.Form.NFD);
-	    str = str.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-	    return str;
-	}
-
+	
 }

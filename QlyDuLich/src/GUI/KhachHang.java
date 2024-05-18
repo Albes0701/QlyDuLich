@@ -563,7 +563,7 @@ public class KhachHang extends JFrame {
 		textField_TimKiem.setBounds(81, 3, 160, 25);
 		panel_3.add(textField_TimKiem);
 		textField_TimKiem.setColumns(10);
-		String []item = {"Mã số","Họ","Tên"};
+		String []item = {"Mã số","Họ Tên","Tên"};
 		timkiem_cb = new JComboBox(item);
 		timkiem_cb.setBounds(251, 3, 100, 25);
 		textField_TimKiem.addActionListener(new ActionListener() {
@@ -745,7 +745,7 @@ public void lockForm() {
 		String ngaysinh = model.getValueAt(row, 7)+ "";
 		java.sql.Date ngaysinhdate = java.sql.Date.valueOf(ngaysinh);
 
-        KhachHangDTO kh = new KhachHangDTO(makh, hokh, tenkh, diachi, sdt, email, rootPaneCheckingEnabled, ngaysinhdate);
+        KhachHangDTO kh = new KhachHangDTO(makh, hokh, tenkh, diachi, sdt, email, gioitinh, ngaysinhdate);
         return kh;
 	}
 	public void hienThiThongTin() {

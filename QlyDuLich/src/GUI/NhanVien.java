@@ -1,5 +1,4 @@
 package GUI;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -19,6 +18,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,13 +30,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JScrollPane;
 import javax.swing.JScrollBar;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Cursor;
+import java.awt.Desktop;
+
 import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.border.CompoundBorder;
@@ -45,6 +50,27 @@ import javax.swing.AbstractListModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.toedter.calendar.JCalendar;
 
@@ -81,6 +107,8 @@ public class NhanVien extends JFrame{
 	NhanVienBUS nvBUS = new NhanVienBUS();
 	private JLabel lblNewLabel;
 	private JButton btnNewButton;
+	private JButton btn_import;
+	private JButton btn_export;
 	/**
 	 * Launch the application.
 	 */
@@ -538,7 +566,7 @@ public class NhanVien extends JFrame{
 //		panel_2.add(textField_NgayVL);
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(269, 50, 681, 435);
+		scrollPane_2.setBounds(269, 83, 681, 402);
 		NhanVien.add(scrollPane_2);
 		
 		table_NhanVien = new JTable();
@@ -558,7 +586,7 @@ public class NhanVien extends JFrame{
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(255, 255, 255));
-		panel_3.setBounds(269, 10, 681, 30);
+		panel_3.setBounds(269, 10, 681, 63);
 		NhanVien.add(panel_3);
 		panel_3.setLayout(null);
 		
@@ -567,7 +595,7 @@ public class NhanVien extends JFrame{
 		xoa_btn.setBackground(new Color(255, 0, 0));
 		xoa_btn.setForeground(new Color(255, 255, 255));
 		xoa_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		xoa_btn.setBounds(596, 3, 75, 25);
+		xoa_btn.setBounds(297, 38, 75, 25);
 		xoa_btn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -619,7 +647,7 @@ public class NhanVien extends JFrame{
 			}
 		});
 		sua_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		sua_btn.setBounds(511, 3, 75, 25);
+		sua_btn.setBounds(188, 38, 75, 25);
 		panel_3.add(sua_btn);
 		
 		them_btn = new JButton("Thêm");
@@ -642,7 +670,7 @@ public class NhanVien extends JFrame{
 		them_btn.setForeground(new Color(255, 255, 255));
 		them_btn.setBackground(new Color(65, 105, 225));
 		them_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		them_btn.setBounds(427, 3, 75, 25);
+		them_btn.setBounds(81, 38, 75, 25);
 		panel_3.add(them_btn);
 		
 		JLabel lblNewLabel_3 = new JLabel("Tìm kiếm");
@@ -651,13 +679,13 @@ public class NhanVien extends JFrame{
 		panel_3.add(lblNewLabel_3);
 		
 		textField_TimKiem = new JTextField();
-		textField_TimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		textField_TimKiem.setBounds(81, 3, 160, 25);
+		textField_TimKiem.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		textField_TimKiem.setBounds(81, 3, 480, 25);
 		panel_3.add(textField_TimKiem);
 		textField_TimKiem.setColumns(10);
 		String []item = {"Mã số","Họ Tên","Tên","Ngày vào làm"};
 		timkiem_cb = new JComboBox(item);
-		timkiem_cb.setBounds(251, 3, 100, 25);
+		timkiem_cb.setBounds(571, 5, 100, 25);
 		textField_TimKiem.addActionListener(new ActionListener() {
 			
 			@Override
@@ -682,6 +710,37 @@ public class NhanVien extends JFrame{
 		
 		
 		panel_3.add(timkiem_cb);
+		
+		btn_import = new JButton("Nhập Excel");
+		btn_import.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				File f = openFile();
+				readFile(f);
+			}
+		});
+		btn_import.setForeground(Color.WHITE);
+		btn_import.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btn_import.setFocusable(false);
+		btn_import.setBackground(new Color(51, 153, 51));
+		btn_import.setBounds(403, 38, 100, 25);
+		panel_3.add(btn_import);
+		
+		btn_export = new JButton("Xuất Excel");
+		btn_export.setForeground(Color.WHITE);
+		btn_export.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btn_export.setFocusable(false);
+		btn_export.setBackground(new Color(51, 153, 51));
+		btn_export.setBounds(534, 38, 100, 25);
+		btn_export.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stubFile f = openFile();
+				File f = openFile();
+				exportExcel(f);
+			}
+		});
+		panel_3.add(btn_export);
 		
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -723,6 +782,97 @@ public class NhanVien extends JFrame{
 		
 		this.setVisible(true);
 	}
+	
+	public File openFile() {
+		JFileChooser file =  new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Excel Files", "xls", "xlsx");
+		file.setFileFilter(filter);
+		int option = file.showOpenDialog(null);
+		if(option == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = file.getSelectedFile();
+//			System.out.println();
+			return selectedFile;
+		}
+		return null;
+	}
+	public void openExcel(String f){
+	        try{
+	            File path = new File(f);
+	            Desktop.getDesktop().open(path);
+	        }catch(IOException ioe){
+	            System.out.println(ioe);
+	        }
+	}
+	
+	public void exportExcel(File f){
+		if(f==null) return;
+		try {
+			XSSFWorkbook wb = new XSSFWorkbook();
+			XSSFSheet sheet = wb.createSheet("Staff List");
+			XSSFRow row = null;
+			Cell cell = null;
+			row = sheet.createRow(0);
+			for(int i=0;i <table_NhanVien.getColumnCount();i++) {
+				cell = row.createCell(i);
+				cell.setCellValue(table_NhanVien.getColumnName(i));
+			}
+			
+			for(int i = 0; i < table_NhanVien.getRowCount();i++) {
+				row = sheet.createRow(i+1);
+				for(int j=0;j<table_NhanVien.getColumnCount();j++) {
+					cell = row.createCell(j);
+					cell.setCellValue(table_NhanVien.getValueAt(i, j).toString());
+				}
+			}
+			String path = f.toString()+".xlsx";
+			FileOutputStream out = new FileOutputStream(new File(path));
+			wb.write(out);
+			wb.close();
+			out.close();
+			openExcel(path);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+	}
+	
+	private void readFile(File file) {
+		FileInputStream fis = null;
+        XSSFWorkbook wb = null;
+        try {
+			fis = new FileInputStream(file);
+			 wb = new XSSFWorkbook(fis);
+			 XSSFSheet sheet = wb.getSheetAt(0);
+			 XSSFFormulaEvaluator formul = wb.getCreationHelper().createFormulaEvaluator();
+			 int rowTitle = 0;
+			 ArrayList <NhanVienDTO> listNV = new ArrayList<>();
+			 for(Row row: sheet) {
+				 if(rowTitle++ == 0) continue;
+				 NhanVienDTO nv = new NhanVienDTO();
+				 nv.setManv(row.getCell(0).getStringCellValue());
+				 nv.setHonv(row.getCell(1).getStringCellValue());
+				 nv.setTennv(row.getCell(2).getStringCellValue());
+				 nv.setSdt(row.getCell(3).getStringCellValue());
+				 nv.setCmnd(row.getCell(4).getStringCellValue());
+				 nv.setNgayvl(KiemTra.getInstance().toDate(row.getCell(5).getStringCellValue()));
+				 nv.setNgaysinh(KiemTra.getInstance().toDate(row.getCell(6).getStringCellValue()));
+				 nv.setGioitinh(KiemTra.getInstance().GioiTinh(row.getCell(7).getStringCellValue()));
+				 listNV.add(nv);
+			 }
+			 if(nvBUS.themDSNV(listNV)== -1) {
+				JOptionPane.showMessageDialog(null, "Thêm dữ liệu từ Excel thất bại"); 
+			 }else {
+				 JOptionPane.showMessageDialog(null, "Thêm dữ liệu từ Excel thành công"); 
+				 resetTable();
+				 initArrayList();
+			 }
+			 
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    }
+	
 	public NhanVienDTO getSelectedNhanVien() {
 		int row = table_NhanVien.getSelectedRow();
 		if(row == -1) return null;
@@ -805,8 +955,8 @@ public class NhanVien extends JFrame{
 					}
 				}
 			});
-//		}
-	}
+		}
+//	}
 	public boolean checkNull() {
 		if(this.textField_MSNV.getText().isEmpty() || this.textField_HoNV.getText().isEmpty() || this.textField_TenNV.getText().isEmpty() 
 				|| this.textField_CMND.getText().isEmpty()|| this.textField_SDT.getText().isEmpty() || this.dateChooser_NgaySinh.getDate()==null) 

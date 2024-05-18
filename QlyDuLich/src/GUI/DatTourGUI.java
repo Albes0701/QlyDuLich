@@ -79,8 +79,7 @@ public class DatTourGUI extends JFrame {
 	JLabel lbTenTour,lbGiave,lbHinh1,lbHinh2,lbHinh3,phuongtien_nd,nhahang_nd,khachsan_nd,lbThoigian,lbNoiKhoiHanh,lbSoCho,diadiem_nd;
 	JTextArea textArea_mota;
 	JComboBox noiden_cb,loaitour_cb,noibatdau_cb;
-	JDateChooser ngaydi_cb;
-	
+	JDateChooser ngaydi_cb;	
 	
 	
 	DatTourBUS dattourBUS=new DatTourBUS();
@@ -549,6 +548,7 @@ public class DatTourGUI extends JFrame {
 					DatTourDTO tourduocchon=GetTourDaChon();
 					setVisible(false);
 					Ve ve = new Ve(tourduocchon);
+					
 					ve.setSize(1000, 780);
 				}
 				

@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.itextpdf.kernel.colors.DeviceRgb;
-import com.itextpdf.kernel.counter.SystemOutEventCounterFactory;
+//import com.itextpdf.kernel.counter.SystemOutEventCounterFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -16,8 +16,8 @@ import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-//import com.itextpdf.layout.properties.TextAlignment;
-import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
+//import com.itextpdf.layout.property.TextAlignment;
 
 import DTO.HoaDonDTO;
 import DTO.VeDTO;

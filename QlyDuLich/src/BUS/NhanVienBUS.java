@@ -24,6 +24,25 @@ public class NhanVienBUS {
 			return false;
 		}
 	}
+	
+	public int themDSNV(ArrayList<NhanVienDTO> listNV) {
+		try {
+			for(NhanVienDTO v: nvDTO) {
+				for(NhanVienDTO t: listNV) {
+					if(v.getManv().equals(t.getManv())) {
+						JOptionPane.showMessageDialog(null, "Mã nhân viên " + t.getManv() +" đã tồn tại");
+						return -1;
+					}
+				}
+			} 
+			nvDTO.addAll(listNV);
+			return NhanVienDAO.getIntance().Insert_DSNhanVien(listNV);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return -1;
+	}
+	
 	public int themNV(NhanVienDTO nv) {
 		try {
 			for(NhanVienDTO v: nvDTO) {

@@ -68,16 +68,16 @@ public class Ve extends JFrame {
 
 //	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField tfHoTen;
-	private JTextField tfSdt;
-	private JTextField tfDiachi;
-	private JTextField tfEmail;
+	protected JTextField tfHoTen;
+	protected JTextField tfSdt;
+	protected JTextField tfDiachi;
+	protected JTextField tfEmail;
 	private JTable table_ThongTin;
 	private String mahd,MaKHT1;
 	private double giave=0,tongcong=0,tongcong_truocgg=0;
 	private Date ngaytaohoadon;
-	private JComboBox<String> cbGioitinh,cbMaKM;
-	private JDateChooser datechooserNgaysinh;
+	protected JComboBox<String> cbGioitinh,cbMaKM;
+	protected JDateChooser datechooserNgaysinh;
 	private JButton btnLuu1;
 //	private String [] arr_TTLienLac;
 	private JLabel lbNameKH,lbSlot,lbSLHanhKhach,lbTongCong,lbNguoiLon,lbTreEm,lbGiamGia;
@@ -87,6 +87,7 @@ public class Ve extends JFrame {
 	QlyVeBUS veBUS=new QlyVeBUS();
 	HoaDonBUS hdBUS=new HoaDonBUS();
 	private JTextField tfPhanTram;
+	protected JTextField tf_maso;
 	
 
 	/**
@@ -108,6 +109,7 @@ public class Ve extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+
 	public Ve(DatTourDTO tourduocchon) {
 		mahd=TaoMaHD();
 		MaKHT1=tourduocchon.getMakht();
@@ -157,7 +159,7 @@ public class Ve extends JFrame {
 		
 		JLabel lbMatour = new JLabel(tourduocchon.getMatour());
 		lbMatour.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lbMatour.setBounds(131, 0, 98, 23);
+		lbMatour.setBounds(131, 0, 513, 23);
 		panel_Header_content.add(lbMatour);
 		
 		JLabel lbTentour = new JLabel(tourduocchon.getTentour());
@@ -250,18 +252,18 @@ public class Ve extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2.setBounds(10, 70, 547, 211);
+		panel_2.setBounds(10, 70, 547, 253);
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Họ và tên");
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1.setBounds(10, 0, 97, 26);
+		lblNewLabel_1_1_1.setBounds(10, 52, 97, 26);
 		panel_2.add(lblNewLabel_1_1_1);
 		
 		tfHoTen = new JTextField();
 		tfHoTen.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		tfHoTen.setBounds(10, 30, 240, 25);
+		tfHoTen.setBounds(10, 82, 240, 25);
 		tfHoTen.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -285,7 +287,7 @@ public class Ve extends JFrame {
 		tfSdt = new JTextField();
 		tfSdt.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		tfSdt.setColumns(10);
-		tfSdt.setBounds(10, 95, 240, 25);
+		tfSdt.setBounds(10, 147, 240, 25);
 		tfSdt.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -312,13 +314,13 @@ public class Ve extends JFrame {
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Số điện thoại");
 		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_1.setBounds(10, 65, 97, 26);
+		lblNewLabel_1_1_1_1.setBounds(10, 117, 97, 26);
 		panel_2.add(lblNewLabel_1_1_1_1);
 		
 		tfDiachi = new JTextField();
 		tfDiachi.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		tfDiachi.setColumns(10);
-		tfDiachi.setBounds(302, 95, 240, 25);
+		tfDiachi.setBounds(302, 147, 240, 25);
 		tfDiachi.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -344,13 +346,13 @@ public class Ve extends JFrame {
 		
 		JLabel lblNewLabel_1_1_1_2 = new JLabel("Email");
 		lblNewLabel_1_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_2.setBounds(302, 0, 97, 26);
+		lblNewLabel_1_1_1_2.setBounds(302, 52, 97, 26);
 		panel_2.add(lblNewLabel_1_1_1_2);
 		
 		tfEmail = new JTextField();
 		tfEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		tfEmail.setColumns(10);
-		tfEmail.setBounds(302, 30, 240, 25);
+		tfEmail.setBounds(302, 82, 240, 25);
 		tfEmail.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -371,31 +373,31 @@ public class Ve extends JFrame {
 		
 		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Địa chỉ");
 		lblNewLabel_1_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_1_1_1_1_1.setBounds(302, 65, 97, 26);
+		lblNewLabel_1_1_1_1_1.setBounds(302, 117, 97, 26);
 		panel_2.add(lblNewLabel_1_1_1_1_1);
 		
 		JLabel lblNewLabel_1_1_1_3_1 = new JLabel("Giới tính");
-		lblNewLabel_1_1_1_3_1.setBounds(10, 130, 70, 26);
+		lblNewLabel_1_1_1_3_1.setBounds(10, 182, 70, 26);
 		panel_2.add(lblNewLabel_1_1_1_3_1);
 		lblNewLabel_1_1_1_3_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		String[] arr_gioitinh= {"Nam","Nữ"};
 		cbGioitinh = new JComboBox(arr_gioitinh);
-		cbGioitinh.setBounds(10, 166, 70, 25);
+		cbGioitinh.setBounds(10, 218, 70, 25);
 		panel_2.add(cbGioitinh);
 		cbGioitinh.setBackground(new Color(255, 255, 255));
 		cbGioitinh.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		JLabel lblNewLabel_1_1_1_3_2 = new JLabel("Năm sinh");
-		lblNewLabel_1_1_1_3_2.setBounds(103, 129, 97, 26);
+		lblNewLabel_1_1_1_3_2.setBounds(103, 181, 97, 26);
 		panel_2.add(lblNewLabel_1_1_1_3_2);
 		lblNewLabel_1_1_1_3_2.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		datechooserNgaysinh = new JDateChooser();
-		datechooserNgaysinh.setBounds(103, 165, 107, 26);
+		datechooserNgaysinh.setBounds(103, 217, 107, 26);
 		panel_2.add(datechooserNgaysinh);
 		
 		cbMaKM = new JComboBox(GetMaKM(tourduocchon.getMatour()).toArray());
-		cbMaKM.setBounds(243, 166, 85, 25);
+		cbMaKM.setBounds(243, 218, 85, 25);
 		cbMaKM.setSelectedItem(GetMaKMLonNhat(GetMaKM(tourduocchon.getMatour())));
 		panel_2.add(cbMaKM);
 		//		String arr_makm[]= {"km01","km02","km03"};
@@ -405,24 +407,24 @@ public class Ve extends JFrame {
 				cbMaKM.setBackground(Color.WHITE);
 				
 				JLabel lblNewLabel_1_1_1_3_5 = new JLabel("Mã giảm giá");
-				lblNewLabel_1_1_1_3_5.setBounds(243, 130, 97, 26);
+				lblNewLabel_1_1_1_3_5.setBounds(243, 182, 97, 26);
 				panel_2.add(lblNewLabel_1_1_1_3_5);
 				lblNewLabel_1_1_1_3_5.setFont(new Font("Tahoma", Font.BOLD, 14));
 				
 				JLabel lblNewLabel_1_1_1_3_5_1 = new JLabel("Phần trăm");
-				lblNewLabel_1_1_1_3_5_1.setBounds(363, 130, 84, 26);
+				lblNewLabel_1_1_1_3_5_1.setBounds(363, 182, 84, 26);
 				panel_2.add(lblNewLabel_1_1_1_3_5_1);
 				lblNewLabel_1_1_1_3_5_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 				
 				tfPhanTram = new JTextField();
-				tfPhanTram.setBounds(367, 166, 70, 25);
+				tfPhanTram.setBounds(367, 218, 70, 25);
 				panel_2.add(tfPhanTram);
 				tfPhanTram.setFont(new Font("Tahoma", Font.PLAIN, 14));
 				tfPhanTram.setEditable(false);
 				tfPhanTram.setColumns(10);
 				
 				btnLuu1 = new JButton("Lưu");
-				btnLuu1.setBounds(457, 165, 85, 26);
+				btnLuu1.setBounds(457, 217, 85, 26);
 				
 				btnLuu1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -449,6 +451,31 @@ public class Ve extends JFrame {
 				btnLuu1.setFocusable(false);
 				btnLuu1.setBackground(new Color(255, 128, 64));
 				panel_2.add(btnLuu1);
+				
+				JLabel lblNewLabel_1_1_1_3 = new JLabel("Mã số");
+				lblNewLabel_1_1_1_3.setFont(new Font("Tahoma", Font.BOLD, 14));
+				lblNewLabel_1_1_1_3.setBounds(10, 16, 58, 26);
+				panel_2.add(lblNewLabel_1_1_1_3);
+				
+				tf_maso = new JTextField();
+				tf_maso.setFont(new Font("Tahoma", Font.PLAIN, 15));
+				tf_maso.setColumns(10);
+				tf_maso.setBounds(91, 17, 159, 25);
+				panel_2.add(tf_maso);
+				
+				JButton btn_info = new JButton("...");
+				btn_info.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						new infoKhachHang(Ve.this);
+						
+					}
+				});
+				btn_info.setForeground(new Color(0, 0, 0));
+				btn_info.setFont(new Font("Tahoma", Font.BOLD, 14));
+				btn_info.setFocusable(false);
+				btn_info.setBackground(new Color(192, 192, 192));
+				btn_info.setBounds(260, 16, 34, 26);
+				panel_2.add(btn_info);
 		cbMaKM.addItemListener(new ItemListener() {
 			
 			@Override
@@ -465,7 +492,7 @@ public class Ve extends JFrame {
 		String kmSelected = cbMaKM.getItemAt(0).toString();
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 312, 547, 211);
+		scrollPane.setBounds(10, 361, 547, 162);
 		panel_1.add(scrollPane);
 		
 		table_ThongTin = new JTable();
@@ -473,7 +500,7 @@ public class Ve extends JFrame {
 		
 		JLabel lblNewLabel_1_1_2 = new JLabel("Danh sách khách hàng");
 		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_2.setBounds(10, 285, 234, 26);
+		lblNewLabel_1_1_2.setBounds(10, 325, 234, 26);
 		panel_1.add(lblNewLabel_1_1_2);
 		
 //		String [] arr_gioitinh= {"Nam","Nữ"};

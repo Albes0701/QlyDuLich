@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import BUS.NhanVienBUS;
 import DTO.NhanVienDTO;
 import Util.JDBCUtil;
 
@@ -49,6 +50,34 @@ public class NhanVienDAO {
 		}	
 
 		return ketQua;
+	}
+	
+	public int Insert_DSNhanVien(ArrayList<NhanVienDTO> listNV) {
+		int kq = 0;
+		// ket noi
+		try {
+			Connection con = JDBCUtil.getConnection();
+			//tao statement
+			java.sql.Statement st = con.createStatement();
+			//truy van
+			String sql = "INSERT INTO nhanvien (manv, honv, tennv, sdt, cmnd, ngayvl, ngaysinh, gioitinh) VALUES ";
+			for(NhanVienDTO t: listNV) {
+				sql += "('" + t.getManv().toLowerCase() + "' , '" + t.getHonv() + "' , '" + t.getTennv() + "' , '" + t.getSdt() + "' , '"
+						+ t.getCmnd() + "' , '" + t.getNgayvl() + "' , '" + t.getNgaysinh() + "' ," + t.getGioitinh() + "),";				
+			}
+			sql = sql.substring(0, sql.length()-1);
+			System.out.println(sql);
+			kq = st.executeUpdate(sql);
+			System.out.println("Ban da thuc thi " + sql);
+			System.out.println("So dong thay doi: " + kq);
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return -1;
+		}
+		
+		return kq;
 	}
 	
 	public int InsertNhanVien(NhanVienDTO t) {
