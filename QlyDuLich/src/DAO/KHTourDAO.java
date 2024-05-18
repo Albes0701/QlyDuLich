@@ -34,8 +34,10 @@ public class KHTourDAO {
 				String anh1=rs.getString("anh1");
 				String anh2=rs.getString("anh2");
 				String anh3=rs.getString("anh3");
+				int songuoidukien=rs.getInt("soluong");
+				long thucchi=rs.getLong("thucchi");
 				KHTourDTO kht=new KHTourDTO(makht, matour, mota, huongdanvien, anh1, anh2, anh3, 
-						ngaydi, ngayve, songuoi, tongchi, giave);
+						ngaydi, ngayve, songuoi, tongchi, giave,thucchi,songuoidukien);
 				ketqua.add(kht);
 			}
 			
@@ -52,9 +54,9 @@ public class KHTourDAO {
 			Connection con=JDBCUtil.getConnection();
 			Statement st=con.createStatement();
 			String sql="INSERT INTO kehoachtour (makht,matour,mota,ngaydi,ngayve,songuoi,giave,huongdanvien,"
-					+ "tongchi,anh1,anh2,anh3,soluong)"+" VALUES ('"+t.getMakht()+"','"+t.getMatour()+"','"+t.getMota()+"','"+t.getNgaydi()+"','"
+					+ "tongchi,anh1,anh2,anh3,soluong,thucchi)"+" VALUES ('"+t.getMakht()+"','"+t.getMatour()+"','"+t.getMota()+"','"+t.getNgaydi()+"','"
 					+t.getNgayve()+"',"+t.getSonguoi()+","+t.getGiaVe()+",'"+t.getHuongdanvien()+"',"+t.getTongchi()+",'"+t.getAnh1()+"','"
-					+t.getAnh2()+"','"+t.getAnh3()+"'," +t.getSonguoi() + ")";
+					+t.getAnh2()+"','"+t.getAnh3()+"'," +t.getSonguoi() + ","+t.getSonguoidukien()+","+t.getThucchi()+")";
 			ketQua=st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
 			System.out.println("So dong thay doi la: " + ketQua);
@@ -76,7 +78,7 @@ public class KHTourDAO {
 			String sql = "UPDATE kehoachtour" + " SET makht='" + t.getMakht() + "',matour='" + t.getMatour() + "',mota='" 
 			+ t.getMota()+ "',ngaydi='" + t.getNgaydi()+ "',ngayve='" + t.getNgayve()+ "',songuoi=" + t.getSonguoi()
 			+ ",giave=" + t.getGiaVe()+ ",huongdanvien='" + t.getHuongdanvien()+ "',tongchi='" + t.getTongchi()+ "',anh1='" + t.getAnh1()
-			+ "',anh2='" + t.getAnh2()+ "',anh3='" + t.getAnh3()+"' "+"WHERE makht='"+MaKHT_Bandau+"';";
+			+ "',anh2='" + t.getAnh2()+ "',anh3='" + t.getAnh3()+"',soluong="+t.getSonguoidukien()+ ",thucchi=" + t.getThucchi()+" WHERE makht='"+MaKHT_Bandau+"';";
 			System.out.println(sql);
 			ketQua = st.executeUpdate(sql);
 			// Bước 4:Xử lý kết quả trả về

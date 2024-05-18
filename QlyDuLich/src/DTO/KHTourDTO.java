@@ -5,13 +5,13 @@ import java.sql.Date;
 public class KHTourDTO {
 	private String makht,matour,mota,huongdanvien,anh1,anh2,anh3;
 	private Date ngaydi,ngayve;
-	private int songuoi;
-	private long tongchi,giave;
+	private int songuoi,songuoidukien;
+	private long tongchi,giave,thucchi;
 	public KHTourDTO() {
 		
 	}
 	public KHTourDTO(String makht, String matour, String mota, String huongdanvien, String anh1, String anh2,
-			String anh3, Date ngaydi, Date ngayve, int songuoi, long tongchi,long giave) {
+			String anh3, Date ngaydi, Date ngayve, int songuoi, long tongchi,long giave,long thucchi,int songuoidukien) {
 		this.makht = makht;
 		this.matour = matour;
 		this.mota = mota;
@@ -24,6 +24,8 @@ public class KHTourDTO {
 		this.songuoi = songuoi;
 		this.tongchi = tongchi;
 		this.giave=giave;
+		this.thucchi=thucchi;
+		this.songuoidukien=songuoidukien;
 	}
 
 	public void copyKHT(KHTourDTO t) {
@@ -39,8 +41,22 @@ public class KHTourDTO {
 		this.songuoi = t.songuoi;
 		this.tongchi = t.tongchi;
 		this.giave=t.giave;
+		this.thucchi=t.thucchi;
+		this.songuoidukien=t.songuoidukien;
 	}
 
+	public int getSonguoidukien() {
+		return songuoidukien;
+	}
+	public void setSonguoidukien(int songuoidukien) {
+		this.songuoidukien = songuoidukien;
+	}
+	public long getThucchi() {
+		return thucchi;
+	}
+	public void setThucchi(long thucchi) {
+		this.thucchi = thucchi;
+	}
 	public String getMakht() {
 		return makht;
 	}

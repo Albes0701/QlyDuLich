@@ -3,6 +3,7 @@ package BUS;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import DAO.CTKHT_ThucChiDAO;
 import DAO.ChiTietKHT_DAO;
 import DTO.CTDV_An_DTO;
 import DTO.CTDV_KS_DTO;
@@ -10,6 +11,7 @@ import DTO.CTDV_PT_DTO;
 import DTO.SdDichVuDTO;
 import GUI.KHTourGUI;
 import DTO.CTKHT_DTO;
+import DTO.CTKHT_ThucChiDTO;
 import DTO.KHTourDTO;
 import DTO.QlyToursDTO;
 
@@ -21,6 +23,7 @@ public class ChiTietKHT_BUS {
 	public static ArrayList<CTKHT_DTO> ctkhtList=new ArrayList<CTKHT_DTO>();
 	
 	ChiTietKHT_DAO ctkhtDAO=new ChiTietKHT_DAO();
+	CTKHT_ThucChiDAO thucchiDAO=new CTKHT_ThucChiDAO();
 	
 	
 	public boolean docCTKHT() {
@@ -55,6 +58,7 @@ public class ChiTietKHT_BUS {
 			CTDV_KS_DTO dvks=new CTDV_KS_DTO(t.getMakht(), t.getNgay(), t.getMaks(), t.getThanhtienKS());
 			CTDV_PT_DTO dvpt=new CTDV_PT_DTO(t.getMakht(), t.getNgay(), t.getMapt(), t.getThanhtienPT());
 			SdDichVuDTO sddv=new SdDichVuDTO(t.getMakht(), t.getNgay(), t.getTongtien());
+			CTKHT_ThucChiDTO thucchiDTO=new CTKHT_ThucChiDTO(t.getMakht(), t.getMaks(),t.getMapt(), t.getManh(), 0, 0, 0, 0, t.getNgay());
 			int a=-1,b=-1,c=-1,d=-1;
 			
 			for(CTKHT_DTO m:ctkhtList) {
@@ -79,6 +83,8 @@ public class ChiTietKHT_BUS {
 			}
 			
 			ctkhtDAO.getIntance().UpdateTongChiKHT(t.getMakht(),tongchi);
+			CTKHT_ThucChiBUS.thucchiList.add(thucchiDTO);
+			thucchiDAO.getIntance().Insert(thucchiDTO);
 			
 			ctdvAnList.add(dvan);
 			ctdvKSList.add(dvks);

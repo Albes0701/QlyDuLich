@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import BUS.CTKHT_ThucChiBUS;
 import BUS.CTKhuyenMaiBUS;
 import BUS.ChiTietKHT_BUS;
 import BUS.DatTourBUS;
@@ -175,6 +176,8 @@ public class DangNhapGUI extends JFrame {
 					dat_tour.docDSTour();
 					HoaDonBUS hdBUS = new HoaDonBUS();
 					hdBUS.docHoaDon();
+					CTKHT_ThucChiBUS ctkht_thucchi=new CTKHT_ThucChiBUS();
+					ctkht_thucchi.docfile();
 					setVisible(false);
 					TrangChuGUI.tkDTO.setUser(user);
 					TrangChuGUI.tkDTO.setPass(pass);

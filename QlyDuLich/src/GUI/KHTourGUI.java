@@ -1109,7 +1109,7 @@ public class KHTourGUI extends JFrame {
 		this.setVisible(true);
 	}
 	public void initData() {
-		String [] colname= {"Mã Tour","Mã kế hoạch Tour","Ngày đi","Ngày về","Số người","Tiền chi/người","Giá vé"};
+		String [] colname= {"Mã Tour","Mã kế hoạch Tour","Ngày đi","Ngày về","Số người/Dự kiến","Tiền chi","Thực chi","Giá vé"};
 		DefaultTableModel tableModel=new DefaultTableModel() {
 			 public boolean isCellEditable(int row,int col) {
 	                return false;
@@ -1135,7 +1135,7 @@ public class KHTourGUI extends JFrame {
 			}
 			tableModel.addRow(new Object[] {
 					kht.getMatour(),kht.getMakht(),kht.getNgaydi()+"",kht.getNgayve()+"",
-					kht.getSonguoi()+"",danhgiaTongChi,kht.getGiaVe()+""
+					kht.getSonguoi()+"/"+kht.getSonguoidukien(),danhgiaTongChi,kht.getThucchi()+"",kht.getGiaVe()+""
 			});
 		}
 		
@@ -1176,7 +1176,7 @@ public class KHTourGUI extends JFrame {
 	}
 	
 	public void initData2(ArrayList<KHTourDTO> khtour) {
-		String [] colname= {"Mã Tour","Mã kế hoạch Tour","Ngày đi","Ngày về","Số người","Tiền chi/người","Giá vé"};
+		String [] colname= {"Mã Tour","Mã kế hoạch Tour","Ngày đi","Ngày về","Số người/Dự kiến","Tiền chi","Thực chi","Giá vé"};
 		DefaultTableModel tableModel=new DefaultTableModel() {
 			 public boolean isCellEditable(int row,int col) {
 	                return false;
@@ -1192,10 +1192,22 @@ public class KHTourGUI extends JFrame {
 				}
 			}
 		});
-
+		String danhgiaTongChi="";
+		for(KHTourDTO kht:khtour) {
+			if(kht.getTongchi()==0) {
+				danhgiaTongChi="Chưa cập nhật";
+			}
+			else {
+				danhgiaTongChi=kht.getTongchi()+"";
+			}
+			tableModel.addRow(new Object[] {
+					kht.getMatour(),kht.getMakht(),kht.getNgaydi()+"",kht.getNgayve()+"",
+					kht.getSonguoi()+"/"+kht.getSonguoidukien(),danhgiaTongChi,kht.getThucchi()+"",kht.getGiaVe()+""
+			});
+		}
 		
-		for(KHTourDTO kht2:KHToursBUS.khtList) {
-			arrMatour.add(kht2.getMatour());
+		for(QlyToursDTO tour:QlyToursBUS.tourDTO) {
+			arrMatour.add(tour.getMatour());
 		}
 		
 		HashSet<String> set = new HashSet<>(arrMatour);
@@ -1203,6 +1215,15 @@ public class KHTourGUI extends JFrame {
 	    Collections.reverse(arrMaTour2);
 		
 		cbMatour = new JComboBox(arrMaTour2.toArray());
+		cbMatour.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                   tfMaKHT.requestFocusInWindow();
+                    // Perform actions based on the selected item
+                }
+            }
+        });
 		cbMatour.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbMatour.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		cbMatour.setBounds(10, 39, 190, 35);
@@ -1210,9 +1231,11 @@ public class KHTourGUI extends JFrame {
 		cbMatour.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(!btnXoa.isEnabled()&&!btnSua.isEnabled()) {
-					tfSongay.setText(getTour((String) cbMatour.getSelectedItem()).getSongay()+"");
-				}
+				tfSongay.setText(getTour((String) cbMatour.getSelectedItem()).getSongay()+"");
+                Calendar calendar = Calendar.getInstance();
+                ngaydi_date.setDate(calendar.getTime());
+                calendar.add(Calendar.DAY_OF_MONTH, getTour((String) cbMatour.getSelectedItem()).getSongay()-1);
+                ngayve_date.setDate(calendar.getTime());
 			}
 		});
 		panel_2.add(cbMatour);
@@ -1446,6 +1469,7 @@ public class KHTourGUI extends JFrame {
 		String huongdanvien=tfHuongDanVien.getText();
 		//long tongchi=Long.parseLong(tfTongChi.getText());
 		long tongchi=0;
+		long thucchi=0;
 		
 //		String anh1_path_new="";
 //		String anh2_path_new="";
@@ -1461,7 +1485,7 @@ public class KHTourGUI extends JFrame {
 //		}
 		
 		KHTourDTO kht=new KHTourDTO(makht, matour, mota, huongdanvien, anh1_path, anh2_path, 
-				anh3_path, ngaydi, ngayve, songuoi, tongchi, giave);	
+				anh3_path, ngaydi, ngayve, songuoi, tongchi, giave,thucchi,songuoi);	
 		if(khtBUS.themKHT(kht)!=-1) {
 			JOptionPane.showMessageDialog(this, "Thêm thành công!");
 		}
@@ -1486,6 +1510,7 @@ public class KHTourGUI extends JFrame {
 		kht.setMakht(tfMaKHT.getText());
 		kht.setMota(textAreaMoTa.getText());
 		kht.setSonguoi(Integer.parseInt(cbSoCho.getSelectedItem().toString()));
+		kht.setSonguoidukien(Integer.parseInt(cbSoCho.getSelectedItem().toString()));
 		
 		java.util.Date ngaydi_tmp=(java.util.Date) ngaydi_date.getDate();
         java.sql.Date ngaydi=new java.sql.Date(ngaydi_tmp.getTime());
