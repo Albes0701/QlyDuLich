@@ -80,13 +80,16 @@ public class DatTourGUI extends JFrame {
 	JLabel lbTenTour,lbGiave,lbHinh1,lbHinh2,lbHinh3,phuongtien_nd,nhahang_nd,khachsan_nd,lbThoigian,lbNoiKhoiHanh,lbSoCho,diadiem_nd;
 	JTextArea textArea_mota;
 	JComboBox noiden_cb,loaitour_cb,noibatdau_cb;
-	JDateChooser ngaydi_cb;	
+	JDateChooser ngaydi_cb;
+	
 	ArrayList<String> arr_noibatdau=new ArrayList<String>();
 	ArrayList<String> arr_denTrongNuoc=new ArrayList<String>();
 	ArrayList<String> arr_denNgoaiNuoc=new ArrayList<String>();
 	
-	
-	
+	private static String loaitour ="",noibatdau="",noiden="";
+	private static int songay = 0, songuoi=0;
+	private static long giave = 0;
+	private static Date ngaydi;
 	DatTourBUS dattourBUS=new DatTourBUS();
 	private JTextField tfSonguoi;
 	private JTextField tfSongay;
@@ -297,7 +300,8 @@ public class DatTourGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				XoaDataTable();
-				initData2(Loc());
+				Loc2();
+//				initData2(Loc());
 				
 			}
 		});
@@ -311,15 +315,16 @@ public class DatTourGUI extends JFrame {
 		reset_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Reset();
+				initData();
 			}
 		});
 		reset_btn.setFont(new Font("Tahoma", Font.BOLD, 18));
 		reset_btn.setBounds(137, 361, 90, 40);
 		panel_1.add(reset_btn);
 		
-		JLabel songuoi_lb_1 = new JLabel("Giá vé");
+		JLabel songuoi_lb_1 = new JLabel("Giá vé( ≤X)");
 		songuoi_lb_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		songuoi_lb_1.setBounds(10, 305, 90, 30);
+		songuoi_lb_1.setBounds(10, 305, 102, 30);
 		panel_1.add(songuoi_lb_1);
 		
 		tfGiaVe = new JTextField();
@@ -778,6 +783,46 @@ public class DatTourGUI extends JFrame {
 		}
 		return maloai;
 	}
+	
+	
+	public void Loc2() {
+		if(loaitour_cb.getSelectedItem().toString().equals("Trong nước")) {
+			loaitour="loai1";
+		}else {
+			loaitour="loai2";
+		}
+		if(noibatdau_cb.getSelectedItem() != null) {
+			noibatdau=noibatdau_cb.getSelectedItem().toString();			
+		}
+		if(noiden_cb.getSelectedItem() != null) {
+			noiden=noiden_cb.getSelectedItem().toString();			
+		}
+//		System.out.println(ngaydi);
+		java.util.Date ngaydi_tmp=(java.util.Date) ngaydi_cb.getDate();
+		if(ngaydi_tmp!=null) {
+			ngaydi = new java.sql.Date(ngaydi_tmp.getTime());			
+		}
+		
+		 if(!tfSongay.getText().equals("")) {
+			 songay=Integer.parseInt(tfSongay.getText());			 
+		 }
+
+        if(!tfSonguoi.getText().equals("")) {
+        	songuoi=Integer.parseInt(tfSonguoi.getText());
+        }
+        
+        
+        if(!tfGiaVe.getText().equals("")) {
+        	giave=Long.parseLong(tfGiaVe.getText());
+        }
+        ArrayList<DatTourDTO> list = dattourBUS.LocTour(loaitour, noibatdau, noiden, ngaydi, songay, songuoi, giave);
+        if(list == null) {
+        	JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp");
+        }else {
+        	initData2(list);
+        }
+	}
+	
 	
 	public ArrayList<DatTourDTO> Loc(){
 		ArrayList<DatTourDTO> locTheoLoai=new ArrayList<DatTourDTO>();

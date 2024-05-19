@@ -453,6 +453,7 @@ public class Ve extends JFrame {
 				panel_2.add(lblNewLabel_1_1_1_3);
 				
 				tf_maso = new JTextField();
+				tf_maso.setFocusable(false);
 				tf_maso.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				tf_maso.setColumns(10);
 				tf_maso.setBounds(91, 17, 159, 25);

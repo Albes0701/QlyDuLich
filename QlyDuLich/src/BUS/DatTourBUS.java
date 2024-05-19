@@ -3,6 +3,7 @@ package BUS;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import DAO.DatTourDAO;
 import DTO.CTKHT_DTO;
 import DTO.DatTourDTO;
 import DTO.KHTourDTO;
@@ -99,9 +100,8 @@ public class DatTourBUS {
 		return tennh;
 	}
 
-	public ArrayList<DatTourDTO> LocTour(){
-		
-		return null;
+	public ArrayList<DatTourDTO> LocTour(String loaitour,String noiBD, String noiDen,java.sql.Date ngayDi, int soNgay, int soNguoi, long giaVe){
+		return DatTourDAO.getIntance().getLoc(loaitour, noiBD, noiDen, ngayDi, soNgay, soNguoi, giaVe);
 	}
 	
 }
