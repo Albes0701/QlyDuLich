@@ -42,12 +42,14 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.CTKhuyenMaiBUS;
 import BUS.HoaDonBUS;
 import BUS.KHToursBUS;
 import BUS.KhuyenMaiBUS;
 import BUS.QlyToursBUS;
 import BUS.QlyVeBUS;
 import DTO.CTKM_DTO;
+import DTO.CTKhuyenMaiDTO;
 import DTO.DatTourDTO;
 import DTO.HoaDonDTO;
 import DTO.KHTourDTO;
@@ -73,10 +75,10 @@ public class Ve extends JFrame {
 	protected JTextField tfDiachi;
 	protected JTextField tfEmail;
 	private JTable table_ThongTin;
-	private String mahd,MaKHT1;
+	private String mahd,MaKHT1,matour;
 	private double giave=0,tongcong=0,tongcong_truocgg=0;
 	private Date ngaytaohoadon;
-	protected JComboBox<String> cbGioitinh,cbMaKM;
+	protected JComboBox<String> cbGioitinh;
 	protected JDateChooser datechooserNgaysinh;
 	private JButton btnLuu1;
 //	private String [] arr_TTLienLac;
@@ -88,6 +90,7 @@ public class Ve extends JFrame {
 	HoaDonBUS hdBUS=new HoaDonBUS();
 	private JTextField tfPhanTram;
 	protected JTextField tf_maso;
+	private JTextField tfKhuyenMai;
 	
 
 	/**
@@ -115,6 +118,7 @@ public class Ve extends JFrame {
 		MaKHT1=tourduocchon.getMakht();
 		giave=tourduocchon.getGiatour();
 		socho=tourduocchon.getSonguoi();
+		matour=tourduocchon.getMatour();
 		
 		long millis=System.currentTimeMillis();      
 	    ngaytaohoadon = new java.sql.Date(millis); 
@@ -395,16 +399,6 @@ public class Ve extends JFrame {
 		datechooserNgaysinh = new JDateChooser();
 		datechooserNgaysinh.setBounds(103, 217, 107, 26);
 		panel_2.add(datechooserNgaysinh);
-		
-		cbMaKM = new JComboBox(GetMaKM(tourduocchon.getMatour()).toArray());
-		cbMaKM.setBounds(243, 218, 85, 25);
-		cbMaKM.setSelectedItem(GetMaKMLonNhat(GetMaKM(tourduocchon.getMatour())));
-		panel_2.add(cbMaKM);
-		//		String arr_makm[]= {"km01","km02","km03"};
-		//		cbMaKM = new JComboBox(arr_makm);
-				
-				cbMaKM.setFont(new Font("Tahoma", Font.PLAIN, 14));
-				cbMaKM.setBackground(Color.WHITE);
 				
 				JLabel lblNewLabel_1_1_1_3_5 = new JLabel("Mã giảm giá");
 				lblNewLabel_1_1_1_3_5.setBounds(243, 182, 97, 26);
@@ -439,6 +433,7 @@ public class Ve extends JFrame {
 							XoaDataTable();
 							initDataTable();
 							Reset();
+							tf_maso.setText("");
 						}
 						else {
 							JOptionPane.showMessageDialog(panel, "Tour đã hết chỗ.");
@@ -476,20 +471,12 @@ public class Ve extends JFrame {
 				btn_info.setBackground(new Color(192, 192, 192));
 				btn_info.setBounds(260, 16, 34, 26);
 				panel_2.add(btn_info);
-		cbMaKM.addItemListener(new ItemListener() {
-			
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-				for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
-					if(km.getMakm().equals(e.getItem().toString())) {
-						tfPhanTram.setText(km.getPhantram()+"");
-						break;
-					}
-				}
-			}
-		});
-		String kmSelected = cbMaKM.getItemAt(0).toString();
+				
+				tfKhuyenMai = new JTextField();
+				tfKhuyenMai.setEditable(false);
+				tfKhuyenMai.setBounds(243, 218, 84, 24);
+				panel_2.add(tfKhuyenMai);
+				tfKhuyenMai.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 361, 547, 162);
@@ -503,18 +490,6 @@ public class Ve extends JFrame {
 		lblNewLabel_1_1_2.setBounds(10, 325, 234, 26);
 		panel_1.add(lblNewLabel_1_1_2);
 		
-//		String [] arr_gioitinh= {"Nam","Nữ"};
-		try {
-			for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
-				if(km.getMakm().equals(kmSelected)){
-					tfPhanTram.setText(km.getPhantram()+"");
-					break;
-				}
-			}			
-		} catch (Exception e) {
-			// TODO: handle exception
-			tfPhanTram.setText("");
-		}
 		
 		JPanel panel_1_1 = new JPanel();
 		panel_1_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -835,7 +810,17 @@ public class Ve extends JFrame {
 //	}
 	
 	public void init() {
-		tfPhanTram.setText(GetPTGiamGia(cbMaKM.getSelectedItem().toString())+"");
+		tf_maso.setEditable(false);
+		ArrayList<String> listMakm=new ArrayList<String>();
+		for(CTKhuyenMaiDTO ctkm : CTKhuyenMaiBUS.ctkmDTO) {
+			if(ctkm.getMatour().equals(matour)) {
+				listMakm.add(ctkm.getMakm());
+			}
+		}
+		String makmMax=GetMaKMLonNhat(listMakm);
+		int ptramMaxKm=(int) GetPTGiamGia(makmMax);
+		tfKhuyenMai.setText(makmMax);
+		tfPhanTram.setText(ptramMaxKm+"");
 //		cbGioitinh.setEnabled(false);
 //		datechooserNgaysinh.setEnabled(false);
 //		cbMaKM.setEnabled(false);
@@ -900,7 +885,12 @@ public class Ve extends JFrame {
 	public void Them() {
 		//==================Them Khách hàng=================
 //		String [] ttLienLac=arr_TTLienLac;
-		String makh=TaoMaKH();
+		String makh="";
+		if(tf_maso.getText().equals("")) {
+			makh=TaoMaKH();
+		}else {
+			makh=tf_maso.getText();
+		}
 		String tenkh_tmp=tfHoTen.getText();
 		String[] parts = tenkh_tmp.split(" ");
 		String tenkh=parts[parts.length-1];
@@ -919,8 +909,7 @@ public class Ve extends JFrame {
 		String diachi=tfDiachi.getText();
 		java.util.Date ngaysinh_tmp=(java.util.Date) datechooserNgaysinh.getDate();
         java.sql.Date ngaysinh=new java.sql.Date(ngaysinh_tmp.getTime());
-        
-        if(calculateAge(ngaysinh)<18 && veBUS.GetListKH().contains(null)) {
+        if(calculateAge(ngaysinh)<18 && veBUS.GetListKH().isEmpty()) {
         	JOptionPane.showMessageDialog(this, "Người đại diện chưa đủ tuổi.");
         	return;
         }else {	
@@ -931,7 +920,7 @@ public class Ve extends JFrame {
         
         //==================Thêm Vé==================
         String mave=TaoMaVe();
-        String makm=cbMaKM.getSelectedItem().toString();
+        String makm=tfKhuyenMai.getText();
         int ptgg=(int) GetPTGiamGia(makm);
         if(checkTreEm(makh)) {
         	VeDTO ve=new VeDTO(mave, MaKHT1, mahd, makm, makh, giave*70/100,(100-ptgg)*(giave*70/100)/100);
