@@ -20,7 +20,10 @@ public class thongkeDAO {
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT COUNT(v.mave) as quatity FROM hoadon hd JOIN ve v ON hd.mahd = v.mahd WHERE YEAR(hd.ngaytao) = '" +year+ "'";
+			String sql="SELECT COUNT(v.mave) as quatity "
+					+ "FROM ve v "
+					+ "LEFT JOIN kehoachtour kht ON v.makht = kht.makht "
+					+ "WHERE YEAR(kht.ngayve) = '" +year+ "' AND kht.ngayve <= now()";
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
 			while(rs.next()){
@@ -42,7 +45,11 @@ public class thongkeDAO {
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT SUM(hd.tongtien) as total FROM hoadon hd WHERE YEAR(hd.ngaytao) = '" +year+ "'";
+			String sql="SELECT SUM(v.giave*(100-km.phantram)/100) as total"
+					+ " FROM ve v"
+					+ " LEFT JOIN kehoachtour kht ON v.makht = kht.makht"
+					+ " LEFT JOIN khuyenmai km ON km.makm = v.makm"
+					+ " WHERE kht.ngayve <= now() AND YEAR(kht.ngayve) = '" +year+ "'";
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
 			while(rs.next()){
@@ -65,12 +72,19 @@ public class thongkeDAO {
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT hd.manv , SUM(hd.tongtien) as total FROM hoadon hd WHERE YEAR(hd.ngaytao) = '" +year+ "' GROUP BY hd.manv ORDER BY total DESC";
+			String sql="SELECT SUM(v.giave*(100-km.phantram)/100) as total, hd.manv"
+					+ " FROM ve v"
+					+ " LEFT JOIN kehoachtour kht ON v.makht = kht.makht"
+					+ " LEFT JOIN khuyenmai km ON km.makm = v.makm "
+					+ " LEFT JOIN hoadon hd ON hd.mahd = v.mahd"
+					+ " WHERE kht.ngayve <= now() AND YEAR(kht.ngayve) = '" +year+ "'"
+					+ " GROUP BY hd.manv ORDER BY total DESC";
+//			System.out.println(sql);
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
 			while(rs.next()){
 				total = rs.getDouble("total");
-				String manv = rs.getString("manv");
+				String manv = rs.getString("hd.manv");
 				HoaDonDTO hd = new HoaDonDTO(null,manv , null, null, total,0);
 				list.add(hd);
 			}
@@ -81,7 +95,7 @@ public class thongkeDAO {
 		}
 		return list;
 	}
-	
+	//chi tiet
 	public ArrayList<thongkeDTO> getTk_tours_thu(String year){
 		ArrayList<thongkeDTO> list = new ArrayList<>();
 		try {
@@ -90,19 +104,20 @@ public class thongkeDAO {
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT kht.makht,kht.matour, ((kht.soluong - kht.songuoi)*kht.giave*(100-km.phantram)/100) as thu"+
+			String sql="SELECT kht.makht, kht.matour, kht.thucchi, IFNULL( SUM(v.giave*(100-km.phantram)/100),0) as thu"+
 					" FROM kehoachtour kht" +
 					" LEFT JOIN ve v ON kht.makht = v.makht" +
 					" LEFT JOIN khuyenmai km ON v.makm = km.makm" + 
-					" WHERE YEAR(kht.ngaydi) = '" +year+ "'" +
-					" GROUP BY kht.makht,kht.matour";
+					" WHERE kht.ngayve <= now() and YEAR(kht.ngaydi) = '" +year+ "'" +
+					" GROUP BY kht.makht,kht.matour, kht.thucchi";
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
 			while(rs.next()){
 				String makht = rs.getString("makht");
 				String matour = rs.getString("matour");
 				double thu = rs.getDouble("thu");
-				thongkeDTO tk = new thongkeDTO(makht, matour, 0, thu);
+				double chi = rs.getDouble("kht.thucchi");
+				thongkeDTO tk = new thongkeDTO(makht, matour, chi, thu);
 				list.add(tk);
 			}
 			//Bước 5:Ngắt kết nối
@@ -112,7 +127,7 @@ public class thongkeDAO {
 		}
 		return list;
 	}
-	
+	//chua
 	public ArrayList<HoaDonDTO> getTK_KH(String year) {
 		ArrayList<HoaDonDTO> list = new ArrayList<HoaDonDTO>();
 		double total = 0;
@@ -122,7 +137,14 @@ public class thongkeDAO {
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT hd.makh , SUM(hd.tongtien) as total FROM hoadon hd WHERE YEAR(hd.ngaytao) = '" +year+ "' GROUP BY hd.makh  ORDER BY total DESC";
+			String sql="SELECT hd.makh, SUM(v.giave*(100-km.phantram)/100) as total"
+					+ " FROM hoadon hd"
+					+ " LEFT JOIN ve v ON hd.mahd = v.mahd"
+					+ " LEFT JOIN khuyenmai km ON km.makm = v.makm"
+					+ " LEFT JOIN kehoachtour kht ON kht.makht = v.makht"
+					+ "	WHERE kht.ngayve <= now() and YEAR(hd.ngaytao) = '" +year+ "'"
+					+ " GROUP BY hd.makh"
+					+ " ORDER BY total DESC";
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
 			while(rs.next()){
@@ -147,9 +169,9 @@ public class thongkeDAO {
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT SUM(kht.tongchi) as chi"
+			String sql="SELECT SUM(kht.thucchi) as chi"
 					+ " FROM kehoachtour kht"
-					+ " WHERE YEAR(kht.ngaydi) = '"  +year+ "'";
+					+ " WHERE kht.ngayve <= now() AND YEAR(kht.ngaydi) = '"  +year+ "'";
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
 			while(rs.next()){
@@ -162,6 +184,7 @@ public class thongkeDAO {
 		}
 		return total;
 	}
+	//thieu nam
 	 public double getQuy(int start, int end) {
 		 double doanhthu = 0;
 		 try {
@@ -170,7 +193,12 @@ public class thongkeDAO {
 				//Bước 2:Tạo đối tượng statement
 				java.sql.Statement st=con.createStatement();
 				//Bước 3:Thực thi statement
-				String sql="SELECT SUM(hd.tongtien) as thu FROM hoadon hd WHERE MONTH(hd.ngaytao) BETWEEN " + start +" AND "+ end;
+				String sql="SELECT SUM(v.giave*(100-km.phantram)/100) as thu"
+						+ " FROM ve v"
+						+ " LEFT JOIN kehoachtour kht ON v.makht = kht.makht"
+						+ " LEFT JOIN khuyenmai km ON km.makm = v.makm"
+						+ " LEFT JOIN hoadon hd ON hd.mahd = v.mahd"
+						+ " WHERE kht.ngayve <= now() AND MONTH(hd.ngaytao) BETWEEN " + start +" AND "+ end;
 				ResultSet rs=st.executeQuery(sql);
 				//Bước 4:Xử lý kết quả trả về
 				while(rs.next()){

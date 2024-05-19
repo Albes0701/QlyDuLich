@@ -50,7 +50,7 @@ public class MatKhauGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public MatKhauGUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(600, 250, 340, 399);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

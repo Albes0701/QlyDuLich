@@ -61,7 +61,7 @@ public class infoKhachHang extends JFrame {
 	public infoKhachHang(Ve ve) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(700,400);
-		setBounds(500, 220, 700, 400);
+		setBounds(400, 220, 700, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -220,9 +220,8 @@ public class infoKhachHang extends JFrame {
 		ve.tf_maso.setText(kh.getMakh());
 		ve.tfHoTen.setText(kh.getHokh()+" " +kh.getTenkh());
 		ve.tfEmail.setText(kh.getEmail());
-		ve.tfSdt.setText(kh.getEmail());
+		ve.tfSdt.setText(kh.getSdt());
 		ve.tfDiachi.setText(kh.getDiachi());
-//		System.out.println(kh.isGioitinh()+" "+KiemTra.getInstance().GioiTinh(kh.isGioitinh()));
 		ve.cbGioitinh.setSelectedItem(KiemTra.getInstance().GioiTinh(kh.isGioitinh()));
 		ve.datechooserNgaysinh.setDate(kh.getNgaysinh());
 	}

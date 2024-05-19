@@ -503,12 +503,10 @@ public class ThongKe extends JFrame {
 		listTk_tours = tkBUS.getTk_tours_thu(year_Selected);
 		for(thongkeDTO tk: listTk_tours) {
 			tableModel_tk.addRow(new Object[] {
-					tk.getMakht(),tk.getMatour(),decimalFormat.format(tk.getChi()) + " VNĐ",decimalFormat.format(tk.getThu()) + " VNĐ",0,
+					tk.getMakht(),tk.getMatour(),decimalFormat.format(tk.getChi()) + " VNĐ",
+					decimalFormat.format(tk.getThu()) + " VNĐ",
+					decimalFormat.format(tk.getThu()-tk.getChi())+ " VNĐ",
 			});
 		}
-		for (int row = 0; row < tableModel_tk.getRowCount(); row++) {
-			tableModel_tk.setValueAt(decimalFormat.format(KHToursBUS.khtList.get(row).getTongchi()) + " VNĐ", row, 2);
-			tableModel_tk.setValueAt(decimalFormat.format(listTk_tours.get(row).getThu() - KHToursBUS.khtList.get(row).getTongchi()) + " VNĐ",row,4);
-        }
 	}
 }
