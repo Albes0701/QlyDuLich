@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import com.mysql.cj.xdevapi.Statement;
+
 import DTO.HoaDonDTO;
+import DTO.KHTourDTO;
 import DTO.thongkeDTO;
 import Util.JDBCUtil;
 
@@ -211,6 +214,31 @@ public class thongkeDAO {
 			}
 		 return doanhthu;
 	 }
+	 
+	
+	 
+	 
+	 
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	
 	 
 	
 }

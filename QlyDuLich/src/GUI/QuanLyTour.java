@@ -51,6 +51,7 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.CTKhuyenMaiBUS;
 import BUS.KHToursBUS;
 import BUS.KhachHangBUS;
 import BUS.QlyToursBUS;
@@ -75,9 +76,7 @@ public class QuanLyTour extends JFrame {
 	private JComboBox comboBox_LoaiTour;
 	private JComboBox khoihanh_cb;
 	private JComboBox noiden_cb;
-	private JButton sua_btn;
-	private JButton them_btn;
-	private JButton xoa_btn;
+	public JButton sua_btn,them_btn,xoa_btn;
 	private JButton thoat_btn;
 	private JComboBox timkiem_cb;
 	JButton btn_QLTour,btn_KHTour,btn_QLDV,btn_KhuyenMai,btn_NhanVien,btn_KhachHang;
@@ -135,9 +134,10 @@ public class QuanLyTour extends JFrame {
 		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				QuanLyTour qlt = new QuanLyTour();
-				qlt.btn_QLTour.setBackground(Color.ORANGE);
-				qlt.btn_QLTour.setForeground(Color.BLACK);
+//				QuanLyTour qlt = new QuanLyTour();
+				FormShare.qlt.setVisible(true);
+				FormShare.qlt.btn_QLTour.setBackground(Color.ORANGE);
+				FormShare.qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(113, 65, 120, 40);
@@ -154,9 +154,11 @@ public class QuanLyTour extends JFrame {
 		btn_KHTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KHTourGUI kht = new KHTourGUI();
-				kht.btn_KHTour.setBackground(Color.ORANGE);
-				kht.btn_KHTour.setForeground(Color.BLACK);
+//				KHTourGUI kht = new KHTourGUI();
+				FormShare.kht.setVisible(true);
+				FormShare.kht.initData();
+				FormShare.kht.btn_KHTour.setBackground(Color.ORANGE);
+				FormShare.kht.btn_KHTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
@@ -168,9 +170,10 @@ public class QuanLyTour extends JFrame {
 		btn_QLDV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				DichVu dv = new DichVu();
-				dv.btn_QLDV.setBackground(Color.ORANGE);
-				dv.btn_QLDV.setForeground(Color.BLACK);
+//				DichVu dv = new DichVu();
+				FormShare.dv.setVisible(true);
+				FormShare.dv.btn_QLDV.setBackground(Color.ORANGE);
+				FormShare.dv.btn_QLDV.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLDV.setForeground(new Color(255, 255, 255));
@@ -190,9 +193,10 @@ public class QuanLyTour extends JFrame {
 		btn_KhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KhachHang kh = new KhachHang();
-				kh.btn_KhachHang.setBackground(Color.ORANGE);
-				kh.btn_KhachHang.setForeground(Color.BLACK);
+//				KhachHang kh = new KhachHang();
+				FormShare.kh.setVisible(true);
+				FormShare.kh.btn_KhachHang.setBackground(Color.ORANGE);
+				FormShare.kh.btn_KhachHang.setForeground(Color.BLACK);
 			}
 		});
 
@@ -207,9 +211,10 @@ public class QuanLyTour extends JFrame {
 		btn_NhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				NhanVien nv = new NhanVien();
-				nv.btn_NhanVien.setBackground(Color.ORANGE);
-				nv.btn_NhanVien.setForeground(Color.BLACK);
+//				NhanVien nv = new NhanVien();
+				FormShare.nv.setVisible(true);
+				FormShare.nv.btn_NhanVien.setBackground(Color.ORANGE);
+				FormShare.nv.btn_NhanVien.setForeground(Color.BLACK);
 			}
 		});
 
@@ -217,9 +222,10 @@ public class QuanLyTour extends JFrame {
 		btn_KhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KhuyenMai km = new KhuyenMai();
-				km.btn_KhuyenMai.setBackground(Color.ORANGE);
-				km.btn_KhuyenMai.setForeground(Color.BLACK);
+//				KhuyenMai km = new KhuyenMai();
+				FormShare.km.setVisible(true);
+				FormShare.km.btn_KhuyenMai.setBackground(Color.ORANGE);
+				FormShare.km.btn_KhuyenMai.setForeground(Color.BLACK);
 			}
 		});
 		btn_KhuyenMai.setFocusable(false);
@@ -243,9 +249,10 @@ public class QuanLyTour extends JFrame {
 		label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setVisible(false);
-                TrangChuGUI tc = new TrangChuGUI();
-                tc.btn_TrangChu.setBackground(Color.ORANGE);
-                tc.btn_TrangChu.setForeground(Color.BLACK);
+//                TrangChuGUI tc = new TrangChuGUI();
+                FormShare.tc.setVisible(true);
+                FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+                FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
             }
         });
 		panel.add(label);
@@ -665,7 +672,7 @@ public class QuanLyTour extends JFrame {
 		btnNewButton.setFocusable(false);
 		btnNewButton.setBounds(849, 25, 124, 30);
 		panel.add(btnNewButton);
-		this.setVisible(true);
+//		this.setVisible(true);
 	}
 
 	public void initData() {
@@ -681,6 +688,7 @@ public class QuanLyTour extends JFrame {
 				}
 			}
 		});
+		if(QlyToursBUS.tourDTO != null)
 		for (QlyToursDTO tour : QlyToursBUS.tourDTO) {
 			tableModel.addRow(new Object[] { tour.getMatour(), tour.getTentour(), tour.getSongay() + "",
 					tour.getNoiden(), tour.getMaloai(), tour.getNoikhoihanh() });
@@ -793,6 +801,8 @@ public class QuanLyTour extends JFrame {
 			if (tourBUS.them(tour) == -1) {
 				JOptionPane.showMessageDialog(this, "Lỗi!");
 			} else {
+//				CTKhuyenMaiBUS ctkmBUS = new CTKhuyenMaiBUS();
+//				ctkmBUS.docCTKM();
 				JOptionPane.showMessageDialog(this, "Thêm thành công!");
 			}
 		}

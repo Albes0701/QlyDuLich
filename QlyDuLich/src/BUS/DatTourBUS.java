@@ -19,6 +19,7 @@ public class DatTourBUS {
 	
 	public void docDSTour() {
 		dsTour.clear();
+		if(QlyToursBUS.tourDTO != null)
 		for(QlyToursDTO t:QlyToursBUS.tourDTO) {
 			for(KHTourDTO kht:KHToursBUS.khtList) {
 				if(kht.getMatour().equals(t.getMatour())) {
@@ -48,13 +49,14 @@ public class DatTourBUS {
 	public String getPhuongTien(String makht) {
 		String mapt="";
 		String tenpt="";
+		if(ChiTietKHT_BUS.ctkhtList!=null)
 		for(CTKHT_DTO ctkht:ChiTietKHT_BUS.ctkhtList) {
 			if(ctkht.getMakht().equals(makht)) {
 				mapt=ctkht.getMapt();
 				break;
 			}
 		}
-		
+		if(DichVuBUS.ptDTO!=null)
 		for(PhuongTienDTO pt:DichVuBUS.ptDTO) {
 			if(pt.getMaso().equals(mapt)) {
 				tenpt=pt.getTendv();
@@ -66,13 +68,14 @@ public class DatTourBUS {
 			
 		String maks="";
 		String tenks="";
+		if(ChiTietKHT_BUS.ctkhtList!=null)
 		for(CTKHT_DTO ctkht:ChiTietKHT_BUS.ctkhtList) {
 			if(ctkht.getMakht().equals(makht)) {
 				maks=ctkht.getMaks();
 				break;
 			}
 		}
-		
+		if(DichVuBUS.ksDTO!=null)
 		for(KhachSanDTO ks:DichVuBUS.ksDTO) {
 			if(ks.getMaso().equals(maks)) {
 				tenks=ks.getTendv();
@@ -85,13 +88,14 @@ public class DatTourBUS {
 		
 		String manh="";
 		String tennh="";
+		if(ChiTietKHT_BUS.ctkhtList!=null)
 		for(CTKHT_DTO ctkht:ChiTietKHT_BUS.ctkhtList) {
 			if(ctkht.getMakht().equals(makht)) {
 				manh=ctkht.getManh();
 				break;
 			}
 		}
-		
+		if(DichVuBUS.nhDTO!=null)
 		for(NhaHangDTO nh:DichVuBUS.nhDTO) {
 			if(nh.getMaso().equals(manh)) {
 				tennh=nh.getTendv();

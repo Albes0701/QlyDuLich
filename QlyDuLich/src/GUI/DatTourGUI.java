@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -75,6 +76,7 @@ public class DatTourGUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField_NgayVL;
 	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
+	JButton btn_ChonTour;
 	private JTable table;
 	private JTextField tfGiaVe;
 	JLabel lbTenTour,lbGiave,lbHinh1,lbHinh2,lbHinh3,phuongtien_nd,nhahang_nd,khachsan_nd,lbThoigian,lbNoiKhoiHanh,lbSoCho,diadiem_nd;
@@ -93,6 +95,7 @@ public class DatTourGUI extends JFrame {
 	DatTourBUS dattourBUS=new DatTourBUS();
 	private JTextField tfSonguoi;
 	private JTextField tfSongay;
+	public Ve ve;
 	
 	/**
 	 * Launch the application.
@@ -141,9 +144,10 @@ public class DatTourGUI extends JFrame {
 		btn_TrangChu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				TrangChuGUI tc = new TrangChuGUI();
-				tc.btn_TrangChu.setBackground(Color.ORANGE);
-				tc.btn_TrangChu.setForeground(Color.BLACK);
+//				TrangChuGUI tc = new TrangChuGUI();
+				FormShare.tc.setVisible(true);
+				FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+				FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
 			}
 		});
 		btn_TrangChu.setBounds(154, 65, 120, 40);
@@ -155,9 +159,10 @@ public class DatTourGUI extends JFrame {
 		btn_HoaDon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				HoaDon hd = new HoaDon();
-				hd.btn_HoaDon.setBackground(Color.ORANGE);
-				hd.btn_HoaDon.setForeground(Color.BLACK);
+//				HoaDon hd = new HoaDon();\
+				FormShare.hd.setVisible(true);
+				FormShare.hd.btn_HoaDon.setBackground(Color.ORANGE);
+				FormShare.hd.btn_HoaDon.setForeground(Color.BLACK);
 			}
 		});
 		btn_HoaDon.setForeground(new Color(255, 255, 255));
@@ -170,9 +175,10 @@ public class DatTourGUI extends JFrame {
 		btn_QlyThongtin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				QuanLyTour qlt = new QuanLyTour();
-				qlt.btn_QLTour.setBackground(Color.ORANGE);
-				qlt.btn_QLTour.setForeground(Color.BLACK);
+//				QuanLyTour qlt = new QuanLyTour();
+				FormShare.qlt.setVisible(true);
+				FormShare.qlt.btn_QLTour.setBackground(Color.ORANGE);
+				FormShare.qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QlyThongtin.setFocusable(false);
@@ -187,9 +193,10 @@ public class DatTourGUI extends JFrame {
 		btn_ThongKe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				ThongKe tk = new ThongKe();
-				tk.btn_ThongKe.setBackground(Color.ORANGE);
-				tk.btn_ThongKe.setForeground(Color.BLACK);
+//				ThongKe tk = new ThongKe();
+				FormShare.tk.setVisible(true);
+				FormShare.tk.btn_ThongKe.setBackground(Color.ORANGE);
+				FormShare.tk.btn_ThongKe.setForeground(Color.BLACK);
 			}
 		});
 		btn_ThongKe.setFocusable(false);
@@ -214,9 +221,9 @@ public class DatTourGUI extends JFrame {
 		label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setVisible(false);
-                TrangChuGUI tc = new TrangChuGUI();
-                tc.btn_TrangChu.setBackground(Color.ORANGE);
-                tc.btn_TrangChu.setForeground(Color.BLACK);
+                FormShare.tc.setVisible(true);
+                FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+                FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
             }
         });
 		panel.add(label);
@@ -517,14 +524,14 @@ public class DatTourGUI extends JFrame {
 		lbHinh3.setBounds(10, 0, 249, 90);
 		hinh3_panel.add(lbHinh3);
 		
-		JButton btnNewButton = new JButton("Đặt Tour");
-		btnNewButton.setBorder(null);
-		btnNewButton.setFocusPainted(false);
-		btnNewButton.setBackground(new Color(255, 127, 80));
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton.setBounds(546, 184, 85, 28);
-		btnNewButton.addActionListener(new ActionListener() {
+		btn_ChonTour = new JButton("Đặt Tour");
+		btn_ChonTour.setBorder(null);
+		btn_ChonTour.setFocusPainted(false);
+		btn_ChonTour.setBackground(new Color(255, 127, 80));
+		btn_ChonTour.setForeground(new Color(255, 255, 255));
+		btn_ChonTour.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btn_ChonTour.setBounds(546, 184, 85, 28);
+		btn_ChonTour.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -536,14 +543,14 @@ public class DatTourGUI extends JFrame {
 				else {
 					DatTourDTO tourduocchon=GetTourDaChon();
 					setVisible(false);
-					Ve ve = new Ve(tourduocchon);
+					ve = new Ve(tourduocchon);
 					
 					ve.setSize(1000, 780);
 				}
 				
 			}
 		});
-		panel_3.add(btnNewButton);
+		panel_3.add(btn_ChonTour);
 		
 		lbThoigian = new JLabel("Thời gian");
 		lbThoigian.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -620,9 +627,11 @@ public class DatTourGUI extends JFrame {
 		btn_DatTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				DatTourGUI dt = new DatTourGUI();
-				dt.btn_DatTour.setBackground(Color.ORANGE);
-				dt.btn_DatTour.setForeground(Color.BLACK);
+				
+//				DatTourGUI dt = new DatTourGUI();
+				FormShare.dt.setVisible(true);
+				btn_DatTour.setBackground(Color.ORANGE);
+				btn_DatTour.setForeground(Color.BLACK);
 			}
 		});
 		panel.add(btn_DatTour);
@@ -643,7 +652,7 @@ public class DatTourGUI extends JFrame {
 		btnNewButton_2.setFocusable(false);
 		btnNewButton_2.setBounds(849, 25, 124, 30);
 		panel.add(btnNewButton_2);
-		this.setVisible(true);
+//		this.setVisible(true);
 	}
 	
 	public void initData() {
@@ -669,6 +678,7 @@ public class DatTourGUI extends JFrame {
 		});
 		
 		
+		if(DatTourBUS.dsTour != null)
 		for (DatTourDTO dattour : DatTourBUS.dsTour) {
 			if(!KiemTra.getInstance().checkngaydi(KiemTra.getInstance().toDateUtil(dattour.getNgaydi()))) {
 				continue;

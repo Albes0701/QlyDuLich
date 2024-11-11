@@ -85,7 +85,7 @@ public class Ve extends JFrame {
 	private JLabel lbNameKH,lbSlot,lbSLHanhKhach,lbTongCong,lbNguoiLon,lbTreEm,lbGiamGia;
 	private int socho;
 	private HoaDonDTO hd;
-	
+	JButton btnThanhToan;
 	QlyVeBUS veBUS=new QlyVeBUS();
 	HoaDonBUS hdBUS=new HoaDonBUS();
 	private JTextField tfPhanTram;
@@ -418,6 +418,10 @@ public class Ve extends JFrame {
 				tfPhanTram.setColumns(10);
 				
 				btnLuu1 = new JButton("Lưu");
+				btnLuu1.setName("cn37");
+				if(DangNhapGUI.chucnangList.contains(btnLuu1.getName())){;
+				btnLuu1.setVisible(false);
+			}
 				btnLuu1.setBounds(457, 217, 85, 26);
 				
 				btnLuu1.addActionListener(new ActionListener() {
@@ -653,7 +657,11 @@ public class Ve extends JFrame {
 		lbTongCong.setBounds(246, 130, 113, 23);
 		panel_5.add(lbTongCong);
 		
-		JButton btnThanhToan = new JButton("Thanh toán");
+		btnThanhToan = new JButton("Thanh toán");
+		btnThanhToan.setName("cn6");
+		if(DangNhapGUI.chucnangList.contains(btnThanhToan.getName())){;
+			btnThanhToan.setVisible(false);
+		}
 		btnThanhToan.setForeground(Color.WHITE);
 		btnThanhToan.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnThanhToan.setFocusable(false);
@@ -706,9 +714,10 @@ public class Ve extends JFrame {
 		btnNewButton_Thoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				DatTourGUI dt = new DatTourGUI();
-				dt.btn_DatTour.setBackground(Color.ORANGE);
-				dt.btn_DatTour.setForeground(Color.BLACK);
+//				DatTourGUI dt = new DatTourGUI();
+				FormShare.dt.setVisible(true);
+				FormShare.dt.btn_DatTour.setBackground(Color.ORANGE);
+				FormShare.dt.btn_DatTour.setForeground(Color.BLACK);
 			}
 		});
 		panel_5.add(btnNewButton_Thoat);

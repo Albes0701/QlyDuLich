@@ -231,9 +231,10 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setVisible(false);
-                TrangChuGUI tc = new TrangChuGUI();
-                tc.btn_TrangChu.setBackground(Color.ORANGE);
-                tc.btn_TrangChu.setForeground(Color.BLACK);
+//                TrangChuGUI tc = new TrangChuGUI();
+                FormShare.tc.setVisible(true);
+                FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+                FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
             }
         });
 		panel.add(label);
@@ -395,7 +396,8 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 //				DefaultTableModel model_table = (DefaultTableModel) table.getModel();
 //				makht_row = model_table.getValueAt(row, 1) + "";
 				setVisible(false);
-				new KHTourGUI();
+				FormShare.kht.setVisible(true);
+//				new KHTourGUI();
 				
 			}
 			
@@ -654,7 +656,7 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		btn_KHTour.setBackground(new Color(24, 171, 138));
 		btn_KHTour.setBounds(273, 65, 120, 40);
 		panel.add(btn_KHTour);
-		this.setVisible(true);
+//		this.setVisible(true);
 	}
 	
 	public void init() {
@@ -662,7 +664,6 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		ArrayList<String> arrMaKS=new ArrayList<String>();
 		ArrayList<String> arrMaNH=new ArrayList<String>();
 		ArrayList<String> arrMaPT=new ArrayList<String>();
-		
 		
 
 		for(KHTourDTO kht:KHToursBUS.khtList) {
@@ -675,6 +676,7 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		
 		cbMaKHT.setSelectedItem(KHTourGUI.makht_row);
 		KHTourDTO kht= GetKHT(KHTourGUI.makht_row);
+		if(kht == null) return;
 		tfNgay.setText(kht.getNgaydi().toString());
 		
 		panel_2.add(cbMaKHT);

@@ -6,7 +6,7 @@ import DTO.HoaDonDTO;
 
 public class HoaDonBUS {
     private HoaDonDAO hoadonDAO = HoaDonDAO.getIntance();
-    public static ArrayList<HoaDonDTO> listHD;
+    public static ArrayList<HoaDonDTO> listHD = new ArrayList<HoaDonDTO>();
 
     public boolean docHoaDon() {
         try {

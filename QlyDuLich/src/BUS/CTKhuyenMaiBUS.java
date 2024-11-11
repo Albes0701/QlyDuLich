@@ -6,7 +6,7 @@ import DAO.KhuyenMaiDAO;
 import DTO.CTKhuyenMaiDTO;
 import DTO.KhuyenMaiDTO;
 public class CTKhuyenMaiBUS {
-public static ArrayList<CTKhuyenMaiDTO> ctkmDTO;
+public static ArrayList<CTKhuyenMaiDTO> ctkmDTO = new ArrayList<CTKhuyenMaiDTO>();
 	
 	public boolean docCTKM(){
 		try {

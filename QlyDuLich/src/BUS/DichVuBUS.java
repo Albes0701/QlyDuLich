@@ -15,9 +15,9 @@ import DTO.NhaHangDTO;
 import DTO.NhanVienDTO;
 import DTO.PhuongTienDTO;
 public class DichVuBUS {
-	public static ArrayList<NhaHangDTO> nhDTO;
-	public static ArrayList<KhachSanDTO> ksDTO;
-	public static ArrayList<PhuongTienDTO> ptDTO;
+	public static ArrayList<NhaHangDTO> nhDTO = new ArrayList<NhaHangDTO>();
+	public static ArrayList<KhachSanDTO> ksDTO = new ArrayList<KhachSanDTO>();
+	public static ArrayList<PhuongTienDTO> ptDTO = new ArrayList<PhuongTienDTO>();
 	public boolean docNH() {
 		try {
 			nhDTO = DichVuDAO.getIntance().selectAll_NhaHang();

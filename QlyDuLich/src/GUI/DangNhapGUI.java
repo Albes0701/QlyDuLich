@@ -11,6 +11,7 @@ import javax.swing.event.AncestorListener;
 
 import BUS.CTKHT_ThucChiBUS;
 import BUS.CTKhuyenMaiBUS;
+import BUS.CTQuyenBUS;
 import BUS.ChiTietKHT_BUS;
 import BUS.DatTourBUS;
 import BUS.DichVuBUS;
@@ -20,12 +21,17 @@ import BUS.KhachHangBUS;
 import BUS.KhuyenMaiBUS;
 import BUS.NhanVienBUS;
 import BUS.QlyToursBUS;
+import BUS.QuyenBUS;
 import BUS.chitiethoadonBUS;
 import BUS.taikhoanBUS;
+import DTO.KhachHangDTO;
 import DTO.chitiethoadonDTO;
 import DTO.taikhoanDTO;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -34,6 +40,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Method;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
@@ -45,7 +53,9 @@ public class DangNhapGUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField_User;
 	private JTextField textField_Password;
-	taikhoanBUS tkBUS = new taikhoanBUS();
+	private taikhoanBUS tkBUS = new taikhoanBUS();
+	private taikhoanDTO tkDTO;
+	static ArrayList<String> chucnangList;
 	/**
 	 * Launch the application.
 	 */
@@ -144,53 +154,224 @@ public class DangNhapGUI extends JFrame {
 			}
 		});
 		panel.add(dangnhap_btn);
-		tkBUS.docTK();
+//		tkBUS.docTK();
 		setVisible(true);
 	}
 	
 
 	public void checktk(String user, String pass) {
-			boolean fl = false;
-			for(taikhoanDTO tk: taikhoanBUS.tkDTO) {
-				if(tk.getUser().equals(user) && tk.getPass().equals(pass)) {
+			tkDTO = tkBUS.checkTaiKhoan(user, pass);
+//			for(taikhoanDTO tk: taikhoanBUS.tkDTO) {
+				if(tkDTO!=null) {
 					JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
-					DichVuBUS dv = new DichVuBUS();
-					dv.docKS();
-					dv.docNH();
-					dv.docPT();
-					NhanVienBUS nvBUS = new NhanVienBUS();
-					nvBUS.docNV();
-					KhachHangBUS khBUS = new KhachHangBUS();
-					khBUS.docKH();
-					KhuyenMaiBUS kmBUS = new KhuyenMaiBUS();
-					kmBUS.docKM();
-					QlyToursBUS tourBUS = new QlyToursBUS();
-					tourBUS.docTour();
-					KHToursBUS khtour = new KHToursBUS();
-					khtour.docKHT();
-					ChiTietKHT_BUS ctkh_tour = new ChiTietKHT_BUS();
-					ctkh_tour.docCTKHT();
-					CTKhuyenMaiBUS ctkm = new CTKhuyenMaiBUS();
-					ctkm.docCTKM();
-					DatTourBUS dat_tour = new DatTourBUS();
-					dat_tour.docDSTour();
-					HoaDonBUS hdBUS = new HoaDonBUS();
-					hdBUS.docHoaDon();
-					CTKHT_ThucChiBUS ctkht_thucchi=new CTKHT_ThucChiBUS();
-					ctkht_thucchi.docfile();
+					QuyenBUS quyenBUS = new QuyenBUS();
+					quyenBUS.docDSQuyen();
 					setVisible(false);
 					TrangChuGUI.tkDTO.setUser(user);
 					TrangChuGUI.tkDTO.setPass(pass);
-					TrangChuGUI tc = new TrangChuGUI();
-					tc.btn_TrangChu.setBackground(Color.ORANGE);
-					tc.btn_TrangChu.setForeground(Color.BLACK);
-					fl =true;
+					FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+					FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
+					FormShare.tc.setVisible(true);
+					phanQuyen();
+					FormShare.tc.initData();
 					return;
 				}
-			}
-			if(!fl) {
+				else {
 				JOptionPane.showMessageDialog(null, "Không tồn tại tài khoản");
 				return;
 			}
 		}
+	
+	
+	public void phanQuyen() {
+		// chuc nang 6 "them hoa don" xu li va chuc nang 37 "them nhan vien" xu ly rieng o Ve
+		//FormShare.nv.them_btn.setEnabled(false);
+		FormShare.dt.btn_ChonTour.setName("cn2");
+		//quan ly tour
+		FormShare.qlt.them_btn.setName("cn11");
+		FormShare.qlt.sua_btn.setName("cn12");
+		FormShare.qlt.xoa_btn.setName("cn13");
+		//ke hoach tour
+		FormShare.kht.ctkehoachtour_btn.setName("cn15");
+		FormShare.kht.btnThem.setName("cn15");
+		FormShare.kht.btnSua.setName("cn16");
+		FormShare.kht.btnXoa.setName("cn17");
+
+		//dich vu
+		FormShare.dv.them_btn.setName("cn22");
+		FormShare.dv.sua_btn.setName("cn23");
+		FormShare.dv.xoa_btn.setName("cn24");
+		//khuyen mai
+		FormShare.km.them_btn.setName("cn26");
+		FormShare.km.sua_btn.setName("cn27");
+		FormShare.km.xoa_btn.setName("cn28");
+		//chi tiet khuyen mai
+		FormShare.ctkm.them_btn.setName("cn30");
+		FormShare.ctkm.xoa_btn.setName("cn31");
+		//nhanvien
+		FormShare.nv.them_btn.setName("cn33");
+		FormShare.nv.sua_btn.setName("cn34");
+		FormShare.nv.xoa_btn.setName("cn35");
+		FormShare.taikhoan.btn_import.setName("q1");
+		//khach hang
+		FormShare.kh.sua_btn.setName("cn38");
+		FormShare.kh.xoa_btn.setName("cn39");
+		
+		//quan ly tai khoan
+		FormShare.taikhoan.them_btn.setName("cn19");
+		FormShare.taikhoan.sua_btn.setName("cn20");
+		FormShare.taikhoan.xoa_btn.setName("cn40");
+		
+	  ArrayList<JButton> buttonList = new ArrayList<>();
+
+        // Thêm các JButton vào ArrayList
+        buttonList.add(FormShare.dt.btn_ChonTour);
+        
+        // Quản lý tour
+        buttonList.add(FormShare.qlt.them_btn);
+        buttonList.add(FormShare.qlt.sua_btn);
+        buttonList.add(FormShare.qlt.xoa_btn);
+        
+        // Kế hoạch tour
+        buttonList.add(FormShare.kht.ctkehoachtour_btn);
+        buttonList.add(FormShare.kht.btnThem);
+        buttonList.add(FormShare.kht.btnSua);
+        buttonList.add(FormShare.kht.btnXoa);
+        
+        // Dịch vụ
+        buttonList.add(FormShare.dv.them_btn);
+        buttonList.add(FormShare.dv.sua_btn);
+        buttonList.add(FormShare.dv.xoa_btn);
+        
+        // Khuyến mãi
+        buttonList.add(FormShare.km.them_btn);
+        buttonList.add(FormShare.km.sua_btn);
+        buttonList.add(FormShare.km.xoa_btn);
+        
+        // Chi tiết khuyến mãi
+        buttonList.add(FormShare.ctkm.them_btn);
+        buttonList.add(FormShare.ctkm.xoa_btn);
+        
+        // Nhân viên
+        buttonList.add(FormShare.nv.them_btn);
+        buttonList.add(FormShare.nv.sua_btn);
+        buttonList.add(FormShare.nv.xoa_btn);
+        buttonList.add(FormShare.taikhoan.btn_import);
+        // Khách hàng
+        buttonList.add(FormShare.kh.sua_btn);
+        buttonList.add(FormShare.kh.xoa_btn);
+        //quan ly tai khoan
+        buttonList.add(FormShare.taikhoan.them_btn);
+        buttonList.add(FormShare.taikhoan.sua_btn);
+        buttonList.add(FormShare.taikhoan.xoa_btn);
+        for (JButton button : buttonList) {
+        		button.setVisible(false);
+        }
+		
+        CTQuyenBUS ctBUS = new CTQuyenBUS();
+        chucnangList = ctBUS.selectChucNang(tkDTO.getQuyen());
+        if(tkDTO.getQuyen().equals("q1"))FormShare.taikhoan.btn_import.setVisible(true);
+        
+        // cac chuc nang them, sua, xoa
+        for (JButton button : buttonList) {
+        	for(String t: chucnangList) {
+        		if(button.getName().equals(t)) {
+        			button.setVisible(true);
+        		}
+        	}
+        }
+        
+        // chuc nang xem
+        for(String t: chucnangList) {
+    		switch (t) {
+			case "cn1": {
+				//dattour
+				QlyToursBUS tourBUS = new QlyToursBUS();
+				tourBUS.docTour();
+				KHToursBUS khtour = new KHToursBUS();
+				khtour.docKHT();
+				DatTourBUS dat_tour = new DatTourBUS();
+				FormShare.dt.initData();
+				break;
+			}
+			case "cn5": {
+				//hoadon
+				HoaDonBUS hdBUS = new HoaDonBUS();
+				hdBUS.docHoaDon();
+				FormShare.hd.initData();
+				break;
+			}
+			case "cn9": {
+				//thong ke
+				FormShare.tk.initData();
+				break;
+			}
+			case "cn10": {
+				//quan ly tour
+				QlyToursBUS tourBUS = new QlyToursBUS();
+				tourBUS.docTour();
+				FormShare.qlt.initData();
+				break;
+			}
+			case "cn14": {
+				//ke hoach tour
+				KHToursBUS khtour = new KHToursBUS();
+				khtour.docKHT();
+				ChiTietKHT_BUS ctkh_tour = new ChiTietKHT_BUS();
+				ctkh_tour.docCTKHT();
+				CTKHT_ThucChiBUS ctkht_thucchi=new CTKHT_ThucChiBUS();
+				ctkht_thucchi.docfile();
+				FormShare.kht.initData();
+				break;
+			}
+			case "cn18": {
+				//quan ly tai khoan
+//				taikhoanBUS tkBUS = new taikhoanBUS();
+				tkBUS.docTK();
+				FormShare.taikhoan.initArrayList();
+				break;
+			}
+			case "cn21": {
+				//dich vu
+				DichVuBUS dv = new DichVuBUS();
+				dv.docKS();
+				dv.docNH();
+				dv.docPT();
+				FormShare.dv.initArrayList();
+				break;
+			}
+			case "cn25": {
+				//khuyen mai
+				KhuyenMaiBUS kmBUS = new KhuyenMaiBUS();
+				kmBUS.docKM();
+				FormShare.km.initArrayList();
+				break;
+			}
+			case "cn29": {
+				//chi tiet khuyen mai
+				CTKhuyenMaiBUS ctkm = new CTKhuyenMaiBUS();
+				ctkm.docCTKM();
+				FormShare.ctkm.initArrayList();
+				break;
+			}
+			case "cn32": {
+				//nhan vien
+				NhanVienBUS nvBUS = new NhanVienBUS();
+				nvBUS.docNV();
+				FormShare.nv.initArrayList();
+				break;
+			}
+			case "cn36": {
+				//khach hang
+				KhachHangBUS khBUS = new KhachHangBUS();
+				khBUS.docKH();
+				FormShare.kh.initArrayList();
+				break;
+			}
+			default:
+				break;
+			}
+    	}
+	}
+	
 }

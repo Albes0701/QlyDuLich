@@ -120,6 +120,7 @@ public class KHTourGUI extends JFrame {
 	JLabel lbSoChoConNhan;
 	String anh1_path="",anh2_path="",anh3_path="";
 	JButton btnThem,btnXoa,btnSua;
+	JButton ctkehoachtour_btn;
 	JComboBox cbTimkiem;
 	public static String makht_row;
 
@@ -169,9 +170,10 @@ public class KHTourGUI extends JFrame {
 		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				QuanLyTour qlt = new QuanLyTour();
-				qlt.btn_QLTour.setBackground(Color.ORANGE);
-				qlt.btn_QLTour.setForeground(Color.BLACK);
+//				QuanLyTour qlt = new QuanLyTour();
+				FormShare.qlt.setVisible(true);
+				FormShare.qlt.btn_QLTour.setBackground(Color.ORANGE);
+				FormShare.qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
@@ -188,9 +190,10 @@ public class KHTourGUI extends JFrame {
 		btn_KHTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KHTourGUI kht = new KHTourGUI();
-				kht.btn_KHTour.setBackground(Color.ORANGE);
-				kht.btn_KHTour.setForeground(Color.BLACK);
+//				KHTourGUI kht = new KHTourGUI();
+				FormShare.kht.setVisible(true);
+				FormShare.kht.btn_KHTour.setBackground(Color.ORANGE);
+				FormShare.kht.btn_KHTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
@@ -202,9 +205,10 @@ public class KHTourGUI extends JFrame {
 		btn_QLDV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				DichVu dv = new DichVu();
-				dv.btn_QLDV.setBackground(Color.ORANGE);
-				dv.btn_QLDV.setForeground(Color.BLACK);
+//				DichVu dv = new DichVu();
+				FormShare.dv.setVisible(true);
+				FormShare.dv.btn_QLDV.setBackground(Color.ORANGE);
+				FormShare.dv.btn_QLDV.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLDV.setForeground(new Color(255, 255, 255));
@@ -224,9 +228,10 @@ public class KHTourGUI extends JFrame {
 		btn_KhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KhachHang kh = new KhachHang();
-				kh.btn_KhachHang.setBackground(Color.ORANGE);
-				kh.btn_KhachHang.setForeground(Color.BLACK);
+//				KhachHang kh = new KhachHang();
+				FormShare.kh.setVisible(true);
+				FormShare.kh.btn_KhachHang.setBackground(Color.ORANGE);
+				FormShare.kh.btn_KhachHang.setForeground(Color.BLACK);
 			}
 		});
 
@@ -241,9 +246,10 @@ public class KHTourGUI extends JFrame {
 		btn_NhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				NhanVien nv = new NhanVien();
-				nv.btn_NhanVien.setBackground(Color.ORANGE);
-				nv.btn_NhanVien.setForeground(Color.BLACK);
+//				NhanVien nv = new NhanVien();
+				FormShare.nv.setVisible(true);
+				FormShare.nv.btn_NhanVien.setBackground(Color.ORANGE);
+				FormShare.nv.btn_NhanVien.setForeground(Color.BLACK);
 			}
 		});
 
@@ -251,9 +257,10 @@ public class KHTourGUI extends JFrame {
 		btn_KhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KhuyenMai km = new KhuyenMai();
-				km.btn_KhuyenMai.setBackground(Color.ORANGE);
-				km.btn_KhuyenMai.setForeground(Color.BLACK);
+//				KhuyenMai km = new KhuyenMai();
+				FormShare.km.setVisible(true);
+				FormShare.km.btn_KhuyenMai.setBackground(Color.ORANGE);
+				FormShare.km.btn_KhuyenMai.setForeground(Color.BLACK);
 			}
 		});
 		btn_KhuyenMai.setFocusable(false);
@@ -301,9 +308,10 @@ public class KHTourGUI extends JFrame {
 		logo_lb.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				setVisible(false);
-				TrangChuGUI tc = new TrangChuGUI();
-				tc.btn_TrangChu.setBackground(Color.ORANGE);
-				tc.btn_TrangChu.setForeground(Color.BLACK);
+//				TrangChuGUI tc = new TrangChuGUI();
+				FormShare.tc.setVisible(true);
+				FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+				FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
 			}
 		});
 		panel.add(logo_lb);
@@ -360,7 +368,7 @@ public class KHTourGUI extends JFrame {
 
 //	JOptionPane.showMessageDialog(this, "Thêm thành công!");
 
-		JButton ctkehoachtour_btn = new JButton("Chi tiết");
+		ctkehoachtour_btn = new JButton("Chi tiết");
 		ctkehoachtour_btn.setFocusable(false);
 		ctkehoachtour_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -374,7 +382,9 @@ public class KHTourGUI extends JFrame {
 					DefaultTableModel model_table = (DefaultTableModel) table.getModel();
 					makht_row = model_table.getValueAt(row, 1) + "";
 					setVisible(false);
-					new ChiTietKeHoachTourGUI();
+//					FormShare.ctkht.setVisible(true);
+					ChiTietKeHoachTourGUI ctkht = new ChiTietKeHoachTourGUI();
+					ctkht.setVisible(true);
 				}
 			}
 		});
@@ -402,9 +412,10 @@ public class KHTourGUI extends JFrame {
 				btnThem.setBackground(Color.GRAY);
 				btnLuu.setEnabled(true);
 				btnLuu.setBackground(Color.orange);
+				cbMatour.setEnabled(true);
 				noneInit();
 				tfMaKHT.setEditable(false);
-				cbMatour.setEnabled(false);
+//				cbMatour.setEnabled(false);
 				ngaydi_date.setEnabled(false);
 				ngayve_date.setEnabled(false);
 			}
@@ -451,6 +462,10 @@ public class KHTourGUI extends JFrame {
 				btnLuu.setEnabled(true);
 				btnLuu.setBackground(Color.orange);
 				Reset();
+//				initData();
+//				System.out.println(cbMatour.getItemCount());
+//				cbMatour.setEnabled(true);
+//				cbMatour.setEditable(true);
 				noneInit();
 				tfSongay.setText(getTour((String) cbMatour.getSelectedItem()).getSongay()+"");
 				tfTongChi.setText("Chưa cập nhật");
@@ -1102,15 +1117,15 @@ public class KHTourGUI extends JFrame {
 		panel_3.add(lbSoChoConNhan);
 		
 		init();
-		initData();
+//		initData();
 		HienThiKHT2();
 
 		this.getContentPane().add(panel);
-		this.setVisible(true);
+//		this.setVisible(true);
 	}
 	public void initData() {
 		String [] colname= {"Mã Tour","Mã kế hoạch Tour","Ngày đi","Ngày về","Số người/Dự kiến","Tiền chi","Thực chi","Giá vé"};
-		DefaultTableModel tableModel=new DefaultTableModel() {
+		DefaultTableModel tableModel= new DefaultTableModel() {
 			 public boolean isCellEditable(int row,int col) {
 	                return false;
 	         }
@@ -1126,6 +1141,7 @@ public class KHTourGUI extends JFrame {
 			}
 		});
 		String danhgiaTongChi="";
+		if(KHToursBUS.khtList.size() >0)
 		for(KHTourDTO kht:KHToursBUS.khtList) {
 			if(kht.getTongchi()==0) {
 				danhgiaTongChi="Chưa cập nhật";
@@ -1138,10 +1154,12 @@ public class KHTourGUI extends JFrame {
 					kht.getSonguoi()+"/"+kht.getSonguoidukien(),danhgiaTongChi,kht.getThucchi()+"",kht.getGiaVe()+""
 			});
 		}
-		
+//		if(QlyToursBUS.tourDTO.size() > 0)
 		for(QlyToursDTO tour:QlyToursBUS.tourDTO) {
 			arrMatour.add(tour.getMatour());
 		}
+		
+		
 		
 		HashSet<String> set = new HashSet<>(arrMatour);
 	    ArrayList<String> arrMaTour2 = new ArrayList<>(set);
@@ -1160,7 +1178,7 @@ public class KHTourGUI extends JFrame {
 		cbMatour.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbMatour.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		cbMatour.setBounds(10, 39, 190, 35);
-		cbMatour.setEnabled(false);
+//		cbMatour.setEnabled(false);
 		cbMatour.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1205,7 +1223,7 @@ public class KHTourGUI extends JFrame {
 					kht.getSonguoi()+"/"+kht.getSonguoidukien(),danhgiaTongChi,kht.getThucchi()+"",kht.getGiaVe()+""
 			});
 		}
-		
+		if(QlyToursBUS.tourDTO != null)
 		for(QlyToursDTO tour:QlyToursBUS.tourDTO) {
 			arrMatour.add(tour.getMatour());
 		}
@@ -1227,7 +1245,7 @@ public class KHTourGUI extends JFrame {
 		cbMatour.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		cbMatour.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		cbMatour.setBounds(10, 39, 190, 35);
-		cbMatour.setEnabled(false);
+//		cbMatour.setEnabled(false);
 		cbMatour.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1399,6 +1417,7 @@ public class KHTourGUI extends JFrame {
 //		if (!ctkhtBUS.docCTKHT()) {
 //			JOptionPane.showMessageDialog(this, "Lỗi không đọc được database!");
 //		}
+	
 		tfMaKHT.setEditable(false);
 		textAreaMoTa.setEditable(false);
 		cbSoCho.setEnabled(false);
@@ -1410,6 +1429,7 @@ public class KHTourGUI extends JFrame {
 	}
 	public void noneInit() {
 		cbMatour.setEnabled(true);
+		cbMatour.setEditable(true);
 		tfMaKHT.setEditable(true);
 		textAreaMoTa.setEditable(true);
 		cbSoCho.setEnabled(true);
@@ -1441,6 +1461,7 @@ public class KHTourGUI extends JFrame {
 		hinh1_lb.setIcon(null);
 		hinh2_lb.setIcon(null);
 		hinh3_lb.setIcon(null);
+
 	}
 	public KHTourDTO GetKHTDaChon() {
 		int row = table.getSelectedRow();

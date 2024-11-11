@@ -65,7 +65,7 @@ public class ThongKe extends JFrame {
 	private JTextField doanhthu_textField;
 	private JTable table;
 	private JTable tour_table;
-	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
+	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe ;
 	private JTextField total_txt;
 	private JTable quy_table;
 	private JComboBox year_cbo;
@@ -119,9 +119,10 @@ public class ThongKe extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				TrangChuGUI tc = new TrangChuGUI();
-				tc.btn_TrangChu.setBackground(Color.ORANGE);
-				tc.btn_TrangChu.setForeground(Color.BLACK);
+//				TrangChuGUI tc = new TrangChuGUI();
+				FormShare.tc.setVisible(true);
+				FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+				FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
 			}
 		});
 		
@@ -134,9 +135,10 @@ public class ThongKe extends JFrame {
 		btn_HoaDon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				HoaDon hd = new HoaDon();
-				hd.btn_HoaDon.setBackground(Color.ORANGE);
-				hd.btn_HoaDon.setForeground(Color.BLACK);
+//				HoaDon hd = new HoaDon();
+				FormShare.hd.setVisible(true);
+				FormShare.hd.btn_HoaDon.setBackground(Color.ORANGE);
+				FormShare.hd.btn_HoaDon.setForeground(Color.BLACK);
 			}
 		});
 		btn_HoaDon.setForeground(new Color(255, 255, 255));
@@ -149,9 +151,10 @@ public class ThongKe extends JFrame {
 		btn_QlyThongtin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				QuanLyTour qlt = new QuanLyTour();
-				qlt.btn_QLTour.setBackground(Color.ORANGE);
-				qlt.btn_QLTour.setForeground(Color.BLACK);
+//				QuanLyTour qlt = new QuanLyTour();
+				FormShare.qlt.setVisible(true);
+				FormShare.qlt.btn_QLTour.setBackground(Color.ORANGE);
+				FormShare.qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QlyThongtin.setFocusable(false);
@@ -166,9 +169,10 @@ public class ThongKe extends JFrame {
 		btn_ThongKe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				ThongKe tk = new ThongKe();
-				tk.btn_ThongKe.setBackground(Color.ORANGE);
-				tk.btn_ThongKe.setForeground(Color.BLACK);
+//				ThongKe tk = new ThongKe();
+				FormShare.tk.setVisible(true);
+				FormShare.tk.btn_ThongKe.setBackground(Color.ORANGE);
+				FormShare.tk.btn_ThongKe.setForeground(Color.BLACK);
 			}
 		});
 		btn_ThongKe.setFocusable(false);
@@ -200,9 +204,10 @@ public class ThongKe extends JFrame {
 		label.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				setVisible(false);
-				TrangChuGUI tc = new TrangChuGUI();
-				tc.btn_TrangChu.setBackground(Color.ORANGE);
-				tc.btn_TrangChu.setForeground(Color.BLACK);
+//				TrangChuGUI tc = new TrangChuGUI();
+				FormShare.tc.setVisible(true);
+				FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+				FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
 			}
 		});
 		panel.add(label);
@@ -215,9 +220,10 @@ public class ThongKe extends JFrame {
 		btn_DatTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				DatTourGUI dt = new DatTourGUI();
-				dt.btn_DatTour.setBackground(Color.ORANGE);
-				dt.btn_DatTour.setForeground(Color.BLACK);
+//				DatTourGUI dt = new DatTourGUI();
+				FormShare.dt.setVisible(true);
+				FormShare.tc.btn_DatTour.setBackground(Color.ORANGE);
+				FormShare.tc.btn_DatTour.setForeground(Color.BLACK);
 			}
 		});
 		
@@ -444,8 +450,8 @@ public class ThongKe extends JFrame {
 		btnNewButton_2.setFocusable(false);
 		btnNewButton_2.setBounds(849, 25, 124, 30);
 		panel.add(btnNewButton_2);
-		initData();
-		this.setVisible(true);
+//		initData();
+//		this.setVisible(true);
 		
 	}
 	public void initData() {

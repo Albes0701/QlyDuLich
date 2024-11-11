@@ -12,7 +12,7 @@ import DTO.NhanVienDTO;
 
 
 public class KhuyenMaiBUS {
-	public static ArrayList<KhuyenMaiDTO> kmDTO;
+	public static ArrayList<KhuyenMaiDTO> kmDTO = new ArrayList<KhuyenMaiDTO>();
 	public boolean docKM() {
 		try {
 			kmDTO = KhuyenMaiDAO.getIntance().selectAll();

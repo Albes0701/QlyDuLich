@@ -16,6 +16,34 @@ public class NhanVienDAO {
 	public static NhanVienDAO getIntance() {
 		return new NhanVienDAO();
 	}
+	
+	
+	public ArrayList<String> getMaNV(){
+		ArrayList<String> ketQua=new ArrayList<String>();
+
+		try {
+			//Bước 1:Tạo kết nối
+			Connection con=JDBCUtil.getConnection();
+			//Bước 2:Tạo đối tượng statement
+			java.sql.Statement st=con.createStatement();
+			//Bước 3:Thực thi statement
+			String sql="SELECT manv FROM nhanvien";
+			System.out.println(sql);
+			ResultSet rs=st.executeQuery(sql);
+			//Bước 4:Xử lý kết quả trả về
+			while(rs.next()){
+				String maso=rs.getString("manv");
+				ketQua.add(maso);
+			}
+			//Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+
+		return ketQua;
+	}
+	
 	public ArrayList<NhanVienDTO> selectAll() {
 		ArrayList<NhanVienDTO> ketQua=new ArrayList<NhanVienDTO>();
 
@@ -143,7 +171,6 @@ public class NhanVienDAO {
 		}
 		return kq;
 	}
-	
 	
 	
 	

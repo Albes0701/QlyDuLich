@@ -3,6 +3,8 @@ package DAO;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import DTO.NhanVienDTO;
@@ -12,6 +14,132 @@ import Util.JDBCUtil;
 public class taikhoanDAO {
 	public static taikhoanDAO getIntance() {
 		return new taikhoanDAO();
+	}
+	
+	public taikhoanDTO checkTaiKhoan(String user, String password) {
+		taikhoanDTO ketQua = null;
+
+		try {
+			//Bước 1:Tạo kết nối
+			Connection con=JDBCUtil.getConnection();
+			//Bước 2:Tạo đối tượng statement
+			java.sql.Statement st=con.createStatement();
+			//Bước 3:Thực thi statement
+			String sql="SELECT * FROM taikhoan WHERE user_name = '" + user +"' AND PassWord = '" + password + "'";
+			System.out.println(sql);
+			ResultSet rs=st.executeQuery(sql);
+			//Bước 4:Xử lý kết quả trả về
+			while(rs.next()){
+				String passs=rs.getString("PassWord");
+				String quyen = rs.getString("quyen");
+				ketQua = new taikhoanDTO(user, passs,quyen);
+			}
+			//Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+
+		return ketQua;
+	}
+	
+	public String getMaQuyen(String tenquyen) {
+		String kq = null;
+		// ket noi
+		try {
+			Connection con = JDBCUtil.getConnection();
+			//tao statement
+			java.sql.Statement st = con.createStatement();
+			//truy van
+			String sql = "SELECT q.maquyen from quyen q"
+					+ " WHERE q.tenquyen = '" + tenquyen +"'";
+			System.out.println(sql);
+			ResultSet rs=st.executeQuery(sql);
+			while(rs.next())
+				kq=rs.getString("maquyen");
+			System.out.println("Ban da thuc thi " + sql);
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+		
+		return kq;
+	}
+	
+	public int Insert_TaiKhoan(taikhoanDTO tk) {
+		int kq = 0;
+		// ket noi
+		try {
+			Connection con = JDBCUtil.getConnection();
+			//tao statement
+			java.sql.Statement st = con.createStatement();
+			//truy van
+			String sql = "INSERT INTO taikhoan (user_name,PassWord, quyen) VALUES ('"
+					+ tk.getUser() + "' , '" + tk.getPass() + "' , '" + tk.getQuyen()+"')";
+			System.out.println(sql);
+			kq = st.executeUpdate(sql);
+			System.out.println("Ban da thuc thi " + sql);
+			System.out.println("So dong thay doi: " + kq);
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return -1;
+		}
+		
+		return kq;
+	}
+	
+	public int updateQuyen(taikhoanDTO tk) {
+		int kq = 0;
+		// ket noi
+		try {
+			Connection con = JDBCUtil.getConnection();
+			//tao statement
+			java.sql.Statement st = con.createStatement();
+			//truy van
+			String sql = "UPDATE taikhoan set quyen = '" + tk.getQuyen() + "' WHERE user_name = '" + tk.getUser()+"'";
+			kq = st.executeUpdate(sql);
+			System.out.println("Ban da thuc thi " + sql);
+			System.out.println("So dong thay doi: " + kq);
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return -1;
+		}
+		
+		return kq;
+	}
+	
+	
+	public taikhoanDTO getTaikhoan(String user) {
+		taikhoanDTO ketQua = null;
+
+		try {
+			//Bước 1:Tạo kết nối
+			Connection con=JDBCUtil.getConnection();
+			//Bước 2:Tạo đối tượng statement
+			java.sql.Statement st=con.createStatement();
+			//Bước 3:Thực thi statement
+			String sql="SELECT * FROM taikhoan WHERE user_name = '" + user +"'";
+			System.out.println(sql);
+			ResultSet rs=st.executeQuery(sql);
+			//Bước 4:Xử lý kết quả trả về
+			while(rs.next()){
+				String passs=rs.getString("PassWord");
+				String quyen = rs.getString("quyen");
+				ketQua = new taikhoanDTO(user, passs,quyen);
+			}
+			//Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+
+		return ketQua;
 	}
 	
 	public ArrayList<taikhoanDTO> selectAll() {
@@ -30,7 +158,8 @@ public class taikhoanDAO {
 			while(rs.next()){
 				String user=rs.getString("user_name");
 				String passs=rs.getString("PassWord");
-				taikhoanDTO tk = new taikhoanDTO(user, passs);
+				String quyen = rs.getString("quyen");
+				taikhoanDTO tk = new taikhoanDTO(user, passs,quyen);
 				ketQua.add(tk);
 			}
 			//Bước 5:Ngắt kết nối
@@ -116,4 +245,24 @@ public class taikhoanDAO {
 
 		return nv;
 	}
+	
+	public int deleteTaiKhoan(taikhoanDTO tk) {
+		int kq = 0;
+		
+		try {
+			Connection con = JDBCUtil.getConnection();
+			Statement st = con.createStatement();
+			String sql = "DELETE FROM taikhoan WHERE user_name = '" + tk.getUser() + "'";
+			kq = st.executeUpdate(sql);
+			System.out.println("Ban da thuc thi: " + sql);
+			System.out.println("So dong thay doi: " + kq);
+			JDBCUtil.closeConnection(con);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}
+		return kq;
+	}
+	
 }

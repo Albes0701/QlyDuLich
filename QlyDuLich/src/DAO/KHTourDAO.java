@@ -51,13 +51,15 @@ public class KHTourDAO {
 	public int InsertKHT(KHTourDTO t) {
 		int ketQua=0;
 		try {
+//			System.out.println(t.getSonguoidukien());
 			Connection con=JDBCUtil.getConnection();
 			Statement st=con.createStatement();
 			String sql="INSERT INTO kehoachtour (makht,matour,mota,ngaydi,ngayve,songuoi,giave,huongdanvien,"
 					+ "tongchi,anh1,anh2,anh3,soluong,thucchi)"+" VALUES ('"+t.getMakht()+"','"+t.getMatour()+"','"+t.getMota()+"','"+t.getNgaydi()+"','"
 					+t.getNgayve()+"',"+t.getSonguoi()+","+t.getGiaVe()+",'"+t.getHuongdanvien()+"',"+t.getTongchi()+",'"+t.getAnh1()+"','"
-					+t.getAnh2()+"','"+t.getAnh3()+"'," +t.getSonguoi() + ","+t.getSonguoidukien()+","+t.getThucchi()+")";
+					+t.getAnh2()+"','"+t.getAnh3()+ "',"+t.getSonguoidukien()+","+t.getThucchi()+")";
 			ketQua=st.executeUpdate(sql);
+//			System.out.println(sql);
 			System.out.println("Ban da thuc thi: " + sql);
 			System.out.println("So dong thay doi la: " + ketQua);
 			JDBCUtil.closeConnection(con);

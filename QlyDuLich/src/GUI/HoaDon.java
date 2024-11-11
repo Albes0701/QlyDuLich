@@ -34,7 +34,7 @@ public class HoaDon extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
+	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe ;
 	/**
 	 * Launch the application.
 	 */
@@ -84,9 +84,10 @@ public class HoaDon extends JFrame {
 		btn_TrangChu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				TrangChuGUI tc = new TrangChuGUI();
-				tc.btn_TrangChu.setBackground(Color.ORANGE);
-				tc.btn_TrangChu.setForeground(Color.BLACK);
+//				TrangChuGUI tc = new TrangChuGUI();
+				FormShare.tc.setVisible(true);
+				FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+				FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
 			}
 		});
 		btn_TrangChu.setBounds(154, 65, 120, 40);
@@ -98,9 +99,10 @@ public class HoaDon extends JFrame {
 		btn_HoaDon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				HoaDon hd = new HoaDon();
-				hd.btn_HoaDon.setBackground(Color.ORANGE);
-				hd.btn_HoaDon.setForeground(Color.BLACK);
+//				sHoaDon hd = new HoaDon();
+				FormShare.hd.setVisible(true);
+				FormShare.hd.btn_HoaDon.setBackground(Color.ORANGE);
+				FormShare.hd.btn_HoaDon.setForeground(Color.BLACK);
 			}
 		});
 		btn_HoaDon.setForeground(new Color(255, 255, 255));
@@ -113,9 +115,10 @@ public class HoaDon extends JFrame {
 		btn_QlyThongtin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				QuanLyTour qlt = new QuanLyTour();
-				qlt.btn_QLTour.setBackground(Color.ORANGE);
-				qlt.btn_QLTour.setForeground(Color.BLACK);
+//				QuanLyTour qlt = new QuanLyTour();
+				FormShare.qlt.setVisible(true);
+				FormShare.qlt.btn_QLTour.setBackground(Color.ORANGE);
+				FormShare.qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QlyThongtin.setFocusable(false);
@@ -130,9 +133,10 @@ public class HoaDon extends JFrame {
 		btn_ThongKe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				ThongKe tk = new ThongKe();
-				tk.btn_ThongKe.setBackground(Color.ORANGE);
-				tk.btn_ThongKe.setForeground(Color.BLACK);
+//				ThongKe tk = new ThongKe();
+				FormShare.tk.setVisible(true);
+				FormShare.tk.btn_ThongKe.setBackground(Color.ORANGE);
+				FormShare.tk.btn_ThongKe.setForeground(Color.BLACK);
 			}
 		});
 		btn_ThongKe.setFocusable(false);
@@ -157,9 +161,9 @@ public class HoaDon extends JFrame {
 		label.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				setVisible(false);
-				TrangChuGUI tc = new TrangChuGUI();
-				tc.btn_TrangChu.setBackground(Color.ORANGE);
-				tc.btn_TrangChu.setForeground(Color.BLACK);
+				FormShare.tc.setVisible(true);
+				FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+				FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
 			}
 		});
 		panel.add(label);
@@ -172,9 +176,10 @@ public class HoaDon extends JFrame {
 		btn_DatTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				DatTourGUI dt = new DatTourGUI();
-				dt.btn_DatTour.setBackground(Color.ORANGE);
-				dt.btn_DatTour.setForeground(Color.BLACK);
+//				DatTourGUI dt = new DatTourGUI();
+				FormShare.dt.setVisible(true);
+				FormShare.dt.btn_DatTour.setBackground(Color.ORANGE);
+				FormShare.dt.btn_DatTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_DatTour.setForeground(Color.WHITE);
@@ -273,7 +278,7 @@ public class HoaDon extends JFrame {
 		lblNewLabel.setBounds(609, 24, 230, 30);
 		panel.add(lblNewLabel);
 		
-		this.setVisible(true);
+//		this.setVisible(true);
 		
 //		HoaDonBUS hdBUS = new HoaDonBUS();
 //		boolean success = hdBUS.docHoaDon();
@@ -282,25 +287,29 @@ public class HoaDon extends JFrame {
 //            ArrayList<HoaDonDTO> listHoaDon = HoaDonBUS.getListHD();
 
             // Tạo một DefaultTableModel mới để cập nhật dữ liệu cho bảng
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-            model.setRowCount(0); // Xóa tất cả các dòng cũ
-            DecimalFormat decimalFormat = new DecimalFormat("#,##0");
-            // Đổ dữ liệu từ danh sách hóa đơn vào bảng
-            for (HoaDonDTO hoaDon : HoaDonBUS.listHD) {
-            	String formattedNumber = decimalFormat.format(hoaDon.getTongtien()) + " VNĐ";
-                model.addRow(new Object[]{
-                        hoaDon.getMahd(),
-                        hoaDon.getManv(),
-                        hoaDon.getMakh(),
-                        hoaDon.getNgaytao(),
-                        formattedNumber
-                        
-                });
-            }
+           
 //        } else {
 //             Hiển thị thông báo khi không thể lấy dữ liệu từ CSDL
 //            JOptionPane.showMessageDialog(this, "Không thể lấy dữ liệu từ CSDL!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 //        }
-		setVisible(true);
+//		setVisible(true);
+	}
+	public void initData() {
+		 DefaultTableModel model = (DefaultTableModel) table.getModel();
+         model.setRowCount(0); // Xóa tất cả các dòng cũ
+         DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+         // Đổ dữ liệu từ danh sách hóa đơn vào bảng
+         if(HoaDonBUS.listHD != null)
+         for (HoaDonDTO hoaDon : HoaDonBUS.listHD) {
+         	String formattedNumber = decimalFormat.format(hoaDon.getTongtien()) + " VNĐ";
+             model.addRow(new Object[]{
+                     hoaDon.getMahd(),
+                     hoaDon.getManv(),
+                     hoaDon.getMakh(),
+                     hoaDon.getNgaytao(),
+                     formattedNumber
+                     
+             });
+         }
 	}
 }

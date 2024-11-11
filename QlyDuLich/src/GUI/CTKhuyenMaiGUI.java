@@ -41,7 +41,7 @@ public class CTKhuyenMaiGUI extends JFrame {
 	private JTextField tenct_txt;
 	private JComboBox makm_cb , matour_cb;
 	private DefaultTableModel tableModel;
-	private JButton them_btn, xoa_btn;
+	public JButton them_btn, xoa_btn;
 	/**
 	 * Launch the application.
 	 */
@@ -106,6 +106,7 @@ public class CTKhuyenMaiGUI extends JFrame {
 		panel.add(lblNewLabel_1);
 		
 		ArrayList<String> itemList_tour = new ArrayList<>();
+		if(QlyToursBUS.tourDTO!=null)
 		for(QlyToursDTO tour: QlyToursBUS.tourDTO) {
 			itemList_tour.add(tour.getMatour());
 		}
@@ -135,7 +136,11 @@ public class CTKhuyenMaiGUI extends JFrame {
 		tentour_txt.setEditable(false);
 		tentour_txt.setBounds(354, 196, 199, 26);
 		panel.add(tentour_txt);
-		tentour_txt.setText(QlyToursBUS.tourDTO.get(0).getTentour());
+		if(QlyToursBUS.tourDTO.size()>0) {
+			System.out.println(QlyToursBUS.tourDTO.size());
+			
+			tentour_txt.setText(QlyToursBUS.tourDTO.get(0).getTentour());
+		}
 		tentour_txt.setColumns(10);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Mã khuyến mãi");
@@ -145,6 +150,7 @@ public class CTKhuyenMaiGUI extends JFrame {
 		panel.add(lblNewLabel_1_2);
 		
 		ArrayList<String> itemList = new ArrayList<>();
+		if(KhuyenMaiBUS.kmDTO!=null)
 		for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
 			itemList.add(km.getMakm());
 		}
@@ -155,6 +161,7 @@ public class CTKhuyenMaiGUI extends JFrame {
 		makm_cb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String selected_matour = (String) makm_cb.getSelectedItem();
+				if(KhuyenMaiBUS.kmDTO!=null)
 				for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
 					if(km.getMakm().equals(selected_matour)){
 						tenct_txt.setText(km.getTectkm());
@@ -169,6 +176,7 @@ public class CTKhuyenMaiGUI extends JFrame {
 		tenct_txt.setEditable(false);
 		tenct_txt.setColumns(10);
 		tenct_txt.setBounds(354, 107, 199, 26);
+		if(KhuyenMaiBUS.kmDTO.size()>0)
 		tenct_txt.setText(KhuyenMaiBUS.kmDTO.get(0).getTectkm());
 		panel.add(tenct_txt);
 		
@@ -209,7 +217,7 @@ public class CTKhuyenMaiGUI extends JFrame {
 		xoa_btn.setBackground(new Color(255, 64, 0));
 		xoa_btn.setBounds(438, 244, 75, 25);
 		panel.add(xoa_btn);
-		setVisible(true);
+//		setVisible(true);
 		initData();
 	}
 	
@@ -252,7 +260,7 @@ public class CTKhuyenMaiGUI extends JFrame {
 	}
 	
 	public void initData() {
-//		if(ctkmBUS.docCTKM()) {
+		if(CTKhuyenMaiBUS.ctkmDTO!=null) 
 			for(CTKhuyenMaiDTO ctkm: CTKhuyenMaiBUS.ctkmDTO) {
 				tableModel.addRow(new Object[]{
 						ctkm.getMakm().toUpperCase(),ctkm.getMatour().toUpperCase()

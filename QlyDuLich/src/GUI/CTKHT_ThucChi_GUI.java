@@ -84,7 +84,7 @@ public class CTKHT_ThucChi_GUI extends JFrame {
 	private CTDV_PT_DTO dvPT;
 	private CTDV_KS_DTO dvKS;
 	private int comparison=5;
-	private double thanhtienks=0,thanhtienpt=0,thanhtiennh=0;
+	private long thanhtienks=0,thanhtienpt=0,thanhtiennh=0;
 	JPanel panel_2;
 	
 	CTKHT_ThucChiBUS thucchiBUS=new CTKHT_ThucChiBUS();
@@ -325,7 +325,7 @@ public class CTKHT_ThucChi_GUI extends JFrame {
 //				DefaultTableModel model_table = (DefaultTableModel) table.getModel();
 //				makht_row = model_table.getValueAt(row, 1) + "";
 				setVisible(false);
-				new KHTourGUI();
+				FormShare.kht.setVisible(true);
 				
 			}
 			
@@ -507,8 +507,8 @@ public class CTKHT_ThucChi_GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new ChiTietKeHoachTourGUI();
-				
+				ChiTietKeHoachTourGUI ctkht = new ChiTietKeHoachTourGUI();
+				ctkht.setVisible(true);
 			}
 		});
 		KhachHang.add(btnDuKien);
@@ -674,12 +674,12 @@ public class CTKHT_ThucChi_GUI extends JFrame {
         }
         java.sql.Date ngay=new java.sql.Date(ngay1.getTime());
 		String MaKS=tfKhachSan.getText().toString();
-		double thanhtienKS=Double.parseDouble(tfThanhTienKS.getText());
+		long thanhtienKS=Long.parseLong(tfThanhTienKS.getText());
 		String MaNH=tfNhahang.getText();
-		double thanhtienNH=Double.parseDouble(tfThanhTienNhaHang.getText());
+		long thanhtienNH=Long.parseLong(tfThanhTienNhaHang.getText());
 		String MaPT=tfPhuongtien.getText();
-		double thanhtienPT=Double.parseDouble(tfThanhTienPhuongTien.getText());
-		double tongtien=thanhtienKS+thanhtienNH+thanhtienPT;
+		long thanhtienPT=Long.parseLong(tfThanhTienPhuongTien.getText());
+		long tongtien=thanhtienKS+thanhtienNH+thanhtienPT;
 		
 		CTKHT_ThucChiDTO ctkht=new CTKHT_ThucChiDTO(makht, MaKS, MaPT, MaNH, thanhtienKS, thanhtienPT, thanhtienNH, tongtien, ngay);
 			

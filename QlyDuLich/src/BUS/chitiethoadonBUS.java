@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import DTO.chitiethoadonDTO;
 import DAO.chitiethoadonDAO;
 public class chitiethoadonBUS {
-    public static ArrayList<chitiethoadonDTO> listChiTietHoaDon;
+    public static ArrayList<chitiethoadonDTO> listChiTietHoaDon = new ArrayList<chitiethoadonDTO>();
 
     public chitiethoadonBUS() {
         listChiTietHoaDon = chitiethoadonDAO.getIntance().selectAll();

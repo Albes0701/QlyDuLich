@@ -81,8 +81,11 @@ import com.toedter.calendar.JDateChooser;
 
 import BUS.KiemTra;
 import BUS.NhanVienBUS;
+import BUS.QuyenBUS;
 import BUS.taikhoanBUS;
 import DTO.NhanVienDTO;
+import DTO.QuyenDTO;
+import DTO.taikhoanDTO;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -99,7 +102,7 @@ public class NhanVien extends JFrame{
 	private JTable table_NhanVien;
 	private JTextField textField_TimKiem;
 	private JTextField textField_CMND;
-	private JButton them_btn, xoa_btn , sua_btn, thoat_btn, luu_btn;
+	JButton them_btn, xoa_btn , sua_btn, thoat_btn, luu_btn, quyen_btn_1;
 	private JDateChooser dateChooser_NgayVL, dateChooser_NgaySinh;
 	JComboBox comboBox_GioiTinh , timkiem_cb;
 	JButton btn_QLTour,btn_KHTour,btn_QLDV,btn_KhuyenMai,btn_NhanVien,btn_KhachHang;
@@ -119,6 +122,7 @@ public class NhanVien extends JFrame{
 				try {
 					NhanVien frame = new NhanVien();
 					frame.setSize(1000, 650);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -132,6 +136,8 @@ public class NhanVien extends JFrame{
 	 * Create the frame.
 	 */
 	public NhanVien() {
+		NhanVienBUS nvBUS = new NhanVienBUS();
+//		nvBUS.docNV();
 		setBackground(SystemColor.windowText);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(280, 100, 1000, 650);
@@ -159,9 +165,10 @@ public class NhanVien extends JFrame{
 		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				QuanLyTour qlt = new QuanLyTour();
-				qlt.btn_QLTour.setBackground(Color.ORANGE);
-				qlt.btn_QLTour.setForeground(Color.BLACK);
+//				QuanLyTour qlt = new QuanLyTour();
+				FormShare.qlt.setVisible(true);
+				FormShare.qlt.btn_QLTour.setBackground(Color.ORANGE);
+				FormShare.qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
@@ -179,9 +186,10 @@ public class NhanVien extends JFrame{
 		btn_KHTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KHTourGUI kht = new KHTourGUI();
-				kht.btn_KHTour.setBackground(Color.ORANGE);
-				kht.btn_KHTour.setForeground(Color.BLACK);
+//				KHTourGUI kht = new KHTourGUI();
+				FormShare.kht.setVisible(true);
+				FormShare.kht.btn_KHTour.setBackground(Color.ORANGE);
+				FormShare.kht.btn_KHTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
@@ -194,9 +202,10 @@ public class NhanVien extends JFrame{
 		btn_QLDV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				DichVu dv = new DichVu();
-				dv.btn_QLDV.setBackground(Color.ORANGE);
-				dv.btn_QLDV.setForeground(Color.BLACK);
+//				DichVu dv = new DichVu();
+				FormShare.dv.setVisible(true);
+				FormShare.dv.btn_QLDV.setBackground(Color.ORANGE);
+				FormShare.dv.btn_QLDV.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLDV.setForeground(new Color(255, 255, 255));
@@ -216,9 +225,10 @@ public class NhanVien extends JFrame{
 		btn_KhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KhachHang kh = new KhachHang();
-				kh.btn_KhachHang.setBackground(Color.ORANGE);
-				kh.btn_KhachHang.setForeground(Color.BLACK);
+//				KhachHang kh = new KhachHang();
+				FormShare.kh.setVisible(true);
+				FormShare.kh.btn_KhachHang.setBackground(Color.ORANGE);
+				FormShare.kh.btn_KhachHang.setForeground(Color.BLACK);
 			}
 		});
 		
@@ -233,9 +243,10 @@ public class NhanVien extends JFrame{
 		btn_NhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				NhanVien nv = new NhanVien();
-				nv.btn_NhanVien.setBackground(Color.ORANGE);
-				nv.btn_NhanVien.setForeground(Color.BLACK);
+//				NhanVien nv = new NhanVien();
+				FormShare.nv.setVisible(true);
+				FormShare.nv.btn_NhanVien.setBackground(Color.ORANGE);
+				FormShare.nv.btn_NhanVien.setForeground(Color.BLACK);
 			}
 		});
 		
@@ -243,9 +254,10 @@ public class NhanVien extends JFrame{
 		btn_KhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KhuyenMai km = new KhuyenMai();
-				km.btn_KhuyenMai.setBackground(Color.ORANGE);
-				km.btn_KhuyenMai.setForeground(Color.BLACK);
+//				KhuyenMai km = new KhuyenMai();
+				FormShare.km.setVisible(true);
+				FormShare.km.btn_KhuyenMai.setBackground(Color.ORANGE);
+				FormShare.km.btn_KhuyenMai.setForeground(Color.BLACK);
 			}
 		});
 		btn_KhuyenMai.setFocusable(false);
@@ -270,9 +282,10 @@ public class NhanVien extends JFrame{
 		label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setVisible(false);
-                TrangChuGUI tc = new TrangChuGUI();
-                tc.btn_TrangChu.setBackground(Color.ORANGE);
-                tc.btn_TrangChu.setForeground(Color.BLACK);
+//                TrangChuGUI tc = new TrangChuGUI();
+                FormShare.tc.setVisible(true);
+                FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+                FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
             }
         });
 		panel.add(label);
@@ -404,11 +417,6 @@ public class NhanVien extends JFrame{
 		lblNewLabel_2_2.setBounds(10, 116, 45, 13);
 		panel_2.add(lblNewLabel_2_2);
 		
-		JLabel lblNewLabel_2_3 = new JLabel("Giới Tính");
-		lblNewLabel_2_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2_3.setBounds(10, 157, 73, 13);
-		panel_2.add(lblNewLabel_2_3);
-		
 		JLabel lblNewLabel_2_4 = new JLabel("Ngày sinh");
 		lblNewLabel_2_4.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel_2_4.setBounds(10, 284, 73, 20);
@@ -480,7 +488,7 @@ public class NhanVien extends JFrame{
 				
 			}
 		});
-		luu_btn.setBounds(20, 377, 85, 26);
+		luu_btn.setBounds(20, 397, 85, 26);
 		panel_2.add(luu_btn);
 		String [] item_gender = {"Nam","Nữ"};
 		comboBox_GioiTinh = new JComboBox<>(item_gender);
@@ -555,8 +563,18 @@ public class NhanVien extends JFrame{
 		thoat_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
 		thoat_btn.setFocusable(false);
 		thoat_btn.setBackground(Color.GRAY);
-		thoat_btn.setBounds(115, 377, 85, 26);
+		thoat_btn.setBounds(115, 397, 85, 26);
 		panel_2.add(thoat_btn);
+		
+		JLabel lblNewLabel_2_3_1 = new JLabel("Giới Tính");
+		lblNewLabel_2_3_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_2_3_1.setBounds(10, 159, 73, 13);
+		panel_2.add(lblNewLabel_2_3_1);
+		
+		
+		QuyenBUS q = new QuyenBUS();
+		
+		String [] item_Quyen = q.getQuyen().toArray(new String [0]);
 		
 
 //		textField_NgayVL = new JTextField();
@@ -571,13 +589,13 @@ public class NhanVien extends JFrame{
 		
 		table_NhanVien = new JTable();
 		table_NhanVien.setDefaultEditor(Object.class,null);
-		String[] colname =  {"Mã nv","Họ","Tên","Giới tính","Số điện thoại","CMND","Ngày sinh","Ngày vào làm",};
+		String[] colname =  {"Mã nv","Họ","Tên","Giới tính","Số điện thoại","CMND","Ngày sinh","Ngày vào làm"};
 		tableModel = new DefaultTableModel();
 		table_NhanVien.setModel(tableModel);
 		tableModel.setColumnIdentifiers(colname);
 		scrollPane_2.setViewportView(table_NhanVien);
 		table_NhanVien.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table_NhanVien.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table_NhanVien.getColumnModel().getColumn(1).setPreferredWidth(120);
 		table_NhanVien.getColumnModel().getColumn(2).setPreferredWidth(50);
 		table_NhanVien.getColumnModel().getColumn(3).setPreferredWidth(30);
 //		table_NhanVien.getColumnModel().getColumn(4).setPreferredWidth(123);
@@ -595,7 +613,7 @@ public class NhanVien extends JFrame{
 		xoa_btn.setBackground(new Color(255, 0, 0));
 		xoa_btn.setForeground(new Color(255, 255, 255));
 		xoa_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		xoa_btn.setBounds(297, 38, 75, 25);
+		xoa_btn.setBounds(226, 38, 75, 25);
 		xoa_btn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -647,7 +665,7 @@ public class NhanVien extends JFrame{
 			}
 		});
 		sua_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		sua_btn.setBounds(188, 38, 75, 25);
+		sua_btn.setBounds(117, 38, 75, 25);
 		panel_3.add(sua_btn);
 		
 		them_btn = new JButton("Thêm");
@@ -670,7 +688,7 @@ public class NhanVien extends JFrame{
 		them_btn.setForeground(new Color(255, 255, 255));
 		them_btn.setBackground(new Color(65, 105, 225));
 		them_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		them_btn.setBounds(81, 38, 75, 25);
+		them_btn.setBounds(10, 38, 75, 25);
 		panel_3.add(them_btn);
 		
 		JLabel lblNewLabel_3 = new JLabel("Tìm kiếm");
@@ -722,7 +740,7 @@ public class NhanVien extends JFrame{
 		btn_import.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btn_import.setFocusable(false);
 		btn_import.setBackground(new Color(51, 153, 51));
-		btn_import.setBounds(403, 38, 100, 25);
+		btn_import.setBounds(332, 38, 100, 25);
 		panel_3.add(btn_import);
 		
 		btn_export = new JButton("Xuất Excel");
@@ -730,7 +748,7 @@ public class NhanVien extends JFrame{
 		btn_export.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btn_export.setFocusable(false);
 		btn_export.setBackground(new Color(51, 153, 51));
-		btn_export.setBounds(534, 38, 100, 25);
+		btn_export.setBounds(463, 38, 100, 25);
 		btn_export.addActionListener(new ActionListener() {
 			
 			@Override
@@ -741,6 +759,20 @@ public class NhanVien extends JFrame{
 			}
 		});
 		panel_3.add(btn_export);
+		
+		quyen_btn_1 = new JButton("Tài khoản");
+		quyen_btn_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FormShare.taikhoan.setVisible(true);
+//				tk.setVisible(true);
+			}
+		});
+		quyen_btn_1.setForeground(Color.WHITE);
+		quyen_btn_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		quyen_btn_1.setFocusable(false);
+		quyen_btn_1.setBackground(new Color(255, 153, 102));
+		quyen_btn_1.setBounds(581, 38, 100, 25);
+		panel_3.add(quyen_btn_1);
 		
 		Panel panel_1 = new Panel();
 		panel_1.setBackground(new Color(255, 255, 255));
@@ -772,6 +804,7 @@ public class NhanVien extends JFrame{
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MatKhauGUI mk = new MatKhauGUI();
+				mk.setVisible(true);
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -780,7 +813,7 @@ public class NhanVien extends JFrame{
 		panel.add(btnNewButton);
 		initData();
 		
-		this.setVisible(true);
+//		this.setVisible(true);
 	}
 	
 	public File openFile() {
@@ -911,6 +944,7 @@ public class NhanVien extends JFrame{
 	}
 	
 	public void initArrayList() {
+		if(NhanVienBUS.nvDTO!=null)
 		for(NhanVienDTO nv: NhanVienBUS.nvDTO) {
 			tableModel.addRow(new Object[]{
 				nv.getManv().toUpperCase(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
@@ -941,12 +975,13 @@ public class NhanVien extends JFrame{
 		});
 	}
 	public void initData() {
-//		if(nvBUS.docNV()) {
+		if(NhanVienBUS.nvDTO != null) {
 			for(NhanVienDTO nv: NhanVienBUS.nvDTO) {
 				tableModel.addRow(new Object[]{
-					nv.getManv().toUpperCase(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
+					nv.getManv().toUpperCase(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),
+					nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
 				});
-			
+			}
 		}
 			table_NhanVien.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
@@ -1009,7 +1044,6 @@ public class NhanVien extends JFrame{
 		java.util.Date utilDate1 = this.dateChooser_NgaySinh.getDate();
 		java.sql.Date sqlDate_ngaySinh = new java.sql.Date(utilDate1.getTime());
 		nv.setNgaysinh(sqlDate_ngaySinh);
-		
 		if(nvBUS.suaNV(nv)!=-1) {
 			JOptionPane.showMessageDialog(null,"Sửa thông tin thành công nhân viên " + nv.getManv());
 		}

@@ -72,7 +72,7 @@ public class DichVu extends JFrame {
 	private JTextField textField_TimKiem;
 	private JTextField textField_Gia;
 	private JComboBox comboBox_LoaiDV, timkiem_cb;
-	private JButton them_btn, sua_btn, xoa_btn, thoat_btn, luu_btn;
+	public JButton them_btn, sua_btn, xoa_btn, thoat_btn, luu_btn;
 	JTextArea textArea_tendv;
 	JButton btn_QLTour,btn_KHTour,btn_KhuyenMai,btn_NhanVien,btn_KhachHang,btn_QLDV;
 	DefaultTableModel tableModel;
@@ -126,9 +126,10 @@ public class DichVu extends JFrame {
 		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				QuanLyTour qlt = new QuanLyTour();
-				qlt.btn_QLTour.setBackground(Color.ORANGE);
-				qlt.btn_QLTour.setForeground(Color.BLACK);
+//				QuanLyTour qlt = new QuanLyTour();
+				FormShare.qlt.setVisible(true);
+				FormShare.qlt.btn_QLTour.setBackground(Color.ORANGE);
+				FormShare.qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
@@ -146,9 +147,10 @@ public class DichVu extends JFrame {
 		btn_KHTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KHTourGUI kht = new KHTourGUI();
-				kht.btn_KHTour.setBackground(Color.ORANGE);
-				kht.btn_KHTour.setForeground(Color.BLACK);
+//				KHTourGUI kht = new KHTourGUI();
+				FormShare.kht.setVisible(true);
+				FormShare.kht.btn_KHTour.setBackground(Color.ORANGE);
+				FormShare.kht.btn_KHTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
@@ -161,9 +163,10 @@ public class DichVu extends JFrame {
 		btn_QLDV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				DichVu dv = new DichVu();
-				dv.btn_QLDV.setBackground(Color.ORANGE);
-				dv.btn_QLDV.setForeground(Color.BLACK);
+//				DichVu dv = new DichVu();
+				FormShare.dv.setVisible(true);
+				FormShare.dv.btn_QLDV.setBackground(Color.ORANGE);
+				FormShare.dv.btn_QLDV.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLDV.setForeground(new Color(255, 255, 255));
@@ -183,9 +186,10 @@ public class DichVu extends JFrame {
 		btn_KhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KhachHang kh = new KhachHang();
-				kh.btn_KhachHang.setBackground(Color.ORANGE);
-				kh.btn_KhachHang.setForeground(Color.BLACK);
+//				KhachHang kh = new KhachHang();
+				FormShare.kh.setVisible(true);
+				FormShare.kh.btn_KhachHang.setBackground(Color.ORANGE);
+				FormShare.kh.btn_KhachHang.setForeground(Color.BLACK);
 			}
 		});
 		
@@ -200,9 +204,10 @@ public class DichVu extends JFrame {
 		btn_NhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				NhanVien nv = new NhanVien();
-				nv.btn_NhanVien.setBackground(Color.ORANGE);
-				nv.btn_NhanVien.setForeground(Color.BLACK);
+//				NhanVien nv = new NhanVien();
+				FormShare.nv.setVisible(true);
+				FormShare.nv.btn_NhanVien.setBackground(Color.ORANGE);
+				FormShare.nv.btn_NhanVien.setForeground(Color.BLACK);
 			}
 		});
 		
@@ -210,9 +215,10 @@ public class DichVu extends JFrame {
 		btn_KhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KhuyenMai km = new KhuyenMai();
-				km.btn_KhuyenMai.setBackground(Color.ORANGE);
-				km.btn_KhuyenMai.setForeground(Color.BLACK);
+//				KhuyenMai km = new KhuyenMai();
+				FormShare.km.setVisible(true);
+				FormShare.km.btn_KhuyenMai.setBackground(Color.ORANGE);
+				FormShare.km.btn_KhuyenMai.setForeground(Color.BLACK);
 			}
 		});
 		btn_KhuyenMai.setFocusable(false);
@@ -606,19 +612,19 @@ public class DichVu extends JFrame {
 		panel.add(btnNewButton);
 		
 		initData();
-		this.setVisible(true);
+//		this.setVisible(true);
 	}
 	
 	public void initData() {
 		
-//		if(dvBUS.docNH()) {
+		if(DichVuBUS.nhDTO!=null) 
 			for(NhaHangDTO ks: DichVuBUS.nhDTO) {
 				tableModel.addRow(new Object[]{
 					ks.getMaso().toUpperCase(),"Nhà Hàng",ks.getTendv(),ks.getGiaca()+""
 					});
 			}
 //		}
-//		if(dvBUS.docKS()) {
+		if(DichVuBUS.ksDTO!=null) 
 			for(KhachSanDTO ks: DichVuBUS.ksDTO) {
 				tableModel.addRow(new Object[]{
 					ks.getMaso().toUpperCase(),"Khách Sạn",ks.getTendv(),ks.getGiaca()+""
@@ -627,7 +633,7 @@ public class DichVu extends JFrame {
 //		}
 
 		
-//		if(dvBUS.docPT()) {
+		if(DichVuBUS.ptDTO!=null) 
 			for(PhuongTienDTO pt: DichVuBUS.ptDTO) {
 				tableModel.addRow(new Object[]{
 					pt.getMaso().toUpperCase(),"Phương Tiện",pt.getTendv(),pt.getGiaca()+""

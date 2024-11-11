@@ -10,7 +10,7 @@ import GUI.QuanLyTour;
 
 public class QlyToursBUS {
 	QlyToursDAO tourDAO=new QlyToursDAO();
-	public static ArrayList<QlyToursDTO> tourDTO;
+	public static ArrayList<QlyToursDTO> tourDTO = new  ArrayList<QlyToursDTO>();
 	
 	public boolean docTour(){
 		try {

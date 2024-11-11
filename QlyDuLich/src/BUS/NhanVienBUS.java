@@ -9,7 +9,7 @@ import DAO.NhanVienDAO;
 import DTO.NhanVienDTO;
 
 public class NhanVienBUS {
-	public static ArrayList<NhanVienDTO> nvDTO;
+	public static ArrayList<NhanVienDTO> nvDTO = new ArrayList<NhanVienDTO>();
 	public boolean docNV() {
 		try {
 			nvDTO = NhanVienDAO.getIntance().selectAll();
@@ -25,6 +25,17 @@ public class NhanVienBUS {
 		}
 	}
 	
+	public ArrayList<String> getMaNV(){
+		try {
+			return NhanVienDAO.getIntance().getMaNV();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+	}
+		
+		
 	public int themDSNV(ArrayList<NhanVienDTO> listNV) {
 		try {
 			for(NhanVienDTO v: nvDTO) {
@@ -45,6 +56,7 @@ public class NhanVienBUS {
 	
 	public int themNV(NhanVienDTO nv) {
 		try {
+			if(nvDTO!=null)
 			for(NhanVienDTO v: nvDTO) {
 				if(v.getManv().equals(nv.getManv())) {
 					JOptionPane.showMessageDialog(null, "Mã nhân viên " + nv.getManv() +" đã tồn tại");

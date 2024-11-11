@@ -72,7 +72,7 @@ public class KhachHang extends JFrame {
 	private JTable table_KhachHang;
 	private JTextField textField_TimKiem;
 	private JTextField textField_Email;
-	private JButton xoa_btn , sua_btn, btn_thoat, luu_btn;
+	public JButton xoa_btn , sua_btn, btn_thoat, luu_btn;
 	private JDateChooser dateChooser_NgaySinh;
 
 	DefaultTableModel tableModel;
@@ -130,9 +130,10 @@ public class KhachHang extends JFrame {
 		btn_QLTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				QuanLyTour qlt = new QuanLyTour();
-				qlt.btn_QLTour.setBackground(Color.ORANGE);
-				qlt.btn_QLTour.setForeground(Color.BLACK);
+//				QuanLyTour qlt = new QuanLyTour();
+				FormShare.qlt.setVisible(true);
+				FormShare.qlt.btn_QLTour.setBackground(Color.ORANGE);
+				FormShare.qlt.btn_QLTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
@@ -150,9 +151,10 @@ public class KhachHang extends JFrame {
 		btn_KHTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KHTourGUI kht = new KHTourGUI();
-				kht.btn_KHTour.setBackground(Color.ORANGE);
-				kht.btn_KHTour.setForeground(Color.BLACK);
+//				KHTourGUI kht = new KHTourGUI();
+				FormShare.kht.setVisible(true);
+				FormShare.kht.btn_KHTour.setBackground(Color.ORANGE);
+				FormShare.kht.btn_KHTour.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLTour.setBounds(126, 65, 120, 40);
@@ -165,9 +167,10 @@ public class KhachHang extends JFrame {
 		btn_QLDV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				DichVu dv = new DichVu();
-				dv.btn_QLDV.setBackground(Color.ORANGE);
-				dv.btn_QLDV.setForeground(Color.BLACK);
+//				DichVu dv = new DichVu();
+				FormShare.dv.setVisible(true);
+				FormShare.dv.btn_QLDV.setBackground(Color.ORANGE);
+				FormShare.dv.btn_QLDV.setForeground(Color.BLACK);
 			}
 		});
 		btn_QLDV.setForeground(new Color(255, 255, 255));
@@ -187,9 +190,10 @@ public class KhachHang extends JFrame {
 		btn_KhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KhachHang kh = new KhachHang();
-				kh.btn_KhachHang.setBackground(Color.ORANGE);
-				kh.btn_KhachHang.setForeground(Color.BLACK);
+//				KhachHang kh = new KhachHang();
+				FormShare.kh.setVisible(true);
+				FormShare.kh.btn_KhachHang.setBackground(Color.ORANGE);
+				FormShare.kh.btn_KhachHang.setForeground(Color.BLACK);
 			}
 		});
 		
@@ -204,9 +208,10 @@ public class KhachHang extends JFrame {
 		btn_NhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				NhanVien nv = new NhanVien();
-				nv.btn_NhanVien.setBackground(Color.ORANGE);
-				nv.btn_NhanVien.setForeground(Color.BLACK);
+//				NhanVien nv = new NhanVien();
+				FormShare.nv.setVisible(true);
+				FormShare.nv.btn_NhanVien.setBackground(Color.ORANGE);
+				FormShare.nv.btn_NhanVien.setForeground(Color.BLACK);
 			}
 		});
 		
@@ -214,9 +219,10 @@ public class KhachHang extends JFrame {
 		btn_KhuyenMai.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				KhuyenMai km = new KhuyenMai();
-				km.btn_KhuyenMai.setBackground(Color.ORANGE);
-				km.btn_KhuyenMai.setForeground(Color.BLACK);
+//				KhuyenMai km = new KhuyenMai();
+				FormShare.km.setVisible(true);
+				FormShare.km.btn_KhuyenMai.setBackground(Color.ORANGE);
+				FormShare.km.btn_KhuyenMai.setForeground(Color.BLACK);
 			}
 		});
 		btn_KhuyenMai.setFocusable(false);
@@ -240,9 +246,10 @@ public class KhachHang extends JFrame {
 		label.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 setVisible(false);
-                TrangChuGUI tc = new TrangChuGUI();
-                tc.btn_TrangChu.setBackground(Color.ORANGE);
-                tc.btn_TrangChu.setForeground(Color.BLACK);
+//                TrangChuGUI tc = new TrangChuGUI();
+                FormShare.tc.setVisible(true);
+                FormShare.tc.btn_TrangChu.setBackground(Color.ORANGE);
+                FormShare.tc.btn_TrangChu.setForeground(Color.BLACK);
             }
         });
 		panel.add(label);
@@ -689,7 +696,7 @@ public class KhachHang extends JFrame {
 		
 		initData();
 		lockForm();
-		this.setVisible(true);
+//		this.setVisible(true);
 	}
 	
 public void lockForm() {
@@ -710,7 +717,7 @@ public void lockForm() {
 	
 	
 	public void initData() {
-//		if(khBus.docKH()) {
+		if( KhachHangBUS.khDTO != null) 
 			for(KhachHangDTO kh : KhachHangBUS.khDTO ) {
 				tableModel.addRow(new Object[] {
 						kh.getMakh(), kh.getHokh(), kh.getTenkh(), KiemTra.getInstance().GioiTinh(kh.isGioitinh()), kh.getDiachi(), kh.getSdt(), kh.getEmail(), kh.getNgaysinh()
