@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -278,6 +279,7 @@ public class QuanLyTour extends JFrame {
 		panel_2.add(lblNewLabel_2);
 
 		textField_MaTour = new JTextField();
+		textField_MaTour.setEnabled(false);
 		textField_MaTour.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_MaTour.setBounds(90, 26, 125, 26);
 		textField_MaTour.addKeyListener(new KeyListener() {
@@ -767,6 +769,8 @@ public class QuanLyTour extends JFrame {
 		noiden_cb.setEnabled(false);
 	}
 
+
+	
 	public void ThemTour() {
 //		sua_btn.setEnabled(false);
 //		sua_btn.setBackground(Color.gray);
@@ -774,10 +778,10 @@ public class QuanLyTour extends JFrame {
 //		xoa_btn.setBackground(Color.gray);
 //		luu_btn.setEnabled(true);
 //		luu_btn.setBackground(Color.orange);
-		if (textField_MaTour.getText().isEmpty() || tentour_tf.getText().isEmpty() || songay_tf.getText().isEmpty()) {
+		if (tentour_tf.getText().isEmpty() || songay_tf.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Chưa điền đầy đủ thông tin, mời bổ sung.");
 		} else {
-			String matour = textField_MaTour.getText();
+			String matour = tourBUS.TaoMaTour();
 			String tentour = tentour_tf.getText();
 			int songay = Integer.parseInt(songay_tf.getText());
 			System.out.println(songay);

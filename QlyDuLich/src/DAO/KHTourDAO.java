@@ -48,6 +48,34 @@ public class KHTourDAO {
 		return ketqua;
 	}
 	
+	
+	public String TaoMaKHT() {
+		String ketQua = null;
+		try {
+			// Bước 1:Tạo kết nối
+			Connection con = JDBCUtil.getConnection();
+			// Bước 2:Tạo đối tượng statement
+			java.sql.Statement st = con.createStatement();
+			// Bước 3:Thực thi statement
+			String sql = "SELECT MAX(id)+1 as id FROM kehoachtour";
+			System.out.println(sql);
+			ResultSet rs = st.executeQuery(sql);
+			// Bước 4:Xử lý kết quả trả về
+			while (rs.next()) {
+				String id = rs.getString("id");
+				ketQua = "kht".concat(id);
+			}
+			// Bước 4:Xử lý kết quả trả về
+			System.out.println("Ban da thuc thi: " + sql);
+			System.out.println("So dong thay doi la: " + ketQua);
+			// Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
+	
 	public int InsertKHT(KHTourDTO t) {
 		int ketQua=0;
 		try {
@@ -56,7 +84,8 @@ public class KHTourDAO {
 			String sql="INSERT INTO kehoachtour (makht,matour,mota,ngaydi,ngayve,songuoi,giave,huongdanvien,"
 					+ "tongchi,anh1,anh2,anh3,soluong,thucchi)"+" VALUES ('"+t.getMakht()+"','"+t.getMatour()+"','"+t.getMota()+"','"+t.getNgaydi()+"','"
 					+t.getNgayve()+"',"+t.getSonguoi()+","+t.getGiaVe()+",'"+t.getHuongdanvien()+"',"+t.getTongchi()+",'"+t.getAnh1()+"','"
-					+t.getAnh2()+"','"+t.getAnh3()+"'," +t.getSonguoi() + ","+t.getSonguoidukien()+","+t.getThucchi()+")";
+					+t.getAnh2()+"','"+t.getAnh3()+ "',"+t.getSonguoidukien()+","+t.getThucchi()+")";
+			System.out.println(sql);
 			ketQua=st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
 			System.out.println("So dong thay doi la: " + ketQua);

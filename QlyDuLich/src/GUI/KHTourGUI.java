@@ -867,6 +867,7 @@ public class KHTourGUI extends JFrame {
 		mota_sp.setViewportView(textAreaMoTa);
 		
 		tfMaKHT = new JTextField();
+		tfMaKHT.setEnabled(false);
 		tfMaKHT.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -1410,7 +1411,7 @@ public class KHTourGUI extends JFrame {
 	}
 	public void noneInit() {
 		cbMatour.setEnabled(true);
-		tfMaKHT.setEditable(true);
+//		tfMaKHT.setEditable(true);
 		textAreaMoTa.setEditable(true);
 		cbSoCho.setEnabled(true);
 		ngaydi_date.setEnabled(true);
@@ -1455,7 +1456,7 @@ public class KHTourGUI extends JFrame {
 	}
 	public void ThemKHT() {
 		String matour=cbMatour.getSelectedItem().toString();
-		String makht=tfMaKHT.getText();
+		String makht=khtBUS.TaoMaKHT();
 		String mota=textAreaMoTa.getText();
 	
         java.util.Date ngaydi_tmp=(java.util.Date) ngaydi_date.getDate();

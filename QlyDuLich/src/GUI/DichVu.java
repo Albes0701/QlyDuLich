@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -272,6 +273,7 @@ public class DichVu extends JFrame {
 		panel_2.add(lblNewLabel_2);
 		
 		textField_MaDichVu = new JTextField();
+		textField_MaDichVu.setEnabled(false);
 		textField_MaDichVu.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -614,14 +616,14 @@ public class DichVu extends JFrame {
 //		if(dvBUS.docNH()) {
 			for(NhaHangDTO ks: DichVuBUS.nhDTO) {
 				tableModel.addRow(new Object[]{
-					ks.getMaso().toUpperCase(),"Nhà Hàng",ks.getTendv(),ks.getGiaca()+""
+					ks.getMaso(),"Nhà Hàng",ks.getTendv(),ks.getGiaca()+""
 					});
 			}
 //		}
 //		if(dvBUS.docKS()) {
 			for(KhachSanDTO ks: DichVuBUS.ksDTO) {
 				tableModel.addRow(new Object[]{
-					ks.getMaso().toUpperCase(),"Khách Sạn",ks.getTendv(),ks.getGiaca()+""
+					ks.getMaso(),"Khách Sạn",ks.getTendv(),ks.getGiaca()+""
 					});
 			}
 //		}
@@ -630,7 +632,7 @@ public class DichVu extends JFrame {
 //		if(dvBUS.docPT()) {
 			for(PhuongTienDTO pt: DichVuBUS.ptDTO) {
 				tableModel.addRow(new Object[]{
-					pt.getMaso().toUpperCase(),"Phương Tiện",pt.getTendv(),pt.getGiaca()+""
+					pt.getMaso(),"Phương Tiện",pt.getTendv(),pt.getGiaca()+""
 					});
 		}
 			table_DichVu.addMouseListener(new MouseAdapter() {
@@ -645,7 +647,7 @@ public class DichVu extends JFrame {
 	public void initArrayList(ArrayList<DichVuDTO> dv) {
 		for(DichVuDTO v: dv) {
 			tableModel.addRow(new Object[]{
-				v.getMaso().toUpperCase(),KiemTra.getInstance().loaiDV(v.getMaso()),v.getTendv(),v.getGiaca()+""
+				v.getMaso(),KiemTra.getInstance().loaiDV(v.getMaso()),v.getTendv(),v.getGiaca()+""
 			});
 		}
 		
@@ -662,18 +664,18 @@ public class DichVu extends JFrame {
 		
 		for(NhaHangDTO nh: DichVuBUS.nhDTO) {
 			tableModel.addRow(new Object[]{
-				nh.getMaso().toUpperCase(),"Nhà Hàng",nh.getTendv(),nh.getGiaca()+""
+				nh.getMaso(),"Nhà Hàng",nh.getTendv(),nh.getGiaca()+""
 			});
 		}
 		
 		for(KhachSanDTO ks: DichVuBUS.ksDTO) {
 			tableModel.addRow(new Object[]{
-				ks.getMaso().toUpperCase(),"Khách Sạn",ks.getTendv(),ks.getGiaca()+""
+				ks.getMaso(),"Khách Sạn",ks.getTendv(),ks.getGiaca()+""
 			});
 		}
 		for(PhuongTienDTO pt: DichVuBUS.ptDTO) {
 			tableModel.addRow(new Object[]{
-				pt.getMaso().toUpperCase(),"Phương Tiện",pt.getTendv(),pt.getGiaca()+""
+				pt.getMaso(),"Phương Tiện",pt.getTendv(),pt.getGiaca()+""
 			});
 		}
 		
@@ -713,9 +715,9 @@ public class DichVu extends JFrame {
 		this.textField_MaDichVu.setText(dv.getMaso());
 		this.comboBox_LoaiDV.setSelectedItem(KiemTra.getInstance().loaiDV(dv.getMaso()));
 		this.textArea_tendv.setText(dv.getTendv());
-		DecimalFormat decimalFormat = new DecimalFormat("#,##0");
-		String formattedNumber = decimalFormat.format(dv.getGiaca()) + " VNĐ";
-		this.textField_Gia.setText(formattedNumber);
+//		DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+//		String formattedNumber = decimalFormat.format(dv.getGiaca()) + " VNĐ";
+		this.textField_Gia.setText(dv.getGiaca()+"");
 	}
 	
 	public void reSetForm() {
@@ -726,8 +728,6 @@ public class DichVu extends JFrame {
 	}
 	
 	public void initForm() {
-		this.textField_MaDichVu.setEnabled(true);
-		this.textField_MaDichVu.setEditable(true);
 		this.textField_Gia.setEditable(true);
 		this.textArea_tendv.setEditable(true);
 		this.comboBox_LoaiDV.setEnabled(true);
@@ -742,26 +742,41 @@ public class DichVu extends JFrame {
 	}
 	
 	public boolean checkNull() {
-		if(this.textField_MaDichVu.getText().isEmpty() || this.textField_Gia.getText().isEmpty() || this.textArea_tendv.getText().isEmpty()) 
+		if(this.textField_Gia.getText().isEmpty() || this.textArea_tendv.getText().isEmpty()) 
 		{
 			return true;
 		}
 		return false;
 	}
 	
+	public String TaoMaDV(String dv) {
+		int max=1000,min=0;
+		int randNum=(int) ((Math.random() * (max - min)) + min);
+		Random random = new Random();
+        StringBuilder randomLetters = new StringBuilder();
+
+        for (int i = 0; i < 3; i++) {
+            char randomChar = (char) (random.nextInt(26) + 'a');
+            randomLetters.append(randomChar);
+        }
+		return dv+randomLetters.toString()+randNum;
+	}
+	
 	public void themDV() {
-		String maso = this.textField_MaDichVu.getText();
-		if(KiemTra.getInstance().loaiDV(maso).equalsIgnoreCase("Nhà Hàng"))
+		String maso = comboBox_LoaiDV.getSelectedItem().toString();
+		if(maso.equalsIgnoreCase("Nhà Hàng"))
 		{
 			DichVuDTO dv = new NhaHangDTO();
+			maso = TaoMaDV("NH");
 			dv.setMaso(maso);
 			dv.setTendv(this.textArea_tendv.getText());
 			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));
 			if(dvBUS.themDV(dv)!=-1) {
 				JOptionPane.showMessageDialog(null, "Thêm thành công dịch vụ " + dv.getMaso());
 			}else JOptionPane.showMessageDialog(null, "Không thể thêm dịch vụ " + dv.getMaso());
-		}else if(KiemTra.getInstance().loaiDV(maso).equalsIgnoreCase("Phương tiện")) {
+		}else if(maso.equalsIgnoreCase("Phương tiện")) {
 			DichVuDTO dv = new PhuongTienDTO();
+			maso = TaoMaDV("PT");
 			dv.setMaso(maso);
 			dv.setTendv(this.textArea_tendv.getText());
 			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));
@@ -770,6 +785,7 @@ public class DichVu extends JFrame {
 			}else JOptionPane.showMessageDialog(null, "Không thể thêm dịch vụ " + dv.getMaso());
 		}else {
 			DichVuDTO dv = new KhachSanDTO();
+			maso = TaoMaDV("KS");
 			dv.setMaso(maso);
 			dv.setTendv(this.textArea_tendv.getText());
 			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));

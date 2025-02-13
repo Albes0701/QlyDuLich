@@ -17,6 +17,17 @@ public class KHToursBUS {
 		}
 		return false;
 	}
+	
+	
+	public String TaoMaKHT() {
+		try {
+			return khtDAO.getIntance().TaoMaKHT();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public int themKHT(KHTourDTO kht) {
 		try {
 			khtList.add(kht);

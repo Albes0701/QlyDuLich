@@ -60,6 +60,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -306,6 +307,7 @@ public class NhanVien extends JFrame{
 		panel_2.add(lblNewLabel_2);
 		
 		textField_MSNV = new JTextField();
+		textField_MSNV.setEnabled(false);
 		textField_MSNV.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -576,8 +578,8 @@ public class NhanVien extends JFrame{
 		table_NhanVien.setModel(tableModel);
 		tableModel.setColumnIdentifiers(colname);
 		scrollPane_2.setViewportView(table_NhanVien);
-		table_NhanVien.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table_NhanVien.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table_NhanVien.getColumnModel().getColumn(0).setPreferredWidth(50);
+		table_NhanVien.getColumnModel().getColumn(1).setPreferredWidth(130);
 		table_NhanVien.getColumnModel().getColumn(2).setPreferredWidth(50);
 		table_NhanVien.getColumnModel().getColumn(3).setPreferredWidth(30);
 //		table_NhanVien.getColumnModel().getColumn(4).setPreferredWidth(123);
@@ -653,7 +655,7 @@ public class NhanVien extends JFrame{
 		them_btn = new JButton("Thêm");
 		them_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField_MSNV.requestFocusInWindow();
+				textField_HoNV.requestFocusInWindow();
 				luu_btn.setEnabled(true);
 				luu_btn.setBackground(Color.orange);
 				thoat_btn.setEnabled(true);
@@ -913,7 +915,7 @@ public class NhanVien extends JFrame{
 	public void initArrayList() {
 		for(NhanVienDTO nv: NhanVienBUS.nvDTO) {
 			tableModel.addRow(new Object[]{
-				nv.getManv().toUpperCase(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
+				nv.getManv(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
 			});
 		}
 		
@@ -928,7 +930,7 @@ public class NhanVien extends JFrame{
 	public void initArrayList(ArrayList<NhanVienDTO> t) {
 		for(NhanVienDTO nv: t) {
 			tableModel.addRow(new Object[]{
-				nv.getManv().toUpperCase(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
+				nv.getManv(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
 			});
 		}
 		
@@ -944,7 +946,7 @@ public class NhanVien extends JFrame{
 //		if(nvBUS.docNV()) {
 			for(NhanVienDTO nv: NhanVienBUS.nvDTO) {
 				tableModel.addRow(new Object[]{
-					nv.getManv().toUpperCase(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
+					nv.getManv(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
 				});
 			
 		}
@@ -958,16 +960,29 @@ public class NhanVien extends JFrame{
 		}
 //	}
 	public boolean checkNull() {
-		if(this.textField_MSNV.getText().isEmpty() || this.textField_HoNV.getText().isEmpty() || this.textField_TenNV.getText().isEmpty() 
+		if(this.textField_HoNV.getText().isEmpty() || this.textField_TenNV.getText().isEmpty() 
 				|| this.textField_CMND.getText().isEmpty()|| this.textField_SDT.getText().isEmpty() || this.dateChooser_NgaySinh.getDate()==null) 
 		{
 			return true;
 		}
 		return false;
 	}
+	public String TaoMaNV() {
+		int max=1000,min=0;
+		int randNum=(int) ((Math.random() * (max - min)) + min);
+		Random random = new Random();
+        StringBuilder randomLetters = new StringBuilder();
+
+        for (int i = 0; i < 3; i++) {
+            char randomChar = (char) (random.nextInt(26) + 'a');
+            randomLetters.append(randomChar);
+        }
+		return "NV"+randomLetters.toString()+randNum;
+	}
+	
 	public void themNV() {
 		NhanVienDTO nv = new NhanVienDTO();
-		nv.setManv(this.textField_MSNV.getText());
+		nv.setManv(TaoMaNV());
 		nv.setHonv(this.textField_HoNV.getText());
 		nv.setTennv(this.textField_TenNV.getText());
 		Boolean gioitinh = KiemTra.getInstance().GioiTinh(this.comboBox_GioiTinh.getSelectedItem()+"");
@@ -1021,8 +1036,6 @@ public class NhanVien extends JFrame{
 	
 	
 	public void initForm() {
-		this.textField_MSNV.setEnabled(true);
-		this.textField_MSNV.setEditable(true);
 		this.textField_HoNV.setEditable(true);
 		this.textField_TenNV.setEditable(true);
 		this.comboBox_GioiTinh.setEnabled(true);
@@ -1033,8 +1046,6 @@ public class NhanVien extends JFrame{
 	}
 	
 	public void lockForm() {
-		
-		this.textField_MSNV.setEditable(false);
 		this.textField_HoNV.setEditable(false);
 		this.textField_TenNV.setEditable(false);
 		this.comboBox_GioiTinh.setEnabled(false);

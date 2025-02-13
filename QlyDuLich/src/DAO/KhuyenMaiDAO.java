@@ -81,11 +81,11 @@ public class KhuyenMaiDAO {
 		try {
 			Connection con = JDBCUtil.getConnection();
 			Statement st = con.createStatement();
-			String sql = "UPDATE khuyenmai SET makm='" + t.getMakm() + "',tenctkm='"
+			String sql = "UPDATE khuyenmai set tenctkm='"
 					+ t.getTectkm() + "',phantram=" + t.getPhantram() +  ",dieukien='"
 					+ t.getDieukien() + "',ngaybatdau='" + t.getNgaybd() +  "',ngayketthuc='" + t.getNgaykt() +
 					"',tinhtrang = " + t.getTinhtrang() + " WHERE makm='" + t.getMakm() + "';";
-//			System.out.println(sql);
+			System.out.println(sql);
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
 			System.out.println("So dong thay doi: " + kq);

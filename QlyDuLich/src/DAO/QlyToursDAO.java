@@ -39,6 +39,33 @@ public class QlyToursDAO {
 		}
 		return ketqua;
 	}
+	
+	public String TaoMaTour() {
+		String ketQua = null;
+		try {
+			// Bước 1:Tạo kết nối
+			Connection con = JDBCUtil.getConnection();
+			// Bước 2:Tạo đối tượng statement
+			java.sql.Statement st = con.createStatement();
+			// Bước 3:Thực thi statement
+			String sql = "SELECT MAX(id)+1 as id FROM tours";
+			System.out.println(sql);
+			ResultSet rs = st.executeQuery(sql);
+			// Bước 4:Xử lý kết quả trả về
+			while (rs.next()) {
+				String id = rs.getString("id");
+				ketQua = "tour".concat(id);
+			}
+			// Bước 4:Xử lý kết quả trả về
+			System.out.println("Ban da thuc thi: " + sql);
+			System.out.println("So dong thay doi la: " + ketQua);
+			// Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
 
 	public int InsertTour(QlyToursDTO t) {
 		int ketQua = 0;
@@ -148,4 +175,7 @@ public class QlyToursDAO {
 		}
 		return ketQua;
 	}
+	
+	
+	
 }

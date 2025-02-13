@@ -23,6 +23,14 @@ public class QlyToursBUS {
 		}
 		return false;
 	}
+	public String TaoMaTour() {
+		try {
+			return tourDAO.getIntance().TaoMaTour();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public int them(QlyToursDTO t) {
 		try {
 			tourDTO.add(t);
