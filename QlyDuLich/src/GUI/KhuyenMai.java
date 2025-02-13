@@ -839,27 +839,17 @@ public class KhuyenMai extends JFrame {
 		}
 		return false;
 	}
-	public String TaoMaKM() {
-		int max=1000,min=0;
-		int randNum=(int) ((Math.random() * (max - min)) + min);
-		Random random = new Random();
-        StringBuilder randomLetters = new StringBuilder();
 
-        for (int i = 0; i < 3; i++) {
-            char randomChar = (char) (random.nextInt(26) + 'a');
-            randomLetters.append(randomChar);
-        }
-		return "KM"+randomLetters.toString()+randNum;
-	}
 	public Boolean themKM() {
 		KhuyenMaiDTO km = new KhuyenMaiDTO();
-		km.setMakm(TaoMaKM());
+		km.setMakm(kmBUS.TaoMaKM());
 		km.setTectkm(this.textArea_tenCT.getText());
 		km.setPhantram(Double.parseDouble(this.textField_GiamGia.getText()));
 //		km.setDieukien(Integer.parseInt(this.textField_DieuKien.getText()));
 		java.util.Date utilDate = this.dateChooser_NgayBD.getDate();
 		java.sql.Date sqlDate_ngayBD = new java.sql.Date(utilDate.getTime());
 		km.setNgaybd(sqlDate_ngayBD);
+		
 		java.util.Date utilDate1 = this.dateChooser_NgayKT.getDate();
 		java.sql.Date sqlDate_ngayKT = new java.sql.Date(utilDate1.getTime());
 		km.setNgaykt(sqlDate_ngayKT);

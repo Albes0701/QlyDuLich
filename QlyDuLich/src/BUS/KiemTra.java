@@ -80,11 +80,6 @@ public class KiemTra {
 	}
 	
 	public Boolean checkTinhTrang(java.util.Date st1, java.util.Date st2) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        st2 = calendar.getTime();
 		if(st1.compareTo(st2) > 0 || st1.compareTo(st2) == 0) return false;
 		return true;
 	}

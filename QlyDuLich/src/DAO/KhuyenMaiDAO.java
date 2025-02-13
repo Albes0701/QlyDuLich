@@ -50,6 +50,28 @@ public class KhuyenMaiDAO {
 		return ketQua;
 	}
 	
+	public String TaoKhuyenMai() {
+		String ketQua = null;
+		try {
+			// Bước 1:Tạo kết nối
+			Connection con = JDBCUtil.getConnection();
+			// Bước 2:Tạo đối tượng statement
+			java.sql.Statement st = con.createStatement();
+			// Bước 3:Thực thi statement
+			String sql = "SELECT MAX(id)+1 as id FROM khuyenmai";
+			ResultSet rs = st.executeQuery(sql);
+			// Bước 4:Xử lý kết quả trả về
+			while (rs.next()) {
+				String id = rs.getString("id");
+				ketQua = "KM".concat(id);
+			}
+			// Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
 
 	public int InsertKhuyenMai(KhuyenMaiDTO t) {
 		int kq = 0;

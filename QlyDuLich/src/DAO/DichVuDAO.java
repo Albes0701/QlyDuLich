@@ -104,6 +104,89 @@ public class DichVuDAO {
 		return ketQua;
 	}
 
+	
+	
+	public String TaoMaKhachSan() {
+		String ketQua = null;
+		try {
+			// Bước 1:Tạo kết nối
+			Connection con = JDBCUtil.getConnection();
+			// Bước 2:Tạo đối tượng statement
+			java.sql.Statement st = con.createStatement();
+			// Bước 3:Thực thi statement
+			String sql = "SELECT MAX(id)+1 as id FROM dsks";
+			System.out.println(sql);
+			ResultSet rs = st.executeQuery(sql);
+			// Bước 4:Xử lý kết quả trả về
+			while (rs.next()) {
+				String id = rs.getString("id");
+				ketQua = "KS".concat(id);
+			}
+//			// Bước 4:Xử lý kết quả trả về
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi la: " + ketQua);
+			// Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
+	
+	public String TaoMaNhaHang() {
+		String ketQua = null;
+		try {
+			// Bước 1:Tạo kết nối
+			Connection con = JDBCUtil.getConnection();
+			// Bước 2:Tạo đối tượng statement
+			java.sql.Statement st = con.createStatement();
+			// Bước 3:Thực thi statement
+			String sql = "SELECT MAX(id)+1 as id FROM dsnhahang";
+			System.out.println(sql);
+			ResultSet rs = st.executeQuery(sql);
+			// Bước 4:Xử lý kết quả trả về
+			while (rs.next()) {
+				String id = rs.getString("id");
+				ketQua = "NH".concat(id);
+			}
+//			// Bước 4:Xử lý kết quả trả về
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi la: " + ketQua);
+			// Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
+	
+	public String TaoMaPhuongTien() {
+		String ketQua = null;
+		try {
+			// Bước 1:Tạo kết nối
+			Connection con = JDBCUtil.getConnection();
+			// Bước 2:Tạo đối tượng statement
+			java.sql.Statement st = con.createStatement();
+			// Bước 3:Thực thi statement
+			String sql = "SELECT MAX(id)+1 as id FROM dsphuongtien";
+			System.out.println(sql);
+			ResultSet rs = st.executeQuery(sql);
+			// Bước 4:Xử lý kết quả trả về
+			while (rs.next()) {
+				String id = rs.getString("id");
+				ketQua = "PT".concat(id);
+			}
+//			// Bước 4:Xử lý kết quả trả về
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi la: " + ketQua);
+			// Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
+	
 	public int InsertKhanhSan(KhachSanDTO ks) {
 		int kq = 0;
 		// ket noi

@@ -749,25 +749,25 @@ public class DichVu extends JFrame {
 		return false;
 	}
 	
-	public String TaoMaDV(String dv) {
-		int max=1000,min=0;
-		int randNum=(int) ((Math.random() * (max - min)) + min);
-		Random random = new Random();
-        StringBuilder randomLetters = new StringBuilder();
-
-        for (int i = 0; i < 3; i++) {
-            char randomChar = (char) (random.nextInt(26) + 'a');
-            randomLetters.append(randomChar);
-        }
-		return dv+randomLetters.toString()+randNum;
-	}
+//	public String TaoMaDV(String dv) {
+//		int max=1000,min=0;
+//		int randNum=(int) ((Math.random() * (max - min)) + min);
+//		Random random = new Random();
+//        StringBuilder randomLetters = new StringBuilder();
+//
+//        for (int i = 0; i < 3; i++) {
+//            char randomChar = (char) (random.nextInt(26) + 'a');
+//            randomLetters.append(randomChar);
+//        }
+//		return dv+randomLetters.toString()+randNum;
+//	}
 	
 	public void themDV() {
 		String maso = comboBox_LoaiDV.getSelectedItem().toString();
 		if(maso.equalsIgnoreCase("Nhà Hàng"))
 		{
 			DichVuDTO dv = new NhaHangDTO();
-			maso = TaoMaDV("NH");
+			maso = dvBUS.TaoMaNhaHang();
 			dv.setMaso(maso);
 			dv.setTendv(this.textArea_tendv.getText());
 			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));
@@ -776,7 +776,7 @@ public class DichVu extends JFrame {
 			}else JOptionPane.showMessageDialog(null, "Không thể thêm dịch vụ " + dv.getMaso());
 		}else if(maso.equalsIgnoreCase("Phương tiện")) {
 			DichVuDTO dv = new PhuongTienDTO();
-			maso = TaoMaDV("PT");
+			maso = dvBUS.TaoMaPhuongTien();
 			dv.setMaso(maso);
 			dv.setTendv(this.textArea_tendv.getText());
 			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));
@@ -785,7 +785,7 @@ public class DichVu extends JFrame {
 			}else JOptionPane.showMessageDialog(null, "Không thể thêm dịch vụ " + dv.getMaso());
 		}else {
 			DichVuDTO dv = new KhachSanDTO();
-			maso = TaoMaDV("KS");
+			maso = dvBUS.TaoMaKhachSan();
 			dv.setMaso(maso);
 			dv.setTendv(this.textArea_tendv.getText());
 			dv.setGiaca(Double.parseDouble(this.textField_Gia.getText()));
