@@ -46,6 +46,7 @@ import BUS.CTKhuyenMaiBUS;
 import BUS.HoaDonBUS;
 import BUS.KHToursBUS;
 import BUS.KhuyenMaiBUS;
+import BUS.KiemTra;
 import BUS.QlyToursBUS;
 import BUS.QlyVeBUS;
 import DTO.CTKM_DTO;
@@ -425,6 +426,7 @@ public class Ve extends JFrame {
 //						arr_TTLienLac=GetThongTinLienLac();
 //						init2();
 //						tfHoTenTV.setText(arr_TTLienLac[0]);
+						if(!checkValidate()) return;
 						if(lbNameKH.getText().equals("....................")) {
 							lbNameKH.setText(tfHoTen.getText());
 						}
@@ -1020,5 +1022,29 @@ public class Ve extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(this, "Thêm thành công!");
 		}
+	}
+	public boolean checkValidate() {
+		String hoTen = this.tfHoTen.getText();
+		String email = this.tfEmail.getText();
+		String phone = this.tfSdt.getText();
+		String diaChi = this.tfDiachi.getText();
+		java.util.Date namSinh = this.datechooserNgaysinh.getDate();
+		if(hoTen.isEmpty() || email.isEmpty() || phone.isEmpty() || diaChi.isEmpty() || namSinh == null) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền đủ thông tin");
+			return false;
+		}
+		if(KiemTra.getInstance().validate_OnlyString(hoTen) == false) {
+			JOptionPane.showMessageDialog(null, "Họ và tên chỉ chứa chữ cái");
+			return false;
+		}
+		if(KiemTra.getInstance().validate_Email(email) == false) {
+			JOptionPane.showMessageDialog(null, "Email không hợp lệ");
+			return false;
+		}
+		if(KiemTra.getInstance().validate_PhoneNumber(phone) == false) {
+			JOptionPane.showMessageDialog(null, "số điện thoại không hợp lệ");
+			return false;
+		}
+		return true;
 	}
 }

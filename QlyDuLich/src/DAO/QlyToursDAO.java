@@ -48,7 +48,7 @@ public class QlyToursDAO {
 			// Bước 2:Tạo đối tượng statement
 			java.sql.Statement st = con.createStatement();
 			// Bước 3:Thực thi statement
-			String sql = "SELECT MAX(id)+1 as id FROM tours";
+			String sql = "SELECT IFNULL(MAX(id)+1,1) as id FROM tours";
 			System.out.println(sql);
 			ResultSet rs = st.executeQuery(sql);
 			// Bước 4:Xử lý kết quả trả về

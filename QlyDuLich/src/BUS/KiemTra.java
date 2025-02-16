@@ -108,4 +108,29 @@ public class KiemTra {
 		return null;
 	}
 	
+	
+	public boolean validate_OnlyString(String test	) {
+		String regex = "^[\\p{L}\\s]+$";
+		 return Pattern.matches(regex, test);
+	}
+	
+	public boolean validate_OnlyNumber(String test	) {
+		String regex = "^[0-9]+$";
+		 return Pattern.matches(regex, test);
+	}
+	
+	public boolean validate_PhoneNumber(String test) {
+		String regex = "^0[0-9]{9}$";
+		 return Pattern.matches(regex, test);
+	}
+	
+	public boolean validate_CCCD(String test) {
+		String regex = "^[0-9]{12}$";
+		 return Pattern.matches(regex, test);
+	}
+	
+	public boolean validate_Email(String test) {
+		String regex = "^[^@]+@[^@]+\\.[A-Za-z]{2,}$";
+		 return Pattern.matches(regex, test);
+	}
 }

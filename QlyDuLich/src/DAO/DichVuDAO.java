@@ -114,7 +114,7 @@ public class DichVuDAO {
 			// Bước 2:Tạo đối tượng statement
 			java.sql.Statement st = con.createStatement();
 			// Bước 3:Thực thi statement
-			String sql = "SELECT MAX(id)+1 as id FROM dsks";
+			String sql = "SELECT IFNULL(MAX(id)+1,1) as id FROM dsks";
 			System.out.println(sql);
 			ResultSet rs = st.executeQuery(sql);
 			// Bước 4:Xử lý kết quả trả về
@@ -141,7 +141,7 @@ public class DichVuDAO {
 			// Bước 2:Tạo đối tượng statement
 			java.sql.Statement st = con.createStatement();
 			// Bước 3:Thực thi statement
-			String sql = "SELECT MAX(id)+1 as id FROM dsnhahang";
+			String sql = "SELECT IFNULL(MAX(id)+1,1) as id FROM dsnhahang";
 			System.out.println(sql);
 			ResultSet rs = st.executeQuery(sql);
 			// Bước 4:Xử lý kết quả trả về
@@ -168,7 +168,7 @@ public class DichVuDAO {
 			// Bước 2:Tạo đối tượng statement
 			java.sql.Statement st = con.createStatement();
 			// Bước 3:Thực thi statement
-			String sql = "SELECT MAX(id)+1 as id FROM dsphuongtien";
+			String sql = "SELECT IFNULL(MAX(id)+1,1) as id FROM dsphuongtien";
 			System.out.println(sql);
 			ResultSet rs = st.executeQuery(sql);
 			// Bước 4:Xử lý kết quả trả về

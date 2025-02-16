@@ -353,7 +353,7 @@ public class KhuyenMai extends JFrame {
 					if(checkNull()) {
 						JOptionPane.showMessageDialog(null, "Vui long dien du thong tin","ERROR",JOptionPane.INFORMATION_MESSAGE);
 						return;
-					}
+					}else if(!checkValidate()) return;
 					if(themKM()) {
 						resetTable();
 						initArrayList();
@@ -363,7 +363,7 @@ public class KhuyenMai extends JFrame {
 					if(getSelectedKM() == null) {
 						JOptionPane.showMessageDialog(null, "Chưa chọn khuyến mãi");
 						return;
-					}
+					}else if(!checkValidate()) return;
 					if(suaKM()) {
 						resetTable();
 						initArrayList();
@@ -926,6 +926,15 @@ public class KhuyenMai extends JFrame {
 			JOptionPane.showMessageDialog(null,"Sửa thông tin thành công khuyến mãi " + km.getMakm());
 		}
 		else if(kmBUS.suaKM(km)==-1)JOptionPane.showMessageDialog(null,"Không thể sửa thông tin khuyến mãi " + km.getMakm());
+		return true;
+	}
+	
+	public boolean checkValidate() {
+		String phanTram = this.textField_GiamGia.getText();
+		if(KiemTra.getInstance().validate_OnlyNumber(phanTram) == false) {
+			JOptionPane.showMessageDialog(null, "phần trăm khuyến mãi chỉ chứa số");
+			return false;
+		}
 		return true;
 	}
 }

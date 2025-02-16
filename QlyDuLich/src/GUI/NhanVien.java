@@ -463,7 +463,7 @@ public class NhanVien extends JFrame{
 					if(checkNull()) {
 						JOptionPane.showMessageDialog(null, "Vui long dien du thong tin","ERROR",JOptionPane.INFORMATION_MESSAGE);
 						return;
-					}
+					}else if(!checkValidate()) return;
 					themNV();
 					resetTable();
 					initArrayList();
@@ -473,7 +473,7 @@ public class NhanVien extends JFrame{
 					if(getSelectedNhanVien() == null) {
 						JOptionPane.showMessageDialog(null, "Chưa chọn nhân viên");
 						return;
-					}
+					}else if(!checkValidate()) return;
 					suaNV();
 					resetTable();
 					initArrayList();
@@ -1069,6 +1069,20 @@ public class NhanVien extends JFrame{
 	public void resetTable() {
 		DefaultTableModel tableModel =(DefaultTableModel) table_NhanVien.getModel();
 		tableModel.setRowCount(0);
+	}
+	
+	public boolean checkValidate() {
+		String phone= this.textField_SDT.getText();
+		String CCCD= this.textField_CMND.getText();
+		if(KiemTra.getInstance().validate_PhoneNumber(phone) == false) {
+			JOptionPane.showMessageDialog(null, "số điện thoại gồm 10 số");
+			return false;
+		}
+		if(KiemTra.getInstance().validate_CCCD(CCCD) == false) {
+			JOptionPane.showMessageDialog(null, "số căn cước gồm 12 số");
+			return false;
+		}
+		return true;
 	}
 }
 

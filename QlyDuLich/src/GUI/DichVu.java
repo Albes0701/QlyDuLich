@@ -314,17 +314,19 @@ public class DichVu extends JFrame {
 					if(checkNull()) {
 						JOptionPane.showMessageDialog(null, "Vui long dien du thong tin","ERROR",JOptionPane.INFORMATION_MESSAGE);
 						return;
-					}
+					}else if(!checkValidate()) return;
+					
 					themDV();
 					resetTable();
 					initArrayList();
 					reSetForm();
 					
 				}else if(!them_btn.isEnabled()) {
-					if(getSelectedDichVu() == null) {
+					if(getSelectedDichVu() == null ) {
 						JOptionPane.showMessageDialog(null, "Chưa chọn dịch vụ");
 						return;
-					}
+					}else if(!checkValidate()) return;
+					
 					suaDV();
 					resetTable();
 					initArrayList();
@@ -859,5 +861,14 @@ public class DichVu extends JFrame {
 	public void resetTable() {
 		DefaultTableModel tableModel =(DefaultTableModel) table_DichVu.getModel();
 		tableModel.setRowCount(0);
+	}
+	
+	public boolean checkValidate() {
+		String giaDichVu = this.textField_Gia.getText();
+		if(KiemTra.getInstance().validate_OnlyNumber(giaDichVu) == false) {
+			JOptionPane.showMessageDialog(null, "Giá dịch vụ chỉ chứa số");
+			return false;
+		}
+		return true;
 	}
 }
