@@ -427,9 +427,6 @@ public class Ve extends JFrame {
 //						init2();
 //						tfHoTenTV.setText(arr_TTLienLac[0]);
 						if(!checkValidate()) return;
-						if(lbNameKH.getText().equals("....................")) {
-							lbNameKH.setText(tfHoTen.getText());
-						}
 						if(socho>0) {	
 							Them();
 							XoaDataTable();
@@ -439,6 +436,9 @@ public class Ve extends JFrame {
 						}
 						else {
 							JOptionPane.showMessageDialog(panel, "Tour đã hết chỗ.");
+						}
+						if(lbNameKH.getText().equals("....................")) {
+							lbNameKH.setText(tfHoTen.getText());
 						}
 						
 					}
