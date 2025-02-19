@@ -91,7 +91,7 @@ public class Ve extends JFrame {
 	HoaDonBUS hdBUS=new HoaDonBUS();
 	private JTextField tfPhanTram;
 	protected JTextField tf_maso;
-	private JTextField tfKhuyenMai;
+	private JComboBox cb_khuyenmai;
 	
 
 	/**
@@ -475,11 +475,17 @@ public class Ve extends JFrame {
 				btn_info.setBounds(260, 16, 34, 26);
 				panel_2.add(btn_info);
 				
-				tfKhuyenMai = new JTextField();
-				tfKhuyenMai.setEditable(false);
-				tfKhuyenMai.setBounds(243, 218, 84, 24);
-				panel_2.add(tfKhuyenMai);
-				tfKhuyenMai.setColumns(10);
+				cb_khuyenmai = new JComboBox(GetMaKM(matour).toArray());
+				cb_khuyenmai.setBounds(233, 218, 107, 25);
+				cb_khuyenmai.setSelectedItem(GetMaKMLonNhat(GetMaKM(matour)));
+				tfPhanTram.setText(GetPTGiamGia(cb_khuyenmai.getSelectedItem().toString())+"");
+				cb_khuyenmai.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						tfPhanTram.setText(GetPTGiamGia(cb_khuyenmai.getSelectedItem().toString())+"");
+					}
+				});
+				panel_2.add(cb_khuyenmai);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 361, 547, 162);
@@ -822,7 +828,6 @@ public class Ve extends JFrame {
 		}
 		String makmMax=GetMaKMLonNhat(listMakm);
 		int ptramMaxKm=(int) GetPTGiamGia(makmMax);
-		tfKhuyenMai.setText(makmMax);
 		tfPhanTram.setText(ptramMaxKm+"");
 //		cbGioitinh.setEnabled(false);
 //		datechooserNgaysinh.setEnabled(false);
@@ -923,7 +928,7 @@ public class Ve extends JFrame {
         
         //==================Thêm Vé==================
         String mave=TaoMaVe();
-        String makm=tfKhuyenMai.getText();
+        String makm=cb_khuyenmai.getSelectedItem().toString();
         int ptgg=(int) GetPTGiamGia(makm);
         if(checkTreEm(makh)) {
         	VeDTO ve=new VeDTO(mave, MaKHT1, mahd, makm, makh, giave*70/100,(100-ptgg)*(giave*70/100)/100);
