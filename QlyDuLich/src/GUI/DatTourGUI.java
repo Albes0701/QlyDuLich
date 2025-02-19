@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -77,7 +78,7 @@ public class DatTourGUI extends JFrame {
 	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
 	private JTable table;
 	private JTextField tfGiaVe;
-	JLabel lbTenTour,lbGiave,lbHinh1,lbHinh2,lbHinh3,phuongtien_nd,nhahang_nd,khachsan_nd,lbThoigian,lbNoiKhoiHanh,lbSoCho,diadiem_nd;
+	JLabel lbTenTour,lbGiave,lbHinh1,phuongtien_nd,nhahang_nd,khachsan_nd,lbThoigian,lbNoiKhoiHanh,lbSoCho,diadiem_nd;
 	JTextArea textArea_mota;
 	JComboBox noiden_cb,loaitour_cb,noibatdau_cb;
 	JDateChooser ngaydi_cb;
@@ -491,32 +492,6 @@ public class DatTourGUI extends JFrame {
 		lbHinh1.setBounds(10, 0, 322, 187);
 		hinh1_panel.add(lbHinh1);
 		
-		JPanel hinh2_panel = new JPanel();
-		hinh2_panel.setLayout(null);
-		hinh2_panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		hinh2_panel.setBounds(362, 214, 269, 90);
-		panel_3.add(hinh2_panel);
-		
-		lbHinh2 = new JLabel("Hình 2:");
-		lbHinh2.setFont(new Font("Dialog", Font.BOLD, 15));
-		lbHinh2.setBorder(null);
-		lbHinh2.setBackground(Color.WHITE);
-		lbHinh2.setBounds(10, 0, 250, 90);
-		hinh2_panel.add(lbHinh2);
-		
-		JPanel hinh3_panel = new JPanel();
-		hinh3_panel.setLayout(null);
-		hinh3_panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		hinh3_panel.setBounds(362, 314, 269, 90);
-		panel_3.add(hinh3_panel);
-		
-		lbHinh3 = new JLabel("Hình 3:");
-		lbHinh3.setFont(new Font("Dialog", Font.BOLD, 15));
-		lbHinh3.setBorder(null);
-		lbHinh3.setBackground(Color.WHITE);
-		lbHinh3.setBounds(10, 0, 249, 90);
-		hinh3_panel.add(lbHinh3);
-		
 		JButton btnNewButton = new JButton("Đặt Tour");
 		btnNewButton.setBorder(null);
 		btnNewButton.setFocusPainted(false);
@@ -569,6 +544,54 @@ public class DatTourGUI extends JFrame {
 		lbGiave.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lbGiave.setBounds(424, 185, 112, 25);
 		panel_3.add(lbGiave);
+		
+		JLabel phuongtien_lb_1 = new JLabel("Cập nhật kế hoạch tour");
+		phuongtien_lb_1.setFont(new Font("Calibri", Font.BOLD, 20));
+		phuongtien_lb_1.setBounds(396, 239, 204, 30);
+		panel_3.add(phuongtien_lb_1);
+		
+		JButton loc_btn_1 = new JButton("Cập nhật");
+		loc_btn_1.setForeground(Color.WHITE);
+		loc_btn_1.setFont(new Font("Tahoma", Font.BOLD, 18));
+		loc_btn_1.setFocusPainted(false);
+		loc_btn_1.setBorder(null);
+		loc_btn_1.setBackground(new Color(51, 204, 255));
+		loc_btn_1.setBounds(452, 279, 90, 40);
+		loc_btn_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				KHTourDTO kht_new=new KHTourDTO();
+				KHToursBUS bus=new KHToursBUS();
+				ChiTietKHT_BUS ct_bus=new ChiTietKHT_BUS();
+				String makht_cu=GetKHTDaChon().getMakht();
+				kht_new.copyKHT(GetKHTDaChon());
+				kht_new.setMakht(generateRandomString());
+				kht_new.setSonguoi(0);
+				bus.themKHT(kht_new);
+				// Không nên thêm trực tiếp -> tạo mảng phụ lưu trc r ms update sau
+				
+				ArrayList<CTKHT_DTO> ctkht_list=new ArrayList<CTKHT_DTO>();
+				
+				
+				for(CTKHT_DTO t:ChiTietKHT_BUS.ctkhtList) {
+					if(t.getMakht().equals(makht_cu)) {
+						CTKHT_DTO ct=new CTKHT_DTO();
+						ct.copyCTKHT(t);
+						ct.setMakht(kht_new.getMakht());
+						ctkht_list.add(ct);
+					}
+				}
+				
+				for(CTKHT_DTO ct:ctkht_list) {
+					ct_bus.them(ct);
+				}
+				
+				
+				new UpdateKHT(DatTourGUI.this,kht_new,makht_cu);
+				
+			}
+		});
+		panel_3.add(loc_btn_1);
 		
 		initData();
 		Set<String> set = new HashSet<>(arr_noibatdau);
@@ -728,16 +751,6 @@ public class DatTourGUI extends JFrame {
 		Image image1 = img1.getImage().getScaledInstance(388, 187, Image.SCALE_DEFAULT);
 		ImageIcon scaledIcon1 = new ImageIcon(image1);
 		lbHinh1.setIcon(scaledIcon1);
-		
-		ImageIcon img2=new ImageIcon(dattour.getHinh2().replace('#', '\\'));
-		Image image2 = img2.getImage().getScaledInstance(250, 90, Image.SCALE_DEFAULT);
-        ImageIcon scaledIcon2 = new ImageIcon(image2);
-		lbHinh2.setIcon(scaledIcon2);
-		
-		ImageIcon img3=new ImageIcon(dattour.getHinh3().replace('#', '\\'));
-		Image image3 = img3.getImage().getScaledInstance(250, 90, Image.SCALE_DEFAULT);
-        ImageIcon scaledIcon3 = new ImageIcon(image3);
-		lbHinh3.setIcon(scaledIcon3);
 		
 		lbThoigian.setText(dattour.getNgaydi()+"");
 		lbNoiKhoiHanh.setText(dattour.getNoikhoihanh());
@@ -1015,6 +1028,70 @@ public class DatTourGUI extends JFrame {
 		}
 		return null;
 	}
+	public KHTourDTO GetKHTDaChon() {
+		int row = table.getSelectedRow();
+		DefaultTableModel model_table = (DefaultTableModel) table.getModel();
+		String makht = model_table.getValueAt(row, 2) + "";
+		for(KHTourDTO kht:KHToursBUS.khtList) {
+			if(kht.getMakht().equals(makht)) {
+				return kht;
+			}
+		}
+		return null;
+	}
+	
+	public static String generateRandomString() {
+        Random random = new Random();
+        
+        // Sinh số ngẫu nhiên từ 0 đến 9999 (4 chữ số)
+        int number = random.nextInt(10000);
+
+        // Sinh 2 ký tự ngẫu nhiên (chữ cái từ 'a' đến 'z')
+        char char1 = (char) ('a' + random.nextInt(26));
+        char char2 = (char) ('a' + random.nextInt(26));
+
+        // Kết hợp tất cả lại
+        return "nd" + number + char1 + char2;
+    }
+	
+	 public void selectRowByColumnValue(String valueToFind) {
+	        DefaultTableModel model = (DefaultTableModel) table.getModel();
+	        int columnIndex = -1;
+	        String columnName="Mã KHT";
+
+	        // Tìm chỉ mục của cột dựa vào tên cột
+	        for (int i = 0; i < model.getColumnCount(); i++) {
+	            if (model.getColumnName(i).equals(columnName)) {
+	                columnIndex = i;
+	                break;
+	            }
+	        }
+
+	        if (columnIndex == -1) {
+	            System.out.println("Không tìm thấy cột: " + columnName);
+	            return;
+	        }
+
+	        // Lặp qua tất cả các dòng để tìm giá trị
+	        for (int i = 0; i < model.getRowCount(); i++) {
+	            if (model.getValueAt(i, columnIndex).equals(valueToFind)) {
+	                table.setRowSelectionInterval(i, i); // Chọn dòng
+	                table.scrollRectToVisible(table.getCellRect(i, 0, true)); // Cuộn tới dòng được chọn
+	                System.out.println("Đã chọn dòng: " + i);
+	                HienThiTour();
+	                return;
+	            }
+	        }
+
+	        System.out.println("Không tìm thấy giá trị: " + valueToFind);
+	    }
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
