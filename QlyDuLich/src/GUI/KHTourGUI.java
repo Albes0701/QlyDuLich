@@ -122,6 +122,7 @@ public class KHTourGUI extends JFrame {
 	JButton btnThem,btnXoa,btnSua;
 	JComboBox cbTimkiem;
 	public static String makht_row;
+	private JButton btn_chon_nv;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -624,7 +625,7 @@ public class KHTourGUI extends JFrame {
 		tfHuongDanVien.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		tfHuongDanVien.setColumns(10);
 		tfHuongDanVien.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		tfHuongDanVien.setBounds(10, 538, 190, 35);
+		tfHuongDanVien.setBounds(10, 538, 150, 35);
 		panel_2.add(tfHuongDanVien);
 		
 		JLabel giave_lb = new JLabel("Giá vé :");
@@ -1174,6 +1175,10 @@ public class KHTourGUI extends JFrame {
 		});
 		panel_2.add(cbMatour);
 		
+		btn_chon_nv = new JButton("...");
+		btn_chon_nv.setBounds(150, 538, 50, 35);
+		panel_2.add(btn_chon_nv);
+		
 	}
 	
 	public void initData2(ArrayList<KHTourDTO> khtour) {
@@ -1587,22 +1592,4 @@ public class KHTourGUI extends JFrame {
 		}
 		return null;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
