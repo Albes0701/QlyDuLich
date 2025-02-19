@@ -560,34 +560,39 @@ public class DatTourGUI extends JFrame {
 		loc_btn_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				KHTourDTO kht_new=new KHTourDTO();
-				KHToursBUS bus=new KHToursBUS();
-				ChiTietKHT_BUS ct_bus=new ChiTietKHT_BUS();
-				String makht_cu=GetKHTDaChon().getMakht();
-				kht_new.copyKHT(GetKHTDaChon());
-				kht_new.setMakht(generateRandomString());
-				kht_new.setSonguoi(0);
-				bus.themKHT(kht_new);
-				// Không nên thêm trực tiếp -> tạo mảng phụ lưu trc r ms update sau
 				
-				ArrayList<CTKHT_DTO> ctkht_list=new ArrayList<CTKHT_DTO>();
-				
-				
-				for(CTKHT_DTO t:ChiTietKHT_BUS.ctkhtList) {
-					if(t.getMakht().equals(makht_cu)) {
-						CTKHT_DTO ct=new CTKHT_DTO();
-						ct.copyCTKHT(t);
-						ct.setMakht(kht_new.getMakht());
-						ctkht_list.add(ct);
+				if(GetKHTDaChon()!=null) {
+					KHTourDTO kht_new=new KHTourDTO();
+					KHToursBUS bus=new KHToursBUS();
+					ChiTietKHT_BUS ct_bus=new ChiTietKHT_BUS();
+					String makht_cu=GetKHTDaChon().getMakht();
+					kht_new.copyKHT(GetKHTDaChon());
+					kht_new.setMakht(generateRandomString());
+					kht_new.setSonguoi(0);
+					bus.themKHT(kht_new);
+					// Không nên thêm trực tiếp -> tạo mảng phụ lưu trc r ms update sau
+					
+					ArrayList<CTKHT_DTO> ctkht_list=new ArrayList<CTKHT_DTO>();
+					
+					
+					for(CTKHT_DTO t:ChiTietKHT_BUS.ctkhtList) {
+						if(t.getMakht().equals(makht_cu)) {
+							CTKHT_DTO ct=new CTKHT_DTO();
+							ct.copyCTKHT(t);
+							ct.setMakht(kht_new.getMakht());
+							ctkht_list.add(ct);
+						}
 					}
+					
+					for(CTKHT_DTO ct:ctkht_list) {
+						ct_bus.them(ct);
+					}
+					
+					
+					new UpdateKHT(DatTourGUI.this,kht_new,makht_cu);
+				}else {
+					JOptionPane.showMessageDialog(null, "Bạn chưa chọn kế hoạch tour!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 				}
-				
-				for(CTKHT_DTO ct:ctkht_list) {
-					ct_bus.them(ct);
-				}
-				
-				
-				new UpdateKHT(DatTourGUI.this,kht_new,makht_cu);
 				
 			}
 		});
