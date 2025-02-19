@@ -872,4 +872,39 @@ public void lockForm() {
 		    this.textField_SDT.setText("");
 		    this.textField_Email.setText("");
 		}
+	 
+	 public boolean checkValidate() {
+			String ho = this.textField_HoKH.getText();
+			String Ten = this.textField_TenKH.getText();
+			String diaChi = this.textArea.getText();
+			java.util.Date ngaySinh = this.dateChooser_NgaySinh.getDate();
+			String gioiTinh = this.comboBox_gioitinh.getSelectedItem().toString();
+			String sdt = this.textField_SDT.getText();
+			String email = this.textField_Email.getText();
+			if(ho.isEmpty() || Ten.isEmpty() || diaChi.isEmpty() || sdt.isEmpty() || ngaySinh == null
+					|| gioiTinh == null || sdt.isEmpty() || email.isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Vui lòng điền đủ thông tin");
+				return false;
+			}
+			if(KiemTra.getInstance().validate_OnlyString(ho) == false) {
+				JOptionPane.showMessageDialog(null, "Họ chỉ chứa chữ cái");
+				return false;
+			}
+			if(KiemTra.getInstance().validate_OnlyString(Ten) == false) {
+				JOptionPane.showMessageDialog(null, "Tên chỉ chứa chữ cái");
+				return false;
+			}
+			
+			if(KiemTra.getInstance().validate_Email(email) == false) {
+				JOptionPane.showMessageDialog(null, "Email không hợp lệ");
+				return false;
+			}
+			
+			
+			if(KiemTra.getInstance().validate_PhoneNumber(sdt) == false) {
+				JOptionPane.showMessageDialog(null, "số điện thoại không hợp lệ");
+				return false;
+			}
+			return true;
+		}
 }
