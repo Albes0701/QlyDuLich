@@ -17,7 +17,18 @@ public class KHToursBUS {
 		}
 		return false;
 	}
-	
+	public ArrayList<KHTourDTO> docKHT(String matour) {
+		ArrayList<KHTourDTO> tmp=new ArrayList<KHTourDTO>();
+		for(KHTourDTO kht: khtList) {
+			if(kht.getMatour().equals(matour)) {
+				tmp.add(kht);
+			}
+		}
+		if(khtList!=null) {
+			return tmp;
+		}
+		return null;
+	}
 	
 	public String TaoMaKHT() {
 		try {

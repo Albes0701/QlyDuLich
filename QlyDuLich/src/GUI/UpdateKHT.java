@@ -78,7 +78,7 @@ public class UpdateKHT extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public UpdateKHT(DatTourGUI dattour,KHTourDTO kht_moi,String makht_cu) {
+	public UpdateKHT(DatKHTGUI dattour,KHTourDTO kht_moi,String makht_cu) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(700,400);
 		setBounds(400, 220, 700, 400);
@@ -196,7 +196,7 @@ public class UpdateKHT extends JFrame {
 					kht_bus.sua(kht_moi, kht_moi.getMakht());
 					JOptionPane.showMessageDialog(null, "Bạn đã cập nhật thành công!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 					dattour.initData();
-					dattour.selectRowByColumnValue(kht_moi.getMakht());
+//					dattour.selectRowByColumnValue(kht_moi.getMakht());
 				}
 				
 				
@@ -211,7 +211,7 @@ public class UpdateKHT extends JFrame {
 		
 		
 		cb_ngay = new JComboBox(convertDateRangeToStringArray(kht_moi.getNgaydi(),kht_moi.getNgayve()));
-		cb_ngay.setBounds(85, 12, 123, 21);
+		cb_ngay.setBounds(136, 13, 123, 21);
 		panel_func.add(cb_ngay);
 		
 		JLabel lblNewLabel_1_2_1 = new JLabel("Số người:");
@@ -220,7 +220,7 @@ public class UpdateKHT extends JFrame {
 		panel_func.add(lblNewLabel_1_2_1);
 		
 		tf_songuoi = new JTextField();
-		tf_songuoi.setBounds(105, 211, 96, 19);
+		tf_songuoi.setBounds(136, 211, 96, 19);
 		panel_func.add(tf_songuoi);
 		tf_songuoi.setColumns(10);
 		
@@ -268,7 +268,7 @@ public class UpdateKHT extends JFrame {
 			}
 		});
 		btn_xacnhan.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btn_xacnhan.setBounds(211, 208, 105, 25);
+		btn_xacnhan.setBounds(451, 206, 105, 25);
 		panel_func.add(btn_xacnhan);
 		
 		String item[] = {"Mã số","Họ tên","Tên"};

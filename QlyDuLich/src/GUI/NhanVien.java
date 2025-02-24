@@ -51,6 +51,10 @@ import javax.swing.border.BevelBorder;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -739,7 +743,7 @@ public class NhanVien extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stubFile f = openFile();
 				File f = openFile();
-//				exportExcel(f);
+				exportExcel(f);
 			}
 		});
 		panel_3.add(btn_export);
@@ -806,37 +810,37 @@ public class NhanVien extends JFrame{
 	        }
 	}
 	
-//	public void exportExcel(File f){
-//		if(f==null) return;
-//		try {
-//			XSSFWorkbook wb = new XSSFWorkbook();
-//			XSSFSheet sheet = wb.createSheet("Staff List");
-//			XSSFRow row = null;
-//			Cell cell = null;
-//			row = sheet.createRow(0);
-//			for(int i=0;i <table_NhanVien.getColumnCount();i++) {
-//				cell = row.createCell(i);
-//				cell.setCellValue(table_NhanVien.getColumnName(i));
-//			}
-//			
-//			for(int i = 0; i < table_NhanVien.getRowCount();i++) {
-//				row = sheet.createRow(i+1);
-//				for(int j=0;j<table_NhanVien.getColumnCount();j++) {
-//					cell = row.createCell(j);
-//					cell.setCellValue(table_NhanVien.getValueAt(i, j).toString());
-//				}
-//			}
-//			String path = f.toString()+".xlsx";
-//			FileOutputStream out = new FileOutputStream(new File(path));
-//			wb.write(out);
-//			wb.close();
-//			out.close();
-//			openExcel(path);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			// TODO: handle exception
-//		}
-//	}
+	public void exportExcel(File f){
+		if(f==null) return;
+		try {
+			XSSFWorkbook wb = new XSSFWorkbook();
+			XSSFSheet sheet = wb.createSheet("Staff List");
+			XSSFRow row = null;
+			Cell cell = null;
+			row = sheet.createRow(0);
+			for(int i=0;i <table_NhanVien.getColumnCount();i++) {
+				cell = row.createCell(i);
+				cell.setCellValue(table_NhanVien.getColumnName(i));
+			}
+			
+			for(int i = 0; i < table_NhanVien.getRowCount();i++) {
+				row = sheet.createRow(i+1);
+				for(int j=0;j<table_NhanVien.getColumnCount();j++) {
+					cell = row.createCell(j);
+					cell.setCellValue(table_NhanVien.getValueAt(i, j).toString());
+				}
+			}
+			String path = f.toString()+".xlsx";
+			FileOutputStream out = new FileOutputStream(new File(path));
+			wb.write(out);
+			wb.close();
+			out.close();
+			openExcel(path);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+	}
 //	
 //	private void readFile(File file) {
 //		FileInputStream fis = null;

@@ -77,8 +77,6 @@ public class DatTourGUI extends JFrame {
 	private JTextField textField_NgayVL;
 	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
 	private JTable table;
-	JLabel lbTenTour,lbGiave,lbHinh1,phuongtien_nd,nhahang_nd,khachsan_nd,lbThoigian,lbNoiKhoiHanh,lbSoCho,diadiem_nd;
-	JTextArea textArea_mota;
 	JComboBox noiden_cb,loaitour_cb,noibatdau_cb, giave_cb;
 	JDateChooser ngaydi_cb;
 	
@@ -90,6 +88,8 @@ public class DatTourGUI extends JFrame {
 	private static int songay = 0, songuoi=0;
 	private static int giaveBD = 0, giaveKT = 0;
 	private static Date ngaydi;
+	QlyToursBUS qltBUS = new QlyToursBUS();
+	KHToursBUS khtBUS  = new KHToursBUS();
 	DatTourBUS dattourBUS=new DatTourBUS();
 	private JTextField tfSonguoi;
 	private JTextField tfSongay;
@@ -372,225 +372,11 @@ public class DatTourGUI extends JFrame {
 		table_sp.setForeground(Color.BLACK);
 		table_sp.setFont(new Font("Tahoma", Font.BOLD, 10));
 		table_sp.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		table_sp.setBounds(10, 10, 621, 172);
+		table_sp.setBounds(10, 10, 621, 408);
 		panel_3.add(table_sp);
 		
 		table = new JTable();
 		table_sp.setViewportView(table);
-		
-		JLabel tentour1_lb = new JLabel("Tên tour");
-		tentour1_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		tentour1_lb.setBounds(20, 177, 70, 40);
-		panel_3.add(tentour1_lb);
-		
-		JLabel giatour1_lb = new JLabel("Giá vé");
-		giatour1_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		giatour1_lb.setBounds(365, 177, 70, 40);
-		panel_3.add(giatour1_lb);
-		
-		JLabel diadiem_lb = new JLabel("Địa điểm");
-		diadiem_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		diadiem_lb.setBounds(396, 404, 85, 30);
-		panel_3.add(diadiem_lb);
-		
-		JLabel diadiem_icon = new JLabel(new ImageIcon("src/Images/Designcontest-Ecommerce-Business-Maps.48.png"));
-		diadiem_icon.setBounds(395, 428, 70, 49);
-		panel_3.add(diadiem_icon);
-		
-		
-		diadiem_nd = new JLabel("New label");
-		diadiem_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		diadiem_nd.setBounds(410, 487, 85, 20);
-		panel_3.add(diadiem_nd);
-		
-		JLabel phuongtien_icon = new JLabel(new ImageIcon("src/Images/Bevel-And-Emboss-Car-Van-bus.48.png"));
-		phuongtien_icon.setBackground(new Color(128, 255, 128));
-		phuongtien_icon.setBounds(537, 428, 70, 49);
-		panel_3.add(phuongtien_icon);
-		
-		JLabel nhahang_lb = new JLabel("Nhà hàng");
-		nhahang_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		nhahang_lb.setBounds(395, 504, 85, 30);
-		panel_3.add(nhahang_lb);
-		
-		JLabel nhahang_icon = new JLabel(new ImageIcon("src/Images/Iconarchive-Essential-Buildings-Restaurant.48.png"));
-		nhahang_icon.setBackground(new Color(128, 255, 128));
-		nhahang_icon.setBounds(395, 528, 70, 49);
-		panel_3.add(nhahang_icon);
-		
-		JLabel khachsan_lb = new JLabel("Khách sạn");
-		khachsan_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		khachsan_lb.setBounds(537, 504, 85, 30);
-		panel_3.add(khachsan_lb);
-		
-		JLabel khachsan_icon = new JLabel(new ImageIcon("src/Images/Iconarchive-Essential-Buildings-Hotel.48.png"));
-		khachsan_icon.setBackground(new Color(128, 255, 128));
-		khachsan_icon.setBounds(537, 528, 70, 49);
-		panel_3.add(khachsan_icon);
-		
-		JScrollPane mota1_sp = new JScrollPane();
-		mota1_sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		mota1_sp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		mota1_sp.setBounds(10, 414, 361, 102);
-		panel_3.add(mota1_sp);
-		textArea_mota = new JTextArea();
-		textArea_mota.setLineWrap(true);
-		textArea_mota.setWrapStyleWord(true);
-		mota1_sp.setViewportView(textArea_mota);
-		
-		JLabel thoigian_lb = new JLabel("Thời gian");
-		thoigian_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		thoigian_lb.setBounds(10, 515, 85, 30);
-		panel_3.add(thoigian_lb);
-		
-		JLabel noikhoihanh_lb = new JLabel("Nơi khởi hành");
-		noikhoihanh_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		noikhoihanh_lb.setBounds(10, 541, 117, 30);
-		panel_3.add(noikhoihanh_lb);
-		
-		JLabel sochoconnhan_lb = new JLabel("Số chỗ còn nhận");
-		sochoconnhan_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		sochoconnhan_lb.setBounds(10, 571, 134, 30);
-		panel_3.add(sochoconnhan_lb);
-		
-		nhahang_nd = new JLabel("New label");
-		nhahang_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		nhahang_nd.setBounds(400, 578, 100, 20);
-		panel_3.add(nhahang_nd);
-		
-		khachsan_nd = new JLabel("New label");
-		khachsan_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		khachsan_nd.setBounds(546, 578, 85, 20);
-		panel_3.add(khachsan_nd);
-		
-		JLabel phuongtien_lb = new JLabel("Phương tiện");
-		phuongtien_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		phuongtien_lb.setBounds(527, 404, 104, 30);
-		panel_3.add(phuongtien_lb);
-		
-		phuongtien_nd = new JLabel("New label");
-		phuongtien_nd.setFont(new Font("Tahoma", Font.BOLD, 10));
-		phuongtien_nd.setBounds(546, 486, 85, 20);
-		panel_3.add(phuongtien_nd);
-		
-		JPanel hinh1_panel = new JPanel();
-		hinh1_panel.setLayout(null);
-		hinh1_panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		hinh1_panel.setBounds(10, 214, 342, 190);
-		panel_3.add(hinh1_panel);
-		
-		lbHinh1 = new JLabel("Hình 1:");
-		lbHinh1.setFont(new Font("Dialog", Font.BOLD, 15));
-		lbHinh1.setBorder(null);
-		lbHinh1.setBackground(Color.WHITE);
-		lbHinh1.setBounds(10, 0, 322, 187);
-		hinh1_panel.add(lbHinh1);
-		
-		JButton btnNewButton = new JButton("Đặt Tour");
-		btnNewButton.setBorder(null);
-		btnNewButton.setFocusPainted(false);
-		btnNewButton.setBackground(new Color(255, 127, 80));
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton.setBounds(546, 184, 85, 28);
-		btnNewButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int row = table.getSelectedRow();
-				if(row==-1) {
-					JOptionPane.showMessageDialog(panel, "Bạn chưa chọn Tour.");
-					return;
-				}
-				else {
-					DatTourDTO tourduocchon=GetTourDaChon();
-					setVisible(false);
-					Ve ve = new Ve(tourduocchon);
-					
-					ve.setSize(1000, 780);
-				}
-				
-			}
-		});
-		panel_3.add(btnNewButton);
-		
-		lbThoigian = new JLabel("Thời gian");
-		lbThoigian.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbThoigian.setBounds(140, 519, 85, 24);
-		panel_3.add(lbThoigian);
-		
-		lbNoiKhoiHanh = new JLabel("Nơi khởi hành");
-		lbNoiKhoiHanh.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbNoiKhoiHanh.setBounds(140, 544, 85, 24);
-		panel_3.add(lbNoiKhoiHanh);
-		
-		lbSoCho = new JLabel("Số chỗ");
-		lbSoCho.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbSoCho.setBounds(140, 574, 104, 24);
-		panel_3.add(lbSoCho);
-		
-		lbTenTour = new JLabel("");
-		lbTenTour.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbTenTour.setBounds(100, 184, 255, 29);
-		panel_3.add(lbTenTour);
-		
-		lbGiave = new JLabel("");
-		lbGiave.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbGiave.setBounds(424, 185, 112, 25);
-		panel_3.add(lbGiave);
-		
-		JLabel phuongtien_lb_1 = new JLabel("Cập nhật kế hoạch tour");
-		phuongtien_lb_1.setFont(new Font("Calibri", Font.BOLD, 20));
-		phuongtien_lb_1.setBounds(396, 239, 204, 30);
-		panel_3.add(phuongtien_lb_1);
-		
-		JButton loc_btn_1 = new JButton("Cập nhật");
-		loc_btn_1.setForeground(Color.WHITE);
-		loc_btn_1.setFont(new Font("Tahoma", Font.BOLD, 18));
-		loc_btn_1.setFocusPainted(false);
-		loc_btn_1.setBorder(null);
-		loc_btn_1.setBackground(new Color(51, 204, 255));
-		loc_btn_1.setBounds(452, 279, 90, 40);
-		loc_btn_1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				if(GetKHTDaChon()!=null) {
-					KHTourDTO kht_new=new KHTourDTO();
-					KHToursBUS bus=new KHToursBUS();
-					ChiTietKHT_BUS ct_bus=new ChiTietKHT_BUS();
-					String makht_cu=GetKHTDaChon().getMakht();
-					kht_new.copyKHT(GetKHTDaChon());
-					kht_new.setMakht(generateRandomString());
-					kht_new.setSonguoi(0);
-					bus.themKHT(kht_new);
-					// Không nên thêm trực tiếp -> tạo mảng phụ lưu trc r ms update sau
-					
-					ArrayList<CTKHT_DTO> ctkht_list=new ArrayList<CTKHT_DTO>();
-					
-					
-					for(CTKHT_DTO t:ChiTietKHT_BUS.ctkhtList) {
-						if(t.getMakht().equals(makht_cu)) {
-							CTKHT_DTO ct=new CTKHT_DTO();
-							ct.copyCTKHT(t);
-							ct.setMakht(kht_new.getMakht());
-							ctkht_list.add(ct);
-						}
-					}
-					
-					for(CTKHT_DTO ct:ctkht_list) {
-						ct_bus.them(ct);
-					}
-					
-					
-					new UpdateKHT(DatTourGUI.this,kht_new,makht_cu);
-				}else {
-					JOptionPane.showMessageDialog(null, "Bạn chưa chọn kế hoạch tour!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-				}
-				
-			}
-		});
-		panel_3.add(loc_btn_1);
 		
 		initData();
 		Set<String> set = new HashSet<>(arr_noibatdau);
@@ -634,6 +420,34 @@ public class DatTourGUI extends JFrame {
 		giave_cb = new JComboBox(item_gia);
 		giave_cb.setBounds(110, 305, 145, 30);
 		panel_1.add(giave_cb);
+		
+		JButton btnNewButton = new JButton("Đặt Tour");
+		btnNewButton.setBounds(835, 17, 85, 28);
+		KhachHang.add(btnNewButton);
+		btnNewButton.setBorder(null);
+		btnNewButton.setFocusPainted(false);
+		btnNewButton.setBackground(new Color(255, 127, 80));
+		btnNewButton.setForeground(new Color(255, 255, 255));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				if(row==-1) {
+					JOptionPane.showMessageDialog(panel, "Bạn chưa chọn Tour.");
+					return;
+				}
+				else {
+					String tourduocchon=GetTourDaChon();
+//					setVisible(false);
+					new DatKHTGUI(tourduocchon);
+//					Ve ve = new Ve(tourduocchon);
+//					ve.setSize(1000, 780);
+				}
+				
+			}
+		});
 
 		String []item_loai = {"Trong nước", "Ngoài nước"};
 
@@ -675,43 +489,67 @@ public class DatTourGUI extends JFrame {
 	}
 	
 	public void initData() {
-		dattourBUS.docDSTour();
-		String [] colname= {"Mã Tour","Tên Tour","Mã KHT","Ngày đi","Ngày về","Số người","Giá vé"};
-		DefaultTableModel tableModel=new DefaultTableModel() {
-			 public boolean isCellEditable(int row,int col) {
-	                return false;
-	         }
-		};
-		tableModel.setColumnIdentifiers(colname);
+//		dattourBUS.docDSTour();
+//		qltBUS.docTour();
+//		String [] colname= {"Mã Tour","Tên Tour","Số ngày","N","Ngày về","Số người","Giá vé"};
+//		DefaultTableModel tableModel=new DefaultTableModel() {
+//			 public boolean isCellEditable(int row,int col) {
+//	                return false;
+//	         }
+//		};
+//		tableModel.setColumnIdentifiers(colname);
+//		table.setModel(tableModel);
+//		table.getColumnModel().getColumn(1).setPreferredWidth(200);
+//		table.getColumnModel().getColumn(5).setPreferredWidth(65);
+//		table.getColumnModel().getColumn(6).setPreferredWidth(115);
+//		
+//		table.addMouseListener(new MouseAdapter() {
+//			public void mouseClicked(MouseEvent e) {
+//				if (e.getClickCount() == 1) {
+//					HienThiTour();
+//				}
+//			}
+//		});
+//		
+		String[] colNames = { "Mã Tour", "Tên Tour", "Loại tour","Số ngày", "Nơi khởi hành", "Nơi đến" };
+		DefaultTableModel tableModel = new DefaultTableModel();
 		table.setModel(tableModel);
-		table.getColumnModel().getColumn(1).setPreferredWidth(200);
-		table.getColumnModel().getColumn(5).setPreferredWidth(65);
-		table.getColumnModel().getColumn(6).setPreferredWidth(115);
-		
-		table.addMouseListener(new MouseAdapter() {
+		tableModel.setColumnIdentifiers(colNames);
+		table.getColumnModel().getColumn(0).setPreferredWidth(40);
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);
+		table.getColumnModel().getColumn(2).setPreferredWidth(50);
+		table.getColumnModel().getColumn(3).setPreferredWidth(50);
+		table.addMouseListener((MouseListener) new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1) {
-					HienThiTour();
+//					HienThiTour();
 				}
 			}
 		});
-		
-		
-		for (DatTourDTO dattour : DatTourBUS.dsTour) {
-			if(!KiemTra.getInstance().checkngaydi(KiemTra.getInstance().toDateUtil(dattour.getNgaydi()))) {
-				continue;
-			}
-			arr_noibatdau.add(dattour.getNoikhoihanh());
-			if(GetLoaiTour(dattour.getMatour()).equals("loai1")) {
-				arr_denTrongNuoc.add(dattour.getDiadiem());
-			}else {
-				arr_denNgoaiNuoc.add(dattour.getDiadiem());
-			}
-			tableModel.addRow(new Object[] { dattour.getMatour(), dattour.getTentour(), dattour.getMakht(),
-					dattour.getNgaydi().toString(), dattour.getNgayve().toString(), dattour.getSonguoi()+"",dattour.getGiatour()+"" 
-					
-			});
+		String tenloai = null;
+		for (QlyToursDTO tour : QlyToursBUS.tourDTO) {
+			if(tour.getMaloai().equals("loai1")) tenloai = "Trong nước";
+			else tenloai = "Ngoài nước";
+			tableModel.addRow(new Object[] { tour.getMatour(),tour.getTentour(), tenloai, tour.getSongay() + "",
+					tour.getNoikhoihanh(),tour.getNoiden() });
 		}
+		
+		
+//		for (DatTourDTO dattour : DatTourBUS.dsTour) {
+//			if(!KiemTra.getInstance().checkngaydi(KiemTra.getInstance().toDateUtil(dattour.getNgaydi()))) {
+//				continue;
+//			}
+//			arr_noibatdau.add(dattour.getNoikhoihanh());
+//			if(GetLoaiTour(dattour.getMatour()).equals("loai1")) {
+//				arr_denTrongNuoc.add(dattour.getDiadiem());
+//			}else {
+//				arr_denNgoaiNuoc.add(dattour.getDiadiem());
+//			}
+//			tableModel.addRow(new Object[] { dattour.getMatour(), dattour.getTentour(), dattour.getMakht(),
+//					dattour.getNgaydi().toString(), dattour.getNgayve().toString(), dattour.getSonguoi()+"",dattour.getGiatour()+"" 
+//					
+//			});
+//		}
 		
 	}
 	
@@ -732,7 +570,7 @@ public class DatTourGUI extends JFrame {
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1) {
-					HienThiTour();
+//					HienThiTour();
 				}
 			}
 		});
@@ -744,53 +582,14 @@ public class DatTourGUI extends JFrame {
 		}
 	}
 	
-	public void HienThiTour() {
-		DatTourDTO dattour=GetTourDaChon();
-		
-		lbTenTour.setText(dattour.getTentour());
-		DecimalFormat decimalFormat = new DecimalFormat("#,##0");
-		String formattedNumber = decimalFormat.format(dattour.getGiatour()) +" VND";
-		lbGiave.setText(formattedNumber);
-		
-		ImageIcon img1=new ImageIcon(dattour.getHinh1().replace('#', '\\'));
-		Image image1 = img1.getImage().getScaledInstance(388, 187, Image.SCALE_DEFAULT);
-		ImageIcon scaledIcon1 = new ImageIcon(image1);
-		lbHinh1.setIcon(scaledIcon1);
-		
-		lbThoigian.setText(dattour.getNgaydi()+"");
-		lbNoiKhoiHanh.setText(dattour.getNoikhoihanh());
-		lbSoCho.setText(dattour.getSonguoi()+"");
-		
-		//Hiển thị Chi tiết kế hoạch Tour
-		String chitiet="";
-		for(CTKHT_DTO ctkht:ChiTietKHT_BUS.ctkhtList) {
-			if(ctkht.getMakht().equals(dattour.getMakht())) {
-				String ngay="Ngày :"+ctkht.getNgay().toString()+"\n";
-				String khachsan="Khách sạn :"+GetTenKS(ctkht.getMaks())+"\n";
-				String nhahang="Nhà hàng :"+GetTenNH(ctkht.getManh())+"\n";
-				String phuongtien="Phương tiện :"+GetTenPT(ctkht.getMapt())+"\n";
-				chitiet=chitiet+ngay+khachsan+nhahang+phuongtien;
-			}	
-		}
-		textArea_mota.setText(chitiet);
-		
-		nhahang_nd.setText(dattour.getNhahang());
-		khachsan_nd.setText(dattour.getKhachsan());
-		phuongtien_nd.setText(dattour.getPhuongtien());
-		diadiem_nd.setText(dattour.getDiadiem());
-		
-	}
 	
-	public DatTourDTO GetTourDaChon() {
+	public String GetTourDaChon() {
 		int row = table.getSelectedRow();
 		DefaultTableModel model_table = (DefaultTableModel) table.getModel();
-		String makht = model_table.getValueAt(row, 2) + "";
-		for(DatTourDTO dattour:DatTourBUS.dsTour) {
-			if(dattour.getMakht().equals(makht)) {
-				return dattour;
-			}
-		}
-		return null;
+		String matour = null; 
+		matour = model_table.getValueAt(row, 0) + "";
+		
+		return matour;
 	}
 	public String GetLoaiTour(String matour) {
 		String maloai="";
@@ -1054,49 +853,5 @@ public class DatTourGUI extends JFrame {
 		return null;
 	}
 	
-	public static String generateRandomString() {
-        Random random = new Random();
-        
-        // Sinh số ngẫu nhiên từ 0 đến 9999 (4 chữ số)
-        int number = random.nextInt(10000);
 
-        // Sinh 2 ký tự ngẫu nhiên (chữ cái từ 'a' đến 'z')
-        char char1 = (char) ('a' + random.nextInt(26));
-        char char2 = (char) ('a' + random.nextInt(26));
-
-        // Kết hợp tất cả lại
-        return "nd" + number + char1 + char2;
-    }
-	
-	 public void selectRowByColumnValue(String valueToFind) {
-	        DefaultTableModel model = (DefaultTableModel) table.getModel();
-	        int columnIndex = -1;
-	        String columnName="Mã KHT";
-
-	        // Tìm chỉ mục của cột dựa vào tên cột
-	        for (int i = 0; i < model.getColumnCount(); i++) {
-	            if (model.getColumnName(i).equals(columnName)) {
-	                columnIndex = i;
-	                break;
-	            }
-	        }
-
-	        if (columnIndex == -1) {
-	            System.out.println("Không tìm thấy cột: " + columnName);
-	            return;
-	        }
-
-	        // Lặp qua tất cả các dòng để tìm giá trị
-	        for (int i = 0; i < model.getRowCount(); i++) {
-	            if (model.getValueAt(i, columnIndex).equals(valueToFind)) {
-	                table.setRowSelectionInterval(i, i); // Chọn dòng
-	                table.scrollRectToVisible(table.getCellRect(i, 0, true)); // Cuộn tới dòng được chọn
-	                System.out.println("Đã chọn dòng: " + i);
-	                HienThiTour();
-	                return;
-	            }
-	        }
-
-	        System.out.println("Không tìm thấy giá trị: " + valueToFind);
-	    }
 }

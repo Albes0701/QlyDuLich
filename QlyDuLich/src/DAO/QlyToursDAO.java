@@ -40,6 +40,8 @@ public class QlyToursDAO {
 		return ketqua;
 	}
 	
+	
+	
 	public String TaoMaTour() {
 		String ketQua = null;
 		try {

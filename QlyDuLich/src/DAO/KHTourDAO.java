@@ -49,6 +49,8 @@ public class KHTourDAO {
 	}
 	
 	
+	
+	
 	public String TaoMaKHT() {
 		String ketQua = null;
 		try {
