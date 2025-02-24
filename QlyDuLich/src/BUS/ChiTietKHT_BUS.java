@@ -24,6 +24,7 @@ public class ChiTietKHT_BUS {
 	
 	ChiTietKHT_DAO ctkhtDAO=new ChiTietKHT_DAO();
 	CTKHT_ThucChiDAO thucchiDAO=new CTKHT_ThucChiDAO();
+	KHToursBUS kht_bus=new KHToursBUS();
 	
 	
 	public boolean docCTKHT() {
@@ -70,6 +71,8 @@ public class ChiTietKHT_BUS {
 			for(KHTourDTO kht:KHToursBUS.khtList) {
 				if(kht.getMakht().equals(t.getMakht())) {
 					kht.setTongchi((long) tongchi);
+					kht.setGiave((long)tongchi*130/100);	
+					kht_bus.sua(kht, kht.getMakht());
 				}
 			}
 			
@@ -117,6 +120,8 @@ public class ChiTietKHT_BUS {
 			for(KHTourDTO kht:KHToursBUS.khtList) {
 				if(kht.getMakht().equals(t.getMakht())) {
 					kht.setTongchi((long) tongchi);
+					kht.setGiave((long)tongchi*130/100);
+					kht_bus.sua(kht, kht.getMakht());
 				}
 			}
 			
