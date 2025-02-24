@@ -77,10 +77,9 @@ public class DatTourGUI extends JFrame {
 	private JTextField textField_NgayVL;
 	JButton btn_TrangChu,btn_DatTour,btn_HoaDon,btn_ThongKe;
 	private JTable table;
-	private JTextField tfGiaVe;
 	JLabel lbTenTour,lbGiave,lbHinh1,phuongtien_nd,nhahang_nd,khachsan_nd,lbThoigian,lbNoiKhoiHanh,lbSoCho,diadiem_nd;
 	JTextArea textArea_mota;
-	JComboBox noiden_cb,loaitour_cb,noibatdau_cb;
+	JComboBox noiden_cb,loaitour_cb,noibatdau_cb, giave_cb;
 	JDateChooser ngaydi_cb;
 	
 	ArrayList<String> arr_noibatdau=new ArrayList<String>();
@@ -89,7 +88,7 @@ public class DatTourGUI extends JFrame {
 	
 	private static String loaitour ="",noibatdau="",noiden="";
 	private static int songay = 0, songuoi=0;
-	private static long giave = 0;
+	private static int giaveBD = 0, giaveKT = 0;
 	private static Date ngaydi;
 	DatTourBUS dattourBUS=new DatTourBUS();
 	private JTextField tfSonguoi;
@@ -323,22 +322,17 @@ public class DatTourGUI extends JFrame {
 		reset_btn.setBounds(137, 361, 90, 40);
 		panel_1.add(reset_btn);
 		
-		JLabel songuoi_lb_1 = new JLabel("Giá vé( ≤X)");
+		JLabel songuoi_lb_1 = new JLabel("Giá vé");
 		songuoi_lb_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		songuoi_lb_1.setBounds(10, 305, 102, 30);
 		panel_1.add(songuoi_lb_1);
-		
-		tfGiaVe = new JTextField();
-		tfGiaVe.setBounds(110, 305, 145, 30);
-		panel_1.add(tfGiaVe);
-		tfGiaVe.setColumns(10);
 		
 		tfSonguoi = new JTextField();
 		tfSonguoi.addKeyListener(new KeyAdapter() {
 			@Override
 		    public void keyPressed(KeyEvent e) {
 		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-		        	tfGiaVe.requestFocusInWindow();
+		        	giave_cb.requestFocusInWindow();
 		        }
 		    }
 		});
@@ -634,6 +628,12 @@ public class DatTourGUI extends JFrame {
 		noiden_cb = new JComboBox(arr_denTrongNuoc.toArray());
 		noiden_cb.setBounds(110, 115, 145, 30);
 		panel_1.add(noiden_cb);
+		
+		
+		String []item_gia = {"Dưới 1 triệu", "Từ 1 - 5 triệu" ,"Trên 5 triệu"};
+		giave_cb = new JComboBox(item_gia);
+		giave_cb.setBounds(110, 305, 145, 30);
+		panel_1.add(giave_cb);
 
 		String []item_loai = {"Trong nước", "Ngoài nước"};
 
@@ -829,11 +829,20 @@ public class DatTourGUI extends JFrame {
         	songuoi=Integer.parseInt(tfSonguoi.getText());
         }
         
-        
-        if(!tfGiaVe.getText().equals("")) {
-        	giave=Long.parseLong(tfGiaVe.getText());
-        }
-        ArrayList<DatTourDTO> list = dattourBUS.LocTour(loaitour, noibatdau, noiden, ngaydi, songay, songuoi, giave);
+        if(giave_cb.getSelectedItem() != null) {
+			int stt = (int) giave_cb.getSelectedIndex();
+			if(stt == 0) {
+				giaveBD = 0;
+				giaveKT = 1000000;
+			}else if(stt == 1) {
+				giaveBD = 1000000;
+				giaveKT = 5000000;
+			}else {
+				giaveBD = 5000000;
+				giaveKT = Integer.MAX_VALUE;
+			}
+		}
+        ArrayList<DatTourDTO> list = dattourBUS.LocTour(loaitour, noibatdau, noiden, ngaydi, songay, songuoi, giaveBD, giaveKT);
         if(list == null) {
         	JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp");
         }else {
@@ -879,8 +888,8 @@ public class DatTourGUI extends JFrame {
         
         
         long giave=0;
-        if(!tfGiaVe.getText().equals("")) {
-        	giave=Long.parseLong(tfGiaVe.getText());
+        if(giave_cb.getSelectedItem().toString() != null) {
+        	giave=Long.parseLong(giave_cb.getSelectedItem().toString());
         }
 		
 		if(noibatdau.equals("Địa điểm")&&noiden.equals("Địa điểm")&&ngaydi==null&&songay==0&&songuoi==0&&giave==0) {
@@ -1001,7 +1010,7 @@ public class DatTourGUI extends JFrame {
 		ngaydi_cb.setDate(null);
 		tfSongay.setText("");
 		tfSonguoi.setText("");
-		tfGiaVe.setText("");
+		giave_cb.setSelectedIndex(0);
 	}
 	
 	public void XoaDataTable() {
@@ -1090,19 +1099,4 @@ public class DatTourGUI extends JFrame {
 
 	        System.out.println("Không tìm thấy giá trị: " + valueToFind);
 	    }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

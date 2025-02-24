@@ -977,7 +977,7 @@ public class NhanVien extends JFrame{
             char randomChar = (char) (random.nextInt(26) + 'a');
             randomLetters.append(randomChar);
         }
-		return "NV"+randomLetters.toString()+randNum;
+		return "nv"+randomLetters.toString()+randNum;
 	}
 	
 	public void themNV() {

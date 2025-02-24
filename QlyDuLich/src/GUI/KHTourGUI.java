@@ -91,7 +91,7 @@ public class KHTourGUI extends JFrame {
 	KHToursBUS khtBUS=new KHToursBUS();
 	ChiTietKHT_BUS ctkhtBUS=new ChiTietKHT_BUS();
 	private JTextField tfSongay;
-	private JTextField tfHuongDanVien;
+	JTextField tfHuongDanVien;
 	private JTextField tfGiaVe;
 	private JTextField tfTongChi;
 	private JTextField tfMaKHT;
@@ -600,6 +600,7 @@ public class KHTourGUI extends JFrame {
 		panel_2.add(huongdanvien_lb);
 		
 		tfHuongDanVien = new JTextField();
+		tfHuongDanVien.setEnabled(false);
 		tfHuongDanVien.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -625,7 +626,7 @@ public class KHTourGUI extends JFrame {
 		tfHuongDanVien.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		tfHuongDanVien.setColumns(10);
 		tfHuongDanVien.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		tfHuongDanVien.setBounds(10, 538, 150, 35);
+		tfHuongDanVien.setBounds(10, 538, 143, 35);
 		panel_2.add(tfHuongDanVien);
 		
 		JLabel giave_lb = new JLabel("Giá vé :");
@@ -1176,7 +1177,17 @@ public class KHTourGUI extends JFrame {
 		panel_2.add(cbMatour);
 		
 		btn_chon_nv = new JButton("...");
-		btn_chon_nv.setBounds(150, 538, 50, 35);
+		btn_chon_nv.setForeground(new Color(0, 0, 0));
+		btn_chon_nv.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btn_chon_nv.setFocusable(false);
+		btn_chon_nv.setBackground(new Color(192, 192, 192));
+		btn_chon_nv.setBounds(160, 538, 40, 35);
+		btn_chon_nv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new infoNhanVien(KHTourGUI.this);
+				
+			}
+		});
 		panel_2.add(btn_chon_nv);
 		
 	}

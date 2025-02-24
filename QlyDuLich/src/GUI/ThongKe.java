@@ -387,7 +387,7 @@ public class ThongKe extends JFrame {
         }
 //		year_cbo.addItem(String.valueOf("2024"));
 		year_cbo.setBounds(10, 48, 92, 26);
-		year_cbo.setSelectedIndex(year_cbo.getItemCount()-1);
+//		year_cbo.setSelectedIndex(year_cbo.getItemCount()-1);
 		year_cbo.addItemListener(new ItemListener() {
 			
 			@Override

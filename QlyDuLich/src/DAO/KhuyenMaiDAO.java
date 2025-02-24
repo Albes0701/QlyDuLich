@@ -26,7 +26,7 @@ public class KhuyenMaiDAO {
 			//Bước 2:Tạo đối tượng statement
 			Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT * FROM khuyenmai";
+			String sql="SELECT * FROM khuyenmai where is_delete = 1";
 			System.out.println(sql);
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
@@ -81,9 +81,9 @@ public class KhuyenMaiDAO {
 			//tao statement
 			java.sql.Statement st = con.createStatement();
 			//truy van
-			String sql = "INSERT INTO khuyenmai (makm, tenctkm, dieukien, phantram, ngaybatdau, ngayketthuc,tinhtrang) VALUES ('"
+			String sql = "INSERT INTO khuyenmai (makm, tenctkm, dieukien, phantram, ngaybatdau, ngayketthuc,tinhtrang,is_delete) VALUES ('"
 		            + t.getMakm() + "' , '" + t.getTectkm() + "' , '"+ t.getDieukien() + "' , "
-		            + t.getPhantram() + ", '" + t.getNgaybd() + "' , '" + t.getNgaykt() + "' , " + t.getTinhtrang() +")";
+		            + t.getPhantram() + ", '" + t.getNgaybd() + "' , '" + t.getNgaykt() + "' , " + t.getTinhtrang() +"," + 1 + ")";
 			System.out.println(sql);
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi " + sql);
@@ -126,7 +126,7 @@ public class KhuyenMaiDAO {
 		try {
 			Connection con = JDBCUtil.getConnection();
 			Statement st = con.createStatement();
-			String sql = "DELETE FROM khuyenmai WHERE makm = '" + t.getMakm() + "'";
+			String sql = "UPDATE khuyenmai SET is_delete = 0 WHERE makm = '" + t.getMakm() + "'";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
 			System.out.println("So dong thay doi: " + kq);
@@ -138,5 +138,24 @@ public class KhuyenMaiDAO {
 		}
 		return kq;
 	}
+	
+//	public int deleteKhuyenMai(KhuyenMaiDTO t) {
+//		int kq = 0;
+//		
+//		try {
+//			Connection con = JDBCUtil.getConnection();
+//			Statement st = con.createStatement();
+//			String sql = "DELETE FROM khuyenmai WHERE makm = '" + t.getMakm() + "'";
+//			kq = st.executeUpdate(sql);
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi: " + kq);
+//			JDBCUtil.closeConnection(con);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return -1;
+//		}
+//		return kq;
+//	}
 }
 	

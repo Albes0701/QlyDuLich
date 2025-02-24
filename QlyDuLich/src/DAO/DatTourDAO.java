@@ -14,7 +14,7 @@ public class DatTourDAO {
 		return new DatTourDAO();
 	}
 	
-	public ArrayList<DatTourDTO> getLoc(String loaitour,String noiBD, String noiDen,java.sql.Date ngayDi, int soNgay, int soNguoi, long giaVe) {
+	public ArrayList<DatTourDTO> getLoc(String loaitour,String noiBD, String noiDen,java.sql.Date ngayDi, int soNgay, int soNguoi, int giaVeBD, int giaveKT) {
 		ArrayList<DatTourDTO> list = new ArrayList<>();
 		try {
 			//Bước 1:Tạo kết nối
@@ -36,9 +36,7 @@ public class DatTourDAO {
 					if(ngayDi != null) {
 						sql += " AND kht.ngaydi = '" + ngayDi+"'";
 					}
-					if(giaVe != 0) {
-						sql += " AND kht.giave <= " + giaVe;
-					}
+						sql += " AND kht.giave >= " + giaVeBD + " AND kht.giave <= " + giaveKT;
 					sql += " ORDER BY t.matour";
 			System.err.println(sql);
 			ResultSet rs=st.executeQuery(sql);

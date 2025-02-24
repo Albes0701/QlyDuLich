@@ -25,7 +25,7 @@ public class NhanVienDAO {
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT * FROM nhanvien";
+			String sql="SELECT * FROM nhanvien where tinhtrang = 1";
 			System.out.println(sql);
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
@@ -60,10 +60,10 @@ public class NhanVienDAO {
 			//tao statement
 			java.sql.Statement st = con.createStatement();
 			//truy van
-			String sql = "INSERT INTO nhanvien (manv, honv, tennv, sdt, cmnd, ngayvl, ngaysinh, gioitinh) VALUES ";
+			String sql = "INSERT INTO nhanvien (manv, honv, tennv, sdt, cmnd, ngayvl, ngaysinh, gioitinh, tinhtrang) VALUES ";
 			for(NhanVienDTO t: listNV) {
 				sql += "('" + t.getManv().toLowerCase() + "' , '" + t.getHonv() + "' , '" + t.getTennv() + "' , '" + t.getSdt() + "' , '"
-						+ t.getCmnd() + "' , '" + t.getNgayvl() + "' , '" + t.getNgaysinh() + "' ," + t.getGioitinh() + "),";				
+						+ t.getCmnd() + "' , '" + t.getNgayvl() + "' , '" + t.getNgaysinh() + "' ," + t.getGioitinh() + "," + 1 +"),";				
 			}
 			sql = sql.substring(0, sql.length()-1);
 			System.out.println(sql);
@@ -88,9 +88,9 @@ public class NhanVienDAO {
 			//tao statement
 			java.sql.Statement st = con.createStatement();
 			//truy van
-			String sql = "INSERT INTO nhanvien (manv, honv, tennv, sdt, cmnd, ngayvl, ngaysinh, gioitinh) VALUES ('"
+			String sql = "INSERT INTO nhanvien (manv, honv, tennv, sdt, cmnd, ngayvl, ngaysinh, gioitinh, tinhtrang) VALUES ('"
 		            + t.getManv() + "' , '" + t.getHonv() + "' , '" + t.getTennv() + "' , '" + t.getSdt() + "' , '"
-		            + t.getCmnd() + "' , '" + t.getNgayvl() + "' , '" + t.getNgaysinh() + "' ," + t.getGioitinh() + ")";
+		            + t.getCmnd() + "' , '" + t.getNgayvl() + "' , '" + t.getNgaysinh() + "' ," + t.getGioitinh() +","+ 1 +")";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi " + sql);
 			System.out.println("So dong thay doi: " + kq);
@@ -124,14 +124,13 @@ public class NhanVienDAO {
 		return kq;
 	}
 	
-	
 	public int deleteNhanVien(NhanVienDTO t) {
 		int kq = 0;
 		
 		try {
 			Connection con = JDBCUtil.getConnection();
 			Statement st = con.createStatement();
-			String sql = "DELETE FROM nhanvien WHERE manv = '" + t.getManv() + "'";
+			String sql = "UPDATE nhanvien set tinhtrang = 0 WHERE manv = '" + t.getManv() + "'";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
 			System.out.println("So dong thay doi: " + kq);
@@ -143,6 +142,25 @@ public class NhanVienDAO {
 		}
 		return kq;
 	}
+	
+//	public int deleteNhanVien(NhanVienDTO t) {
+//		int kq = 0;
+//		
+//		try {
+//			Connection con = JDBCUtil.getConnection();
+//			Statement st = con.createStatement();
+//			String sql = "DELETE FROM nhanvien WHERE manv = '" + t.getManv() + "'";
+//			kq = st.executeUpdate(sql);
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi: " + kq);
+//			JDBCUtil.closeConnection(con);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return -1;
+//		}
+//		return kq;
+//	}
 	
 	
 	

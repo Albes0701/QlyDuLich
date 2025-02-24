@@ -9,7 +9,8 @@ import javax.swing.table.DefaultTableModel;
 
 import BUS.KhachHangBUS;
 import BUS.KiemTra;
-import DTO.KhachHangDTO;
+import BUS.NhanVienBUS;
+import DTO.NhanVienDTO;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,11 +34,11 @@ public class infoNhanVien extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTable table_KhachHang;
+	private JTable table_NhanVien;
 	private JTextField textField_TimKiem;
 	private DefaultTableModel tableModel;
 	private JComboBox timkiem_cb;
-	private KhachHangBUS khBus = new KhachHangBUS();
+	private NhanVienBUS nvBUS = new NhanVienBUS();
 	/**
 	 * Launch the application.
 	 */
@@ -58,7 +59,7 @@ public class infoNhanVien extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public infoNhanVien(Ve ve) {
+	public infoNhanVien(KHTourGUI kht) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(700,400);
 		setBounds(400, 220, 700, 400);
@@ -73,7 +74,7 @@ public class infoNhanVien extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("DANH SÁCH KHÁCH HÀNG");
+		JLabel lblNewLabel = new JLabel("DANH SÁCH NHÂN VIÊN");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setBounds(0, 5, 686, 52);
@@ -104,7 +105,7 @@ public class infoNhanVien extends JFrame {
 							return;
 						}
 						String type = (String) timkiem_cb.getSelectedItem();
-						ArrayList<KhachHangDTO> tmp = khBus.timKiem(condition.toLowerCase(), type);
+						ArrayList<NhanVienDTO> tmp = nvBUS.timKiem(condition.toLowerCase(), type);
 						if(tmp != null) {
 							resetTable();
 							initData(tmp);
@@ -134,22 +135,22 @@ public class infoNhanVien extends JFrame {
 		scrollPane.setBounds(10, 162, 666, 191);
 		panel.add(scrollPane);
 		
-		table_KhachHang = new JTable();
-		scrollPane.setViewportView(table_KhachHang);
-		table_KhachHang.setDefaultEditor(Object.class,null);
-		String[] colname =  {"Mã kh","Họ","Tên","Giới tính","Địa chỉ","Số điện thoại","Email","Ngày sinh"};
+		table_NhanVien = new JTable();
+		scrollPane.setViewportView(table_NhanVien);
+		table_NhanVien.setDefaultEditor(Object.class,null);
+		String[] colname =  {"Mã nv","Họ","Tên","Giới tính","Số điện thoại","CMND","Ngày sinh","Ngày vào làm"};
 		tableModel = new DefaultTableModel();
-		table_KhachHang.setModel(tableModel);
+		table_NhanVien.setModel(tableModel);
 		tableModel.setColumnIdentifiers(colname);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				KhachHangDTO kh = new KhachHangDTO();
-				kh = getSelectedKhachHang();
+				NhanVienDTO kh = new NhanVienDTO();
+				kh = getSelectedNhanVien();
 				if(kh== null) {
-					JOptionPane.showMessageDialog(null, "Chưa chọn khách hàng");
+					JOptionPane.showMessageDialog(null, "Chưa chọn nhân viên");
 				}else {
 					setVisible(false);
-					setData(kh,ve);
+					setData(kh,kht);
 				}
 			}
 		});
@@ -162,9 +163,9 @@ public class infoNhanVien extends JFrame {
 	public void initData() {
 		
 //		if(khBus.docKH()) {
-			for(KhachHangDTO kh : KhachHangBUS.khDTO ) {
+			for(NhanVienDTO nv : NhanVienBUS.nvDTO ) {
 				tableModel.addRow(new Object[] {
-						kh.getMakh(), kh.getHokh(), kh.getTenkh(), KiemTra.getInstance().GioiTinh(kh.isGioitinh()), kh.getDiachi(), kh.getSdt(), kh.getEmail(), kh.getNgaysinh()
+						nv.getManv(), nv.getHonv(), nv.getTennv(), KiemTra.getInstance().GioiTinh(nv.getGioitinh()), nv.getSdt(), nv.getCmnd(), nv.getNgaysinh(), nv.getNgayvl()
 				});
 			}
 			
@@ -180,49 +181,44 @@ public class infoNhanVien extends JFrame {
 //		}
 	}
 	
-	public void initData(ArrayList<KhachHangDTO> listKH) {
-			if(khBus.docKH()) {
-				for(KhachHangDTO kh : listKH ) {
+	public void initData(ArrayList<NhanVienDTO> listNV) {
+			if(nvBUS.docNV()) {
+				for(NhanVienDTO nv : listNV ) {
 					tableModel.addRow(new Object[] {
-							kh.getMakh(), kh.getHokh(), kh.getTenkh(), KiemTra.getInstance().GioiTinh(kh.isGioitinh()), kh.getDiachi(), kh.getSdt(), kh.getEmail(), kh.getNgaysinh()
+							nv.getManv(), nv.getHonv(), nv.getTennv(), KiemTra.getInstance().GioiTinh(nv.getGioitinh()), nv.getSdt(), nv.getCmnd(), nv.getNgaysinh(), nv.getNgayvl()
 					});
 				}
 			}
 	}
 	
-	public KhachHangDTO getSelectedKhachHang() {
-		int row = table_KhachHang.getSelectedRow();
+	public NhanVienDTO getSelectedNhanVien() {
+		int row = table_NhanVien.getSelectedRow();
 		if(row == -1) return null;
-		DefaultTableModel model = (DefaultTableModel) table_KhachHang.getModel();
-		String makh = model.getValueAt(row, 0)+ "";
-		String hokh = model.getValueAt(row, 1)+ "";
-		String tenkh = model.getValueAt(row, 2)+ "";
+		DefaultTableModel model = (DefaultTableModel) table_NhanVien.getModel();
+		String manv = model.getValueAt(row, 0)+ "";
+		String honv = model.getValueAt(row, 1)+ "";
+		String tennv = model.getValueAt(row, 2)+ "";
 		Boolean gioitinh =  KiemTra.getInstance().GioiTinh((String)model.getValueAt(row, 3));		
-		String diachi = model.getValueAt(row, 4)+ "";
-		String sdt = model.getValueAt(row, 5)+ "";
-		String email = model.getValueAt(row, 6)+ "";
-		String ngaysinh = model.getValueAt(row, 7)+ "";
+		String sdt = model.getValueAt(row, 4)+ "";
+		String cmnd = model.getValueAt(row, 5)+ "";
+		String ngaysinh = model.getValueAt(row, 6)+ "";
 		java.sql.Date ngaysinhdate = java.sql.Date.valueOf(ngaysinh);
-
-        KhachHangDTO kh = new KhachHangDTO(makh, hokh, tenkh, diachi, sdt, email, gioitinh, ngaysinhdate);
+		String ngayVL = model.getValueAt(row, 7)+ "";
+		java.sql.Date ngayVLdate = java.sql.Date.valueOf(ngayVL);
+        NhanVienDTO kh = new NhanVienDTO(manv, honv, tennv, sdt, cmnd, ngayVLdate, ngaysinhdate,gioitinh );
         return kh;
 	}
 	
 	public void resetTable() {
-		   DefaultTableModel tableModel =(DefaultTableModel) table_KhachHang.getModel();
+		   DefaultTableModel tableModel =(DefaultTableModel) table_NhanVien.getModel();
 			tableModel.setRowCount(0);
 		 
 	}
 	
-	public void setData(KhachHangDTO kh, Ve ve) {
+	public void setData(NhanVienDTO nv, KHTourGUI kht) {
 //		Ve ve = new Ve(DatTourGUI.tourduocchon);
 //		ve.setSize(1000, 780);
-		ve.tf_maso.setText(kh.getMakh());
-		ve.tfHoTen.setText(kh.getHokh()+" " +kh.getTenkh());
-		ve.tfEmail.setText(kh.getEmail());
-		ve.tfSdt.setText(kh.getSdt());
-		ve.tfDiachi.setText(kh.getDiachi());
-		ve.cbGioitinh.setSelectedItem(KiemTra.getInstance().GioiTinh(kh.isGioitinh()));
-		ve.datechooserNgaysinh.setDate(kh.getNgaysinh());
+		kht.tfHuongDanVien.setText(nv.getHonv() + " " + nv.getTennv());
+
 	}
 }
