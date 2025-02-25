@@ -127,7 +127,7 @@ public class Ve extends JFrame {
 		
 		setBackground(SystemColor.windowText);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(250, 20, 1000, 780);
+		setBounds(250, 20, 1000, 767);
 		contentPane = new JPanel();
 		contentPane.setVerifyInputWhenFocusTarget(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -138,7 +138,7 @@ public class Ve extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(255, 255, 255));
 		panel.setBackground(new Color(34, 99, 138));
-		panel.setBounds(0, 0, 1000, 750);
+		panel.setBounds(0, 0, 1000, 733);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -147,7 +147,7 @@ public class Ve extends JFrame {
 		
 		JPanel panel_Header = new JPanel();
 		panel_Header.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		panel_Header.setBounds(10, 26, 967, 185);
+		panel_Header.setBounds(10, 10, 967, 185);
 		panel.add(panel_Header);
 		panel_Header.setLayout(null);
 		
@@ -241,7 +241,7 @@ public class Ve extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		panel_1.setBounds(10, 207, 567, 533);
+		panel_1.setBounds(10, 193, 567, 533);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -503,7 +503,7 @@ public class Ve extends JFrame {
 		JPanel panel_1_1 = new JPanel();
 		panel_1_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		panel_1_1.setLayout(null);
-		panel_1_1.setBounds(577, 207, 400, 533);
+		panel_1_1.setBounds(577, 193, 400, 533);
 		panel.add(panel_1_1);
 		
 		JPanel panel_3 = new JPanel();
@@ -616,7 +616,7 @@ public class Ve extends JFrame {
 		panel_7.add(label_1);
 		
 		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(10, 324, 380, 209);
+		panel_5.setBounds(10, 324, 380, 199);
 		panel_1_1.add(panel_5);
 		panel_5.setLayout(null);
 		
@@ -714,9 +714,9 @@ public class Ve extends JFrame {
 		btnNewButton_Thoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				DatTourGUI dt = new DatTourGUI();
-				dt.btn_DatTour.setBackground(Color.ORANGE);
-				dt.btn_DatTour.setForeground(Color.BLACK);
+//				DatTourGUI dt = new DatTourGUI();
+//				dt.btn_DatTour.setBackground(Color.ORANGE);
+//				dt.btn_DatTour.setForeground(Color.BLACK);
 			}
 		});
 		panel_5.add(btnNewButton_Thoat);

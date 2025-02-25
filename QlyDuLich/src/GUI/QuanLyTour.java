@@ -54,6 +54,7 @@ import com.toedter.calendar.JDateChooser;
 
 import BUS.KHToursBUS;
 import BUS.KhachHangBUS;
+import BUS.KiemTra;
 import BUS.QlyToursBUS;
 import BUS.taikhoanBUS;
 import DTO.KHTourDTO;
@@ -572,11 +573,13 @@ public class QuanLyTour extends JFrame {
 		luu_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (sua_btn.isEnabled() == false && xoa_btn.isEnabled() == false) {
+					if(!checkValidate()) return;
 					ThemTour();
 					ResetData();
 					XoaDataTable();
 					initData();
 				} else if (them_btn.isEnabled() == false && xoa_btn.isEnabled() == false) {
+					if(!checkValidate()) return;
 					SuaTour();
 					ResetData();
 					XoaDataTable();
@@ -848,5 +851,14 @@ public class QuanLyTour extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(this, "Sửa thành công!");
 		}
+	}
+	
+	public boolean checkValidate() {
+		String songay = this.songay_tf.getText();
+		if(KiemTra.getInstance().validate_OnlyNumber(songay) == false) {
+			JOptionPane.showMessageDialog(null, "số ngày phải là kí tự số và lớn hơn 0");
+			return false;
+		}
+		return true;
 	}
 }

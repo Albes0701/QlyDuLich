@@ -19,7 +19,7 @@ public class KHTourDAO {
 		try {
 			Connection con=JDBCUtil.getConnection();
 			Statement st=con.createStatement();
-			String sql="select * from kehoachtour";
+			String sql="select * from kehoachtour where tinhtrang = 1";
 			ResultSet rs=st.executeQuery(sql);
 			while(rs.next()) {
 				String makht=rs.getString("makht");
@@ -47,6 +47,8 @@ public class KHTourDAO {
 		}
 		return ketqua;
 	}
+	
+	
 	
 	
 	public String TaoMaKHT() {
@@ -82,9 +84,9 @@ public class KHTourDAO {
 			Connection con=JDBCUtil.getConnection();
 			Statement st=con.createStatement();
 			String sql="INSERT INTO kehoachtour (makht,matour,mota,ngaydi,ngayve,songuoi,giave,huongdanvien,"
-					+ "tongchi,anh1,anh2,anh3,soluong,thucchi)"+" VALUES ('"+t.getMakht()+"','"+t.getMatour()+"','"+t.getMota()+"','"+t.getNgaydi()+"','"
+					+ "tongchi,anh1,anh2,anh3,soluong,thucchi,tinhtrang)"+" VALUES ('"+t.getMakht()+"','"+t.getMatour()+"','"+t.getMota()+"','"+t.getNgaydi()+"','"
 					+t.getNgayve()+"',"+t.getSonguoi()+","+t.getGiaVe()+",'"+t.getHuongdanvien()+"',"+t.getTongchi()+",'"+t.getAnh1()+"','"
-					+t.getAnh2()+"','"+t.getAnh3()+ "',"+t.getSonguoidukien()+","+t.getThucchi()+")";
+					+t.getAnh2()+"','"+t.getAnh3()+ "',"+t.getSonguoidukien()+","+t.getThucchi()+","+ 1 +")";
 			System.out.println(sql);
 			ketQua=st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
@@ -120,7 +122,7 @@ public class KHTourDAO {
 		}
 		return ketQua;
 	}
-
+	
 	public int delete(KHTourDTO t) {
 		int ketQua = 0;
 		try {
@@ -129,7 +131,7 @@ public class KHTourDAO {
 			// Bước 2:Tạo đối tượng statement
 			java.sql.Statement st = con.createStatement();
 			// Bước 3:Thực thi statement
-			String sql = "DELETE FROM kehoachtour WHERE makht='" + t.getMakht() + "';";
+			String sql = "UPDATE kehoachtour SET tinhtrang = 0 WHERE makht='" + t.getMakht() + "';";
 			ketQua = st.executeUpdate(sql);
 			// Bước 4:Xử lý kết quả trả về
 			System.out.println("Ban da thuc thi: " + sql);
@@ -142,6 +144,28 @@ public class KHTourDAO {
 
 		return ketQua;
 	}
+
+//	public int delete(KHTourDTO t) {
+//		int ketQua = 0;
+//		try {
+//			// Bước 1:Tạo kết nối
+//			Connection con = JDBCUtil.getConnection();
+//			// Bước 2:Tạo đối tượng statement
+//			java.sql.Statement st = con.createStatement();
+//			// Bước 3:Thực thi statement
+//			String sql = "DELETE FROM kehoachtour WHERE makht='" + t.getMakht() + "';";
+//			ketQua = st.executeUpdate(sql);
+//			// Bước 4:Xử lý kết quả trả về
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi la: " + ketQua);
+//			// Bước 5:Ngắt kết nối
+//			JDBCUtil.closeConnection(con);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return ketQua;
+//	}
 	
 	
 	

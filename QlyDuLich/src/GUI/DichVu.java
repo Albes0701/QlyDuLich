@@ -469,7 +469,7 @@ public class DichVu extends JFrame {
 				lockForm();
 				DichVuDTO dv = getSelectedDichVu();
 				if(dv!= null) {
-					int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa nhân viên " + dv.getMaso(),"Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+					int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa dịch vụ" + dv.getMaso(),"Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 					if(result == JOptionPane.YES_OPTION) {
 						xoaDV();
 						resetTable();
