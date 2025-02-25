@@ -1,6 +1,7 @@
 package BUS;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import DAO.CTKHT_ThucChiDAO;
@@ -106,7 +107,7 @@ public class ChiTietKHT_BUS {
 		try {
 			double tongchi=0;
 			for(CTKHT_DTO m:ctkhtList) {
-				if(m.getMakht().equals(t.getMakht())&&m.getNgay().equals(t.getNgay())) {
+				if(m.getMakht().equals(t.getMakht())&& convertDateToString(m.getNgay()).equals(convertDateToString(t.getNgay()))) {
 					m.copyCTKHT(t);
 				}
 			}
@@ -221,6 +222,12 @@ public class ChiTietKHT_BUS {
 		}
 		return null;
 	}
+	
+	
+	public String convertDateToString(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        return formatter.format(date);
+    }
 	
 	
 	

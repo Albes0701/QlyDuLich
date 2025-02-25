@@ -45,6 +45,53 @@ public class DatTourBUS {
 		}
 	}
 	
+	public void themDatTour(KHTourDTO kht) {
+		QlyToursDTO tour=getTour(kht.getMatour());
+		String matour=tour.getMatour();
+		String makht=kht.getMakht();
+		String tentour=tour.getTentour();
+		String mota=kht.getMota();
+		String noikhoihanh=tour.getNoikhoihanh();
+		String hinh1=kht.getAnh1();
+		String hinh2=kht.getAnh2();
+		String hinh3=kht.getAnh3();
+		String diadiem=tour.getNoiden();
+		String phuongtien=getPhuongTien(makht);
+		String nhahang=getNhaHang(makht);
+		String khachsan=getKhachSan(makht);
+		long giave=kht.getGiaVe();
+		int songuoi=kht.getSonguoi();
+		Date ngaydi=kht.getNgaydi();
+		Date ngayve=kht.getNgayve();
+		DatTourDTO dattour=new DatTourDTO(matour, makht, tentour, hinh1, hinh2, hinh3, mota, noikhoihanh, diadiem, phuongtien, nhahang, khachsan, giave, songuoi, ngaydi, ngayve);
+		dsTour.add(dattour);
+	}
+	
+	public boolean suaDatTour(KHTourDTO kht) {
+		for(DatTourDTO dt:DatTourBUS.dsTour) {
+			if(dt.getMakht().equals(kht.getMakht())) {
+				dt.setGiatour(kht.getGiaVe());
+				dt.setPhuongtien(getPhuongTien(kht.getMakht()));
+				dt.setNhahang(getNhaHang(kht.getMakht()));
+				dt.setKhachsan(getKhachSan(kht.getMakht()));
+				dt.setSonguoi(kht.getSonguoi());
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	
+	public QlyToursDTO getTour(String matour) {
+		for(QlyToursDTO t:QlyToursBUS.tourDTO) {
+			if(t.getMatour().equals(matour)) {
+				return t;
+			}
+		}
+		return null;
+	}
+	
 	public String getPhuongTien(String makht) {
 		String mapt="";
 		String tenpt="";
