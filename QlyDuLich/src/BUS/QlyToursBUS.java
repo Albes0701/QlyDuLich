@@ -42,12 +42,12 @@ public class QlyToursBUS {
 	}
 	public int xoa(QlyToursDTO t) {
 		try {
-//			for(QlyToursDTO p:tourDTO) {
-//				if(p.getMatour().equals(t.getMatour())) {
-//					tourDTO.remove(p);
-//					break;
-//				}
-//			}
+			for(QlyToursDTO p:tourDTO) {
+				if(p.getMatour().equals(t.getMatour())) {
+					tourDTO.remove(p);
+					break;
+				}
+			}
 			ArrayList<String> makht=new ArrayList<String>();
 			for(KHTourDTO kht:KHToursBUS.khtList) {
 				if(kht.getMatour().equals(t.getMatour())) {
