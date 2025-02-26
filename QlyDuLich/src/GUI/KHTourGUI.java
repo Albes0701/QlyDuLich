@@ -123,7 +123,7 @@ public class KHTourGUI extends JFrame {
 	JComboBox cbTimkiem;
 	public static String makht_row;
 	private JButton btn_chon_nv;
-
+	private String key_Tour;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -344,6 +344,7 @@ public class KHTourGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String condition = timkiem_tf.getText();
+				if(condition.isEmpty()) return;
 				String condType = (String)cbTimkiem.getSelectedItem();
 				ArrayList<KHTourDTO> t = khtBUS.timkiem(condition, condType);
 				if (t == null) {
@@ -1104,6 +1105,19 @@ public class KHTourGUI extends JFrame {
 		lbSoChoConNhan.setBounds(145, 571, 134, 30);
 		panel_3.add(lbSoChoConNhan);
 		
+		btn_chon_nv = new JButton("...");
+		btn_chon_nv.setForeground(new Color(0, 0, 0));
+		btn_chon_nv.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btn_chon_nv.setFocusable(false);
+		btn_chon_nv.setBackground(new Color(192, 192, 192));
+		btn_chon_nv.setBounds(160, 538, 40, 35);
+		btn_chon_nv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new infoNhanVien(KHTourGUI.this);
+			}
+		});
+		panel_2.add(btn_chon_nv);
+		
 		init();
 		initData();
 		HienThiKHT2();
@@ -1175,20 +1189,6 @@ public class KHTourGUI extends JFrame {
 			}
 		});
 		panel_2.add(cbMatour);
-		
-		btn_chon_nv = new JButton("...");
-		btn_chon_nv.setForeground(new Color(0, 0, 0));
-		btn_chon_nv.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btn_chon_nv.setFocusable(false);
-		btn_chon_nv.setBackground(new Color(192, 192, 192));
-		btn_chon_nv.setBounds(160, 538, 40, 35);
-		btn_chon_nv.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new infoNhanVien(KHTourGUI.this);
-				
-			}
-		});
-		panel_2.add(btn_chon_nv);
 		
 	}
 	
@@ -1567,7 +1567,7 @@ public class KHTourGUI extends JFrame {
         }else {
         	kht.setAnh3(anh3_path);
         }	
-		System.out.println(kht.getMakht());
+//		System.out.println(kht.getMakht());
         
         if (khtBUS.sua(kht,MaKHT_Bandau) != -1) {
         	JOptionPane.showMessageDialog(this, "Sửa thành công!");
@@ -1603,4 +1603,5 @@ public class KHTourGUI extends JFrame {
 		}
 		return null;
 	}
+	
 }

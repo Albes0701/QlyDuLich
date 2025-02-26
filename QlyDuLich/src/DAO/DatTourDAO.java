@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import BUS.KiemTra;
 import DTO.DatTourDTO;
+import DTO.QlyToursDTO;
 import Util.JDBCUtil;
 
 public class DatTourDAO {
@@ -14,29 +15,23 @@ public class DatTourDAO {
 		return new DatTourDAO();
 	}
 	
-	public ArrayList<DatTourDTO> getLoc(String loaitour,String noiBD, String noiDen,java.sql.Date ngayDi, int soNgay, int soNguoi, int giaVeBD, int giaveKT) {
-		ArrayList<DatTourDTO> list = new ArrayList<>();
+	public ArrayList<QlyToursDTO> getLoc(String loaitour,String noiBD, String noiDen,java.sql.Date ngayDi, int soNgay, int soNguoi, int giaVeBD, int giaveKT) {
+		ArrayList<QlyToursDTO> list = new ArrayList<>();
 		try {
 			//Bước 1:Tạo kết nối
 			Connection con=JDBCUtil.getConnection();
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT * FROM kehoachtour kht"
-					+ " LEFT JOIN tours t  ON kht.matour = t.matour WHERE t.maloai = '" + loaitour+"'";
+			String sql="SELECT * FROM tours t"
+					+ " WHERE t.tinhtrang = 1 AND t.maloai = '" + loaitour+"'";
 					if(!noiBD.equalsIgnoreCase("Địa điểm")) {
 						sql += " AND t.noikhoihanh = '" + noiBD+"'";
 					}
 					if(!noiDen.equalsIgnoreCase("Địa điểm")) {
 						sql += " AND t.noiden = '" + noiDen+"'";
 					}
-					if(soNguoi != 0) {
-						sql += " AND kht.songuoi >= " + soNguoi+"";
-					}
-					if(ngayDi != null) {
-						sql += " AND kht.ngaydi = '" + ngayDi+"'";
-					}
-						sql += " AND kht.giave >= " + giaVeBD + " AND kht.giave <= " + giaveKT;
+//						sql += " AND kht.giave >= " + giaVeBD + " AND kht.giave <= " + giaveKT;
 					sql += " ORDER BY t.matour";
 			System.err.println(sql);
 			ResultSet rs=st.executeQuery(sql);
@@ -44,31 +39,12 @@ public class DatTourDAO {
 			while(rs.next()){
 				String matour = rs.getString("t.matour");
 				String tentour = rs.getString("t.tentour");
-				String makht = rs.getString("kht.makht");
-				java.sql.Date ngaydi = rs.getDate("kht.ngaydi");
-				java.sql.Date ngayve = rs.getDate("kht.ngayve");
-				String hinh1 = rs.getString("anh1");
-				String hinh2 = rs.getString("anh2");
-				String hinh3 = rs.getString("anh3");
-				int songuoi = rs.getInt("kht.songuoi");
-				double giave = rs.getDouble("kht.giave");
-				long giave2 = (long) giave;
-				if(KiemTra.getInstance().checkngaydi(ngaydi)) {
-					
-					if(soNgay != 0) {
-						
-						LocalDate localDate = ngaydi.toLocalDate();
-						LocalDate localDateve = ngayve.toLocalDate();
-						LocalDate ngaySauKhiCong = localDate.plusDays(soNgay-1);
-						if(ngaySauKhiCong.compareTo(localDateve) == 0 && soNgay != 0) {
-							DatTourDTO dt = new DatTourDTO(matour, makht, tentour, hinh1, hinh2, hinh3, tentour, noiBD, makht, hinh1, hinh2, hinh3, giave2, songuoi, ngaydi, ngayve);					
-							list.add(dt);
-						}
-					}else {
-						DatTourDTO dt = new DatTourDTO(matour, makht, tentour, hinh1, hinh2, hinh3, tentour, noiBD, makht, hinh1, hinh2, hinh3, giave2, songuoi, ngaydi, ngayve);					
-						list.add(dt);
-					}
-				}
+				String noiden = rs.getString("t.noiden");
+				String noikhoihanh = rs.getString("t.noikhoihanh");
+				String maloai = rs.getString("t.maloai");
+				int songay = rs.getInt("t.songay");
+						QlyToursDTO tour = new QlyToursDTO(matour, tentour,noiden,noikhoihanh, maloai,songay);					
+						list.add(tour);
 			}
 			//Bước 5:Ngắt kết nối
 			JDBCUtil.closeConnection(con);

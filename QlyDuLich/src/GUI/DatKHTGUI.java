@@ -252,7 +252,7 @@ public class DatKHTGUI extends JFrame {
 		lbNoikhoihanh.setBounds(451, 260, 127, 35);
 		panel_3.add(lbNoikhoihanh);
 		
-		JButton btnNewButton = new JButton("Đặt Tour");
+		JButton btnNewButton = new JButton("Đặt vé");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();
@@ -343,7 +343,6 @@ public class DatKHTGUI extends JFrame {
 				}
 			}
 		});
-		String danhgiaTongChi="";
 		ArrayList<KHTourDTO> listKHT = khtBUS.docKHT(matour);
 		for(KHTourDTO kht:listKHT) {
 			if(!KiemTra.getInstance().checkngaydi(KiemTra.getInstance().toDateUtil(kht.getNgaydi()))) {

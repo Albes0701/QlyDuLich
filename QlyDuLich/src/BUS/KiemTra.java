@@ -41,11 +41,14 @@ public class KiemTra {
 	public Boolean checkngaydi(java.util.Date st1) {
 		java.util.Date current = new java.util.Date();
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 23);
-		calendar.set(Calendar.MINUTE, 59);
-		calendar.set(Calendar.SECOND, 59);
+		calendar.set(Calendar.HOUR_OF_DAY, 00);
+		calendar.set(Calendar.MINUTE, 00);
+		calendar.set(Calendar.SECOND, 00);
+		calendar.set(Calendar.MILLISECOND, 00);
         current = calendar.getTime();
-		if(st1.compareTo(current) < 0) return false;
+		if(st1.compareTo(current) < 0) { 
+			return false;
+		}
 		return true;
 	}
 	

@@ -91,8 +91,6 @@ public class DatTourGUI extends JFrame {
 	QlyToursBUS qltBUS = new QlyToursBUS();
 	KHToursBUS khtBUS  = new KHToursBUS();
 	DatTourBUS dattourBUS=new DatTourBUS();
-	private JTextField tfSonguoi;
-	private JTextField tfSongay;
 	
 	/**
 	 * Launch the application.
@@ -232,13 +230,13 @@ public class DatTourGUI extends JFrame {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(192, 192, 192));
-		panel_1.setBounds(10, 54, 270, 431);
+		panel_1.setBounds(10, 144, 270, 248);
 		KhachHang.add(panel_1);
 		panel_1.setLayout(null);
 
 		JLabel loaitour_lb = new JLabel("Loại Tour");
 		loaitour_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		loaitour_lb.setBounds(10, 10, 90, 30);
+		loaitour_lb.setBounds(10, 25, 90, 30);
 		panel_1.add(loaitour_lb);
 		
 		String[] arr_tinh = { "Địa điểm","An Giang", "Bà Rịa – Vũng Tàu", "Bạc Liêu", "Bắc Giang", "Bắc Kạn", "Bắc Ninh",
@@ -257,36 +255,26 @@ public class DatTourGUI extends JFrame {
 
 		JLabel noibatdau_lb = new JLabel("Nơi bắt đầu");
 		noibatdau_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		noibatdau_lb.setBounds(10, 63, 90, 30);
+		noibatdau_lb.setBounds(10, 78, 90, 30);
 		panel_1.add(noibatdau_lb);
 
 		
 
 		JLabel noiden_lb = new JLabel("Nơi đến");
 		noiden_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		noiden_lb.setBounds(10, 115, 90, 30);
+		noiden_lb.setBounds(10, 130, 90, 30);
 		panel_1.add(noiden_lb);
 
 		
 
-		JLabel ngaydi_lb = new JLabel("Ngày đi");
-		ngaydi_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		ngaydi_lb.setBounds(10, 166, 90, 30);
-		panel_1.add(ngaydi_lb);
+//		JLabel ngaydi_lb = new JLabel("Ngày đi");
+//		ngaydi_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
+//		ngaydi_lb.setBounds(10, 181, 90, 30);
+//		panel_1.add(ngaydi_lb);
 
-		ngaydi_cb = new JDateChooser();
-		ngaydi_cb.setBounds(110, 166, 145, 30);
-		panel_1.add(ngaydi_cb);
-
-		JLabel ngayve_lb = new JLabel("Số ngày");
-		ngayve_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		ngayve_lb.setBounds(10, 215, 90, 30);
-		panel_1.add(ngayve_lb);
-
-		JLabel songuoi_lb = new JLabel("Số người");
-		songuoi_lb.setFont(new Font("Tahoma", Font.BOLD, 15));
-		songuoi_lb.setBounds(10, 265, 90, 30);
-		panel_1.add(songuoi_lb);
+//		ngaydi_cb = new JDateChooser();
+//		ngaydi_cb.setBounds(110, 181, 145, 30);
+//		panel_1.add(ngaydi_cb);
 
 		JButton loc_btn = new JButton("Lọc");
 		loc_btn.setFocusPainted(false);
@@ -294,7 +282,7 @@ public class DatTourGUI extends JFrame {
 		loc_btn.setBackground(new Color(51, 204, 255));
 		loc_btn.setForeground(Color.WHITE);
 		loc_btn.setFont(new Font("Tahoma", Font.BOLD, 18));
-		loc_btn.setBounds(37, 361, 90, 40);
+		loc_btn.setBounds(32, 188, 90, 40);
 		loc_btn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -319,39 +307,13 @@ public class DatTourGUI extends JFrame {
 			}
 		});
 		reset_btn.setFont(new Font("Tahoma", Font.BOLD, 18));
-		reset_btn.setBounds(137, 361, 90, 40);
+		reset_btn.setBounds(135, 188, 90, 40);
 		panel_1.add(reset_btn);
 		
-		JLabel songuoi_lb_1 = new JLabel("Giá vé");
-		songuoi_lb_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		songuoi_lb_1.setBounds(10, 305, 102, 30);
-		panel_1.add(songuoi_lb_1);
-		
-		tfSonguoi = new JTextField();
-		tfSonguoi.addKeyListener(new KeyAdapter() {
-			@Override
-		    public void keyPressed(KeyEvent e) {
-		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-		        	giave_cb.requestFocusInWindow();
-		        }
-		    }
-		});
-		tfSonguoi.setColumns(10);
-		tfSonguoi.setBounds(110, 265, 145, 30);
-		panel_1.add(tfSonguoi);
-		
-		tfSongay = new JTextField();
-		tfSongay.setColumns(10);
-		tfSongay.setBounds(110, 218, 145, 30);
-		tfSongay.addKeyListener(new KeyAdapter() {
-			@Override
-		    public void keyPressed(KeyEvent e) {
-		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-		        	tfSonguoi.requestFocusInWindow();
-		        }
-		    }
-		});
-		panel_1.add(tfSongay);
+//		JLabel songuoi_lb_1 = new JLabel("Giá vé");
+//		songuoi_lb_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+//		songuoi_lb_1.setBounds(10, 230, 102, 30);
+//		panel_1.add(songuoi_lb_1);
 
 		JLabel lblNewLabel_1 = new JLabel("Lọc kết quả");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -376,6 +338,7 @@ public class DatTourGUI extends JFrame {
 		panel_3.add(table_sp);
 		
 		table = new JTable();
+		table.setDefaultEditor(Object.class,null);
 		table_sp.setViewportView(table);
 		
 		initData();
@@ -390,7 +353,7 @@ public class DatTourGUI extends JFrame {
 	    
 	    String[] arr_loaiTour= {"Trong nước","Ngoài nước"};
 		loaitour_cb = new JComboBox(arr_loaiTour);
-		loaitour_cb.setBounds(110, 10, 145, 30);
+		loaitour_cb.setBounds(110, 25, 145, 30);
 		loaitour_cb.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -408,18 +371,18 @@ public class DatTourGUI extends JFrame {
 		panel_1.add(loaitour_cb);
 		
 		noibatdau_cb = new JComboBox(arr_noibatdau.toArray());
-		noibatdau_cb.setBounds(110, 63, 145, 30);
+		noibatdau_cb.setBounds(110, 78, 145, 30);
 		panel_1.add(noibatdau_cb);
 		
 		noiden_cb = new JComboBox(arr_denTrongNuoc.toArray());
-		noiden_cb.setBounds(110, 115, 145, 30);
+		noiden_cb.setBounds(110, 130, 145, 30);
 		panel_1.add(noiden_cb);
 		
 		
-		String []item_gia = {"Dưới 1 triệu", "Từ 1 - 5 triệu" ,"Trên 5 triệu"};
-		giave_cb = new JComboBox(item_gia);
-		giave_cb.setBounds(110, 305, 145, 30);
-		panel_1.add(giave_cb);
+//		String []item_gia = {"Dưới 1 triệu", "Từ 1 - 5 triệu" ,"Trên 5 triệu"};
+//		giave_cb = new JComboBox(item_gia);
+//		giave_cb.setBounds(110, 232, 145, 30);
+//		panel_1.add(giave_cb);
 		
 		JButton btnNewButton = new JButton("Đặt Tour");
 		btnNewButton.setBounds(835, 17, 85, 28);
@@ -489,28 +452,6 @@ public class DatTourGUI extends JFrame {
 	}
 	
 	public void initData() {
-//		dattourBUS.docDSTour();
-//		qltBUS.docTour();
-//		String [] colname= {"Mã Tour","Tên Tour","Số ngày","N","Ngày về","Số người","Giá vé"};
-//		DefaultTableModel tableModel=new DefaultTableModel() {
-//			 public boolean isCellEditable(int row,int col) {
-//	                return false;
-//	         }
-//		};
-//		tableModel.setColumnIdentifiers(colname);
-//		table.setModel(tableModel);
-//		table.getColumnModel().getColumn(1).setPreferredWidth(200);
-//		table.getColumnModel().getColumn(5).setPreferredWidth(65);
-//		table.getColumnModel().getColumn(6).setPreferredWidth(115);
-//		
-//		table.addMouseListener(new MouseAdapter() {
-//			public void mouseClicked(MouseEvent e) {
-//				if (e.getClickCount() == 1) {
-//					HienThiTour();
-//				}
-//			}
-//		});
-//		
 		String[] colNames = { "Mã Tour", "Tên Tour", "Loại tour","Số ngày", "Nơi khởi hành", "Nơi đến" };
 		DefaultTableModel tableModel = new DefaultTableModel();
 		table.setModel(tableModel);
@@ -519,13 +460,14 @@ public class DatTourGUI extends JFrame {
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setPreferredWidth(50);
 		table.getColumnModel().getColumn(3).setPreferredWidth(50);
-		table.addMouseListener((MouseListener) new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 1) {
-//					HienThiTour();
-				}
-			}
-		});
+//		table.addMouseListener((MouseListener) new MouseAdapter() {
+//			public void mouseClicked(MouseEvent e) {
+//				if (e.getClickCount() == 1) {
+//					String tourduocchon=GetTourDaChon();
+//					new DatKHTGUI(tourduocchon);
+//				}
+//			}
+//		});
 		String tenloai = null;
 		for (QlyToursDTO tour : QlyToursBUS.tourDTO) {
 			if(tour.getMaloai().equals("loai1")) tenloai = "Trong nước";
@@ -535,50 +477,25 @@ public class DatTourGUI extends JFrame {
 		}
 		
 		
-//		for (DatTourDTO dattour : DatTourBUS.dsTour) {
-//			if(!KiemTra.getInstance().checkngaydi(KiemTra.getInstance().toDateUtil(dattour.getNgaydi()))) {
-//				continue;
-//			}
-//			arr_noibatdau.add(dattour.getNoikhoihanh());
-//			if(GetLoaiTour(dattour.getMatour()).equals("loai1")) {
-//				arr_denTrongNuoc.add(dattour.getDiadiem());
-//			}else {
-//				arr_denNgoaiNuoc.add(dattour.getDiadiem());
-//			}
-//			tableModel.addRow(new Object[] { dattour.getMatour(), dattour.getTentour(), dattour.getMakht(),
-//					dattour.getNgaydi().toString(), dattour.getNgayve().toString(), dattour.getSonguoi()+"",dattour.getGiatour()+"" 
-//					
-//			});
-//		}
+		for (DatTourDTO dattour : DatTourBUS.dsTour) {
+			arr_noibatdau.add(dattour.getNoikhoihanh());
+			if(GetLoaiTour(dattour.getMatour()).equals("loai1")) {
+				arr_denTrongNuoc.add(dattour.getDiadiem());
+			}else {
+				arr_denNgoaiNuoc.add(dattour.getDiadiem());
+			}
+		}
 		
 	}
 	
-	public void initData2(ArrayList<DatTourDTO> tours) {
-		dattourBUS.docDSTour();
-		String [] colname= {"Mã Tour","Tên Tour","Mã KHT","Ngày đi","Ngày về","Số người","Giá vé"};
-		DefaultTableModel tableModel=new DefaultTableModel() {
-			 public boolean isCellEditable(int row,int col) {
-	                return false;
-	         }
-		};
-		tableModel.setColumnIdentifiers(colname);
-		table.setModel(tableModel);
-		table.getColumnModel().getColumn(1).setPreferredWidth(200);
-		table.getColumnModel().getColumn(5).setPreferredWidth(65);
-		table.getColumnModel().getColumn(6).setPreferredWidth(115);
-		
-		table.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 1) {
-//					HienThiTour();
-				}
-			}
-		});
-		for (DatTourDTO dattour : tours) {
-			tableModel.addRow(new Object[] { dattour.getMatour(), dattour.getTentour(), dattour.getMakht(),
-					dattour.getNgaydi().toString(), dattour.getNgayve().toString(), dattour.getSonguoi()+"",dattour.getGiatour()+"" 
-					
-			});
+	public void initData2(ArrayList<QlyToursDTO> tours) {
+		DefaultTableModel model_table = (DefaultTableModel) table.getModel();
+		String tenloai = null;
+		for (QlyToursDTO tour : tours) {
+			if(tour.getMaloai().equals("loai1")) tenloai = "Trong nước";
+			else tenloai = "Ngoài nước";
+			model_table.addRow(new Object[] { tour.getMatour(),tour.getTentour(), tenloai, tour.getSongay() + "",
+					tour.getNoikhoihanh(),tour.getNoiden() });
 		}
 	}
 	
@@ -615,33 +532,26 @@ public class DatTourGUI extends JFrame {
 			noiden=noiden_cb.getSelectedItem().toString();			
 		}
 //		System.out.println(ngaydi);
-		java.util.Date ngaydi_tmp=(java.util.Date) ngaydi_cb.getDate();
-		if(ngaydi_tmp!=null) {
-			ngaydi = new java.sql.Date(ngaydi_tmp.getTime());			
-		}
+//		java.util.Date ngaydi_tmp=(java.util.Date) ngaydi_cb.getDate();
+//		if(ngaydi_tmp!=null) {
+//			ngaydi = new java.sql.Date(ngaydi_tmp.getTime());			
+//		}
 		
-		 if(!tfSongay.getText().equals("")) {
-			 songay=Integer.parseInt(tfSongay.getText());			 
-		 }
-
-        if(!tfSonguoi.getText().equals("")) {
-        	songuoi=Integer.parseInt(tfSonguoi.getText());
-        }
+//        if(giave_cb.getSelectedItem() != null) {
+//			int stt = (int) giave_cb.getSelectedIndex();
+//			if(stt == 0) {
+//				giaveBD = 0;
+//				giaveKT = 1000000;
+//			}else if(stt == 1) {
+//				giaveBD = 1000000;
+//				giaveKT = 5000000;
+//			}else {
+//				giaveBD = 5000000;
+//				giaveKT = Integer.MAX_VALUE;
+//			}
+//		}
         
-        if(giave_cb.getSelectedItem() != null) {
-			int stt = (int) giave_cb.getSelectedIndex();
-			if(stt == 0) {
-				giaveBD = 0;
-				giaveKT = 1000000;
-			}else if(stt == 1) {
-				giaveBD = 1000000;
-				giaveKT = 5000000;
-			}else {
-				giaveBD = 5000000;
-				giaveKT = Integer.MAX_VALUE;
-			}
-		}
-        ArrayList<DatTourDTO> list = dattourBUS.LocTour(loaitour, noibatdau, noiden, ngaydi, songay, songuoi, giaveBD, giaveKT);
+        ArrayList<QlyToursDTO> list = dattourBUS.LocTour(loaitour, noibatdau, noiden, ngaydi, songay, songuoi, giaveBD, giaveKT);
         if(list == null) {
         	JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp");
         }else {
@@ -649,100 +559,6 @@ public class DatTourGUI extends JFrame {
         }
 	}
 	
-	
-	public ArrayList<DatTourDTO> Loc(){
-		ArrayList<DatTourDTO> locTheoLoai=new ArrayList<DatTourDTO>();
-		ArrayList<DatTourDTO> locTheoDiaDiem=new ArrayList<DatTourDTO>();
-		ArrayList<DatTourDTO> locTheoNgay=new ArrayList<DatTourDTO>();
-		ArrayList<DatTourDTO> locTheoSoNguoi=new ArrayList<DatTourDTO>();
-		ArrayList<DatTourDTO> locTheoGiaVe=new ArrayList<DatTourDTO>();
-		
-		String loaitour="";
-		if(loaitour_cb.getSelectedItem().toString().equals("Trong nước")) {
-			loaitour="loai1";
-		}else {
-			loaitour="loai2";
-		}
-		
-		
-		String noibatdau=noibatdau_cb.getSelectedItem().toString();
-		String noiden=noiden_cb.getSelectedItem().toString();
-		
-		java.util.Date ngaydi_tmp=(java.util.Date) ngaydi_cb.getDate();
-        java.sql.Date ngaydi=null;
-        
-        if(ngaydi_tmp!=null) {
-        	ngaydi=new java.sql.Date(ngaydi_tmp.getTime());
-        }
-        
-        int songay=0;
-        if(!tfSongay.getText().equals("")) {
-        	songay=Integer.parseInt(tfSongay.getText());
-        }
-        
-        int songuoi=0;
-        if(!tfSonguoi.getText().equals("")) {
-        	songuoi=Integer.parseInt(tfSonguoi.getText());
-        }
-        
-        
-        long giave=0;
-        if(giave_cb.getSelectedItem().toString() != null) {
-        	giave=Long.parseLong(giave_cb.getSelectedItem().toString());
-        }
-		
-		if(noibatdau.equals("Địa điểm")&&noiden.equals("Địa điểm")&&ngaydi==null&&songay==0&&songuoi==0&&giave==0) {
-			locTheoLoai.addAll(LocTheoLoai(loaitour));
-			return locTheoLoai;
-		}
-		
-		locTheoLoai.addAll(LocTheoLoai(loaitour));
-		
-		if(noibatdau.equals(noibatdau.equals("Địa điểm")&&noiden.equals("Địa điểm"))) {
-			locTheoDiaDiem.addAll(DatTourBUS.dsTour);
-		}else {
-			locTheoDiaDiem.addAll(LocTheoDiaDiem(noibatdau, noiden));
-		}
-		
-		if(ngaydi.equals(null)&&songay==0) {
-			locTheoNgay.addAll(DatTourBUS.dsTour);
-		}else {
-			locTheoNgay.addAll(LocTheoNgay(songay,ngaydi));
-		}
-		
-		if(songuoi==0) {
-			locTheoSoNguoi.addAll(DatTourBUS.dsTour);
-		}else {
-			locTheoSoNguoi.addAll(LocTheoSoNguoi(songuoi));
-		}
-		
-		if(giave==0) {
-			locTheoGiaVe.addAll(DatTourBUS.dsTour);
-		}else {
-			locTheoGiaVe.addAll(LocTheoGiaVe(giave));
-		}
-		
-		ArrayList<DatTourDTO> kqLoc = new ArrayList<>(locTheoLoai);
-        kqLoc.retainAll(locTheoDiaDiem);
-        kqLoc.retainAll(locTheoGiaVe);
-        kqLoc.retainAll(locTheoNgay);
-        kqLoc.retainAll(locTheoSoNguoi);
-        
-
-        System.out.println("Các phần tử chung: " + kqLoc);
-		
-		return kqLoc;
-	}
-	
-	public ArrayList<DatTourDTO> LocTheoDiaDiem(String noibatdau,String noiden){
-		ArrayList<DatTourDTO> dattour=new ArrayList<DatTourDTO>();
-		for(DatTourDTO t:DatTourBUS.dsTour) {
-			if(t.getNoikhoihanh().equals(noibatdau)||t.getDiadiem().equals(noiden)) {
-				dattour.add(t);
-			}
-		}
-		return dattour;
-	}
 	
 	public int getSoNgay(String matour) {
 		for(QlyToursDTO t:QlyToursBUS.tourDTO) {
@@ -762,54 +578,12 @@ public class DatTourGUI extends JFrame {
 		return null;
 	}
 	
-	public ArrayList<DatTourDTO> LocTheoLoai(String LoaiTour){
-		ArrayList<DatTourDTO> dattour=new ArrayList<DatTourDTO>();
-		for(DatTourDTO t:DatTourBUS.dsTour) {
-			if(getMaLoai(t.getMatour()).equals(LoaiTour)) {
-				dattour.add(t);
-			}
-		}
-		return dattour;
-	}
-	
-	public ArrayList<DatTourDTO> LocTheoNgay(int songay,Date ngaydi){
-		ArrayList<DatTourDTO> dattour=new ArrayList<DatTourDTO>();
-		for(DatTourDTO t:DatTourBUS.dsTour) {
-			if(getSoNgay(t.getMatour())<=songay||t.getNgaydi().equals(ngaydi)) {
-				dattour.add(t);
-			}
-		}
-		return dattour;
-	}
-	
-	public ArrayList<DatTourDTO> LocTheoSoNguoi(int songuoi){
-		ArrayList<DatTourDTO> dattour=new ArrayList<DatTourDTO>();
-		for(DatTourDTO t:DatTourBUS.dsTour) {
-			if(t.getSonguoi()<=songuoi) {
-				dattour.add(t);
-			}
-		}
-		return dattour;
-	}
-	
-	public ArrayList<DatTourDTO> LocTheoGiaVe(long giave){
-		ArrayList<DatTourDTO> dattour=new ArrayList<DatTourDTO>();
-		for(DatTourDTO t:DatTourBUS.dsTour) {
-			if(t.getGiatour()<=giave) {
-				dattour.add(t);
-			}
-		}
-		return dattour;
-	}
-	
 	public void Reset() {
 		loaitour_cb.setSelectedIndex(0);
 		noibatdau_cb.setSelectedIndex(0);
 		noiden_cb.setSelectedIndex(0);
-		ngaydi_cb.setDate(null);
-		tfSongay.setText("");
-		tfSonguoi.setText("");
-		giave_cb.setSelectedIndex(0);
+//		ngaydi_cb.setDate(null);
+//		giave_cb.setSelectedIndex(0);
 	}
 	
 	public void XoaDataTable() {

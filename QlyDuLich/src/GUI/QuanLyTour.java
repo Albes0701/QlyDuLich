@@ -52,11 +52,13 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.DatTourBUS;
 import BUS.KHToursBUS;
 import BUS.KhachHangBUS;
 import BUS.KiemTra;
 import BUS.QlyToursBUS;
 import BUS.taikhoanBUS;
+import DTO.DatTourDTO;
 import DTO.KHTourDTO;
 import DTO.QlyToursDTO;
 import java.awt.event.ItemEvent;
@@ -597,11 +599,12 @@ public class QuanLyTour extends JFrame {
 
 		textField_TimKiem = new JTextField();
 		textField_TimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		textField_TimKiem.setBounds(81, 3, 198, 25);
+		textField_TimKiem.setBounds(81, 3, 130, 25);
 		textField_TimKiem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String condition = textField_TimKiem.getText();
+				if(condition.isEmpty()) return;
 				String condType = (String) timkiem_cb.getSelectedItem();
 				ArrayList<QlyToursDTO> t = tourBUS.timkiem(condition, condType);
 				if (t == null) {
@@ -618,7 +621,7 @@ public class QuanLyTour extends JFrame {
 
 		String[] arr_timkiem = { "Mã Tour", "Số ngày", "Nơi đến" };
 		timkiem_cb = new JComboBox(arr_timkiem);
-		timkiem_cb.setBounds(280, 3, 84, 25);
+		timkiem_cb.setBounds(221, 3, 84, 25);
 		panel_3.add(timkiem_cb);
 
 		Panel panel_1 = new Panel();
@@ -717,7 +720,6 @@ public class QuanLyTour extends JFrame {
 		thoat_btn.setEnabled(false);
 		thoat_btn.setBackground(Color.gray);
 		textField_MaTour.setEditable(false);
-		comboBox_LoaiTour.setEditable(false);
 		tentour_tf.setEditable(false);
 		songay_tf.setEditable(false);
 		khoihanh_cb.setEditable(false);
@@ -821,6 +823,7 @@ public class QuanLyTour extends JFrame {
 
 	public QlyToursDTO getTourDaChon() {
 		int row = table_Tours.getSelectedRow();
+		if(row == -1) return null;
 		DefaultTableModel model_table = (DefaultTableModel) table_Tours.getModel();
 		String matour = model_table.getValueAt(row, 0) + "";
 		String tentour = model_table.getValueAt(row, 1) + "";
@@ -861,4 +864,5 @@ public class QuanLyTour extends JFrame {
 		}
 		return true;
 	}
+	
 }

@@ -100,7 +100,7 @@ public class DatTourBUS {
 		return tennh;
 	}
 
-	public ArrayList<DatTourDTO> LocTour(String loaitour,String noiBD, String noiDen,java.sql.Date ngayDi, int soNgay, int soNguoi, int giaVeBD, int giaveKT){
+	public ArrayList<QlyToursDTO> LocTour(String loaitour,String noiBD, String noiDen,java.sql.Date ngayDi, int soNgay, int soNguoi, int giaVeBD, int giaveKT){
 		return DatTourDAO.getIntance().getLoc(loaitour, noiBD, noiDen, ngayDi, soNgay, soNguoi, giaVeBD, giaveKT);
 	}
 	

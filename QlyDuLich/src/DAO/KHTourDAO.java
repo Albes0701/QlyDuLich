@@ -19,7 +19,7 @@ public class KHTourDAO {
 		try {
 			Connection con=JDBCUtil.getConnection();
 			Statement st=con.createStatement();
-			String sql="select * from kehoachtour where tinhtrang = 1";
+			String sql="select * from kehoachtour where tinhtrang = 1 order by giave";
 			ResultSet rs=st.executeQuery(sql);
 			while(rs.next()) {
 				String makht=rs.getString("makht");

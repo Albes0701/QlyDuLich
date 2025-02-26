@@ -52,6 +52,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -721,7 +723,7 @@ public class NhanVien extends JFrame{
 		btn_import.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				File f = openFile();
-//				readFile(f);
+				readFile(f);
 			}
 		});
 		btn_import.setForeground(Color.WHITE);
@@ -842,42 +844,42 @@ public class NhanVien extends JFrame{
 		}
 	}
 //	
-//	private void readFile(File file) {
-//		FileInputStream fis = null;
-//        XSSFWorkbook wb = null;
-//        try {
-//			fis = new FileInputStream(file);
-//			 wb = new XSSFWorkbook(fis);
-//			 XSSFSheet sheet = wb.getSheetAt(0);
-//			 XSSFFormulaEvaluator formul = wb.getCreationHelper().createFormulaEvaluator();
-//			 int rowTitle = 0;
-//			 ArrayList <NhanVienDTO> listNV = new ArrayList<>();
-//			 for(Row row: sheet) {
-//				 if(rowTitle++ == 0) continue;
-//				 NhanVienDTO nv = new NhanVienDTO();
-//				 nv.setManv(row.getCell(0).getStringCellValue());
-//				 nv.setHonv(row.getCell(1).getStringCellValue());
-//				 nv.setTennv(row.getCell(2).getStringCellValue());
-//				 nv.setSdt(row.getCell(3).getStringCellValue());
-//				 nv.setCmnd(row.getCell(4).getStringCellValue());
-//				 nv.setNgayvl(KiemTra.getInstance().toDate(row.getCell(5).getStringCellValue()));
-//				 nv.setNgaysinh(KiemTra.getInstance().toDate(row.getCell(6).getStringCellValue()));
-//				 nv.setGioitinh(KiemTra.getInstance().GioiTinh(row.getCell(7).getStringCellValue()));
-//				 listNV.add(nv);
-//			 }
-//			 if(nvBUS.themDSNV(listNV)== -1) {
-//				JOptionPane.showMessageDialog(null, "Thêm dữ liệu từ Excel thất bại"); 
-//			 }else {
-//				 JOptionPane.showMessageDialog(null, "Thêm dữ liệu từ Excel thành công"); 
-//				 resetTable();
-//				 initArrayList();
-//			 }
-//			 
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			e.printStackTrace();
-//		}
-//    }
+	private void readFile(File file) {
+		FileInputStream fis = null;
+        XSSFWorkbook wb = null;
+        try {
+			fis = new FileInputStream(file);
+			 wb = new XSSFWorkbook(fis);
+			 XSSFSheet sheet = wb.getSheetAt(0);
+			 XSSFFormulaEvaluator formul = wb.getCreationHelper().createFormulaEvaluator();
+			 int rowTitle = 0;
+			 ArrayList <NhanVienDTO> listNV = new ArrayList<>();
+			 for(Row row: sheet) {
+				 if(rowTitle++ == 0) continue;
+				 NhanVienDTO nv = new NhanVienDTO();
+				 nv.setManv(TaoMaNV());
+				 nv.setHonv(row.getCell(0).getStringCellValue());
+				 nv.setTennv(row.getCell(1).getStringCellValue());
+				 nv.setSdt(row.getCell(2).getStringCellValue());
+				 nv.setCmnd(row.getCell(3).getStringCellValue());
+				 nv.setNgayvl(KiemTra.getInstance().toDate(row.getCell(4).getStringCellValue()));
+				 nv.setNgaysinh(KiemTra.getInstance().toDate(row.getCell(5).getStringCellValue()));
+				 nv.setGioitinh(KiemTra.getInstance().GioiTinh(row.getCell(6).getStringCellValue()));
+				 listNV.add(nv);
+			 }
+			 if(nvBUS.themDSNV(listNV)== -1) {
+				JOptionPane.showMessageDialog(null, "Thêm dữ liệu từ Excel thất bại"); 
+			 }else {
+				 JOptionPane.showMessageDialog(null, "Thêm dữ liệu từ Excel thành công"); 
+				 resetTable();
+				 initArrayList();
+			 }
+			 
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    }
 	
 	public NhanVienDTO getSelectedNhanVien() {
 		int row = table_NhanVien.getSelectedRow();
