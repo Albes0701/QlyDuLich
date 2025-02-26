@@ -184,7 +184,7 @@ public class UpdateKHT extends JFrame {
 					JOptionPane.showMessageDialog(null, "Bạn chưa cập nhật số người!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 				}else {
 					String date=cb_ngay.getSelectedItem().toString();
-					double sum=0;
+					long sum=0;
 					for(CTKHT_DTO ct:ChiTietKHT_BUS.ctkhtList) {
 						if(convertDateToString(ct.getNgay()).equals(date) && ct.getMakht().equals(kht_moi.getMakht())) {
 							KhachSanDTO ksan=GetKhachSan(cb_khachsan.getSelectedItem().toString());
@@ -197,12 +197,12 @@ public class UpdateKHT extends JFrame {
 							ct.setManh(nhahang.getMaso());
 							ct.setMapt(ptien.getMaso());
 							ct_bus.sua(ct);
-							sum=sum+ct.getThanhtienKS()+ct.getThanhtienNH()+ct.getThanhtienPT();
+							sum=(long) (sum+ct.getThanhtienKS()+ct.getThanhtienNH()+ct.getThanhtienPT());
 						}
 					}
 					
-					kht_moi.setTongchi((long) sum);
-					kht_moi.setGiave(kht_moi.getTongchi()*130/100);
+					kht_moi.setTongchi((long) sum*kht_moi.getSonguoidukien());
+					kht_moi.setGiave(sum*130/100);
 					kht_bus.sua(kht_moi, kht_moi.getMakht());
 					dt_bus.suaDatTour(kht_moi);
 					JOptionPane.showMessageDialog(null, "Bạn đã cập nhật thành công!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -267,8 +267,6 @@ public class UpdateKHT extends JFrame {
 					JOptionPane.showMessageDialog(null, "Số người vượt quá giới hạn!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 				}else {
 					songuoi=Integer.parseInt(tf_songuoi.getText());
-					kht_cu.setSonguoi(kht_cu.getSonguoi()-songuoi);
-					kht_cu.setSonguoidukien(kht_cu.getSonguoidukien()-songuoi);
 					kht_moi.setSonguoi(songuoi);
 					kht_moi.setSonguoidukien(songuoi);
 					kht_bus.sua(kht_cu, kht_cu.getMakht());
