@@ -713,6 +713,7 @@ public class Ve extends JFrame {
 		btnNewButton_Thoat.setBounds(229, 173, 119, 26);
 		btnNewButton_Thoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new DatKHTGUI(tourduocchon.getMatour());
 				setVisible(false);
 //				DatTourGUI dt = new DatTourGUI();
 //				dt.btn_DatTour.setBackground(Color.ORANGE);

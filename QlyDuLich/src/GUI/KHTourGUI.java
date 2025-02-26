@@ -462,6 +462,7 @@ public class KHTourGUI extends JFrame {
                 calendar.setTime(sqlDate);
                 calendar.add(Calendar.DAY_OF_MONTH, getTour((String) cbMatour.getSelectedItem()).getSongay()-1);
                 ngayve_date.setDate(calendar.getTime());
+//                ngayve_date.setEnabled(false);
 				
 			}
 		});
@@ -554,6 +555,7 @@ public class KHTourGUI extends JFrame {
 		panel_2.add(ngayve_lb);
 		
 		ngayve_date = new JDateChooser();
+		ngayve_date.setEnabled(false);
 		ngayve_date.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		ngayve_date.setBounds(10, 404, 190, 35);
 		panel_2.add(ngayve_date);
@@ -637,6 +639,7 @@ public class KHTourGUI extends JFrame {
 		panel_2.add(giave_lb);
 		
 		tfGiaVe = new JTextField("");
+		tfGiaVe.setEnabled(false);
 		tfGiaVe.setText("0");
 		tfGiaVe.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		tfGiaVe.setColumns(10);
@@ -1419,8 +1422,6 @@ public class KHTourGUI extends JFrame {
 		tfMaKHT.setEditable(false);
 		textAreaMoTa.setEditable(false);
 		cbSoCho.setEnabled(false);
-		ngaydi_date.setEnabled(false);
-		ngayve_date.setEnabled(false);
 		tfHuongDanVien.setEditable(false);
 		tfGiaVe.setEditable(false);
 		textArea_mota.setEditable(false);
@@ -1482,7 +1483,8 @@ public class KHTourGUI extends JFrame {
         java.sql.Date ngayve=new java.sql.Date(ngayve_tmp.getTime());
 				
 		int songuoi=Integer.parseInt(cbSoCho.getSelectedItem().toString().trim());
-		long giave=Long.parseLong(tfGiaVe.getText());
+//		long giave=Long.parseLong(tfGiaVe.getText());
+		long giave=0;
 		String huongdanvien=tfHuongDanVien.getText();
 		//long tongchi=Long.parseLong(tfTongChi.getText());
 		long tongchi=0;
@@ -1538,7 +1540,7 @@ public class KHTourGUI extends JFrame {
         kht.setNgayve(ngayve);
         
         kht.setHuongdanvien(tfHuongDanVien.getText());
-        kht.setGiave(Long.parseLong(tfGiaVe.getText()));
+//        kht.setGiave(Long.parseLong(tfGiaVe.getText()));
         
 //        String anh1_path_new="";
 //		String anh2_path_new="";

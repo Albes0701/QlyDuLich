@@ -92,6 +92,7 @@ public class DatKHTGUI extends JFrame {
 	private JTextField textField;
 	KHToursBUS khtBUS=new KHToursBUS();
 	ChiTietKHT_BUS ctkhtBUS=new ChiTietKHT_BUS();
+	DatTourBUS dt_bus=new DatTourBUS();
 	private JTable table;
 	JTextArea textArea_mota;
 	JLabel hinh1_lb;
@@ -264,6 +265,7 @@ public class DatKHTGUI extends JFrame {
 //				setVisible(false);
 				Ve ve = new Ve(tourduocchon);
 				ve.setSize(1000, 780);
+				setVisible(false);
 			}
 		});
 		btnNewButton.setForeground(Color.WHITE);
@@ -277,38 +279,46 @@ public class DatKHTGUI extends JFrame {
 		btnCpNht = new JButton("Cập nhật");
 		btnCpNht.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(GetKHTDaChon()!=null) {
-					KHTourDTO kht_new=new KHTourDTO();
-					KHToursBUS bus=new KHToursBUS();
-					ChiTietKHT_BUS ct_bus=new ChiTietKHT_BUS();
-					String makht_cu=GetKHTDaChon().getMakht();
-					kht_new.copyKHT(GetKHTDaChon());
-					kht_new.setMakht(generateRandomString());
-					kht_new.setSonguoi(0);
-					bus.themKHT(kht_new);
-					// Không nên thêm trực tiếp -> tạo mảng phụ lưu trc r ms update sau
-					
-					ArrayList<CTKHT_DTO> ctkht_list=new ArrayList<CTKHT_DTO>();
-					
-					
-					for(CTKHT_DTO t:ChiTietKHT_BUS.ctkhtList) {
-						if(t.getMakht().equals(makht_cu)) {
-							CTKHT_DTO ct=new CTKHT_DTO();
-							ct.copyCTKHT(t);
-							ct.setMakht(kht_new.getMakht());
-							ctkht_list.add(ct);
-						}
-					}
-					
-					for(CTKHT_DTO ct:ctkht_list) {
-						ct_bus.them(ct);
-					}
-					
-					
-					new UpdateKHT(DatKHTGUI.this,kht_new,makht_cu);
-				}else {
-					JOptionPane.showMessageDialog(null, "Bạn chưa chọn kế hoạch tour!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				int row = table.getSelectedRow();
+				if(row==-1) {
+					JOptionPane.showMessageDialog(panel, "Bạn chưa chọn Kế hoạch tour.");
+					return;
 				}
+				if(GetKHTDaChon()!= null) {
+					int result = JOptionPane.showConfirmDialog(null, "Bạn có muốn cập nhật kế hoạch tour??? " + GetKHTDaChon().getMakht(),"Xác nhận",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+					if(result == JOptionPane.YES_OPTION) {
+						KHTourDTO kht_new=new KHTourDTO();
+						KHToursBUS bus=new KHToursBUS();
+						DatTourBUS dt_bus=new DatTourBUS();
+						ChiTietKHT_BUS ct_bus=new ChiTietKHT_BUS();
+						String makht_cu=GetKHTDaChon().getMakht();
+						kht_new.copyKHT(GetKHTDaChon());
+						kht_new.setMakht(generateRandomString());
+						kht_new.setSonguoi(0);
+						bus.themKHT(kht_new);
+						
+						// Không nên thêm trực tiếp -> tạo mảng phụ lưu trc r ms update sau
+						
+						ArrayList<CTKHT_DTO> ctkht_list=new ArrayList<CTKHT_DTO>();
+						
+						
+						for(CTKHT_DTO t:ChiTietKHT_BUS.ctkhtList) {
+							if(t.getMakht().equals(makht_cu)) {
+								CTKHT_DTO ct=new CTKHT_DTO();
+								ct.copyCTKHT(t);
+								ct.setMakht(kht_new.getMakht());
+								ctkht_list.add(ct);
+							}
+						}
+						
+						for(CTKHT_DTO ct:ctkht_list) {
+							ct_bus.them(ct);
+						}
+						
+						dt_bus.themDatTour(kht_new);
+						new UpdateKHT(DatKHTGUI.this,kht_new,makht_cu);
+					}
+				}else JOptionPane.showMessageDialog(null,"Chưa chọn kế hoạch tour");
 			}
 		});
 		btnCpNht.setForeground(Color.WHITE);
@@ -327,6 +337,7 @@ public class DatKHTGUI extends JFrame {
 		this.setVisible(true);
 	}
 	public void initData() {
+		dt_bus.docDSTour();
 		String [] colname= {"Mã kế hoạch Tour","Ngày đi","Ngày về","Số người/Dự kiến","Giá vé"};
 		DefaultTableModel tableModel=new DefaultTableModel() {
 			 public boolean isCellEditable(int row,int col) {
@@ -423,9 +434,11 @@ public class DatKHTGUI extends JFrame {
 		int row = table.getSelectedRow();
 		DefaultTableModel model_table = (DefaultTableModel) table.getModel();
 		String makht = model_table.getValueAt(row, 0) + "";
-		for(DatTourDTO dattour:DatTourBUS.dsTour) {
-			if(dattour.getMakht().equals(makht)) {
-				return dattour;
+		if(makht!=null) {
+			for(DatTourDTO dattour:DatTourBUS.dsTour) {
+				if(dattour.getMakht().equals(makht)) {
+					return dattour;
+				}
 			}
 		}
 		return null;
@@ -476,35 +489,35 @@ public class DatKHTGUI extends JFrame {
         return "nd" + number + char1 + char2;
     }
 	
-//	public void selectRowByColumnValue(String valueToFind) {
-//        DefaultTableModel model = (DefaultTableModel) table.getModel();
-//        int columnIndex = -1;
-//        String columnName="Mã KHT";
-//
-//        // Tìm chỉ mục của cột dựa vào tên cột
-//        for (int i = 0; i < model.getColumnCount(); i++) {
-//            if (model.getColumnName(i).equals(columnName)) {
-//                columnIndex = i;
-//                break;
-//            }
-//        }
-//
-//        if (columnIndex == -1) {
-//            System.out.println("Không tìm thấy cột: " + columnName);
-//            return;
-//        }
-//
-//        // Lặp qua tất cả các dòng để tìm giá trị
-//        for (int i = 0; i < model.getRowCount(); i++) {
-//            if (model.getValueAt(i, columnIndex).equals(valueToFind)) {
-//                table.setRowSelectionInterval(i, i); // Chọn dòng
-//                table.scrollRectToVisible(table.getCellRect(i, 0, true)); // Cuộn tới dòng được chọn
+	public void selectRowByColumnValue(String valueToFind) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int columnIndex = -1;
+        String columnName="Mã kế hoạch Tour";
+
+        // Tìm chỉ mục của cột dựa vào tên cột
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            if (model.getColumnName(i).equals(columnName)) {
+                columnIndex = i;
+                break;
+            }
+        }
+
+        if (columnIndex == -1) {
+            System.out.println("Không tìm thấy cột: " + columnName);
+            return;
+        }
+
+        // Lặp qua tất cả các dòng để tìm giá trị
+        for (int i = 0; i < model.getRowCount(); i++) {
+            if (model.getValueAt(i, columnIndex).equals(valueToFind)) {
+                table.setRowSelectionInterval(i, i); // Chọn dòng
+                table.scrollRectToVisible(table.getCellRect(i, 0, true)); // Cuộn tới dòng được chọn
 //                System.out.println("Đã chọn dòng: " + i);
 //                HienThiTour();
-//                return;
-//            }
-//        }
-//
-//        System.out.println("Không tìm thấy giá trị: " + valueToFind);
-//    }
+                return;
+            }
+        }
+
+        System.out.println("Không tìm thấy giá trị: " + valueToFind);
+    }
 }

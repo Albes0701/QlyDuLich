@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import BUS.ChiTietKHT_BUS;
+import BUS.DatTourBUS;
 import BUS.DichVuBUS;
 import BUS.KHToursBUS;
 import BUS.KhachHangBUS;
@@ -58,6 +59,8 @@ public class UpdateKHT extends JFrame {
 	private int songuoi=0;
 	private ChiTietKHT_BUS ct_bus=new ChiTietKHT_BUS();
 	private KHToursBUS kht_bus=new KHToursBUS();
+	private DatTourBUS dt_bus=new DatTourBUS();
+	private JLabel lblTenks,lblTenNhaHang,lblTenPhuongTien;
 	/**
 	 * Launch the application.
 	 */
@@ -119,13 +122,14 @@ public class UpdateKHT extends JFrame {
 			arrMaKS.add(ks.getMaso());
 		}
 		JComboBox cb_khachsan = new JComboBox(arrMaKS.toArray());
-		cb_khachsan.setBounds(136, 44, 224, 34);
+		cb_khachsan.setBounds(136, 44, 115, 34);
 		cb_khachsan.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				KhachSanDTO ks=GetKhachSan(cb_khachsan.getSelectedItem().toString());
 				lbl_giakhachsan.setText(formatCurrency(ks.getGiaca()));
+				lblTenks.setText(ks.getTendv());
 				
 			}
 		});
@@ -136,14 +140,14 @@ public class UpdateKHT extends JFrame {
 			arrMaNH.add(ks.getMaso());
 		}
 		JComboBox cb_nhahang = new JComboBox(arrMaNH.toArray());
-		cb_nhahang.setBounds(136, 103, 224, 34);
+		cb_nhahang.setBounds(136, 103, 115, 34);
 		cb_nhahang.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				NhaHangDTO nh=GetNhaHang(cb_nhahang.getSelectedItem().toString());
 				lbl_gianhahang.setText(formatCurrency(nh.getGiaca()));
-				
+				lblTenNhaHang.setText(nh.getTendv());
 			}
 		});
 		panel_func.add(cb_nhahang);
@@ -153,13 +157,13 @@ public class UpdateKHT extends JFrame {
 			arrMaPT.add(ks.getMaso());
 		}
 		JComboBox cb_phuongtien = new JComboBox(arrMaPT.toArray());
-		cb_phuongtien.setBounds(136, 164, 224, 34);
+		cb_phuongtien.setBounds(136, 164, 115, 34);
 		cb_phuongtien.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				PhuongTienDTO pt=GetPhuongTien(cb_phuongtien.getSelectedItem().toString());
 				lbl_giaphuongtien.setText(formatCurrency(pt.getGiaca()));
-				
+				lblTenPhuongTien.setText(pt.getTendv());
 			}
 		});
 		panel_func.add(cb_phuongtien);
@@ -183,9 +187,15 @@ public class UpdateKHT extends JFrame {
 					double sum=0;
 					for(CTKHT_DTO ct:ChiTietKHT_BUS.ctkhtList) {
 						if(convertDateToString(ct.getNgay()).equals(date) && ct.getMakht().equals(kht_moi.getMakht())) {
-							ct.setThanhtienKS(GetKhachSan(cb_khachsan.getSelectedItem().toString()).getGiaca());
-							ct.setThanhtienNH(GetNhaHang(cb_nhahang.getSelectedItem().toString()).getGiaca());
-							ct.setThanhtienPT(GetPhuongTien(cb_phuongtien.getSelectedItem().toString()).getGiaca());
+							KhachSanDTO ksan=GetKhachSan(cb_khachsan.getSelectedItem().toString());
+							NhaHangDTO nhahang=GetNhaHang(cb_nhahang.getSelectedItem().toString());
+							PhuongTienDTO ptien=GetPhuongTien(cb_phuongtien.getSelectedItem().toString());
+							ct.setThanhtienKS(ksan.getGiaca());
+							ct.setThanhtienNH(nhahang.getGiaca());
+							ct.setThanhtienPT(ptien.getGiaca());
+							ct.setMaks(ksan.getMaso());
+							ct.setManh(nhahang.getMaso());
+							ct.setMapt(ptien.getMaso());
 							ct_bus.sua(ct);
 							sum=sum+ct.getThanhtienKS()+ct.getThanhtienNH()+ct.getThanhtienPT();
 						}
@@ -194,9 +204,10 @@ public class UpdateKHT extends JFrame {
 					kht_moi.setTongchi((long) sum);
 					kht_moi.setGiave(kht_moi.getTongchi()*130/100);
 					kht_bus.sua(kht_moi, kht_moi.getMakht());
+					dt_bus.suaDatTour(kht_moi);
 					JOptionPane.showMessageDialog(null, "Bạn đã cập nhật thành công!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 					dattour.initData();
-//					dattour.selectRowByColumnValue(kht_moi.getMakht());
+					dattour.selectRowByColumnValue(kht_moi.getMakht());
 				}
 				
 				
@@ -226,26 +237,26 @@ public class UpdateKHT extends JFrame {
 		
 		JLabel lblNewLabel_1_3 = new JLabel("Giá tiền");
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_1_3.setBounds(490, 6, 66, 29);
+		lblNewLabel_1_3.setBounds(507, 6, 66, 29);
 		panel_func.add(lblNewLabel_1_3);
 		
 		
 		lbl_giakhachsan = new JLabel(formatCurrency(GetKhachSan(arrMaKS.toArray()[0].toString()).getGiaca()));
 		lbl_giakhachsan.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_giakhachsan.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbl_giakhachsan.setBounds(411, 45, 224, 29);
+		lbl_giakhachsan.setBounds(432, 45, 224, 29);
 		panel_func.add(lbl_giakhachsan);
 		
 		lbl_gianhahang = new JLabel(formatCurrency(GetNhaHang(arrMaNH.toArray()[0].toString()).getGiaca()));
 		lbl_gianhahang.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_gianhahang.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbl_gianhahang.setBounds(411, 104, 224, 29);
+		lbl_gianhahang.setBounds(432, 104, 224, 29);
 		panel_func.add(lbl_gianhahang);
 		
 		lbl_giaphuongtien = new JLabel(formatCurrency(GetPhuongTien(arrMaPT.toArray()[0].toString()).getGiaca()));
 		lbl_giaphuongtien.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_giaphuongtien.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lbl_giaphuongtien.setBounds(411, 169, 224, 29);
+		lbl_giaphuongtien.setBounds(432, 169, 224, 29);
 		panel_func.add(lbl_giaphuongtien);
 		
 		JButton btn_xacnhan = new JButton("Xác nhận");
@@ -257,7 +268,9 @@ public class UpdateKHT extends JFrame {
 				}else {
 					songuoi=Integer.parseInt(tf_songuoi.getText());
 					kht_cu.setSonguoi(kht_cu.getSonguoi()-songuoi);
+					kht_cu.setSonguoidukien(kht_cu.getSonguoidukien()-songuoi);
 					kht_moi.setSonguoi(songuoi);
+					kht_moi.setSonguoidukien(songuoi);
 					kht_bus.sua(kht_cu, kht_cu.getMakht());
 					kht_bus.sua(kht_moi, kht_moi.getMakht());
 					JOptionPane.showMessageDialog(null, "Cập nhật số người thành công!!!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -268,8 +281,26 @@ public class UpdateKHT extends JFrame {
 			}
 		});
 		btn_xacnhan.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btn_xacnhan.setBounds(451, 206, 105, 25);
+		btn_xacnhan.setBounds(235, 208, 105, 25);
 		panel_func.add(btn_xacnhan);
+		
+		lblTenks = new JLabel("Tên khách sạn");
+		lblTenks.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTenks.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTenks.setBounds(261, 45, 161, 29);
+		panel_func.add(lblTenks);
+		
+		lblTenNhaHang = new JLabel("Tên nhà hàng");
+		lblTenNhaHang.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTenNhaHang.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTenNhaHang.setBounds(261, 104, 161, 29);
+		panel_func.add(lblTenNhaHang);
+		
+		lblTenPhuongTien = new JLabel("Tên phương tiện");
+		lblTenPhuongTien.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTenPhuongTien.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblTenPhuongTien.setBounds(261, 164, 161, 29);
+		panel_func.add(lblTenPhuongTien);
 		
 		String item[] = {"Mã số","Họ tên","Tên"};
 		String[] colname =  {"Mã kh","Họ","Tên","Giới tính","Địa chỉ","Số điện thoại","Email","Ngày sinh"};
@@ -361,7 +392,4 @@ public class UpdateKHT extends JFrame {
             return 0; // Trả về 0 nếu có lỗi
         }
     }
-	
-	
-
 }
