@@ -692,7 +692,6 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 				thanhtienks=ks.getGiaca()*Integer.parseInt(tfSonguoi.getText());
 				tfTongTien.setText((thanhtienks+thanhtiennh+thanhtienpt)+"");
 				System.out.println("Khach san :"+thanhtienks+" "+thanhtiennh+" "+thanhtienpt);
-				
 			}
 		});
 		panel_2.add(cbKhachSan);

@@ -72,7 +72,7 @@ public class ChiTietKHT_BUS {
 			for(KHTourDTO kht:KHToursBUS.khtList) {
 				if(kht.getMakht().equals(t.getMakht())) {
 					kht.setTongchi((long) tongchi);
-					kht.setGiave((long)tongchi*130/100);	
+					kht.setGiave((long)tongchi*130/100/kht.getSonguoidukien());	
 					kht_bus.sua(kht, kht.getMakht());
 				}
 			}
@@ -121,7 +121,7 @@ public class ChiTietKHT_BUS {
 			for(KHTourDTO kht:KHToursBUS.khtList) {
 				if(kht.getMakht().equals(t.getMakht())) {
 					kht.setTongchi((long) tongchi);
-					kht.setGiave((long)tongchi*130/100);
+					kht.setGiave((long)tongchi*130/100/kht.getSonguoidukien());
 					kht_bus.sua(kht, kht.getMakht());
 				}
 			}
