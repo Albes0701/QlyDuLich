@@ -51,6 +51,12 @@ import javax.swing.border.BevelBorder;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,17 +66,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.util.Random;
+//
+//import org.apache.poi.ss.usermodel.Cell;
+//import org.apache.poi.ss.usermodel.CellType;
+//import org.apache.poi.ss.usermodel.DataFormatter;
+//import org.apache.poi.ss.usermodel.Row;
+//import org.apache.poi.ss.usermodel.Sheet;
+//import org.apache.poi.ss.usermodel.Workbook;
+//import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
+//import org.apache.poi.xssf.usermodel.XSSFRow;
+//import org.apache.poi.xssf.usermodel.XSSFSheet;
+//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.toedter.calendar.JCalendar;
 
@@ -306,6 +313,7 @@ public class NhanVien extends JFrame{
 		panel_2.add(lblNewLabel_2);
 		
 		textField_MSNV = new JTextField();
+		textField_MSNV.setEnabled(false);
 		textField_MSNV.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -461,7 +469,7 @@ public class NhanVien extends JFrame{
 					if(checkNull()) {
 						JOptionPane.showMessageDialog(null, "Vui long dien du thong tin","ERROR",JOptionPane.INFORMATION_MESSAGE);
 						return;
-					}
+					}else if(!checkValidate()) return;
 					themNV();
 					resetTable();
 					initArrayList();
@@ -471,7 +479,7 @@ public class NhanVien extends JFrame{
 					if(getSelectedNhanVien() == null) {
 						JOptionPane.showMessageDialog(null, "Chưa chọn nhân viên");
 						return;
-					}
+					}else if(!checkValidate()) return;
 					suaNV();
 					resetTable();
 					initArrayList();
@@ -576,8 +584,8 @@ public class NhanVien extends JFrame{
 		table_NhanVien.setModel(tableModel);
 		tableModel.setColumnIdentifiers(colname);
 		scrollPane_2.setViewportView(table_NhanVien);
-		table_NhanVien.getColumnModel().getColumn(0).setPreferredWidth(30);
-		table_NhanVien.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table_NhanVien.getColumnModel().getColumn(0).setPreferredWidth(50);
+		table_NhanVien.getColumnModel().getColumn(1).setPreferredWidth(130);
 		table_NhanVien.getColumnModel().getColumn(2).setPreferredWidth(50);
 		table_NhanVien.getColumnModel().getColumn(3).setPreferredWidth(30);
 //		table_NhanVien.getColumnModel().getColumn(4).setPreferredWidth(123);
@@ -653,7 +661,7 @@ public class NhanVien extends JFrame{
 		them_btn = new JButton("Thêm");
 		them_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField_MSNV.requestFocusInWindow();
+				textField_HoNV.requestFocusInWindow();
 				luu_btn.setEnabled(true);
 				luu_btn.setBackground(Color.orange);
 				thoat_btn.setEnabled(true);
@@ -835,7 +843,7 @@ public class NhanVien extends JFrame{
 			// TODO: handle exception
 		}
 	}
-	
+//	
 	private void readFile(File file) {
 		FileInputStream fis = null;
         XSSFWorkbook wb = null;
@@ -849,14 +857,14 @@ public class NhanVien extends JFrame{
 			 for(Row row: sheet) {
 				 if(rowTitle++ == 0) continue;
 				 NhanVienDTO nv = new NhanVienDTO();
-				 nv.setManv(row.getCell(0).getStringCellValue());
-				 nv.setHonv(row.getCell(1).getStringCellValue());
-				 nv.setTennv(row.getCell(2).getStringCellValue());
-				 nv.setSdt(row.getCell(3).getStringCellValue());
-				 nv.setCmnd(row.getCell(4).getStringCellValue());
-				 nv.setNgayvl(KiemTra.getInstance().toDate(row.getCell(5).getStringCellValue()));
-				 nv.setNgaysinh(KiemTra.getInstance().toDate(row.getCell(6).getStringCellValue()));
-				 nv.setGioitinh(KiemTra.getInstance().GioiTinh(row.getCell(7).getStringCellValue()));
+				 nv.setManv(TaoMaNV());
+				 nv.setHonv(row.getCell(0).getStringCellValue());
+				 nv.setTennv(row.getCell(1).getStringCellValue());
+				 nv.setSdt(row.getCell(2).getStringCellValue());
+				 nv.setCmnd(row.getCell(3).getStringCellValue());
+				 nv.setNgayvl(KiemTra.getInstance().toDate(row.getCell(4).getStringCellValue()));
+				 nv.setNgaysinh(KiemTra.getInstance().toDate(row.getCell(5).getStringCellValue()));
+				 nv.setGioitinh(KiemTra.getInstance().GioiTinh(row.getCell(6).getStringCellValue()));
 				 listNV.add(nv);
 			 }
 			 if(nvBUS.themDSNV(listNV)== -1) {
@@ -913,7 +921,7 @@ public class NhanVien extends JFrame{
 	public void initArrayList() {
 		for(NhanVienDTO nv: NhanVienBUS.nvDTO) {
 			tableModel.addRow(new Object[]{
-				nv.getManv().toUpperCase(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
+				nv.getManv(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
 			});
 		}
 		
@@ -928,7 +936,7 @@ public class NhanVien extends JFrame{
 	public void initArrayList(ArrayList<NhanVienDTO> t) {
 		for(NhanVienDTO nv: t) {
 			tableModel.addRow(new Object[]{
-				nv.getManv().toUpperCase(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
+				nv.getManv(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
 			});
 		}
 		
@@ -944,7 +952,7 @@ public class NhanVien extends JFrame{
 //		if(nvBUS.docNV()) {
 			for(NhanVienDTO nv: NhanVienBUS.nvDTO) {
 				tableModel.addRow(new Object[]{
-					nv.getManv().toUpperCase(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
+					nv.getManv(),nv.getHonv(),nv.getTennv(),KiemTra.getInstance().GioiTinh(nv.getGioitinh()),nv.getSdt(),nv.getCmnd(),nv.getNgaysinh()+"",nv.getNgayvl()+""
 				});
 			
 		}
@@ -958,16 +966,29 @@ public class NhanVien extends JFrame{
 		}
 //	}
 	public boolean checkNull() {
-		if(this.textField_MSNV.getText().isEmpty() || this.textField_HoNV.getText().isEmpty() || this.textField_TenNV.getText().isEmpty() 
+		if(this.textField_HoNV.getText().isEmpty() || this.textField_TenNV.getText().isEmpty() 
 				|| this.textField_CMND.getText().isEmpty()|| this.textField_SDT.getText().isEmpty() || this.dateChooser_NgaySinh.getDate()==null) 
 		{
 			return true;
 		}
 		return false;
 	}
+	public String TaoMaNV() {
+		int max=1000,min=0;
+		int randNum=(int) ((Math.random() * (max - min)) + min);
+		Random random = new Random();
+        StringBuilder randomLetters = new StringBuilder();
+
+        for (int i = 0; i < 3; i++) {
+            char randomChar = (char) (random.nextInt(26) + 'a');
+            randomLetters.append(randomChar);
+        }
+		return "nv"+randomLetters.toString()+randNum;
+	}
+	
 	public void themNV() {
 		NhanVienDTO nv = new NhanVienDTO();
-		nv.setManv(this.textField_MSNV.getText());
+		nv.setManv(TaoMaNV());
 		nv.setHonv(this.textField_HoNV.getText());
 		nv.setTennv(this.textField_TenNV.getText());
 		Boolean gioitinh = KiemTra.getInstance().GioiTinh(this.comboBox_GioiTinh.getSelectedItem()+"");
@@ -1021,8 +1042,6 @@ public class NhanVien extends JFrame{
 	
 	
 	public void initForm() {
-		this.textField_MSNV.setEnabled(true);
-		this.textField_MSNV.setEditable(true);
 		this.textField_HoNV.setEditable(true);
 		this.textField_TenNV.setEditable(true);
 		this.comboBox_GioiTinh.setEnabled(true);
@@ -1033,8 +1052,6 @@ public class NhanVien extends JFrame{
 	}
 	
 	public void lockForm() {
-		
-		this.textField_MSNV.setEditable(false);
 		this.textField_HoNV.setEditable(false);
 		this.textField_TenNV.setEditable(false);
 		this.comboBox_GioiTinh.setEnabled(false);
@@ -1058,6 +1075,20 @@ public class NhanVien extends JFrame{
 	public void resetTable() {
 		DefaultTableModel tableModel =(DefaultTableModel) table_NhanVien.getModel();
 		tableModel.setRowCount(0);
+	}
+	
+	public boolean checkValidate() {
+		String phone= this.textField_SDT.getText();
+		String CCCD= this.textField_CMND.getText();
+		if(KiemTra.getInstance().validate_PhoneNumber(phone) == false) {
+			JOptionPane.showMessageDialog(null, "số điện thoại gồm 10 số");
+			return false;
+		}
+		if(KiemTra.getInstance().validate_CCCD(CCCD) == false) {
+			JOptionPane.showMessageDialog(null, "số căn cước gồm 12 số");
+			return false;
+		}
+		return true;
 	}
 }
 

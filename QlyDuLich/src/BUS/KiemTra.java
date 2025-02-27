@@ -41,11 +41,14 @@ public class KiemTra {
 	public Boolean checkngaydi(java.util.Date st1) {
 		java.util.Date current = new java.util.Date();
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 23);
-		calendar.set(Calendar.MINUTE, 59);
-		calendar.set(Calendar.SECOND, 59);
+		calendar.set(Calendar.HOUR_OF_DAY, 00);
+		calendar.set(Calendar.MINUTE, 00);
+		calendar.set(Calendar.SECOND, 00);
+		calendar.set(Calendar.MILLISECOND, 00);
         current = calendar.getTime();
-		if(st1.compareTo(current) < 0) return false;
+		if(st1.compareTo(current) < 0) { 
+			return false;
+		}
 		return true;
 	}
 	
@@ -80,11 +83,6 @@ public class KiemTra {
 	}
 	
 	public Boolean checkTinhTrang(java.util.Date st1, java.util.Date st2) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        st2 = calendar.getTime();
 		if(st1.compareTo(st2) > 0 || st1.compareTo(st2) == 0) return false;
 		return true;
 	}
@@ -113,4 +111,29 @@ public class KiemTra {
 		return null;
 	}
 	
+	
+	public boolean validate_OnlyString(String test	) {
+		String regex = "^[\\p{L}\\s]+$";
+		 return Pattern.matches(regex, test);
+	}
+	
+	public boolean validate_OnlyNumber(String test	) {
+		String regex = "^[0-9]+$";
+		 return Pattern.matches(regex, test);
+	}
+	
+	public boolean validate_PhoneNumber(String test) {
+		String regex = "^0[0-9]{9}$";
+		 return Pattern.matches(regex, test);
+	}
+	
+	public boolean validate_CCCD(String test) {
+		String regex = "^[0-9]{12}$";
+		 return Pattern.matches(regex, test);
+	}
+	
+	public boolean validate_Email(String test) {
+		String regex = "^[^@]+@[^@]+\\.[A-Za-z]{2,}$";
+		 return Pattern.matches(regex, test);
+	}
 }

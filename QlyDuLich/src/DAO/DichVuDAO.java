@@ -26,7 +26,7 @@ public class DichVuDAO {
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT * FROM dsks";
+			String sql="SELECT * FROM dsks WHERE tinhtrang = 1";
 			System.out.println(sql);
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
@@ -55,7 +55,7 @@ public class DichVuDAO {
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT * FROM dsnhahang";
+			String sql="SELECT * FROM dsnhahang where tinhtrang = 1";
 			System.out.println(sql);
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
@@ -84,7 +84,7 @@ public class DichVuDAO {
 			//Bước 2:Tạo đối tượng statement
 			java.sql.Statement st=con.createStatement();
 			//Bước 3:Thực thi statement
-			String sql="SELECT * FROM dsphuongtien";
+			String sql="SELECT * FROM dsphuongtien where tinhtrang = 1";
 			System.out.println(sql);
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
@@ -104,6 +104,89 @@ public class DichVuDAO {
 		return ketQua;
 	}
 
+	
+	
+	public String TaoMaKhachSan() {
+		String ketQua = null;
+		try {
+			// Bước 1:Tạo kết nối
+			Connection con = JDBCUtil.getConnection();
+			// Bước 2:Tạo đối tượng statement
+			java.sql.Statement st = con.createStatement();
+			// Bước 3:Thực thi statement
+			String sql = "SELECT IFNULL(MAX(id)+1,1) as id FROM dsks";
+			System.out.println(sql);
+			ResultSet rs = st.executeQuery(sql);
+			// Bước 4:Xử lý kết quả trả về
+			while (rs.next()) {
+				String id = rs.getString("id");
+				ketQua = "KS".concat(id);
+			}
+//			// Bước 4:Xử lý kết quả trả về
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi la: " + ketQua);
+			// Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
+	
+	public String TaoMaNhaHang() {
+		String ketQua = null;
+		try {
+			// Bước 1:Tạo kết nối
+			Connection con = JDBCUtil.getConnection();
+			// Bước 2:Tạo đối tượng statement
+			java.sql.Statement st = con.createStatement();
+			// Bước 3:Thực thi statement
+			String sql = "SELECT IFNULL(MAX(id)+1,1) as id FROM dsnhahang";
+			System.out.println(sql);
+			ResultSet rs = st.executeQuery(sql);
+			// Bước 4:Xử lý kết quả trả về
+			while (rs.next()) {
+				String id = rs.getString("id");
+				ketQua = "NH".concat(id);
+			}
+//			// Bước 4:Xử lý kết quả trả về
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi la: " + ketQua);
+			// Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
+	
+	public String TaoMaPhuongTien() {
+		String ketQua = null;
+		try {
+			// Bước 1:Tạo kết nối
+			Connection con = JDBCUtil.getConnection();
+			// Bước 2:Tạo đối tượng statement
+			java.sql.Statement st = con.createStatement();
+			// Bước 3:Thực thi statement
+			String sql = "SELECT IFNULL(MAX(id)+1,1) as id FROM dsphuongtien";
+			System.out.println(sql);
+			ResultSet rs = st.executeQuery(sql);
+			// Bước 4:Xử lý kết quả trả về
+			while (rs.next()) {
+				String id = rs.getString("id");
+				ketQua = "PT".concat(id);
+			}
+//			// Bước 4:Xử lý kết quả trả về
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi la: " + ketQua);
+			// Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
+	
 	public int InsertKhanhSan(KhachSanDTO ks) {
 		int kq = 0;
 		// ket noi
@@ -112,8 +195,8 @@ public class DichVuDAO {
 			//tao statement
 			java.sql.Statement st = con.createStatement();
 			//truy van
-			String sql = "INSERT INTO dsks (maks, tenks, giaca) VALUES ('"
-		            + ks.getMaso() + "' , '" + ks.getTendv() + "' , " + ks.getGiaca() + ")";
+			String sql = "INSERT INTO dsks (maks, tenks, giaca, tinhtrang) VALUES ('"
+		            + ks.getMaso() + "' , '" + ks.getTendv() + "' , " + ks.getGiaca() + " , "+ 1 + " )";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi " + sql);
 			System.out.println("So dong thay doi: " + kq);
@@ -135,8 +218,8 @@ public class DichVuDAO {
 			//tao statement
 			java.sql.Statement st = con.createStatement();
 			//truy van
-			String sql = "INSERT INTO dsnhahang (manh, tennh, giaca) VALUES ('"
-		            + nh.getMaso() + "' , '" + nh.getTendv() + "' , " + nh.getGiaca() + ")";
+			String sql = "INSERT INTO dsnhahang (manh, tennh, giaca,tinhtrang) VALUES ('"
+		            + nh.getMaso() + "' , '" + nh.getTendv() + "' , " + nh.getGiaca() + "," + 1 +")";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi " + sql);
 			System.out.println("So dong thay doi: " + kq);
@@ -158,8 +241,8 @@ public class DichVuDAO {
 			//tao statement
 			java.sql.Statement st = con.createStatement();
 			//truy van
-			String sql = "INSERT INTO dsphuongtien (mapt, tenpt, giaca) VALUES ('"
-		            + pt.getMaso() + "' , '" + pt.getTendv() + "' , " + pt.getGiaca() + ")";
+			String sql = "INSERT INTO dsphuongtien (mapt, tenpt, giaca,tinhtrang) VALUES ('"
+		            + pt.getMaso() + "' , '" + pt.getTendv() + "' , " + pt.getGiaca() + "," + 1 +")";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi " + sql);
 			System.out.println("So dong thay doi: " + kq);
@@ -173,13 +256,14 @@ public class DichVuDAO {
 		return kq;
 	}
 	
+	
 	public int deleteDichVu(KhachSanDTO t) {
 		int kq = 0;
 		
 		try {
 			Connection con = JDBCUtil.getConnection();
 			Statement st = con.createStatement();
-			String sql = "DELETE FROM dsks WHERE maks = '" + t.getMaso() + "'";
+			String sql = "UPDATE dsks SET tinhtrang = 0 WHERE maks = '" + t.getMaso() + "'";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
 			System.out.println("So dong thay doi: " + kq);
@@ -191,13 +275,32 @@ public class DichVuDAO {
 		}
 		return kq;
 	}
+//	public int deleteDichVu(KhachSanDTO t) {
+//		int kq = 0;
+//		
+//		try {
+//			Connection con = JDBCUtil.getConnection();
+//			Statement st = con.createStatement();
+//			String sql = "DELETE FROM dsks WHERE maks = '" + t.getMaso() + "'";
+//			kq = st.executeUpdate(sql);
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi: " + kq);
+//			JDBCUtil.closeConnection(con);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return -1;
+//		}
+//		return kq;
+//	}
+	
 	public int deleteDichVu(NhaHangDTO t) {
 		int kq = 0;
 		
 		try {
 			Connection con = JDBCUtil.getConnection();
 			Statement st = con.createStatement();
-			String sql = "DELETE FROM dsnhahang WHERE manh = '" + t.getMaso() + "'";
+			String sql = "UPDATE dsnhahang SET tinhtrang = 0 WHERE manh = '" + t.getMaso() + "'";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
 			System.out.println("So dong thay doi: " + kq);
@@ -209,13 +312,31 @@ public class DichVuDAO {
 		}
 		return kq;
 	}
+//	public int deleteDichVu(NhaHangDTO t) {
+//		int kq = 0;
+//		
+//		try {
+//			Connection con = JDBCUtil.getConnection();
+//			Statement st = con.createStatement();
+//			String sql = "DELETE FROM dsnhahang WHERE manh = '" + t.getMaso() + "'";
+//			kq = st.executeUpdate(sql);
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi: " + kq);
+//			JDBCUtil.closeConnection(con);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return -1;
+//		}
+//		return kq;
+//	}
 	public int deleteDichVu(PhuongTienDTO t) {
 		int kq = 0;
 		
 		try {
 			Connection con = JDBCUtil.getConnection();
 			Statement st = con.createStatement();
-			String sql = "DELETE FROM dsphuongtien WHERE mapt = '" + t.getMaso() + "'";
+			String sql = "UPDATE dsphuongtien SET tinhtrang = 0 WHERE mapt = '" + t.getMaso() + "'";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
 			System.out.println("So dong thay doi: " + kq);
@@ -227,6 +348,24 @@ public class DichVuDAO {
 		}
 		return kq;
 	}
+//	public int deleteDichVu(PhuongTienDTO t) {
+//		int kq = 0;
+//		
+//		try {
+//			Connection con = JDBCUtil.getConnection();
+//			Statement st = con.createStatement();
+//			String sql = "DELETE FROM dsphuongtien WHERE mapt = '" + t.getMaso() + "'";
+//			kq = st.executeUpdate(sql);
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi: " + kq);
+//			JDBCUtil.closeConnection(con);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return -1;
+//		}
+//		return kq;
+//	}
 	
 	public int upDateDichVu(KhachSanDTO t) {
 		int kq = 0;

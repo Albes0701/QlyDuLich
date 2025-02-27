@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -264,6 +265,7 @@ public class KhuyenMai extends JFrame {
 		panel_2.add(lblNewLabel_2);
 		
 		textField_MSKM = new JTextField();
+		textField_MSKM.setEnabled(false);
 		textField_MSKM.addKeyListener( new KeyListener() {
 			
 			@Override
@@ -351,7 +353,7 @@ public class KhuyenMai extends JFrame {
 					if(checkNull()) {
 						JOptionPane.showMessageDialog(null, "Vui long dien du thong tin","ERROR",JOptionPane.INFORMATION_MESSAGE);
 						return;
-					}
+					}else if(!checkValidate()) return;
 					if(themKM()) {
 						resetTable();
 						initArrayList();
@@ -361,7 +363,7 @@ public class KhuyenMai extends JFrame {
 					if(getSelectedKM() == null) {
 						JOptionPane.showMessageDialog(null, "Chưa chọn khuyến mãi");
 						return;
-					}
+					}else if(!checkValidate()) return;
 					if(suaKM()) {
 						resetTable();
 						initArrayList();
@@ -679,7 +681,7 @@ public class KhuyenMai extends JFrame {
 		xoa_btn.setFont(new Font("Tahoma", Font.BOLD, 14));
 		them_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				textField_MSKM.requestFocusInWindow();
+				textArea_tenCT.requestFocusInWindow();
 				luu_btn.setEnabled(true);
 				luu_btn.setBackground(Color.orange);
 				thoat_btn.setEnabled(true);
@@ -745,7 +747,7 @@ public class KhuyenMai extends JFrame {
 					kmBUS.suaKM(km);
 				};
 				tableModel.addRow(new Object[]{
-						km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),
+						km.getMakm(),km.getTectkm(),km.getPhantram(),
 						km.getNgaybd()+"",km.getNgaykt(),
 						KiemTra.getInstance().tinhTrang(tinhtrang)
 				});
@@ -764,7 +766,7 @@ public class KhuyenMai extends JFrame {
 	public void initArrayList(ArrayList<KhuyenMaiDTO> t) {
 		for(KhuyenMaiDTO km: t) {
 			tableModel.addRow(new Object[]{
-					km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),
+					km.getMakm(),km.getTectkm(),km.getPhantram(),
 					km.getNgaybd()+"",km.getNgaykt(),KiemTra.getInstance().tinhTrang(km.getTinhtrang())
 			});
 		}
@@ -780,7 +782,7 @@ public class KhuyenMai extends JFrame {
 	public void initArrayList() {
 		for(KhuyenMaiDTO km: KhuyenMaiBUS.kmDTO) {
 			tableModel.addRow(new Object[]{
-					km.getMakm().toUpperCase(),km.getTectkm(),km.getPhantram(),
+					km.getMakm(),km.getTectkm(),km.getPhantram(),
 					km.getNgaybd()+"",km.getNgaykt(),KiemTra.getInstance().tinhTrang(km.getTinhtrang())
 			});
 		}
@@ -826,26 +828,28 @@ public class KhuyenMai extends JFrame {
 		// Chuyển đổi chuỗi thành kiểu java.sql.Date
 		java.sql.Date ngaykt = java.sql.Date.valueOf(ngayktString);
 		Boolean tinhtrang = KiemTra.getInstance().tinhTrang(model.getValueAt(row, 5).toString());		
-		KhuyenMaiDTO km = new KhuyenMaiDTO(makm.toLowerCase(), tenct,0,phantram, ngaybd, ngaykt,tinhtrang);
+		KhuyenMaiDTO km = new KhuyenMaiDTO(makm, tenct,0,phantram, ngaybd, ngaykt,tinhtrang);
 		return km;
 	}
 	public boolean checkNull() {
-		if(this.textField_MSKM.getText().isEmpty() || this.textArea_tenCT.getText().isEmpty() || this.textField_GiamGia.getText().isEmpty() 
+		if(this.textArea_tenCT.getText().isEmpty() || this.textField_GiamGia.getText().isEmpty() 
 				|| this.dateChooser_NgayKT.getDate()==null) 
 		{
 			return true;
 		}
 		return false;
 	}
+
 	public Boolean themKM() {
 		KhuyenMaiDTO km = new KhuyenMaiDTO();
-		km.setMakm(this.textField_MSKM.getText());
+		km.setMakm(kmBUS.TaoMaKM());
 		km.setTectkm(this.textArea_tenCT.getText());
 		km.setPhantram(Double.parseDouble(this.textField_GiamGia.getText()));
 //		km.setDieukien(Integer.parseInt(this.textField_DieuKien.getText()));
 		java.util.Date utilDate = this.dateChooser_NgayBD.getDate();
 		java.sql.Date sqlDate_ngayBD = new java.sql.Date(utilDate.getTime());
 		km.setNgaybd(sqlDate_ngayBD);
+		
 		java.util.Date utilDate1 = this.dateChooser_NgayKT.getDate();
 		java.sql.Date sqlDate_ngayKT = new java.sql.Date(utilDate1.getTime());
 		km.setNgaykt(sqlDate_ngayKT);
@@ -874,7 +878,7 @@ public class KhuyenMai extends JFrame {
 		this.textField_tinhtrang.setText("");
 	}
 	public void initForm() {
-		this.textField_MSKM.setEnabled(true);
+//		this.textField_MSKM.setEnabled(true);
 		this.textField_MSKM.setEditable(true);
 		this.textArea_tenCT.setEditable(true);
 		this.textField_GiamGia.setEditable(true);
@@ -887,7 +891,7 @@ public class KhuyenMai extends JFrame {
 		tableModel.setRowCount(0);
 	}
 	public void lockForm() {
-		this.textField_MSKM.setEditable(false);
+//		this.textField_MSKM.setEditable(false);
 		this.textArea_tenCT.setEditable(false);
 		this.textField_GiamGia.setEditable(false);
 //		this.textField_DieuKien.setEditable(false);
@@ -922,6 +926,15 @@ public class KhuyenMai extends JFrame {
 			JOptionPane.showMessageDialog(null,"Sửa thông tin thành công khuyến mãi " + km.getMakm());
 		}
 		else if(kmBUS.suaKM(km)==-1)JOptionPane.showMessageDialog(null,"Không thể sửa thông tin khuyến mãi " + km.getMakm());
+		return true;
+	}
+	
+	public boolean checkValidate() {
+		String phanTram = this.textField_GiamGia.getText();
+		if(KiemTra.getInstance().validate_OnlyNumber(phanTram) == false) {
+			JOptionPane.showMessageDialog(null, "phần trăm khuyến mãi chỉ chứa số");
+			return false;
+		}
 		return true;
 	}
 }

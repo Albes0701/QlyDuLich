@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -51,10 +52,13 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import com.toedter.calendar.JDateChooser;
 
+import BUS.DatTourBUS;
 import BUS.KHToursBUS;
 import BUS.KhachHangBUS;
+import BUS.KiemTra;
 import BUS.QlyToursBUS;
 import BUS.taikhoanBUS;
+import DTO.DatTourDTO;
 import DTO.KHTourDTO;
 import DTO.QlyToursDTO;
 import java.awt.event.ItemEvent;
@@ -278,6 +282,7 @@ public class QuanLyTour extends JFrame {
 		panel_2.add(lblNewLabel_2);
 
 		textField_MaTour = new JTextField();
+		textField_MaTour.setEnabled(false);
 		textField_MaTour.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textField_MaTour.setBounds(90, 26, 125, 26);
 		textField_MaTour.addKeyListener(new KeyListener() {
@@ -570,11 +575,13 @@ public class QuanLyTour extends JFrame {
 		luu_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (sua_btn.isEnabled() == false && xoa_btn.isEnabled() == false) {
+					if(!checkValidate()) return;
 					ThemTour();
 					ResetData();
 					XoaDataTable();
 					initData();
 				} else if (them_btn.isEnabled() == false && xoa_btn.isEnabled() == false) {
+					if(!checkValidate()) return;
 					SuaTour();
 					ResetData();
 					XoaDataTable();
@@ -592,11 +599,12 @@ public class QuanLyTour extends JFrame {
 
 		textField_TimKiem = new JTextField();
 		textField_TimKiem.setFont(new Font("Tahoma", Font.BOLD, 14));
-		textField_TimKiem.setBounds(81, 3, 198, 25);
+		textField_TimKiem.setBounds(81, 3, 130, 25);
 		textField_TimKiem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String condition = textField_TimKiem.getText();
+				if(condition.isEmpty()) return;
 				String condType = (String) timkiem_cb.getSelectedItem();
 				ArrayList<QlyToursDTO> t = tourBUS.timkiem(condition, condType);
 				if (t == null) {
@@ -613,7 +621,7 @@ public class QuanLyTour extends JFrame {
 
 		String[] arr_timkiem = { "Mã Tour", "Số ngày", "Nơi đến" };
 		timkiem_cb = new JComboBox(arr_timkiem);
-		timkiem_cb.setBounds(280, 3, 84, 25);
+		timkiem_cb.setBounds(221, 3, 84, 25);
 		panel_3.add(timkiem_cb);
 
 		Panel panel_1 = new Panel();
@@ -712,7 +720,6 @@ public class QuanLyTour extends JFrame {
 		thoat_btn.setEnabled(false);
 		thoat_btn.setBackground(Color.gray);
 		textField_MaTour.setEditable(false);
-		comboBox_LoaiTour.setEditable(false);
 		tentour_tf.setEditable(false);
 		songay_tf.setEditable(false);
 		khoihanh_cb.setEditable(false);
@@ -767,6 +774,8 @@ public class QuanLyTour extends JFrame {
 		noiden_cb.setEnabled(false);
 	}
 
+
+	
 	public void ThemTour() {
 //		sua_btn.setEnabled(false);
 //		sua_btn.setBackground(Color.gray);
@@ -774,10 +783,10 @@ public class QuanLyTour extends JFrame {
 //		xoa_btn.setBackground(Color.gray);
 //		luu_btn.setEnabled(true);
 //		luu_btn.setBackground(Color.orange);
-		if (textField_MaTour.getText().isEmpty() || tentour_tf.getText().isEmpty() || songay_tf.getText().isEmpty()) {
+		if (tentour_tf.getText().isEmpty() || songay_tf.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Chưa điền đầy đủ thông tin, mời bổ sung.");
 		} else {
-			String matour = textField_MaTour.getText();
+			String matour = tourBUS.TaoMaTour();
 			String tentour = tentour_tf.getText();
 			int songay = Integer.parseInt(songay_tf.getText());
 			System.out.println(songay);
@@ -814,6 +823,7 @@ public class QuanLyTour extends JFrame {
 
 	public QlyToursDTO getTourDaChon() {
 		int row = table_Tours.getSelectedRow();
+		if(row == -1) return null;
 		DefaultTableModel model_table = (DefaultTableModel) table_Tours.getModel();
 		String matour = model_table.getValueAt(row, 0) + "";
 		String tentour = model_table.getValueAt(row, 1) + "";
@@ -845,4 +855,14 @@ public class QuanLyTour extends JFrame {
 			JOptionPane.showMessageDialog(this, "Sửa thành công!");
 		}
 	}
+	
+	public boolean checkValidate() {
+		String songay = this.songay_tf.getText();
+		if(KiemTra.getInstance().validate_OnlyNumber(songay) == false) {
+			JOptionPane.showMessageDialog(null, "số ngày phải là kí tự số và lớn hơn 0");
+			return false;
+		}
+		return true;
+	}
+	
 }

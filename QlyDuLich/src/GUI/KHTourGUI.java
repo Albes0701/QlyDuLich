@@ -91,7 +91,7 @@ public class KHTourGUI extends JFrame {
 	KHToursBUS khtBUS=new KHToursBUS();
 	ChiTietKHT_BUS ctkhtBUS=new ChiTietKHT_BUS();
 	private JTextField tfSongay;
-	private JTextField tfHuongDanVien;
+	JTextField tfHuongDanVien;
 	private JTextField tfGiaVe;
 	private JTextField tfTongChi;
 	private JTextField tfMaKHT;
@@ -122,7 +122,8 @@ public class KHTourGUI extends JFrame {
 	JButton btnThem,btnXoa,btnSua;
 	JComboBox cbTimkiem;
 	public static String makht_row;
-
+	private JButton btn_chon_nv;
+	private String key_Tour;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -343,6 +344,7 @@ public class KHTourGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String condition = timkiem_tf.getText();
+				if(condition.isEmpty()) return;
 				String condType = (String)cbTimkiem.getSelectedItem();
 				ArrayList<KHTourDTO> t = khtBUS.timkiem(condition, condType);
 				if (t == null) {
@@ -460,6 +462,7 @@ public class KHTourGUI extends JFrame {
                 calendar.setTime(sqlDate);
                 calendar.add(Calendar.DAY_OF_MONTH, getTour((String) cbMatour.getSelectedItem()).getSongay()-1);
                 ngayve_date.setDate(calendar.getTime());
+//                ngayve_date.setEnabled(false);
 				
 			}
 		});
@@ -552,6 +555,7 @@ public class KHTourGUI extends JFrame {
 		panel_2.add(ngayve_lb);
 		
 		ngayve_date = new JDateChooser();
+		ngayve_date.setEnabled(false);
 		ngayve_date.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		ngayve_date.setBounds(10, 404, 190, 35);
 		panel_2.add(ngayve_date);
@@ -599,6 +603,7 @@ public class KHTourGUI extends JFrame {
 		panel_2.add(huongdanvien_lb);
 		
 		tfHuongDanVien = new JTextField();
+		tfHuongDanVien.setEnabled(false);
 		tfHuongDanVien.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -624,7 +629,7 @@ public class KHTourGUI extends JFrame {
 		tfHuongDanVien.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		tfHuongDanVien.setColumns(10);
 		tfHuongDanVien.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		tfHuongDanVien.setBounds(10, 538, 190, 35);
+		tfHuongDanVien.setBounds(10, 538, 143, 35);
 		panel_2.add(tfHuongDanVien);
 		
 		JLabel giave_lb = new JLabel("Giá vé :");
@@ -634,6 +639,7 @@ public class KHTourGUI extends JFrame {
 		panel_2.add(giave_lb);
 		
 		tfGiaVe = new JTextField("");
+		tfGiaVe.setEnabled(false);
 		tfGiaVe.setText("0");
 		tfGiaVe.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		tfGiaVe.setColumns(10);
@@ -867,6 +873,7 @@ public class KHTourGUI extends JFrame {
 		mota_sp.setViewportView(textAreaMoTa);
 		
 		tfMaKHT = new JTextField();
+		tfMaKHT.setEnabled(false);
 		tfMaKHT.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -1100,6 +1107,19 @@ public class KHTourGUI extends JFrame {
 		lbSoChoConNhan.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lbSoChoConNhan.setBounds(145, 571, 134, 30);
 		panel_3.add(lbSoChoConNhan);
+		
+		btn_chon_nv = new JButton("...");
+		btn_chon_nv.setForeground(new Color(0, 0, 0));
+		btn_chon_nv.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btn_chon_nv.setFocusable(false);
+		btn_chon_nv.setBackground(new Color(192, 192, 192));
+		btn_chon_nv.setBounds(160, 538, 40, 35);
+		btn_chon_nv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new infoNhanVien(KHTourGUI.this);
+			}
+		});
+		panel_2.add(btn_chon_nv);
 		
 		init();
 		initData();
@@ -1402,15 +1422,13 @@ public class KHTourGUI extends JFrame {
 		tfMaKHT.setEditable(false);
 		textAreaMoTa.setEditable(false);
 		cbSoCho.setEnabled(false);
-		ngaydi_date.setEnabled(false);
-		ngayve_date.setEnabled(false);
 		tfHuongDanVien.setEditable(false);
 		tfGiaVe.setEditable(false);
 		textArea_mota.setEditable(false);
 	}
 	public void noneInit() {
 		cbMatour.setEnabled(true);
-		tfMaKHT.setEditable(true);
+//		tfMaKHT.setEditable(true);
 		textAreaMoTa.setEditable(true);
 		cbSoCho.setEnabled(true);
 		ngaydi_date.setEnabled(true);
@@ -1455,7 +1473,7 @@ public class KHTourGUI extends JFrame {
 	}
 	public void ThemKHT() {
 		String matour=cbMatour.getSelectedItem().toString();
-		String makht=tfMaKHT.getText();
+		String makht=khtBUS.TaoMaKHT();
 		String mota=textAreaMoTa.getText();
 	
         java.util.Date ngaydi_tmp=(java.util.Date) ngaydi_date.getDate();
@@ -1465,7 +1483,8 @@ public class KHTourGUI extends JFrame {
         java.sql.Date ngayve=new java.sql.Date(ngayve_tmp.getTime());
 				
 		int songuoi=Integer.parseInt(cbSoCho.getSelectedItem().toString().trim());
-		long giave=Long.parseLong(tfGiaVe.getText());
+//		long giave=Long.parseLong(tfGiaVe.getText());
+		long giave=0;
 		String huongdanvien=tfHuongDanVien.getText();
 		//long tongchi=Long.parseLong(tfTongChi.getText());
 		long tongchi=0;
@@ -1521,7 +1540,7 @@ public class KHTourGUI extends JFrame {
         kht.setNgayve(ngayve);
         
         kht.setHuongdanvien(tfHuongDanVien.getText());
-        kht.setGiave(Long.parseLong(tfGiaVe.getText()));
+//        kht.setGiave(Long.parseLong(tfGiaVe.getText()));
         
 //        String anh1_path_new="";
 //		String anh2_path_new="";
@@ -1550,7 +1569,7 @@ public class KHTourGUI extends JFrame {
         }else {
         	kht.setAnh3(anh3_path);
         }	
-		System.out.println(kht.getMakht());
+//		System.out.println(kht.getMakht());
         
         if (khtBUS.sua(kht,MaKHT_Bandau) != -1) {
         	JOptionPane.showMessageDialog(this, "Sửa thành công!");
@@ -1586,22 +1605,5 @@ public class KHTourGUI extends JFrame {
 		}
 		return null;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

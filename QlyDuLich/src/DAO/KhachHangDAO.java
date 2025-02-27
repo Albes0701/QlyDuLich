@@ -60,9 +60,9 @@ public class KhachHangDAO {
 			// Bước 2:Tạo đối tượng statement
 			java.sql.Statement st = con.createStatement();
 			// Bước 3:Thực thi statement
-			String sql = "INSERT INTO khachhang (makh,hokh,tenkh,sdt,email,gioitinh,diachi,ngaysinh)" + " VALUES('"
+			String sql = "INSERT INTO khachhang (makh,hokh,tenkh,sdt,email,gioitinh,diachi,ngaysinh,tinhtrang)" + " VALUES('"
 					+ t.getMakh() + "','" +t.getHokh()+"','"+ t.getTenkh() + "'," + t.getSdt() + ",'" + t.getEmail() + "',"
-					+ t.isGioitinh() + ",'" + t.getDiachi() +"','" + t.getNgaysinh()+ "')";
+					+ t.isGioitinh() + ",'" + t.getDiachi() +"','" + t.getNgaysinh()+"'," + 1 +")";
 			ketQua = st.executeUpdate(sql);
 			// Bước 4:Xử lý kết quả trả về
 			System.out.println("Ban da thuc thi: " + sql);
@@ -76,14 +76,13 @@ public class KhachHangDAO {
 		return ketQua;
 	}
 	
-	
 	public int deleteKhachHang(KhachHangDTO k) {
 		int kq = 0;
 		
 		try {
 			Connection con = JDBCUtil.getConnection();
 			java.sql.Statement st = con.createStatement();
-			String sql = "DELETE FROM khachhang WHERE makh = '" + k.getMakh() + "'";
+			String sql = "UPDATE khachhang set tinhtrang = 0 WHERE makh = '" + k.getMakh() + "'";
 			kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
 			System.out.println("So dong thay doi: " + kq);
@@ -95,6 +94,24 @@ public class KhachHangDAO {
 		}
 		return kq;
 	}
+//	public int deleteKhachHang(KhachHangDTO k) {
+//		int kq = 0;
+//		
+//		try {
+//			Connection con = JDBCUtil.getConnection();
+//			java.sql.Statement st = con.createStatement();
+//			String sql = "DELETE FROM khachhang WHERE makh = '" + k.getMakh() + "'";
+//			kq = st.executeUpdate(sql);
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi: " + kq);
+//			JDBCUtil.closeConnection(con);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//			return -1;
+//		}
+//		return kq;
+//	}
 	
 	
 	public int upDateKhachHang(KhachHangDTO t) {

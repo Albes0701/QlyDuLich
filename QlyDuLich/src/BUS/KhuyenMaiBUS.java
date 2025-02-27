@@ -27,6 +27,17 @@ public class KhuyenMaiBUS {
 			return false;
 		}
 	}
+	
+	
+	public String TaoMaKM() {
+		try {
+			return KhuyenMaiDAO.getIntance().TaoKhuyenMai();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public int themKM(KhuyenMaiDTO km) {
 		try {
 			for(KhuyenMaiDTO k: kmDTO) {

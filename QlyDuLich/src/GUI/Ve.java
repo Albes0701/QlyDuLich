@@ -46,6 +46,7 @@ import BUS.CTKhuyenMaiBUS;
 import BUS.HoaDonBUS;
 import BUS.KHToursBUS;
 import BUS.KhuyenMaiBUS;
+import BUS.KiemTra;
 import BUS.QlyToursBUS;
 import BUS.QlyVeBUS;
 import DTO.CTKM_DTO;
@@ -90,7 +91,7 @@ public class Ve extends JFrame {
 	HoaDonBUS hdBUS=new HoaDonBUS();
 	private JTextField tfPhanTram;
 	protected JTextField tf_maso;
-	private JTextField tfKhuyenMai;
+	private JComboBox cb_khuyenmai;
 	
 
 	/**
@@ -126,7 +127,7 @@ public class Ve extends JFrame {
 		
 		setBackground(SystemColor.windowText);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(250, 20, 1000, 780);
+		setBounds(250, 20, 1000, 767);
 		contentPane = new JPanel();
 		contentPane.setVerifyInputWhenFocusTarget(false);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -137,7 +138,7 @@ public class Ve extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setForeground(new Color(255, 255, 255));
 		panel.setBackground(new Color(34, 99, 138));
-		panel.setBounds(0, 0, 1000, 750);
+		panel.setBounds(0, 0, 1000, 733);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -146,7 +147,7 @@ public class Ve extends JFrame {
 		
 		JPanel panel_Header = new JPanel();
 		panel_Header.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		panel_Header.setBounds(10, 26, 967, 185);
+		panel_Header.setBounds(10, 10, 967, 185);
 		panel.add(panel_Header);
 		panel_Header.setLayout(null);
 		
@@ -240,7 +241,7 @@ public class Ve extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		panel_1.setBounds(10, 207, 567, 533);
+		panel_1.setBounds(10, 193, 567, 533);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -425,9 +426,7 @@ public class Ve extends JFrame {
 //						arr_TTLienLac=GetThongTinLienLac();
 //						init2();
 //						tfHoTenTV.setText(arr_TTLienLac[0]);
-						if(lbNameKH.getText().equals("....................")) {
-							lbNameKH.setText(tfHoTen.getText());
-						}
+						if(!checkValidate()) return;
 						if(socho>0) {	
 							Them();
 							XoaDataTable();
@@ -437,6 +436,9 @@ public class Ve extends JFrame {
 						}
 						else {
 							JOptionPane.showMessageDialog(panel, "Tour đã hết chỗ.");
+						}
+						if(lbNameKH.getText().equals("....................")) {
+							lbNameKH.setText(tfHoTen.getText());
 						}
 						
 					}
@@ -473,11 +475,17 @@ public class Ve extends JFrame {
 				btn_info.setBounds(260, 16, 34, 26);
 				panel_2.add(btn_info);
 				
-				tfKhuyenMai = new JTextField();
-				tfKhuyenMai.setEditable(false);
-				tfKhuyenMai.setBounds(243, 218, 84, 24);
-				panel_2.add(tfKhuyenMai);
-				tfKhuyenMai.setColumns(10);
+				cb_khuyenmai = new JComboBox(GetMaKM(matour).toArray());
+				cb_khuyenmai.setBounds(233, 218, 107, 25);
+				cb_khuyenmai.setSelectedItem(GetMaKMLonNhat(GetMaKM(matour)));
+				tfPhanTram.setText(GetPTGiamGia(cb_khuyenmai.getSelectedItem().toString())+"");
+				cb_khuyenmai.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						tfPhanTram.setText(GetPTGiamGia(cb_khuyenmai.getSelectedItem().toString())+"");
+					}
+				});
+				panel_2.add(cb_khuyenmai);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 361, 547, 162);
@@ -495,7 +503,7 @@ public class Ve extends JFrame {
 		JPanel panel_1_1 = new JPanel();
 		panel_1_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		panel_1_1.setLayout(null);
-		panel_1_1.setBounds(577, 207, 400, 533);
+		panel_1_1.setBounds(577, 193, 400, 533);
 		panel.add(panel_1_1);
 		
 		JPanel panel_3 = new JPanel();
@@ -608,7 +616,7 @@ public class Ve extends JFrame {
 		panel_7.add(label_1);
 		
 		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(10, 324, 380, 209);
+		panel_5.setBounds(10, 324, 380, 199);
 		panel_1_1.add(panel_5);
 		panel_5.setLayout(null);
 		
@@ -705,10 +713,11 @@ public class Ve extends JFrame {
 		btnNewButton_Thoat.setBounds(229, 173, 119, 26);
 		btnNewButton_Thoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new DatKHTGUI(tourduocchon.getMatour());
 				setVisible(false);
-				DatTourGUI dt = new DatTourGUI();
-				dt.btn_DatTour.setBackground(Color.ORANGE);
-				dt.btn_DatTour.setForeground(Color.BLACK);
+//				DatTourGUI dt = new DatTourGUI();
+//				dt.btn_DatTour.setBackground(Color.ORANGE);
+//				dt.btn_DatTour.setForeground(Color.BLACK);
 			}
 		});
 		panel_5.add(btnNewButton_Thoat);
@@ -820,7 +829,6 @@ public class Ve extends JFrame {
 		}
 		String makmMax=GetMaKMLonNhat(listMakm);
 		int ptramMaxKm=(int) GetPTGiamGia(makmMax);
-		tfKhuyenMai.setText(makmMax);
 		tfPhanTram.setText(ptramMaxKm+"");
 //		cbGioitinh.setEnabled(false);
 //		datechooserNgaysinh.setEnabled(false);
@@ -921,7 +929,7 @@ public class Ve extends JFrame {
         
         //==================Thêm Vé==================
         String mave=TaoMaVe();
-        String makm=tfKhuyenMai.getText();
+        String makm=cb_khuyenmai.getSelectedItem().toString();
         int ptgg=(int) GetPTGiamGia(makm);
         if(checkTreEm(makh)) {
         	VeDTO ve=new VeDTO(mave, MaKHT1, mahd, makm, makh, giave*70/100,(100-ptgg)*(giave*70/100)/100);
@@ -1020,5 +1028,29 @@ public class Ve extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(this, "Thêm thành công!");
 		}
+	}
+	public boolean checkValidate() {
+		String hoTen = this.tfHoTen.getText();
+		String email = this.tfEmail.getText();
+		String phone = this.tfSdt.getText();
+		String diaChi = this.tfDiachi.getText();
+		java.util.Date namSinh = this.datechooserNgaysinh.getDate();
+		if(hoTen.isEmpty() || email.isEmpty() || phone.isEmpty() || diaChi.isEmpty() || namSinh == null) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền đủ thông tin");
+			return false;
+		}
+		if(KiemTra.getInstance().validate_OnlyString(hoTen) == false) {
+			JOptionPane.showMessageDialog(null, "Họ và tên chỉ chứa chữ cái");
+			return false;
+		}
+		if(KiemTra.getInstance().validate_Email(email) == false) {
+			JOptionPane.showMessageDialog(null, "Email không hợp lệ");
+			return false;
+		}
+		if(KiemTra.getInstance().validate_PhoneNumber(phone) == false) {
+			JOptionPane.showMessageDialog(null, "số điện thoại không hợp lệ");
+			return false;
+		}
+		return true;
 	}
 }

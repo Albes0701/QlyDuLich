@@ -387,16 +387,19 @@ public class ThongKe extends JFrame {
         }
 //		year_cbo.addItem(String.valueOf("2024"));
 		year_cbo.setBounds(10, 48, 92, 26);
+//		year_cbo.setSelectedIndex(year_cbo.getItemCount()-1);
 		year_cbo.addItemListener(new ItemListener() {
 			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				// TODO Auto-generated method stub
 				if (e.getStateChange() == ItemEvent.SELECTED) {
+					resetTable();
 					initData();
 				}
 			}
 		});
+		System.out.println(year_cbo.getItemCount());
 		year_cbo.setFocusable(false);
 		ThongKe.add(year_cbo);
 		
@@ -489,10 +492,10 @@ public class ThongKe extends JFrame {
 			});
 		}
 		//bang quy
-		double quy1 = tkBUS.getQuy(1, 3);
-		double quy2 = tkBUS.getQuy(4, 6);
-		double quy3 = tkBUS.getQuy(7, 9);
-		double quy4 = tkBUS.getQuy(10, 12);
+		double quy1 = tkBUS.getQuy(1, 3, year_Selected);
+		double quy2 = tkBUS.getQuy(4, 6, year_Selected);
+		double quy3 = tkBUS.getQuy(7, 9, year_Selected);
+		double quy4 = tkBUS.getQuy(10, 12, year_Selected);
 		
 		tableModel_quy.addRow(new Object[]{
 			"Lợi Nhuận",decimalFormat.format(quy1) + " VNĐ",decimalFormat.format(quy2) + " VNĐ",decimalFormat.format(quy3) + " VNĐ",decimalFormat.format(quy4) + " VNĐ",
@@ -508,5 +511,12 @@ public class ThongKe extends JFrame {
 					decimalFormat.format(tk.getThu()-tk.getChi())+ " VNĐ",
 			});
 		}
+	}
+	
+	public void resetTable() {
+		tableModel_tk.setRowCount(0);
+		tableModel_emp.setRowCount(0);
+		tableModel_cus.setRowCount(0);
+		tableModel_quy.setRowCount(0);
 	}
 }

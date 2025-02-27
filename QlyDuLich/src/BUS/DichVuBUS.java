@@ -63,6 +63,33 @@ public class DichVuBUS {
 		}
 	}
 	
+	public String TaoMaKhachSan() {
+		try {
+			return DichVuDAO.getIntance().TaoMaKhachSan();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String TaoMaNhaHang() {
+		try {
+			return DichVuDAO.getIntance().TaoMaNhaHang();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String TaoMaPhuongTien() {
+		try {
+			return DichVuDAO.getIntance().TaoMaPhuongTien();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public int themDV(DichVuDTO dv) {
 		try {
 			if(KiemTra.getInstance().loaiDV(dv.getMaso()).equalsIgnoreCase("Khách sạn"))

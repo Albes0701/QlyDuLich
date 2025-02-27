@@ -21,7 +21,7 @@ public class QlyToursDAO {
 		try {
 			Connection con = JDBCUtil.getConnection();
 			java.sql.Statement st = con.createStatement();
-			String sql = "select * from tours";
+			String sql = "select * from tours where tinhtrang = 1";
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
 				String matour = rs.getString("matour");
@@ -39,6 +39,35 @@ public class QlyToursDAO {
 		}
 		return ketqua;
 	}
+	
+	
+	
+	public String TaoMaTour() {
+		String ketQua = null;
+		try {
+			// Bước 1:Tạo kết nối
+			Connection con = JDBCUtil.getConnection();
+			// Bước 2:Tạo đối tượng statement
+			java.sql.Statement st = con.createStatement();
+			// Bước 3:Thực thi statement
+			String sql = "SELECT IFNULL(MAX(id)+1,1) as id FROM tours";
+			System.out.println(sql);
+			ResultSet rs = st.executeQuery(sql);
+			// Bước 4:Xử lý kết quả trả về
+			while (rs.next()) {
+				String id = rs.getString("id");
+				ketQua = "tour".concat(id);
+			}
+			// Bước 4:Xử lý kết quả trả về
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi la: " + ketQua);
+			// Bước 5:Ngắt kết nối
+			JDBCUtil.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
 
 	public int InsertTour(QlyToursDTO t) {
 		int ketQua = 0;
@@ -48,12 +77,12 @@ public class QlyToursDAO {
 			// Bước 2:Tạo đối tượng statement
 			java.sql.Statement st = con.createStatement();
 			// Bước 3:Thực thi statement
-			String sql = "INSERT INTO tours (matour,tentour,songay,noiden,maloai,noikhoihanh)" + " VALUES('"
+			String sql = "INSERT INTO tours (matour,tentour,songay,noiden,maloai,noikhoihanh,tinhtrang)" + " VALUES('"
 					+ t.getMatour() + "','" + t.getTentour() + "'," + t.getSongay() + ",'" + t.getNoiden() + "','"
-					+ t.getMaloai() + "','" + t.getNoikhoihanh() + "')";
-			ketQua = st.executeUpdate(sql);
-			// Bước 4:Xử lý kết quả trả về
+					+ t.getMaloai() + "','" + t.getNoikhoihanh() + "'," + 1 + ")";
 			System.out.println("Ban da thuc thi: " + sql);
+			// Bước 4:Xử lý kết quả trả về
+			ketQua = st.executeUpdate(sql);
 			System.out.println("So dong thay doi la: " + ketQua);
 			// Bước 5:Ngắt kết nối
 			JDBCUtil.closeConnection(con);
@@ -87,7 +116,7 @@ public class QlyToursDAO {
 		}
 		return ketQua;
 	}
-
+	
 	public int delete(QlyToursDTO t) {
 		int ketQua = 0;
 		try {
@@ -96,7 +125,7 @@ public class QlyToursDAO {
 			// Bước 2:Tạo đối tượng statement
 			java.sql.Statement st = con.createStatement();
 			// Bước 3:Thực thi statement
-			String sql = "DELETE FROM tours WHERE matour='" + t.getMatour() + "';";
+			String sql = "UPDATE tours SET tinhtrang = 0  WHERE matour='" + t.getMatour() + "';";
 			System.out.println(sql);
 			ketQua = st.executeUpdate(sql);
 			// Bước 4:Xử lý kết quả trả về
@@ -110,6 +139,29 @@ public class QlyToursDAO {
 
 		return ketQua;
 	}
+
+//	public int delete(QlyToursDTO t) {
+//		int ketQua = 0;
+//		try {
+//			// Bước 1:Tạo kết nối
+//			Connection con = JDBCUtil.getConnection();
+//			// Bước 2:Tạo đối tượng statement
+//			java.sql.Statement st = con.createStatement();
+//			// Bước 3:Thực thi statement
+//			String sql = "DELETE FROM tours WHERE matour='" + t.getMatour() + "';";
+//			System.out.println(sql);
+//			ketQua = st.executeUpdate(sql);
+//			// Bước 4:Xử lý kết quả trả về
+//			System.out.println("Ban da thuc thi: " + sql);
+//			System.out.println("So dong thay doi la: " + ketQua);
+//			// Bước 5:Ngắt kết nối
+//			JDBCUtil.closeConnection(con);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return ketQua;
+//	}
 
 	public ArrayList<QlyToursDTO> selectByCondition(String condition,String condType) {
 		ArrayList<QlyToursDTO> ketQua = new ArrayList<QlyToursDTO>();
@@ -148,4 +200,7 @@ public class QlyToursDAO {
 		}
 		return ketQua;
 	}
+	
+	
+	
 }

@@ -23,6 +23,14 @@ public class QlyToursBUS {
 		}
 		return false;
 	}
+	public String TaoMaTour() {
+		try {
+			return tourDAO.getIntance().TaoMaTour();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public int them(QlyToursDTO t) {
 		try {
 			tourDTO.add(t);
@@ -34,12 +42,12 @@ public class QlyToursBUS {
 	}
 	public int xoa(QlyToursDTO t) {
 		try {
-//			for(QlyToursDTO p:tourDTO) {
-//				if(p.getMatour().equals(t.getMatour())) {
-//					tourDTO.remove(p);
-//					break;
-//				}
-//			}
+			for(QlyToursDTO p:tourDTO) {
+				if(p.getMatour().equals(t.getMatour())) {
+					tourDTO.remove(p);
+					break;
+				}
+			}
 			ArrayList<String> makht=new ArrayList<String>();
 			for(KHTourDTO kht:KHToursBUS.khtList) {
 				if(kht.getMatour().equals(t.getMatour())) {

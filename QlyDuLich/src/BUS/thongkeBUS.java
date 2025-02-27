@@ -11,9 +11,9 @@ public class thongkeBUS {
 
 //	    public static ArrayList<HoaDonDTO> listHD;
 	private thongkeDAO tkDAO = new thongkeDAO();
-		public double getQuy(int start, int end) {
+		public double getQuy(int start, int end,String year_Selected) {
 			try {
-	            return tkDAO.getQuy(start,end);
+	            return tkDAO.getQuy(start,end,year_Selected);
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	            return 0;

@@ -23,7 +23,8 @@ public class thongkeDAO {
 			String sql="SELECT COUNT(v.mave) as quatity "
 					+ "FROM ve v "
 					+ "LEFT JOIN kehoachtour kht ON v.makht = kht.makht "
-					+ "WHERE YEAR(kht.ngayve) = '" +year+ "' AND kht.ngayve <= now()";
+					+ "LEFT JOIN hoadon hd ON v.mahd = hd.mahd " 
+					+ "WHERE YEAR(hd.ngaytao) = '" +year+ "' AND kht.ngayve <= now()";
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
 			while(rs.next()){
@@ -49,7 +50,8 @@ public class thongkeDAO {
 					+ " FROM ve v"
 					+ " LEFT JOIN kehoachtour kht ON v.makht = kht.makht"
 					+ " LEFT JOIN khuyenmai km ON km.makm = v.makm"
-					+ " WHERE kht.ngayve <= now() AND YEAR(kht.ngayve) = '" +year+ "'";
+					+ " LEFT JOIN hoadon hd ON v.mahd = hd.mahd"
+					+ " WHERE kht.ngayve <= now() AND YEAR(hd.ngaytao) = '" +year+ "'";
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
 			while(rs.next()){
@@ -77,7 +79,7 @@ public class thongkeDAO {
 					+ " LEFT JOIN kehoachtour kht ON v.makht = kht.makht"
 					+ " LEFT JOIN khuyenmai km ON km.makm = v.makm "
 					+ " LEFT JOIN hoadon hd ON hd.mahd = v.mahd"
-					+ " WHERE kht.ngayve <= now() AND YEAR(kht.ngayve) = '" +year+ "'"
+					+ " WHERE kht.ngayve <= now() AND YEAR(hd.ngaytao) = '" +year+ "'"
 					+ " GROUP BY hd.manv ORDER BY total DESC";
 //			System.out.println(sql);
 			ResultSet rs=st.executeQuery(sql);
@@ -107,9 +109,11 @@ public class thongkeDAO {
 			String sql="SELECT kht.makht, kht.matour, kht.thucchi, IFNULL( SUM(v.giave*(100-km.phantram)/100),0) as thu"+
 					" FROM kehoachtour kht" +
 					" LEFT JOIN ve v ON kht.makht = v.makht" +
+					" LEFT JOIN hoadon hd ON hd.mahd = v.mahd" +
 					" LEFT JOIN khuyenmai km ON v.makm = km.makm" + 
-					" WHERE kht.ngayve <= now() and YEAR(kht.ngaydi) = '" +year+ "'" +
-					" GROUP BY kht.makht,kht.matour, kht.thucchi";
+					" WHERE kht.ngayve <= now() and YEAR(hd.ngaytao) = '" +year+ "'"+
+					" GROUP BY kht.makht,kht.matour, kht.thucchi" +
+					" ORDER BY thu DESC";
 			ResultSet rs=st.executeQuery(sql);
 			//Bước 4:Xử lý kết quả trả về
 			while(rs.next()){
@@ -185,7 +189,7 @@ public class thongkeDAO {
 		return total;
 	}
 	//thieu nam
-	 public double getQuy(int start, int end) {
+	 public double getQuy(int start, int end, String year_Selected) {
 		 double doanhthu = 0;
 		 try {
 				//Bước 1:Tạo kết nối
@@ -198,7 +202,8 @@ public class thongkeDAO {
 						+ " LEFT JOIN kehoachtour kht ON v.makht = kht.makht"
 						+ " LEFT JOIN khuyenmai km ON km.makm = v.makm"
 						+ " LEFT JOIN hoadon hd ON hd.mahd = v.mahd"
-						+ " WHERE kht.ngayve <= now() AND MONTH(hd.ngaytao) BETWEEN " + start +" AND "+ end;
+						+ " WHERE YEAR(hd.ngaytao) = " + year_Selected + " AND "
+							+ "kht.ngayve <= now() AND MONTH(hd.ngaytao) BETWEEN " + start +" AND "+ end;
 				ResultSet rs=st.executeQuery(sql);
 				//Bước 4:Xử lý kết quả trả về
 				while(rs.next()){

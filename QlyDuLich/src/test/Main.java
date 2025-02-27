@@ -19,15 +19,9 @@ public class Main {
 //		System.out.println(hokh);
 		
 		
-		Random random = new Random();
-        StringBuilder randomLetters = new StringBuilder();
 
-        for (int i = 0; i < 3; i++) {
-            char randomChar = (char) (random.nextInt(26) + 'a');
-            randomLetters.append(randomChar);
-        }
-
-        System.out.println("Random letters: " + randomLetters.toString());
+		long a=300000*130/100/5;
+		System.out.println("Giá trị là :"+a);
 		
 		
 		
