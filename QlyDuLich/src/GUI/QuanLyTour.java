@@ -785,11 +785,18 @@ public class QuanLyTour extends JFrame {
 //		luu_btn.setBackground(Color.orange);
 		if (tentour_tf.getText().isEmpty() || songay_tf.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Chưa điền đầy đủ thông tin, mời bổ sung.");
+			return;
 		} else {
 			String matour = tourBUS.TaoMaTour();
 			String tentour = tentour_tf.getText();
+			if(!KiemTra.getInstance().validate_OnlyString(tentour)) {
+				JOptionPane.showMessageDialog(this, "Tên tour chỉ được phép là chuỗi.");
+				return;
+			}
+			if(!KiemTra.getInstance().validate_OnlyNumber(songay_tf.getText())) {
+				JOptionPane.showMessageDialog(this, "Số ngày chỉ được phép là số.");
+			}
 			int songay = Integer.parseInt(songay_tf.getText());
-			System.out.println(songay);
 			String noiden = (String) noiden_cb.getSelectedItem();
 			String maloai = "";
 			if (comboBox_LoaiTour.getSelectedItem().equals("Trong nước")) {
