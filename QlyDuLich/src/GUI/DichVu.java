@@ -476,7 +476,7 @@ public class DichVu extends JFrame {
 						initArrayList();
 						reSetForm();
 					}
-				}else JOptionPane.showMessageDialog(null,"Chưa chọn nhân viên");
+				}else JOptionPane.showMessageDialog(null,"Chưa chọn dịch vụ");
 			}
 		});
 		xoa_btn.setFocusable(false);

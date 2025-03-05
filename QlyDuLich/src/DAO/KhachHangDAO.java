@@ -26,7 +26,7 @@ public class KhachHangDAO {
 			//Tạo đối tượng
 			java.sql.Statement st = con.createStatement();
 			//SQL
-			String sql = "SELECT * FROM khachhang ";
+			String sql = "SELECT * FROM khachhang where tinhtrang = 1 ";
 			System.out.println(sql);
 			ResultSet rs= st.executeQuery(sql);
 			//Xu ly ket qua roi tra ve
