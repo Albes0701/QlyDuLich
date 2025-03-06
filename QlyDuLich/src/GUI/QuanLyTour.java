@@ -509,9 +509,15 @@ public class QuanLyTour extends JFrame {
 		xoa_btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int row = table_Tours.getSelectedRow();
+				if(row == -1) {
+					JOptionPane.showMessageDialog(panel, "Bạn chưa chọn tour muốn xóa!");
+					return;
+				}
 				QlyToursDTO t = getTourDaChon();
 				if (tourBUS.xoa(t) == -1) {
 					JOptionPane.showMessageDialog(panel, "Lỗi!");
+					return;
 				} else {
 					XoaDataTable();
 					initData();
@@ -527,6 +533,12 @@ public class QuanLyTour extends JFrame {
 		sua_btn.setForeground(new Color(255, 255, 255));
 		sua_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int row = table_Tours.getSelectedRow();
+				if(row == -1) {
+					JOptionPane.showMessageDialog(panel, "Bạn chưa chọn tour muốn sửa!");
+					return;
+				}
+				
 				them_btn.setEnabled(false);
 				them_btn.setBackground(Color.gray);
 				xoa_btn.setEnabled(false);
