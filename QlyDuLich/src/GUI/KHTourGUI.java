@@ -398,6 +398,13 @@ public class KHTourGUI extends JFrame {
 		btnSua.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				int row = table.getSelectedRow();
+				if(row == -1) {
+					JOptionPane.showMessageDialog(panel, "Bạn chưa chọn kế hoạch tour muốn sửa!");
+					return;
+				}
+				
 				btnXoa.setEnabled(false);
 				btnXoa.setBackground(Color.GRAY);
 				btnThem.setEnabled(false);
@@ -423,6 +430,11 @@ public class KHTourGUI extends JFrame {
 		btnXoa.addActionListener(new ActionListener() {		
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				if(row == -1) {
+					JOptionPane.showMessageDialog(panel, "Bạn chưa chọn kế hoạch tour muốn xóa!");
+					return;
+				}
 				KHTourDTO kht = GetKHTDaChon();
 				if (khtBUS.xoa(kht) == -1) {
 					JOptionPane.showMessageDialog(panel, "Lỗi!");

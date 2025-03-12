@@ -688,10 +688,11 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				KhachSanDTO ks=GetKhachSan(cbKhachSan.getSelectedItem().toString());
-				tfThanhTienKS.setText(ks.getGiaca()*Integer.parseInt(tfSonguoi.getText())+"");
+//				tfThanhTienKS.setText(ks.getGiaca()*Integer.parseInt(tfSonguoi.getText())+"");
 				thanhtienks=ks.getGiaca()*Integer.parseInt(tfSonguoi.getText());
 				tfTongTien.setText((thanhtienks+thanhtiennh+thanhtienpt)+"");
-				System.out.println("Khach san :"+thanhtienks+" "+thanhtiennh+" "+thanhtienpt);
+				tfThanhTienKS.setText(thanhtienks+"");
+//				System.out.println("Khach san :"+thanhtienks+" "+thanhtiennh+" "+thanhtienpt);
 			}
 		});
 		panel_2.add(cbKhachSan);
@@ -705,10 +706,11 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				NhaHangDTO nh=GetNhaHang(cbNhaHang.getSelectedItem().toString());
-				tfThanhTienNhaHang.setText(nh.getGiaca()*Integer.parseInt(tfSonguoi.getText())+"");
+//				tfThanhTienNhaHang.setText(nh.getGiaca()*Integer.parseInt(tfSonguoi.getText())+"");
 				thanhtiennh=nh.getGiaca()*Integer.parseInt(tfSonguoi.getText());
 				tfTongTien.setText((thanhtienks+thanhtiennh+thanhtienpt)+"");
-				System.out.println("Nha hang :"+thanhtienks+" "+thanhtiennh+" "+thanhtienpt);
+//				System.out.println("Nha hang :"+thanhtienks+" "+thanhtiennh+" "+thanhtienpt);
+				tfThanhTienNhaHang.setText(thanhtiennh+"");
 			}
 		});
 		panel_2.add(cbNhaHang);
@@ -723,10 +725,11 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				PhuongTienDTO pt=GetPhuongTien(cbPhuongTien.getSelectedItem().toString());
-				tfThanhTienPhuongTien.setText(pt.getGiaca()*Integer.parseInt(tfSonguoi.getText())+"");
+//				tfThanhTienPhuongTien.setText(pt.getGiaca()*Integer.parseInt(tfSonguoi.getText())+"");
 				thanhtienpt=pt.getGiaca()*Integer.parseInt(tfSonguoi.getText());
 				tfTongTien.setText((thanhtienks+thanhtiennh+thanhtienpt)+"");
-				System.out.println("Phuong tien :"+thanhtienks+" "+thanhtiennh+" "+thanhtienpt);
+//				System.out.println("Phuong tien :"+thanhtienks+" "+thanhtiennh+" "+thanhtienpt);
+				tfThanhTienPhuongTien.setText(thanhtienpt+"");
 			}
 		});
 		panel_2.add(cbPhuongTien);
@@ -804,11 +807,11 @@ public class ChiTietKeHoachTourGUI extends JFrame {
 		cbMaKHT.setSelectedItem(ctkht.getMakht());
 		tfNgay.setText(ctkht.getNgay().toString());
 		cbKhachSan.setSelectedItem(ctkht.getMaks());
-		tfThanhTienKS.setText(ctkht.getThanhtienKS()*GetKHT(ctkht.getMakht()).getSonguoidukien()+"");
+		tfThanhTienKS.setText(ctkht.getThanhtienKS()+"");
 		cbNhaHang.setSelectedItem(ctkht.getManh());
-		tfThanhTienNhaHang.setText(ctkht.getThanhtienNH()*GetKHT(ctkht.getMakht()).getSonguoidukien()+"");
+		tfThanhTienNhaHang.setText(ctkht.getThanhtienNH()+"");
 		cbPhuongTien.setSelectedItem(ctkht.getMapt());
-		tfThanhTienPhuongTien.setText(ctkht.getThanhtienPT()*GetKHT(ctkht.getMakht()).getSonguoidukien()+"");
+		tfThanhTienPhuongTien.setText(ctkht.getThanhtienPT()+"");
 		tfTongTien.setText(ctkht.getTongtien()+"");
 		tfSonguoi.setText(GetKHT(ctkht.getMakht()).getSonguoidukien()+"");
 	}
